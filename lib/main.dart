@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             .loadString('assets/coffee_tastings.json'),
         builder: (context, snapshot) {
           // Decode the JSON
-          var coffee_tastings = json.decode(snapshot.data.toString());
+          var coffeeTastings = json.decode(snapshot.data.toString());
 
           return ListView.builder(
               padding: const EdgeInsets.only(left: 0, top: 5),
@@ -58,8 +58,8 @@ class MyApp extends StatelessWidget {
                 final int index = i ~/ 2;
                 // If you've reached the end of the available word
                 // pairings...
-                if (index < coffee_tastings.length) {
-                  return _buildRow(coffee_tastings[index]);
+                if (index < coffeeTastings.length) {
+                  return _buildRow(coffeeTastings[index]);
                 }
                 return null;
               });
