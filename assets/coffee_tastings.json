@@ -1,0 +1,81 @@
+[
+  {
+    "coffee_name": "Congo RWH",
+    "description": "Similar to an oatmeal raisin cookie. Balanced and pleasant, fruit-forward.",
+    "notes": [
+      "Plum",
+      "Raisin",
+      "Oatmeal"
+    ],
+    "origin": "Idjwi Island, Congo",
+    "process": "Washed",
+    "roast_level": 0.85,
+    "roaster": "Fulcrum Coffee Roasters",
+    "sca": {
+      "acidity": 8.3,
+      "aftertaste": 9.6,
+      "body": 9.6,
+      "flavor": 9.3,
+      "fragrance/aroma": 7.6
+    }
+  },
+  {
+    "coffee_name": "Holiday",
+    "description": "Well-balanced, pleasant bitterness and acidity.",
+    "notes": [
+      "Chocolate",
+      "Spice",
+      "Blueberry"
+    ],
+    "origin": "El Salvador",
+    "process": "Natural",
+    "roast_level": 0.7,
+    "roaster": "Olympia Coffee Roasting",
+    "sca": {
+      "acidity": 7.2,
+      "aftertaste": 8.7,
+      "body": 8.6,
+      "flavor": 6.4,
+      "fragrance/aroma": 9.7
+    }
+  },
+  {
+    "coffee_name": "Bukonzo Join Cooperative Union",
+    "description": "Well-balanced, mellow, not much bitterness. Medium body, brewed @ 205 degrees, 21g coffee, 274ml water.",
+    "notes": [
+      "Orange",
+      "Cherry"
+    ],
+    "origin": "Uganda",
+    "process": "Washed",
+    "roast_level": 0.7,
+    "roaster": "Victrola Coffee Roasting",
+    "sca": {
+      "acidity": 6.5,
+      "aftertaste": 7.4,
+      "body": 8.8,
+      "flavor": 7.9,
+      "fragrance/aroma": 7.1
+    }
+  },
+  {
+    "coffee_name": "Caturra-Bourbon-Castillo Blend",
+    "description": "Chocolately, well-rounded coffee. Fuller-bodied, drinks like a darker roast without astringency.",
+    "notes": [
+      "Chocolate",
+      "Sugarcane",
+      "Black Cherry"
+    ],
+    "origin": "Colombia",
+    "process": "Washed",
+    "roast_level": 0.89,
+    "roaster": "Santo Coffee",
+    "sca": {
+      "acidity": 6.1,
+      "aftertaste": 8.6,
+      "body": 9.9,
+      "flavor": 7.3,
+      "fragrance/aroma": 9.3
+    }
+  }
+]
