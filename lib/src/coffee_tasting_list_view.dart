@@ -129,8 +129,6 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
           // Decode the JSON
           var coffeeTastings = json.decode(snapshot.data.toString());
           return ListView.separated(
-              separatorBuilder: (context, index) => Divider(),
-              padding: const EdgeInsets.all(0.0),
               itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
               itemBuilder: (BuildContext _context, int index) {
                 if (coffeeTastings != null && index < coffeeTastings.length) {
@@ -139,7 +137,9 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
                 } else {
                   return null;
                 }
-              });
+              },
+              padding: const EdgeInsets.all(0.0),
+              separatorBuilder: (context, index) => Divider());
         });
   }
 }
