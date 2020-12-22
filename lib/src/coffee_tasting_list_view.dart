@@ -66,15 +66,28 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 children: <Widget>[
                   Text('$title', maxLines: 2, overflow: TextOverflow.ellipsis),
                   const Padding(padding: EdgeInsets.only(bottom: 2.0)),
-                  Text(
-                    '$origin',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.black54,
-                    ),
-                  ),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '$origin',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            child: Text(
+                              '$process',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.black54,
+                              ),
+                            ))
+                      ])
                 ],
               ),
             ),
