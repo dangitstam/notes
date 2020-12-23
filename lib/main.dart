@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(title: 'Notes', initialRoute: '/', routes: {
       '/': (context) => CoffeeTastingListViewScreen(),
-      '/second': (context) => CoffeeTastingCreateViewScreen(),
+      '/create': (context) => CoffeeTastingCreateViewScreen(),
     });
   }
 }
@@ -29,7 +29,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                 color: Colors.lightBlue,
                 onPressed: () {
                   // Navigate to the second screen using a named route.
-                  Navigator.pushNamed(context, '/second');
+                  Navigator.pushNamed(context, '/create');
                 },
                 child: Text('New', style: TextStyle(color: Colors.white)),
               ),
