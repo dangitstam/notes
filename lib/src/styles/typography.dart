@@ -23,7 +23,7 @@ TextStyle subtitle_1({Color color = Colors.black}) {
   return TextStyle(
     color: color,
     fontFamily: 'Baskerville',
-    fontSize: 16.0,
+    fontSize: 14.0,
     fontWeight: FontWeight.w100,
   );
 }
