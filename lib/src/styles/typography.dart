@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: Would defining them as constants make more sense?
 TextStyle heading_5() {
   return const TextStyle(
       color: Colors.black, fontFamily: 'Baskerville', fontSize: 34.0);
@@ -14,7 +15,7 @@ TextStyle body_1({Color color = Colors.black87}) {
   return TextStyle(
     color: color,
     fontFamily: 'OpenSans',
-    fontSize: 12.0,
+    fontSize: 14.0,
     fontWeight: FontWeight.w100,
   );
 }
@@ -33,7 +34,7 @@ TextStyle caption(
   return TextStyle(
       color: color,
       fontFamily: 'OpenSans',
-      fontSize: 10.0,
+      fontSize: 12.0,
       fontWeight: FontWeight.w100,
       fontStyle: fontStyle);
 }

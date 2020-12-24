@@ -158,77 +158,69 @@ class _CoffeeTastingListItem extends StatelessWidget {
             /**
              * Title section.
             */
-            Expanded(
-              flex: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    '$title',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: heading_6(),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                            flex: 2,
-                            child: Row(children: [
-                              Icon(CupertinoIcons.location_solid,
-                                  size: 14, color: Colors.black),
-                              Text(
-                                '$origin',
-                                style: caption(),
-                              ),
-                              SizedBox(width: 5),
-                              _buildRoastingProcessIcon(process),
-                              SizedBox(width: 2),
-                              Text(
-                                '$process',
-                                style: caption(),
-                              )
-                            ])),
-                        Expanded(
-                            flex: 1,
-                            child: _buildCoffeeRoastLevelLinearIndicator(
-                                roastLevel)),
-                      ])
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '$title',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: heading_6(),
+                ),
+                const SizedBox(height: 5),
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                    Widget>[
+                  Expanded(
+                      flex: 2,
+                      child: Row(children: [
+                        Icon(CupertinoIcons.location_solid,
+                            size: 14, color: Colors.black),
+                        Text(
+                          '$origin',
+                          style: caption(),
+                        ),
+                        SizedBox(width: 5),
+                        _buildRoastingProcessIcon(process),
+                        SizedBox(width: 2),
+                        Text(
+                          '$process',
+                          style: caption(),
+                        )
+                      ])),
+                  Expanded(
+                      flex: 1,
+                      child: _buildCoffeeRoastLevelLinearIndicator(roastLevel)),
+                ])
+              ],
             ),
             const SizedBox(height: 10),
             /**
              * Description and notes section.
             */
-            Expanded(
-              flex: 0,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: thumbnail,
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: AspectRatio(
+                    aspectRatio: 1.0,
+                    child: thumbnail,
                   ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    flex: 2,
-                    child: Column(children: <Widget>[
-                      Text(
-                        '$description',
-                        style: body_1(),
-                      ),
-                      SizedBox(height: 5),
-                      Row(children: notes.map((e) => displayNote(e)).toList())
-                    ]),
-                  )
-                ],
-              ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  flex: 2,
+                  child: Column(children: <Widget>[
+                    Text(
+                      '$description',
+                      style: body_1(),
+                    ),
+                    SizedBox(height: 5),
+                    Row(children: notes.map((e) => displayNote(e)).toList())
+                  ]),
+                )
+              ],
             ),
             SizedBox(height: 10),
             /**
