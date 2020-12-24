@@ -22,8 +22,18 @@ TextStyle body_1({Color color = Colors.black87}) {
 TextStyle subtitle_1({Color color = Colors.black}) {
   return TextStyle(
     color: color,
-    fontFamily: 'OpenSans',
-    fontSize: 10.0,
+    fontFamily: 'Baskerville',
+    fontSize: 16.0,
     fontWeight: FontWeight.w100,
   );
+}
+
+TextStyle caption(
+    {Color color = Colors.black, FontStyle fontStyle = FontStyle.normal}) {
+  return TextStyle(
+      color: color,
+      fontFamily: 'OpenSans',
+      fontSize: 10.0,
+      fontWeight: FontWeight.w100,
+      fontStyle: fontStyle);
 }

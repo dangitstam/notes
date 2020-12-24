@@ -69,7 +69,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
     return notes.map((e) {
       return Container(
-        child: Text('$e', style: subtitle_1(color: Colors.white)),
+        child: Text('$e', style: caption(color: Colors.white)),
         margin: const EdgeInsets.only(right: 5.0),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(6.0)),
@@ -78,6 +78,35 @@ class _CoffeeTastingListItem extends StatelessWidget {
         padding: EdgeInsets.all(7.0),
       );
     }).toList();
+  }
+
+  Widget _buildCoffeeRatingLinearIndicator(String criteria, double value) {
+    return Row(children: [
+      Expanded(
+          flex: 2,
+          child: Text('$criteria:',
+              style: subtitle_1(), textAlign: TextAlign.right)),
+      SizedBox(width: 5),
+      Expanded(
+          flex: 3,
+          child: Stack(children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(7.0),
+                child: LinearProgressIndicator(
+                  backgroundColor: Color(0xffd1d1d1),
+                  value: (value - 6) / 4,
+                  minHeight: 16,
+                )),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                  padding: EdgeInsets.only(right: 7),
+                  child: Text('$value',
+                      style: caption(
+                          color: Colors.white, fontStyle: FontStyle.italic))),
+            )
+          ]))
+    ]);
   }
 
   @override
@@ -110,7 +139,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                               size: 14, color: Colors.black),
                           Text(
                             '$origin',
-                            style: subtitle_1(),
+                            style: caption(),
                           )
                         ]),
                         SizedBox(width: 5),
@@ -122,9 +151,10 @@ class _CoffeeTastingListItem extends StatelessWidget {
                             size: 14,
                             color: Colors.black,
                           ),
+                          SizedBox(width: 2),
                           Text(
                             '$process',
-                            style: subtitle_1(),
+                            style: caption(),
                           )
                         ])
                       ])
@@ -163,14 +193,19 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 10),
             /**
              * SCA criteria.
             */
-            Text('Acidity: $acidity'),
-            Text('Aftertaste: $aftertaste'),
-            Text('Body: $body'),
-            Text('Flavor: $flavor'),
-            Text('Fragrance: $fragrance'),
+            _buildCoffeeRatingLinearIndicator('Fragrance/Aroma', fragrance),
+            SizedBox(height: 5),
+            _buildCoffeeRatingLinearIndicator('Flavor', flavor),
+            SizedBox(height: 5),
+            _buildCoffeeRatingLinearIndicator('Aftertaste', aftertaste),
+            SizedBox(height: 5),
+            _buildCoffeeRatingLinearIndicator('Acidity', acidity),
+            SizedBox(height: 5),
+            _buildCoffeeRatingLinearIndicator('Body', body),
           ],
         ));
   }
