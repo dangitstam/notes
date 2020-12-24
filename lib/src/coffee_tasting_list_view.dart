@@ -245,9 +245,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                         _buildScaCriteriaCaption('Flavor'),
                         _buildScaCriteriaCaption('Fragrance/Aroma'),
                       ])),
-              SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Expanded(
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,6 +259,17 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 ],
               ))
             ]),
+            const SizedBox(height: 20),
+            /**
+             * Date & time that this tasting took place.
+             */
+            Align(
+                alignment: Alignment.bottomRight,
+                child: Text(
+                  '10:35 AM · Dec 23 2020',
+                  style: caption(),
+                  textAlign: TextAlign.right,
+                ))
           ],
         ));
   }
