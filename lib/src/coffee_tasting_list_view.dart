@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/src/styles/typography.dart';
 import 'dart:convert' show json;
 
 class _CoffeeTastingListItem extends StatelessWidget {
@@ -34,8 +36,10 @@ class _CoffeeTastingListItem extends StatelessWidget {
   static Widget fromTastingJson(tasting) {
     return _CoffeeTastingListItem(
       thumbnail: Container(
-        decoration: const BoxDecoration(color: Colors.brown),
-      ),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child:
+                  Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover))),
       title: "${tasting['roaster']}, ${tasting['coffee_name']}",
       origin: tasting['origin'],
       process: tasting['process'],
@@ -49,10 +53,37 @@ class _CoffeeTastingListItem extends StatelessWidget {
     );
   }
 
+  List<Widget> displayNotes(List<String> notes) {
+    var noteColors = {
+      'Chocolate': Color(0xff4B240A),
+      'Sugarcane': Color(0xffB48B53),
+      'Black Cherry': Color(0xff4A1229),
+      'Plum': Color(0xff25344E),
+      'Raisin': Color(0xff4A1229),
+      'Oatmeal': Color(0xff90715C),
+      'Spice': Color(0xffd3574b),
+      'Blueberry': Color(0xff123456),
+      'Orange': Color(0xffFFB52C),
+      'Cherry': Color(0xffA51515),
+    };
+
+    return notes.map((e) {
+      return Container(
+        child: Text('$e', style: subtitle_1(color: Colors.white)),
+        margin: const EdgeInsets.only(right: 5.0),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+            color:
+                noteColors.containsKey(e) ? noteColors[e] : Colors.blueAccent),
+        padding: EdgeInsets.all(7.0),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 300,
+    return Container(
+        padding: EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -64,33 +95,43 @@ class _CoffeeTastingListItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('$title', maxLines: 2, overflow: TextOverflow.ellipsis),
+                  Text(
+                    '$title',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: heading_6(),
+                  ),
                   const Padding(padding: EdgeInsets.only(bottom: 2.0)),
                   Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          '$origin',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black54,
+                        Row(children: [
+                          Icon(CupertinoIcons.location_solid,
+                              size: 14, color: Colors.black),
+                          Text(
+                            '$origin',
+                            style: subtitle_1(),
+                          )
+                        ]),
+                        SizedBox(width: 5),
+                        Row(children: [
+                          Icon(
+                            process == 'Natural'
+                                ? CupertinoIcons.sun_max
+                                : CupertinoIcons.drop,
+                            size: 14,
+                            color: Colors.black,
                           ),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                            child: Text(
-                              '$process',
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.black54,
-                              ),
-                            ))
+                          Text(
+                            '$process',
+                            style: subtitle_1(),
+                          )
+                        ])
                       ])
                 ],
               ),
             ),
+            SizedBox(height: 10),
             /**
              * Description and notes section.
             */
@@ -107,11 +148,16 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       child: thumbnail,
                     ),
                   ),
+                  SizedBox(width: 10),
                   Expanded(
                     flex: 2,
                     child: Column(children: <Widget>[
-                      Text('$description'),
-                      Text(notes.join(' '))
+                      Text(
+                        '$description',
+                        style: body_1(),
+                      ),
+                      SizedBox(height: 5),
+                      Row(children: displayNotes(notes))
                     ]),
                   )
                 ],
