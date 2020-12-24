@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/src/styles/typography.dart';
 import 'src/coffee_tasting_list_view.dart';
 
 void main() {
@@ -21,19 +23,26 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Notes'),
+          centerTitle: false,
+          title: Text(
+            'Notes',
+            style: heading_5(),
+          ),
+          backgroundColor: Colors.white,
           actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: RaisedButton(
-                color: Colors.lightBlue,
-                onPressed: () {
-                  // Navigate to the second screen using a named route.
-                  Navigator.pushNamed(context, '/create');
-                },
-                child: Text('New', style: TextStyle(color: Colors.white)),
-              ),
-            ),
+                padding: EdgeInsets.all(10.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: FlatButton(
+                    color: Colors.black,
+                    child: Text('New', style: body_1(color: Colors.white)),
+                    onPressed: () {
+                      // Navigate to the second screen using a named route.
+                      Navigator.pushNamed(context, '/create');
+                    },
+                  ),
+                )),
           ],
         ),
         body: CoffeeTastingListViewWidget());
