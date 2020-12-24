@@ -57,7 +57,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
     );
   }
 
-  List<Widget> displayNotes(List<String> notes) {
+  Widget displayNote(String note) {
     var noteColors = {
       'Chocolate': Color(0xff4B240A),
       'Sugarcane': Color(0xffB48B53),
@@ -71,17 +71,16 @@ class _CoffeeTastingListItem extends StatelessWidget {
       'Cherry': Color(0xffA51515),
     };
 
-    return notes.map((e) {
-      return Container(
-        child: Text('$e', style: caption(color: Colors.white)),
-        margin: const EdgeInsets.only(right: 5.0),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(6.0)),
-            color:
-                noteColors.containsKey(e) ? noteColors[e] : Colors.blueAccent),
-        padding: EdgeInsets.all(7.0),
-      );
-    }).toList();
+    return Container(
+      child: Text('$note', style: caption(color: Colors.white)),
+      margin: const EdgeInsets.only(right: 5.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(6.0)),
+          color: noteColors.containsKey(note)
+              ? noteColors[note]
+              : Colors.blueAccent),
+      padding: EdgeInsets.all(7.0),
+    );
   }
 
   Widget _buildCoffeeRoastLevelLinearIndicator(double value) {
@@ -223,7 +222,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                         style: body_1(),
                       ),
                       SizedBox(height: 5),
-                      Row(children: displayNotes(notes))
+                      Row(children: notes.map((e) => displayNote(e)).toList())
                     ]),
                   )
                 ],
