@@ -58,6 +58,8 @@ class _CoffeeTastingListItem extends StatelessWidget {
   }
 
   Widget displayNote(String note) {
+    // TODO: Constants for notes.
+    // TODO: Re-factor out into utils.
     var noteColors = {
       'Chocolate': Color(0xff4B240A),
       'Sugarcane': Color(0xffB48B53),
