@@ -16,7 +16,6 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
     return StreamBuilder(
         stream: coffeeTastingBloc.coffeeTastings,
         builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
-          // Decode the JSON
           var coffeeTastings = snapshot.data;
           return ListView.separated(
               itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
