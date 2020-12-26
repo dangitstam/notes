@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'dart:math' show max;
-import 'dart:convert' show json;
 
 import 'package:notes/src/data/coffee_tasting.dart';
 
@@ -86,27 +84,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
       body: tasting.body,
       flavor: tasting.flavor,
       fragrance: tasting.fragrance,
-    );
-  }
-
-  static Widget fromTastingJson(tasting) {
-    return _CoffeeTastingListItem(
-      thumbnail: Container(
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child:
-                  Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover))),
-      title: "${tasting['roaster']}, ${tasting['coffee_name']}",
-      origin: tasting['origin'],
-      process: tasting['process'],
-      description: '${tasting['description']}',
-      notes: tasting['notes'].cast<String>(),
-      roastLevel: tasting['roast_level'],
-      acidity: tasting['acidity'],
-      aftertaste: tasting['aftertaste'],
-      body: tasting['body'],
-      flavor: tasting['flavor'],
-      fragrance: tasting['fragrance/aroma'],
     );
   }
 

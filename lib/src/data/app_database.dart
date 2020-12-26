@@ -30,6 +30,7 @@ class AppDatabase {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         db.execute(
+          // ignore: prefer_single_quotes
           """
           CREATE TABLE coffee_tastings(
             id INTEGER PRIMARY KEY,
