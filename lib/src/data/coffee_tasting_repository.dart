@@ -6,61 +6,56 @@ import 'dart:async';
 class CoffeeTastingBloc {
   // Singleton instantiation.
   static final CoffeeTastingBloc _instance = CoffeeTastingBloc._internal();
-
-  factory CoffeeTastingBloc() {
-    return _instance;
-  }
+  static CoffeeTastingBloc get instance => _instance;
 
   CoffeeTastingBloc._internal() {
-    // Retrieve all the notes on initialization
-    getCoffeeTastings();
+    getCoffeeTastings(); // Retrieve all tastings on init.
 
-    // Listens for changes to the addNoteController and calls _handleAddNote on change
-    _addCoffeeTastingController.stream.listen(_handleAddCoffeeTasting);
+    // Process insertion requests as an input stream, inserting
+    // coffee tastings one at a time into the app database.
+    // `coffeeTastings` is updated on each insertion.
+    _addCoffeeTastingsController.stream.listen(_handleAddCoffeeTasting);
   }
 
-  Stream<List<CoffeeTasting>> get coffeeTastings =>
-      _coffeeTastingController.stream;
-
-  // Create a broadcast controller that allows this stream to be listened
-  // to multiple times. This is the primary, if not only, type of stream you'll be using.
-  final _coffeeTastingController =
+  // Controller: Page <- App Database.
+  final _getCoffeeTastingsController =
       StreamController<List<CoffeeTasting>>.broadcast();
 
-  // Input stream. We add our notes to the stream using this variable.
+  // Stream: out.
+  // Purpose: Stream that other pages subscribe to for coffee tastings.
+  Stream<List<CoffeeTasting>> get coffeeTastings =>
+      _getCoffeeTastingsController.stream;
+
+  // Stream: In
+  // Purpose: Update stream that pages subscribe to.
   StreamSink<List<CoffeeTasting>> get _inCoffeeTastings =>
-      _coffeeTastingController.sink;
+      _getCoffeeTastingsController.sink;
 
-  // Output stream. This one will be used within our pages to display the notes.
-  Stream<List<CoffeeTasting>> get notes => _coffeeTastingController.stream;
-
-  // Input stream for adding new notes. We'll call this from our pages.
-  final _addCoffeeTastingController =
+  // Controller: Page -> App Database.
+  final _addCoffeeTastingsController =
       StreamController<CoffeeTasting>.broadcast();
-  StreamSink<CoffeeTasting> get inAddCoffeeTasting =>
-      _addCoffeeTastingController.sink;
 
-  // All stream controllers you create should be closed within this function
+  // Stream: In
+  // Purpose: Insertion into app database.
+  StreamSink<CoffeeTasting> get inAddCoffeeTasting =>
+      _addCoffeeTastingsController.sink;
+
   void dispose() {
-    _coffeeTastingController.close();
-    _addCoffeeTastingController.close();
+    _getCoffeeTastingsController.close();
+    _addCoffeeTastingsController.close();
   }
 
   void getCoffeeTastings() async {
-    // Retrieve all the notes from the database
+    // Retrieve all the coffee tastings from the database.
     var coffeeTastings = await AppDatabase.db.getAllCoffeeTastings();
 
-    // Add all of the notes to the stream so we can grab them later from our pages
+    // Update the coffee tastings output stream so subscribing pages can update.
     _inCoffeeTastings.add(coffeeTastings);
   }
 
   void _handleAddCoffeeTasting(CoffeeTasting note) async {
-    // Create the note in the database
+    // Update output stream on every insertion.
     await AppDatabase.db.insert(note.toMap());
-
-    // Retrieve all the notes again after one is added.
-    // This allows our pages to update properly and display the
-    // newly added note.
     getCoffeeTastings();
   }
 }

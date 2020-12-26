@@ -8,16 +8,15 @@ import 'dart:convert' show json;
 
 import 'package:notes/src/data/coffee_tasting.dart';
 
-// TODO: Should this be stateful?
 class CoffeeTastingListViewWidget extends StatelessWidget {
   CoffeeTastingListViewWidget({Key key}) : super(key: key);
 
-  final coffeeTastingRepository = CoffeeTastingBloc();
+  final coffeeTastingBloc = CoffeeTastingBloc.instance;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: coffeeTastingRepository.coffeeTastings,
+        stream: coffeeTastingBloc.coffeeTastings,
         builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
           // Decode the JSON
           var coffeeTastings = snapshot.data;
@@ -70,7 +69,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
   final double fragrance;
 
   static Widget fromCoffeeTasting(CoffeeTasting tasting) {
-    print(tasting.toMap().toString());
     return _CoffeeTastingListItem(
       thumbnail: Container(
           child: ClipRRect(

@@ -14,9 +14,8 @@ class AppDatabase {
   static Database _database;
 
   Future<Database> get database async {
+    // Lazy instantiation of the app database.
     if (_database != null) return _database;
-
-    // if _database is null we instantiate it
     _database = await initDB();
     return _database;
   }
@@ -29,8 +28,6 @@ class AppDatabase {
       join(await getDatabasesPath(), 'coffee_tasting_database.db'),
       // When the database is first created, create a table to store dogs.
       onCreate: (db, version) {
-        print("hello!!");
-
         // Run the CREATE TABLE statement on the database.
         db.execute(
           """
@@ -57,9 +54,9 @@ class AppDatabase {
 
           // Update stream so that the downstream list view is updated.
           List<dynamic> coffee_tastings = json.decode(coffee_tastings_string);
-          var coffeeTastingRepository = CoffeeTastingBloc();
+          var coffeeTastingBloc = CoffeeTastingBloc.instance;
           coffee_tastings.forEach((coffee_tasting) {
-            coffeeTastingRepository.inAddCoffeeTasting
+            coffeeTastingBloc.inAddCoffeeTasting
                 .add(CoffeeTasting.fromAppDatabase(coffee_tasting));
           });
         });
