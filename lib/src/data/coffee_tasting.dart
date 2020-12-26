@@ -2,19 +2,19 @@ import 'dart:convert' show json;
 
 class CoffeeTasting {
   final int id;
-  final String coffee_name;
-  final String description;
-  final String origin;
-  final String process;
-  final String roaster;
-  final List<String> notes;
-  final double roast_level;
+  String coffee_name;
+  String description;
+  String origin;
+  String process;
+  String roaster;
+  List<String> notes;
+  double roast_level;
 
-  final double acidity;
-  final double aftertaste;
-  final double body;
-  final double flavor;
-  final double fragrance;
+  double acidity;
+  double aftertaste;
+  double body;
+  double flavor;
+  double fragrance;
 
   CoffeeTasting(
       {this.id,

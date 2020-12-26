@@ -24,7 +24,14 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          bottom: PreferredSize(
+              child: Container(
+                color: Colors.black38,
+                height: 0.5,
+              ),
+              preferredSize: Size.fromHeight(0.5)),
           centerTitle: false,
+          elevation: 0,
           title: Text(
             'Notes',
             style: heading_5(),
@@ -55,15 +62,21 @@ class CoffeeTastingCreateViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Notes'),
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          title: Text(
+            'New Tasting',
+            style: body_1(),
+          ),
+          backgroundColor: Colors.white,
           leading: GestureDetector(
             onTap: () {
               // Navigate to the second screen using a named route.
               Navigator.pop(context);
             },
-            child: Icon(
-              Icons.arrow_back, // add custom icons also
-            ),
+            child: Icon(CupertinoIcons.xmark,
+                color: Colors.black // add custom icons also
+                ),
           ),
         ),
         body: CoffeeTastingCreateViewWidget());
