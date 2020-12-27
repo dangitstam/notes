@@ -22,6 +22,10 @@ class _CoffeeTastingCreateViewWidgetState
   double aftertasteScore = 7.0;
   double bodyScore = 7.0;
   double bodyLevel = 7.0;
+  double flavorScore = 7.0;
+  double fragranceScore = 7.0;
+  double fragranceBreak = 7.0;
+  double fragranceDry = 7.0;
 
   Widget _buildEditableTextWithCaption(
       String label, String hint, Function(String) onSubmitted) {
@@ -275,6 +279,101 @@ class _CoffeeTastingCreateViewWidgetState
                                 }))),
                       ),
                       Text('Thin', style: caption()),
+                    ])),
+              ])),
+          Divider(),
+          SizedBox(height: 10),
+          /**
+           * Flavor
+           */
+          Text(
+            'Flavor',
+            style: subtitle_1(),
+          ),
+          Container(
+              height: 100,
+              child: Row(children: [
+                SizedBox(width: 20),
+                Text('Score: $flavorScore',
+                    style: caption(), textAlign: TextAlign.right),
+                Expanded(
+                    flex: 1,
+                    child: _buildThemedSlider(Slider(
+                        value: flavorScore,
+                        min: 6,
+                        max: 10,
+                        divisions: 10,
+                        onChanged: (value) {
+                          setState(() {
+                            flavorScore = value;
+                          });
+                        })))
+              ])),
+          Divider(),
+          SizedBox(height: 10),
+          /**
+           * Fragrance/Aroma
+           */
+          Text('Fragrance / Aroma', style: subtitle_1()),
+          Container(
+              height: 125,
+              child: Row(children: [
+                SizedBox(width: 20),
+                Text('Score: $fragranceScore',
+                    style: caption(), textAlign: TextAlign.right),
+                Expanded(
+                    flex: 1,
+                    child: _buildThemedSlider(Slider(
+                        value: fragranceScore,
+                        min: 6,
+                        max: 10,
+                        divisions: 10,
+                        onChanged: (value) {
+                          setState(() {
+                            fragranceScore = value;
+                          });
+                        }))),
+                Text('Break', style: caption(), textAlign: TextAlign.right),
+                Expanded(
+                    flex: 0,
+                    child: Column(children: [
+                      Text('High', style: caption()),
+                      Expanded(
+                        child: RotatedBox(
+                            quarterTurns: 3,
+                            child: _buildThemedSlider(Slider(
+                                value: fragranceBreak,
+                                min: 6,
+                                max: 10,
+                                divisions: 10,
+                                onChanged: (value) {
+                                  setState(() {
+                                    fragranceBreak = value;
+                                  });
+                                }))),
+                      ),
+                      Text('Low', style: caption()),
+                    ])),
+                Text('Dry', style: caption(), textAlign: TextAlign.right),
+                Expanded(
+                    flex: 0,
+                    child: Column(children: [
+                      Text('High', style: caption()),
+                      Expanded(
+                        child: RotatedBox(
+                            quarterTurns: 3,
+                            child: _buildThemedSlider(Slider(
+                                value: fragranceDry,
+                                min: 6,
+                                max: 10,
+                                divisions: 10,
+                                onChanged: (value) {
+                                  setState(() {
+                                    fragranceDry = value;
+                                  });
+                                }))),
+                      ),
+                      Text('Low', style: caption()),
                     ])),
               ])),
           Divider(),
