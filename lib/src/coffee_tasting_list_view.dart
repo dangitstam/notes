@@ -152,6 +152,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
     // SCA ratings begin at a minimum of 6.
     // `value` is scaled so that a value of 6.0 appears as an empty bar.
     var scaledValue = (value - 6) / 4;
+    var formattedValue = value == 10.0 ? '10' : '$value';
     return Padding(
         padding: EdgeInsets.only(top: 2, bottom: 2),
         child: Stack(children: [
@@ -170,7 +171,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             var leftPadding = max(constrains.maxWidth * scaledValue - 20, 0.0);
             return Padding(
                 padding: EdgeInsets.only(left: leftPadding),
-                child: Text('$value',
+                child: Text('$formattedValue',
                     style: caption(
                         color: Colors.white, fontStyle: FontStyle.italic)));
           }),
@@ -246,7 +247,19 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       style: body_1(),
                     ),
                     SizedBox(height: 5),
-                    Row(children: notes.map((e) => displayNote(e)).toList())
+                    // TODO: Notes should be implemented via ListView:
+                    // ListView.builder(
+                    //   itemCount: notes.length,
+                    //   scrollDirection: Axis.horizontal,
+                    //   itemBuilder: (context, index) {
+                    //     return displayNote(notes[index]);
+                    //   },
+                    // )
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children:
+                                notes.map((e) => displayNote(e)).toList())),
                   ]),
                 )
               ],

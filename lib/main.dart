@@ -23,11 +23,12 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           bottom: PreferredSize(
               child: Container(
                 color: Colors.black38,
-                height: 0.5,
+                height: 0.20,
               ),
               preferredSize: Size.fromHeight(0.5)),
           centerTitle: false,
@@ -39,18 +40,40 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           actions: <Widget>[
             Padding(
-                padding: EdgeInsets.all(10.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: FlatButton(
-                    color: Colors.black,
-                    child: Text('New', style: body_1(color: Colors.white)),
-                    onPressed: () {
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
+                      // TODO: Filter implementation.
+                    },
+                    child: Row(children: [Text('Filter', style: caption())]))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
+                      // TODO: Filter implementation.
+                    },
+                    child: Row(children: [Text('Sort', style: caption())]))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
+                      // TODO: Filter implementation.
+                    },
+                    child: Row(children: [
+                      Icon(CupertinoIcons.search,
+                          color: Colors.black, size: 20),
+                      SizedBox(width: 5),
+                      Text('Search', style: caption())
+                    ]))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
                       // Navigate to the second screen using a named route.
                       Navigator.pushNamed(context, '/create');
                     },
-                  ),
-                )),
+                    child: Icon(CupertinoIcons.plus_app,
+                        color: Colors.black, size: 35))),
           ],
         ),
         body: CoffeeTastingListViewWidget());
@@ -58,27 +81,11 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
 }
 
 class CoffeeTastingCreateViewScreen extends StatelessWidget {
+  final CoffeeTastingCreateViewWidget coffeeTastingCreateViewWidget =
+      CoffeeTastingCreateViewWidget();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          title: Text(
-            'New Tasting',
-            style: body_1(),
-          ),
-          backgroundColor: Colors.white,
-          leading: GestureDetector(
-            onTap: () {
-              // Navigate to the second screen using a named route.
-              Navigator.pop(context);
-            },
-            child: Icon(CupertinoIcons.xmark,
-                color: Colors.black // add custom icons also
-                ),
-          ),
-        ),
-        body: CoffeeTastingCreateViewWidget());
+    return coffeeTastingCreateViewWidget;
   }
 }
