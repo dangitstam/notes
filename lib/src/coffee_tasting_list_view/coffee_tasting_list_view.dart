@@ -4,7 +4,7 @@ import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'dart:math' show max;
 
-import 'package:notes/src/data/coffee_tasting.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {

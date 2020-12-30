@@ -1,5 +1,5 @@
 import 'package:notes/src/data/app_database.dart';
-import 'package:notes/src/data/coffee_tasting.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
 
 import 'dart:async';
 

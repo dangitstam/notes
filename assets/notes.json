@@ -1,0 +1,42 @@
+[
+  {
+    "name":"Chocolate",
+    "color":"4B240A"
+  },
+  {
+    "name":"Sugarcane",
+    "color":"B48B53"
+  },
+  {
+    "name":"Black Cherry",
+    "color":"4A1229"
+  },
+  {
+    "name":"Plum",
+    "color":"25344E"
+  },
+  {
+    "name":"Raisin",
+    "color":"4A1229"
+  },
+  {
+    "name":"Oatmeal",
+    "color":"90715C"
+  },
+  {
+    "name":"Spice",
+    "color":"d3574b"
+  },
+  {
+    "name":"Blueberry",
+    "color":"123456"
+  },
+  {
+    "name":"Orange",
+    "color":"FFB52C"
+  },
+  {
+    "name":"Cherry",
+    "color":"A51515"
+  }
+]

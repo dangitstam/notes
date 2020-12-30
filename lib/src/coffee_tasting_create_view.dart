@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/styles/typography.dart';
 
-import '../data/coffee_tasting_repository.dart';
+import 'data/coffee_tasting_repository.dart';
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {
   @override
