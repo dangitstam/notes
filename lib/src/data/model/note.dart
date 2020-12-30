@@ -21,7 +21,6 @@ class Note {
   /// Invariant: `notes` is stored as a serialized list of strings.
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'color': color,
     };

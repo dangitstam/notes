@@ -28,6 +28,7 @@ class AppDatabase {
       onCreate: (db, version) {
         _createCoffeeTastingsTable(db);
         _createNotesTable(db);
+        _createCoffeeTastingNotesTable(db);
       },
       version: 1,
     );
@@ -87,7 +88,7 @@ Future<void> _createNotesTable(Database db) {
     List<dynamic> notes = json.decode(note_string);
     var notesBloc = NoteBloc.instance;
     notes.forEach((note) {
-      notesBloc.inAddNote.add(Note.fromAppDatabase(note));
+      notesBloc.insert(Note.fromAppDatabase(note));
     });
   });
 }
@@ -101,15 +102,5 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
       coffee_tasting_id INTEGER,
       note_id INTEGER)
     """,
-  ).then((_) async {
-    // For development purposes, populate the database from the notes.json asset.
-    var note_string = await rootBundle.loadString('assets/notes.json');
-
-    // Update stream so that the downstream list view is updated.
-    List<dynamic> notes = json.decode(note_string);
-    var notesBloc = NoteBloc.instance;
-    notes.forEach((note) {
-      notesBloc.inAddNote.add(Note.fromAppDatabase(note));
-    });
-  });
+  );
 }
