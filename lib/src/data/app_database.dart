@@ -8,6 +8,8 @@ import 'package:sqflite/sqflite.dart';
 
 import 'dart:convert' show json;
 
+import 'dao/coffee_tasting_note_dao.dart';
+
 class AppDatabase {
   AppDatabase._();
 
@@ -102,5 +104,19 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
       coffee_tasting_id INTEGER,
       note_id INTEGER)
     """,
-  );
+  ).then((_) async {
+    // For development purposes, populate the database from the notes.json asset.
+    var coffee_tasting_notes_string =
+        await rootBundle.loadString('assets/coffee_tastings_notes.json');
+
+    // Update stream so that the downstream list view is updated.
+    var coffeeTastingDao =
+        CoffeeTastingNoteDao(database: AppDatabase.db.database);
+
+    List<dynamic> coffee_tasting_notes =
+        json.decode(coffee_tasting_notes_string);
+    coffee_tasting_notes.forEach((coffee_tasting_note) {
+      coffeeTastingDao.insert(coffee_tasting_note);
+    });
+  });
 }

@@ -31,4 +31,9 @@ class Note {
   Color fromHex() {
     return Color(int.parse(color..substring(1, 7), radix: 16) + 0xff000000);
   }
+
+  @override
+  String toString() {
+    return '$name $color';
+  }
 }

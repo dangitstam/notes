@@ -1,0 +1,46 @@
+[
+  {
+    "coffee_tasting_id": 1,
+    "note_id": 4
+  },
+  {
+    "coffee_tasting_id": 1,
+    "note_id": 5
+  },
+  {
+    "coffee_tasting_id": 1,
+    "note_id": 6
+  },
+  {
+    "coffee_tasting_id": 2,
+    "note_id": 1
+  },
+  {
+    "coffee_tasting_id": 2,
+    "note_id": 7
+  },
+  {
+    "coffee_tasting_id": 2,
+    "note_id": 8
+  },
+  {
+    "coffee_tasting_id": 3,
+    "note_id": 9
+  },
+  {
+    "coffee_tasting_id": 3,
+    "note_id": 10
+  },
+  {
+    "coffee_tasting_id": 4,
+    "note_id": 1
+  },
+  {
+    "coffee_tasting_id": 4,
+    "note_id": 2
+  },
+  {
+    "coffee_tasting_id": 4,
+    "note_id": 6
+  }
+]

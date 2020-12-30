@@ -50,6 +50,7 @@ flutter:
   assets:
     - assets/coffee_tastings.json
     - assets/notes.json
+    - assets/coffee_tastings_notes.json
     - assets/images/coffee.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
