@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/notes_repository.dart';
 import 'package:notes/src/styles/typography.dart';
+import 'package:notes/src/util.dart';
 
 import '../data/coffee_tasting_repository.dart';
 
@@ -14,6 +17,8 @@ class CoffeeTastingCreateViewWidget extends StatefulWidget {
 class _CoffeeTastingCreateViewWidgetState
     extends State<CoffeeTastingCreateViewWidget> {
   final coffeeTastingBloc = CoffeeTastingBloc.instance;
+
+  final noteBloc = NoteBloc.instance;
 
   String coffeeName = '';
   String description = '';
@@ -239,6 +244,22 @@ class _CoffeeTastingCreateViewWidgetState
                 ]),
               ]),
               SizedBox(height: 10),
+              Divider(),
+              SizedBox(height: 10),
+              StreamBuilder(
+                  stream: noteBloc.notes,
+                  builder: (context, AsyncSnapshot<List<Note>> snapshot) {
+                    var notes = snapshot.data;
+                    if (notes != null) {
+                      return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                              children:
+                                  notes.map((e) => displayNote(e)).toList()));
+                    } else {
+                      return null;
+                    }
+                  }),
               Divider(),
               SizedBox(height: 10),
               /**

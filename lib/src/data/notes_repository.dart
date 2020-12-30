@@ -28,10 +28,10 @@ class NoteBloc {
 
   void getNotes() async {
     // Retrieve all the notes from the database.
-    var coffeeTastings = await _noteDao.getAllNotes();
+    var notes = await _noteDao.getAllNotes();
 
     // Update the notes output stream so subscribing pages can update.
-    _inNotes.add(coffeeTastings);
+    _inNotes.add(notes);
   }
 
   /// Repository API
