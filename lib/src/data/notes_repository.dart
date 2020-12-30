@@ -36,7 +36,7 @@ class NoteBloc {
 
   // Stream: In
   // Purpose: Insertion into app database.
-  StreamSink<Note> get inAddCoffeeTasting => _addNoteController.sink;
+  StreamSink<Note> get inAddNote => _addNoteController.sink;
 
   void dispose() {
     _getNotesController.close();

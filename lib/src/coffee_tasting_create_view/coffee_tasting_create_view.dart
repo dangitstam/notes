@@ -67,13 +67,13 @@ class _CoffeeTastingCreateViewWidgetState
 
   void insertCoffeeTasting() {
     coffeeTastingBloc.inAddCoffeeTasting.add(CoffeeTasting(
-        coffee_name: coffeeName,
+        coffeeName: coffeeName,
         description: description,
         origin: origin,
         process: process,
         roaster: roaster,
         notes: ['Plum', 'Chocolate', 'Black Cherry'],
-        roast_level: roastLevel / 10,
+        roastLevel: roastLevel / 10,
         acidity: acidityScore,
         aftertaste: aftertasteScore,
         body: bodyScore,
