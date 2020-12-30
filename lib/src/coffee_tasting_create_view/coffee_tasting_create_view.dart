@@ -65,8 +65,8 @@ class _CoffeeTastingCreateViewWidgetState
     );
   }
 
-  void insertCoffeeTasting() {
-    final coffeeTastingId = coffeeTastingBloc.insert(CoffeeTasting(
+  void insertCoffeeTasting() async {
+    final int coffeeTastingId = await coffeeTastingBloc.insert(CoffeeTasting(
         coffeeName: coffeeName,
         description: description,
         origin: origin,
