@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
+import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'dart:math' show max;
 
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/util.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {
@@ -116,7 +118,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
   final String origin;
   final String process;
   final String description;
-  final List<String> notes;
+  final List<Note> notes;
   final double roastLevel;
   final Widget thumbnail;
 
@@ -145,34 +147,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
       body: tasting.body,
       flavor: tasting.flavor,
       fragrance: tasting.fragrance,
-    );
-  }
-
-  Widget displayNote(String note) {
-    // TODO: Constants for notes.
-    // TODO: Re-factor out into utils.
-    var noteColors = {
-      'Chocolate': Color(0xff4B240A),
-      'Sugarcane': Color(0xffB48B53),
-      'Black Cherry': Color(0xff4A1229),
-      'Plum': Color(0xff25344E),
-      'Raisin': Color(0xff4A1229),
-      'Oatmeal': Color(0xff90715C),
-      'Spice': Color(0xffd3574b),
-      'Blueberry': Color(0xff123456),
-      'Orange': Color(0xffFFB52C),
-      'Cherry': Color(0xffA51515),
-    };
-
-    return Container(
-      child: Text('$note', style: caption(color: Colors.white)),
-      margin: const EdgeInsets.only(right: 5.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-          color: noteColors.containsKey(note)
-              ? noteColors[note]
-              : Colors.blueAccent),
-      padding: EdgeInsets.all(7.0),
     );
   }
 
@@ -309,14 +283,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       style: body_1(),
                     ),
                     SizedBox(height: 5),
-                    // TODO: Notes should be implemented via ListView:
-                    // ListView.builder(
-                    //   itemCount: notes.length,
-                    //   scrollDirection: Axis.horizontal,
-                    //   itemBuilder: (context, index) {
-                    //     return displayNote(notes[index]);
-                    //   },
-                    // )
+                    // TODO: Should this use ListView?
                     SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(

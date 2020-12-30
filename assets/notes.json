@@ -2,51 +2,51 @@
   {
     "note_id": 1,
     "name":"Chocolate",
-    "color":"4B240A"
+    "color":"#4B240A"
   },
   {
     "note_id": 2,
     "name":"Sugarcane",
-    "color":"B48B53"
+    "color":"#B48B53"
   },
   {
     "note_id": 3,
     "name":"Black Cherry",
-    "color":"4A1229"
+    "color":"#4A1229"
   },
   {
     "note_id": 4,
     "name":"Plum",
-    "color":"25344E"
+    "color":"#25344E"
   },
   {
     "note_id": 5,
     "name":"Raisin",
-    "color":"4A1229"
+    "color":"#4A1229"
   },
   {
     "note_id": 6,
     "name":"Oatmeal",
-    "color":"90715C"
+    "color":"#90715C"
   },
   {
     "note_id": 7,
     "name":"Spice",
-    "color":"d3574b"
+    "color":"#d3574b"
   },
   {
     "note_id": 8,
     "name":"Blueberry",
-    "color":"123456"
+    "color":"#123456"
   },
   {
     "note_id": 9,
     "name":"Orange",
-    "color":"FFB52C"
+    "color":"#FFB52C"
   },
   {
     "note_id": 10,
     "name":"Cherry",
-    "color":"A51515"
+    "color":"#A51515"
   }
 ]

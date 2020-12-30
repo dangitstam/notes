@@ -38,12 +38,11 @@ class CoffeeTastingBloc {
   void getCoffeeTastings() async {
     // Retrieve all the coffee tastings from the database.
     var coffeeTastings = await _coffeeTastingDao.getAllCoffeeTastings();
-
-    print("getCoffeeTastings");
-
     coffeeTastings.forEach((coffeeTasting) {
-      _coffeeTastingNotesDao.getCoffeeTastingNotes(coffeeTasting).then((value) {
-        print(value.toString());
+      _coffeeTastingNotesDao
+          .getCoffeeTastingNotes(coffeeTasting.coffeeTastingId)
+          .then((value) {
+        coffeeTasting.notes = value;
       });
     });
 

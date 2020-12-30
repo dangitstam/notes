@@ -14,9 +14,7 @@ class CoffeeTastingNoteDao {
     return res;
   }
 
-  Future<List<Note>> getCoffeeTastingNotes(CoffeeTasting coffeeTasting) async {
-    final coffeeTastingId = coffeeTasting.coffeeTastingId;
-
+  Future<List<Note>> getCoffeeTastingNotes(int coffeeTastingId) async {
     final db = await database;
     var res = await db.rawQuery(
         // ignore: prefer_single_quotes

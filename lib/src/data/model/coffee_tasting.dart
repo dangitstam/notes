@@ -1,4 +1,5 @@
 import 'dart:convert' show json;
+import 'package:notes/src/data/model/note.dart';
 
 class CoffeeTasting {
   final int coffeeTastingId;
@@ -7,7 +8,7 @@ class CoffeeTasting {
   String origin;
   String process;
   String roaster;
-  List<String> notes;
+  List<Note> notes;
   double roastLevel;
 
   double acidity;
@@ -23,7 +24,7 @@ class CoffeeTasting {
       this.origin,
       this.process,
       this.roaster,
-      this.notes,
+      this.notes = const <Note>[],
       this.roastLevel,
       this.acidity,
       this.aftertaste,
@@ -40,8 +41,6 @@ class CoffeeTasting {
         description: tastingMap['description'],
         origin: tastingMap['origin'],
         process: tastingMap['process'],
-        // Notes are stored as a serialized list of strings in the SQLite db.
-        notes: List<String>.from(json.decode(tastingMap['notes'])),
         roastLevel: tastingMap['roast_level'],
         roaster: tastingMap['roaster'],
         acidity: tastingMap['acidity'],
@@ -62,7 +61,7 @@ class CoffeeTasting {
       'process': process,
       'roaster': roaster,
       // Local storage as serialized list of strings.
-      'notes': json.encode(notes),
+      // 'notes': json.encode(notes),
       'roast_level': roastLevel,
       'acidity': acidity,
       'aftertaste': aftertaste,

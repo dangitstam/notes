@@ -72,7 +72,7 @@ class _CoffeeTastingCreateViewWidgetState
         origin: origin,
         process: process,
         roaster: roaster,
-        notes: ['Plum', 'Chocolate', 'Black Cherry'],
+        // notes: ['Plum', 'Chocolate', 'Black Cherry'],
         roastLevel: roastLevel / 10,
         acidity: acidityScore,
         aftertaste: aftertasteScore,

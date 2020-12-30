@@ -29,11 +29,11 @@ class Note {
   /// Returns a `color` object containing this note's color.
   /// Assumes the note color is stored in the form #RRGGBB.
   Color fromHex() {
-    return Color(int.parse(color..substring(1, 7), radix: 16) + 0xff000000);
+    return Color(int.parse(color.substring(1, 7), radix: 16) + 0xff000000);
   }
 
   @override
   String toString() {
-    return '$name $color';
+    return '$name';
   }
 }
