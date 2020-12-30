@@ -6,6 +6,68 @@ import 'dart:math' show max;
 
 import 'package:notes/src/data/coffee_tasting.dart';
 
+// TODO: Abstract into its own file.
+class CoffeeTastingListViewScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          bottom: PreferredSize(
+              child: Container(
+                color: Colors.black38,
+                height: 0.20,
+              ),
+              preferredSize: Size.fromHeight(0.5)),
+          centerTitle: false,
+          elevation: 0,
+          title: Text(
+            'Notes',
+            style: heading_5(),
+          ),
+          backgroundColor: Colors.white,
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
+                      // TODO: Filter implementation.
+                    },
+                    child: Row(children: [Text('Filter', style: caption())]))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
+                      // TODO: Filter implementation.
+                    },
+                    child: Row(children: [Text('Sort', style: caption())]))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
+                      // TODO: Filter implementation.
+                    },
+                    child: Row(children: [
+                      Icon(CupertinoIcons.search,
+                          color: Colors.black, size: 20),
+                      SizedBox(width: 5),
+                      Text('Search', style: caption())
+                    ]))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: GestureDetector(
+                    onTap: () {
+                      // Navigate to the second screen using a named route.
+                      Navigator.pushNamed(context, '/create');
+                    },
+                    child: Icon(CupertinoIcons.plus_app,
+                        color: Colors.black, size: 35))),
+          ],
+        ),
+        body: CoffeeTastingListViewWidget());
+  }
+}
+
 class CoffeeTastingListViewWidget extends StatelessWidget {
   CoffeeTastingListViewWidget({Key key}) : super(key: key);
 
@@ -152,6 +214,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
     // SCA ratings begin at a minimum of 6.
     // `value` is scaled so that a value of 6.0 appears as an empty bar.
     var scaledValue = (value - 6) / 4;
+    var formattedValue = value == 10.0 ? '10' : '$value';
     return Padding(
         padding: EdgeInsets.only(top: 2, bottom: 2),
         child: Stack(children: [
@@ -170,7 +233,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             var leftPadding = max(constrains.maxWidth * scaledValue - 20, 0.0);
             return Padding(
                 padding: EdgeInsets.only(left: leftPadding),
-                child: Text('$value',
+                child: Text('$formattedValue',
                     style: caption(
                         color: Colors.white, fontStyle: FontStyle.italic)));
           }),
@@ -180,7 +243,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(17),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -246,7 +309,19 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       style: body_1(),
                     ),
                     SizedBox(height: 5),
-                    Row(children: notes.map((e) => displayNote(e)).toList())
+                    // TODO: Notes should be implemented via ListView:
+                    // ListView.builder(
+                    //   itemCount: notes.length,
+                    //   scrollDirection: Axis.horizontal,
+                    //   itemBuilder: (context, index) {
+                    //     return displayNote(notes[index]);
+                    //   },
+                    // )
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children:
+                                notes.map((e) => displayNote(e)).toList())),
                   ]),
                 )
               ],

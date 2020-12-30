@@ -11,13 +11,14 @@ TextStyle heading_6() {
       color: Colors.black, fontFamily: 'Baskerville', fontSize: 20.0);
 }
 
-TextStyle body_1({Color color = Colors.black87}) {
+TextStyle body_1(
+    {Color color = Colors.black87, FontStyle fontStyle = FontStyle.normal}) {
   return TextStyle(
-    color: color,
-    fontFamily: 'OpenSans',
-    fontSize: 14.0,
-    fontWeight: FontWeight.w100,
-  );
+      color: color,
+      fontFamily: 'OpenSans',
+      fontSize: 14.0,
+      fontWeight: FontWeight.w100,
+      fontStyle: fontStyle);
 }
 
 TextStyle subtitle_1({Color color = Colors.black}) {

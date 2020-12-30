@@ -3,10 +3,15 @@ import 'package:notes/src/data/coffee_tasting.dart';
 
 import 'dart:async';
 
+import 'package:notes/src/data/dao/coffee_tasting_dao.dart';
+
 class CoffeeTastingBloc {
   // Singleton instantiation.
   static final CoffeeTastingBloc _instance = CoffeeTastingBloc._internal();
   static CoffeeTastingBloc get instance => _instance;
+
+  CoffeeTastingDao _coffeeTastingDao =
+      CoffeeTastingDao(database: AppDatabase.db.database);
 
   CoffeeTastingBloc._internal() {
     getCoffeeTastings(); // Retrieve all tastings on init.
@@ -47,7 +52,7 @@ class CoffeeTastingBloc {
 
   void getCoffeeTastings() async {
     // Retrieve all the coffee tastings from the database.
-    var coffeeTastings = await AppDatabase.db.getAllCoffeeTastings();
+    var coffeeTastings = await _coffeeTastingDao.getAllCoffeeTastings();
 
     // Update the coffee tastings output stream so subscribing pages can update.
     _inCoffeeTastings.add(coffeeTastings);
@@ -55,7 +60,7 @@ class CoffeeTastingBloc {
 
   void _handleAddCoffeeTasting(CoffeeTasting note) async {
     // Update output stream on every insertion.
-    await AppDatabase.db.insert(note.toMap());
+    await _coffeeTastingDao.insert(note.toMap());
     getCoffeeTastings();
   }
 }
