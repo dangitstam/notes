@@ -6,6 +6,7 @@ import 'dart:math' show max;
 
 import 'package:notes/src/data/coffee_tasting.dart';
 
+// TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -24,6 +24,6 @@ class CoffeeTastingCreateViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return coffeeTastingCreateViewWidget;
+    return coffeeTastingCreateViewWidget; // TODO: Redundant wrapper.
   }
 }
