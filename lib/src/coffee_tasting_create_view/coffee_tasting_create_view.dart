@@ -66,7 +66,7 @@ class _CoffeeTastingCreateViewWidgetState
   }
 
   void insertCoffeeTasting() {
-    coffeeTastingBloc.inAddCoffeeTasting.add(CoffeeTasting(
+    final coffeeTastingId = coffeeTastingBloc.insert(CoffeeTasting(
         coffeeName: coffeeName,
         description: description,
         origin: origin,

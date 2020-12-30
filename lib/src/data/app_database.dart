@@ -64,8 +64,7 @@ Future<void> _createCoffeeTastingsTable(Database db) {
     List<dynamic> coffee_tastings = json.decode(coffee_tastings_string);
     var coffeeTastingBloc = CoffeeTastingBloc.instance;
     coffee_tastings.forEach((coffee_tasting) {
-      coffeeTastingBloc.inAddCoffeeTasting
-          .add(CoffeeTasting.fromAppDatabase(coffee_tasting));
+      coffeeTastingBloc.insert(CoffeeTasting.fromAppDatabase(coffee_tasting));
     });
   });
 }
@@ -75,11 +74,33 @@ Future<void> _createNotesTable(Database db) {
   return db.execute(
     // ignore: prefer_single_quotes
     """
-          CREATE TABLE notes(
-            note_id INTEGER PRIMARY KEY,
-            name TEXT,
-            color TEXT)
-          """,
+    CREATE TABLE notes(
+      note_id INTEGER PRIMARY KEY,
+      name TEXT,
+      color TEXT)
+    """,
+  ).then((_) async {
+    // For development purposes, populate the database from the notes.json asset.
+    var note_string = await rootBundle.loadString('assets/notes.json');
+
+    // Update stream so that the downstream list view is updated.
+    List<dynamic> notes = json.decode(note_string);
+    var notesBloc = NoteBloc.instance;
+    notes.forEach((note) {
+      notesBloc.inAddNote.add(Note.fromAppDatabase(note));
+    });
+  });
+}
+
+Future<void> _createCoffeeTastingNotesTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE coffee_tasting_notes(
+      coffee_tasting_id INTEGER,
+      note_id INTEGER)
+    """,
   ).then((_) async {
     // For development purposes, populate the database from the notes.json asset.
     var note_string = await rootBundle.loadString('assets/notes.json');
