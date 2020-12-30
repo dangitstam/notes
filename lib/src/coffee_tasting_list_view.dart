@@ -1,8 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/styles/typography.dart';
-import 'dart:convert' show json;
 import 'dart:math' show max;
+
+import 'package:notes/src/data/coffee_tasting.dart';
+
+class CoffeeTastingListViewWidget extends StatelessWidget {
+  CoffeeTastingListViewWidget({Key key}) : super(key: key);
+
+  final coffeeTastingBloc = CoffeeTastingBloc.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: coffeeTastingBloc.coffeeTastings,
+        builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
+          var coffeeTastings = snapshot.data;
+          return ListView.separated(
+              itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
+              itemBuilder: (BuildContext _context, int index) {
+                if (coffeeTastings != null && index < coffeeTastings.length) {
+                  return _CoffeeTastingListItem.fromCoffeeTasting(
+                      coffeeTastings[index]);
+                } else {
+                  return null;
+                }
+              },
+              padding: const EdgeInsets.all(0.0),
+              separatorBuilder: (context, index) => Divider());
+        });
+  }
+}
 
 class _CoffeeTastingListItem extends StatelessWidget {
   _CoffeeTastingListItem(
@@ -36,24 +65,24 @@ class _CoffeeTastingListItem extends StatelessWidget {
   final double flavor;
   final double fragrance;
 
-  static Widget fromTastingJson(tasting) {
+  static Widget fromCoffeeTasting(CoffeeTasting tasting) {
     return _CoffeeTastingListItem(
       thumbnail: Container(
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child:
                   Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover))),
-      title: "${tasting['roaster']}, ${tasting['coffee_name']}",
-      origin: tasting['origin'],
-      process: tasting['process'],
-      description: '${tasting['description']}',
-      notes: tasting['notes'].cast<String>(),
-      roastLevel: tasting['roast_level'],
-      acidity: tasting['sca']['acidity'],
-      aftertaste: tasting['sca']['aftertaste'],
-      body: tasting['sca']['body'],
-      flavor: tasting['sca']['flavor'],
-      fragrance: tasting['sca']['fragrance/aroma'],
+      title: '${tasting.roaster}, ${tasting.coffee_name}',
+      origin: tasting.origin,
+      process: tasting.process,
+      description: tasting.description,
+      notes: tasting.notes,
+      roastLevel: tasting.roast_level,
+      acidity: tasting.acidity,
+      aftertaste: tasting.aftertaste,
+      body: tasting.body,
+      flavor: tasting.flavor,
+      fragrance: tasting.fragrance,
     );
   }
 
@@ -265,32 +294,5 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 ))
           ],
         ));
-  }
-}
-
-class CoffeeTastingListViewWidget extends StatelessWidget {
-  CoffeeTastingListViewWidget({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: DefaultAssetBundle.of(context)
-            .loadString('assets/coffee_tastings.json'),
-        builder: (context, snapshot) {
-          // Decode the JSON
-          var coffeeTastings = json.decode(snapshot.data.toString());
-          return ListView.separated(
-              itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
-              itemBuilder: (BuildContext _context, int index) {
-                if (coffeeTastings != null && index < coffeeTastings.length) {
-                  return _CoffeeTastingListItem.fromTastingJson(
-                      coffeeTastings[index]);
-                } else {
-                  return null;
-                }
-              },
-              padding: const EdgeInsets.all(0.0),
-              separatorBuilder: (context, index) => Divider());
-        });
   }
 }

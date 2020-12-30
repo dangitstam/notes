@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'src/coffee_tasting_list_view.dart';
+import 'src/coffee_tasting_create_view.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,6 @@ class CoffeeTastingCreateViewScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Center(child: Text('Hello, Create View!')));
+        body: CoffeeTastingCreateViewWidget());
   }
 }
