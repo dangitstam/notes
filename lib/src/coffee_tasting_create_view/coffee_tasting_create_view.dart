@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/src/data/coffee_tasting.dart';
 import 'package:notes/src/styles/typography.dart';
 
-import 'data/coffee_tasting_repository.dart';
+import '../data/coffee_tasting_repository.dart';
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {
   @override
@@ -242,8 +242,8 @@ class _CoffeeTastingCreateViewWidgetState
               Divider(),
               SizedBox(height: 10),
               /**
-           * Acidity
-           */
+               * Acidity
+               */
               Text('Acidity', style: subtitle_1()),
               Container(
                   height: 140,
@@ -289,8 +289,8 @@ class _CoffeeTastingCreateViewWidgetState
               Divider(),
               SizedBox(height: 10),
               /**
-           * Aftertaste
-           */
+               * Aftertaste
+               */
               Text(
                 'Aftertaste',
                 style: subtitle_1(),
@@ -317,8 +317,8 @@ class _CoffeeTastingCreateViewWidgetState
               Divider(),
               SizedBox(height: 10),
               /**
-           * Body
-           */
+               * Body
+               */
               Text('Body', style: subtitle_1()),
               Container(
                   height: 140,
@@ -363,8 +363,8 @@ class _CoffeeTastingCreateViewWidgetState
               Divider(),
               SizedBox(height: 10),
               /**
-           * Flavor
-           */
+               * Flavor
+               */
               Text(
                 'Flavor',
                 style: subtitle_1(),
@@ -391,8 +391,8 @@ class _CoffeeTastingCreateViewWidgetState
               Divider(),
               SizedBox(height: 10),
               /**
-           * Fragrance/Aroma
-           */
+               * Fragrance/Aroma
+               */
               Text('Fragrance / Aroma', style: subtitle_1()),
               Container(
                   height: 140,
