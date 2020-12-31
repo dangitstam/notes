@@ -65,7 +65,7 @@ Future<void> _createCoffeeTastingsTable(Database db) {
 
     // Update stream so that the downstream list view is updated.
     List<dynamic> coffee_tastings = json.decode(coffee_tastings_string);
-    var coffeeTastingBloc = CoffeeTastingBloc.instance;
+    var coffeeTastingBloc = CoffeeTastingBloc();
     coffee_tastings.forEach((coffee_tasting) {
       coffeeTastingBloc.insert(CoffeeTasting.fromAppDatabase(coffee_tasting));
     });
@@ -85,10 +85,8 @@ Future<void> _createNotesTable(Database db) {
   ).then((_) async {
     // For development purposes, populate the database from the notes.json asset.
     var note_string = await rootBundle.loadString('assets/notes.json');
-
-    // Update stream so that the downstream list view is updated.
     List<dynamic> notes = json.decode(note_string);
-    var notesBloc = NoteBloc.instance;
+    var notesBloc = NoteBloc();
     notes.forEach((note) {
       notesBloc.insert(Note.fromAppDatabase(note));
     });

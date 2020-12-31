@@ -8,17 +8,13 @@ import 'package:notes/src/data/dao/coffee_tasting_dao.dart';
 import 'dao/coffee_tasting_note_dao.dart';
 
 class CoffeeTastingBloc {
-  // Singleton instantiation.
-  static final CoffeeTastingBloc _instance = CoffeeTastingBloc._internal();
-  static CoffeeTastingBloc get instance => _instance;
-
   final CoffeeTastingDao _coffeeTastingDao =
       CoffeeTastingDao(database: AppDatabase.db.database);
 
   final CoffeeTastingNoteDao _coffeeTastingNotesDao =
       CoffeeTastingNoteDao(database: AppDatabase.db.database);
 
-  CoffeeTastingBloc._internal() {
+  CoffeeTastingBloc() {
     getCoffeeTastings(); // Retrieve all tastings on init.
   }
 

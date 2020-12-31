@@ -16,9 +16,9 @@ class CoffeeTastingCreateViewWidget extends StatefulWidget {
 
 class _CoffeeTastingCreateViewWidgetState
     extends State<CoffeeTastingCreateViewWidget> {
-  final coffeeTastingBloc = CoffeeTastingBloc.instance;
+  final coffeeTastingBloc = CoffeeTastingBloc();
 
-  final noteBloc = NoteBloc.instance;
+  final noteBloc = NoteBloc();
 
   String coffeeName = '';
   String description = '';
@@ -257,7 +257,7 @@ class _CoffeeTastingCreateViewWidgetState
                               children:
                                   notes.map((e) => displayNote(e)).toList()));
                     } else {
-                      return null;
+                      return Container(width: 0, height: 0);
                     }
                   }),
               Divider(),

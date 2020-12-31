@@ -5,13 +5,9 @@ import 'dart:async';
 import 'package:notes/src/data/dao/note_dao.dart';
 
 class NoteBloc {
-  // Singleton instantiation.
-  static final NoteBloc _instance = NoteBloc._internal();
-  static NoteBloc get instance => _instance;
-
   final NoteDao _noteDao = NoteDao(database: AppDatabase.db.database);
 
-  NoteBloc._internal() {
+  NoteBloc() {
     getNotes(); // Retrieve all tastings on init.
   }
 
@@ -38,7 +34,8 @@ class NoteBloc {
 
   // Stream: out.
   // Purpose: Stream that other pages subscribe to for notes.
-  Stream<List<Note>> get notes => _getNotesController.stream;
+  Stream<List<Note>> get notes =>
+      _getNotesController.stream.asBroadcastStream();
 
   Future<int> insert(Note note) async {
     final noteId = await _noteDao.insert(note.toMap());
