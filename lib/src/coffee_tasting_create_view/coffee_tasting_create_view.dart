@@ -58,24 +58,6 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
         onChanged: (value) => onChanged(value));
   }
 
-  Widget _buildThemedSlider(Slider slider) {
-    return SliderTheme(
-      data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Colors.black87,
-        inactiveTrackColor: Colors.black12,
-        trackHeight: 1.0,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
-        thumbColor: Colors.black87,
-        overlayColor: Colors.grey.withAlpha(32),
-        overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-        tickMarkShape: RoundSliderTickMarkShape(),
-        activeTickMarkColor: Colors.black,
-        inactiveTickMarkColor: Colors.black,
-      ),
-      child: slider,
-    );
-  }
-
   void insertCoffeeTasting() async {
     final state = context.read<CoffeeTastingCreateBloc>().state;
     final coffeeTastingId = await coffeeTastingBloc.insert(CoffeeTasting(
@@ -161,7 +143,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
               Text('Roast Level', style: subtitle_1()),
               Expanded(
                   flex: 1,
-                  child: _buildThemedSlider(Slider(
+                  child: blackSliderTheme(Slider(
                       value: roastLevel,
                       min: 0,
                       max: 10,
@@ -275,9 +257,6 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
       ),
       body: BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
         builder: (context, state) {
-          // return Center(
-          //   child: Text('Tick #${state.count}'),
-          // );
           return _buildCreateViewBody();
         },
       ),
