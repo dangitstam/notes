@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'src/coffee_tasting_list_view/coffee_tasting_list_view.dart';
 import 'src/coffee_tasting_create_view/coffee_tasting_create_view.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(App());
@@ -19,11 +22,11 @@ class App extends StatelessWidget {
 }
 
 class CoffeeTastingCreateViewScreen extends StatelessWidget {
-  final CoffeeTastingCreateViewWidget coffeeTastingCreateViewWidget =
-      CoffeeTastingCreateViewWidget();
-
   @override
   Widget build(BuildContext context) {
-    return coffeeTastingCreateViewWidget; // TODO: Redundant wrapper.
+    return BlocProvider(
+      create: (_) => CoffeeTastingCreateBloc(),
+      child: CoffeeTastingCreateViewWidget(),
+    ); // TODO: Redundant wrapper.
   }
 }
