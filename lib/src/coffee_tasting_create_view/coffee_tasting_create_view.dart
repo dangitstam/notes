@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:notes/src/coffee_tasting_create_view/acidity_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/aftertaste.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
+import 'package:notes/src/coffee_tasting_create_view/body_widget.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/notes_repository.dart';
@@ -212,58 +213,13 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
               }),
           Divider(),
           SizedBox(height: 10),
-          /**
-               * Acidity
-               */
           AcidityWidget(),
           Divider(),
           SizedBox(height: 10),
           AftertasteWidget(),
           Divider(),
           SizedBox(height: 10),
-          /**
-               * Body
-               */
-          Text('Body', style: subtitle_1()),
-          Container(
-              height: 140,
-              child: Row(children: [
-                SizedBox(width: 20),
-                Text('Score: $bodyScore', style: caption(), textAlign: TextAlign.right),
-                Expanded(
-                    flex: 1,
-                    child: _buildThemedSlider(Slider(
-                        value: bodyScore,
-                        min: 6,
-                        max: 10,
-                        divisions: 10,
-                        onChanged: (value) {
-                          setState(() {
-                            bodyScore = value;
-                          });
-                        }))),
-                Text('Level', style: caption(), textAlign: TextAlign.right),
-                Expanded(
-                    flex: 0,
-                    child: Column(children: [
-                      Text('Heavy', style: caption()),
-                      Expanded(
-                        child: RotatedBox(
-                            quarterTurns: 3,
-                            child: _buildThemedSlider(Slider(
-                                value: bodyLevel,
-                                min: 6,
-                                max: 10,
-                                divisions: 10,
-                                onChanged: (value) {
-                                  setState(() {
-                                    bodyLevel = value;
-                                  });
-                                }))),
-                      ),
-                      Text('Thin', style: caption()),
-                    ])),
-              ])),
+          BodyWidget(),
           Divider(),
           SizedBox(height: 10),
           /**

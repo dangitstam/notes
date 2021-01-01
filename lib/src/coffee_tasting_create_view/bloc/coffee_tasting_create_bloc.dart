@@ -37,6 +37,10 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       yield state.copyWith(acidityIntensity: event.acidityIntensity);
     } else if (event is AftertasteScoreEvent) {
       yield state.copyWith(aftertasteScore: event.aftertasteScore);
+    } else if (event is BodyScoreEvent) {
+      yield state.copyWith(bodyScore: event.bodyScore);
+    } else if (event is BodyLevelEvent) {
+      yield state.copyWith(bodyLevel: event.bodyLevel);
     }
   }
 }
