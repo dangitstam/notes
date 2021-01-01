@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/src/coffee_tasting_create_view/acidity_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/aftertaste.dart';
+
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/body_widget.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/notes_repository.dart';
@@ -12,6 +10,12 @@ import 'package:notes/src/util.dart';
 
 import '../data/coffee_tasting_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aftertaste.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {
   @override
@@ -222,97 +226,10 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
           BodyWidget(),
           Divider(),
           SizedBox(height: 10),
-          /**
-               * Flavor
-               */
-          Text(
-            'Flavor',
-            style: subtitle_1(),
-          ),
-          Container(
-              height: 100,
-              child: Row(children: [
-                SizedBox(width: 20),
-                Text('Score: $flavorScore', style: caption(), textAlign: TextAlign.right),
-                Expanded(
-                    flex: 1,
-                    child: _buildThemedSlider(Slider(
-                        value: flavorScore,
-                        min: 6,
-                        max: 10,
-                        divisions: 10,
-                        onChanged: (value) {
-                          setState(() {
-                            flavorScore = value;
-                          });
-                        })))
-              ])),
+          FlavorWidget(),
           Divider(),
           SizedBox(height: 10),
-          /**
-               * Fragrance/Aroma
-               */
-          Text('Fragrance / Aroma', style: subtitle_1()),
-          Container(
-              height: 140,
-              child: Row(children: [
-                SizedBox(width: 20),
-                Text('Score: $fragranceScore', style: caption(), textAlign: TextAlign.right),
-                Expanded(
-                    flex: 1,
-                    child: _buildThemedSlider(Slider(
-                        value: fragranceScore,
-                        min: 6,
-                        max: 10,
-                        divisions: 10,
-                        onChanged: (value) {
-                          setState(() {
-                            fragranceScore = value;
-                          });
-                        }))),
-                Text('Break', style: caption(), textAlign: TextAlign.right),
-                Expanded(
-                    flex: 0,
-                    child: Column(children: [
-                      Text('High', style: caption()),
-                      Expanded(
-                        child: RotatedBox(
-                            quarterTurns: 3,
-                            child: _buildThemedSlider(Slider(
-                                value: fragranceBreak,
-                                min: 6,
-                                max: 10,
-                                divisions: 10,
-                                onChanged: (value) {
-                                  setState(() {
-                                    fragranceBreak = value;
-                                  });
-                                }))),
-                      ),
-                      Text('Low', style: caption()),
-                    ])),
-                Text('Dry', style: caption(), textAlign: TextAlign.right),
-                Expanded(
-                    flex: 0,
-                    child: Column(children: [
-                      Text('High', style: caption()),
-                      Expanded(
-                        child: RotatedBox(
-                            quarterTurns: 3,
-                            child: _buildThemedSlider(Slider(
-                                value: fragranceDry,
-                                min: 6,
-                                max: 10,
-                                divisions: 10,
-                                onChanged: (value) {
-                                  setState(() {
-                                    fragranceDry = value;
-                                  });
-                                }))),
-                      ),
-                      Text('Low', style: caption()),
-                    ])),
-              ])),
+          FragranceWidget(),
           Divider(),
           SizedBox(height: 10),
         ]));

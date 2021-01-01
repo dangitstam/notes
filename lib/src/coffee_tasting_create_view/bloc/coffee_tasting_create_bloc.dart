@@ -41,6 +41,14 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       yield state.copyWith(bodyScore: event.bodyScore);
     } else if (event is BodyLevelEvent) {
       yield state.copyWith(bodyLevel: event.bodyLevel);
+    } else if (event is FlavorScoreEvent) {
+      yield state.copyWith(flavorScore: event.flavorScore);
+    } else if (event is FragranceScoreEvent) {
+      yield state.copyWith(fragranceScore: event.fragranceScore);
+    } else if (event is FragranceBreakEvent) {
+      yield state.copyWith(fragranceBreak: event.fragranceBreak);
+    } else if (event is FragranceDryEvent) {
+      yield state.copyWith(fragranceDry: event.fragranceDry);
     }
   }
 }
