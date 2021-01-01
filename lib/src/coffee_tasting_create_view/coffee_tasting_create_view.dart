@@ -104,83 +104,78 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     ]))
               ]),
           SizedBox(height: 10),
+          TextField(
+            minLines: 1,
+            maxLines: 5,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Write a description here...',
+                hintStyle: body_1(color: Color(0xff919191), fontStyle: FontStyle.italic),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                isDense: true),
+            onChanged: (value) {
+              description = value;
+            },
+            style: body_1(),
+          ),
           Row(children: [
+            Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
             Expanded(
                 child: TextField(
-              minLines: 1,
-              maxLines: 5,
               decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Write a description here...',
-                  hintStyle: body_1(color: Color(0xff919191), fontStyle: FontStyle.italic),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  isDense: true),
+                enabledBorder: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 5, bottom: 5),
+                hintText: 'Origin',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                isDense: true,
+              ),
               onChanged: (value) {
-                description = value;
+                origin = value;
               },
               style: body_1(),
-            )),
+            ))
           ]),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
-              Expanded(
-                  child: TextField(
-                decoration: InputDecoration(
-                  enabledBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 5, bottom: 5),
-                  hintText: 'Origin',
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  isDense: true,
-                ),
-                onChanged: (value) {
-                  origin = value;
-                },
-                style: body_1(),
-              ))
-            ]),
-            Row(children: [
-              Text('Roast Level', style: subtitle_1()),
-              Expanded(
-                  flex: 1,
-                  child: blackSliderTheme(Slider(
-                      value: roastLevel,
-                      min: 0,
-                      max: 10,
-                      divisions: 10,
-                      onChanged: (value) {
-                        setState(() {
-                          roastLevel = value;
-                        });
-                      }))),
-              Text('Process', style: subtitle_1()),
-              SizedBox(width: 10),
-              Container(
-                  child: DropdownButton<String>(
-                value: process,
-                icon: Icon(CupertinoIcons.arrow_down),
-                iconSize: 14,
-                style: body_1(),
-                underline: Container(
-                  height: 0.5,
-                  color: Colors.black87,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    process = newValue;
-                  });
-                },
-                items:
-                    {'Washed': Icon(CupertinoIcons.drop), 'Natural': Icon(CupertinoIcons.sun_min)}.entries.map((entry) {
-                  var processType = entry.key;
-                  var processIcon = entry.value;
-                  return DropdownMenuItem<String>(
-                    value: processType,
-                    child: Row(children: [processIcon, Text(processType, style: body_1())]),
-                  );
-                }).toList(),
-              )),
-            ]),
+          Row(children: [
+            Text('Roast Level', style: subtitle_1()),
+            Expanded(
+                flex: 1,
+                child: blackSliderTheme(Slider(
+                    value: roastLevel,
+                    min: 0,
+                    max: 10,
+                    divisions: 10,
+                    onChanged: (value) {
+                      setState(() {
+                        roastLevel = value;
+                      });
+                    }))),
+            Text('Process', style: subtitle_1()),
+            SizedBox(width: 10),
+            Container(
+                child: DropdownButton<String>(
+              value: process,
+              icon: Icon(CupertinoIcons.arrow_down),
+              iconSize: 14,
+              style: body_1(),
+              underline: Container(
+                height: 0.5,
+                color: Colors.black87,
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  process = newValue;
+                });
+              },
+              items:
+                  {'Washed': Icon(CupertinoIcons.drop), 'Natural': Icon(CupertinoIcons.sun_min)}.entries.map((entry) {
+                var processType = entry.key;
+                var processIcon = entry.value;
+                return DropdownMenuItem<String>(
+                  value: processType,
+                  child: Row(children: [processIcon, Text(processType, style: body_1())]),
+                );
+              }).toList(),
+            )),
           ]),
           SizedBox(height: 10),
           Divider(),
