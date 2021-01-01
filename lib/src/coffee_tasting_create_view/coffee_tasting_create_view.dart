@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/src/coffee_tasting_create_view/acidity_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/aftertaste.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
@@ -215,79 +216,9 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                * Acidity
                */
           AcidityWidget(),
-          Column(
-            children: [
-              Text('Acidity', style: subtitle_1()),
-              Container(
-                  height: 140,
-                  child: Row(children: [
-                    SizedBox(width: 20),
-                    Text('Score: ${context.read<CoffeeTastingCreateBloc>().state.acidityScore}',
-                        style: caption(), textAlign: TextAlign.right),
-                    Expanded(
-                        flex: 1,
-                        child: _buildThemedSlider(Slider(
-                            value: context.read<CoffeeTastingCreateBloc>().state.acidityScore,
-                            min: 6,
-                            max: 10,
-                            divisions: 10,
-                            onChanged: (value) {
-                              setState(() {
-                                context.read<CoffeeTastingCreateBloc>().add(AcidityScoreEvent());
-                                acidityScore = value;
-                              });
-                            }))),
-                    Text('Intensity', style: caption(), textAlign: TextAlign.right),
-                    Expanded(
-                        flex: 0,
-                        child: Column(children: [
-                          Text('High', style: caption()),
-                          Expanded(
-                            child: RotatedBox(
-                                quarterTurns: 3,
-                                child: _buildThemedSlider(Slider(
-                                    value: acidityIntensity,
-                                    min: 6,
-                                    max: 10,
-                                    divisions: 10,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        acidityIntensity = value;
-                                      });
-                                    }))),
-                          ),
-                          Text('Low', style: caption()),
-                        ])),
-                  ])),
-            ],
-          ),
           Divider(),
           SizedBox(height: 10),
-          /**
-               * Aftertaste
-               */
-          Text(
-            'Aftertaste',
-            style: subtitle_1(),
-          ),
-          Container(
-              height: 100,
-              child: Row(children: [
-                SizedBox(width: 20),
-                Text('Score: $aftertasteScore', style: caption(), textAlign: TextAlign.right),
-                Expanded(
-                    flex: 1,
-                    child: _buildThemedSlider(Slider(
-                        value: aftertasteScore,
-                        min: 6,
-                        max: 10,
-                        divisions: 10,
-                        onChanged: (value) {
-                          setState(() {
-                            aftertasteScore = value;
-                          });
-                        })))
-              ])),
+          AftertasteWidget(),
           Divider(),
           SizedBox(height: 10),
           /**

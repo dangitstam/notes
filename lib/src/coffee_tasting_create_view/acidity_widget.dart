@@ -49,7 +49,11 @@ class AcidityWidget extends StatelessWidget {
                               min: 6,
                               max: 10,
                               divisions: 10,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                context
+                                    .read<CoffeeTastingCreateBloc>()
+                                    .add(AcidityIntensityEvent(acidityIntensity: value));
+                              },
                             ),
                           ),
                         ),

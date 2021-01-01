@@ -31,10 +31,12 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   Stream<CoffeeTastingCreateState> mapEventToState(
     CoffeeTastingCreateEvent event,
   ) async* {
-    // TODO: implement mapEventToState
     if (event is AcidityScoreEvent) {
-      print('TestEvent received');
       yield state.copyWith(acidityScore: event.acidityScore);
+    } else if (event is AcidityIntensityEvent) {
+      yield state.copyWith(acidityIntensity: event.acidityIntensity);
+    } else if (event is AftertasteScoreEvent) {
+      yield state.copyWith(aftertasteScore: event.aftertasteScore);
     }
   }
 }
