@@ -1,10 +1,14 @@
 import 'package:flutter/services.dart';
-import 'package:notes/src/data/coffee_tasting.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
+import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/notes_repository.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'dart:convert' show json;
+
+import 'dao/coffee_tasting_note_dao.dart';
 
 class AppDatabase {
   AppDatabase._();
@@ -24,12 +28,22 @@ class AppDatabase {
     return openDatabase(
       join(await getDatabasesPath(), 'coffee_tasting_database.db'),
       onCreate: (db, version) {
-        // Run the CREATE TABLE statement on the database.
-        db.execute(
-          // ignore: prefer_single_quotes
-          """
+        _createCoffeeTastingsTable(db);
+        _createNotesTable(db);
+        _createCoffeeTastingNotesTable(db);
+      },
+      version: 1,
+    );
+  }
+}
+
+Future<void> _createCoffeeTastingsTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
           CREATE TABLE coffee_tastings(
-            id INTEGER PRIMARY KEY,
+            coffee_tasting_id INTEGER PRIMARY KEY,
             coffee_name TEXT,
             description TEXT,
             origin TEXT,
@@ -43,39 +57,64 @@ class AppDatabase {
             flavor REAL,
             fragrance REAL)
           """,
-        ).then((_) async {
-          // For development purposes, populate the database from the
-          // coffee_tastings.json asset.
-          var coffee_tastings_string =
-              await rootBundle.loadString('assets/coffee_tastings.json');
+  ).then((_) async {
+    // For development purposes, populate the database from the
+    // coffee_tastings.json asset.
+    var coffee_tastings_string =
+        await rootBundle.loadString('assets/coffee_tastings.json');
 
-          // Update stream so that the downstream list view is updated.
-          List<dynamic> coffee_tastings = json.decode(coffee_tastings_string);
-          var coffeeTastingBloc = CoffeeTastingBloc.instance;
-          coffee_tastings.forEach((coffee_tasting) {
-            coffeeTastingBloc.inAddCoffeeTasting
-                .add(CoffeeTasting.fromAppDatabase(coffee_tasting));
-          });
-        });
-      },
-      version: 1,
-    );
-  }
+    // Update stream so that the downstream list view is updated.
+    List<dynamic> coffee_tastings = json.decode(coffee_tastings_string);
+    var coffeeTastingBloc = CoffeeTastingBloc();
+    coffee_tastings.forEach((coffee_tasting) {
+      coffeeTastingBloc.insert(CoffeeTasting.fromAppDatabase(coffee_tasting));
+    });
+  });
+}
 
-  Future<int> insert(Map<String, dynamic> newCoffeeTasting) async {
-    final db = await database;
-    var res = await db.insert('coffee_tastings', newCoffeeTasting);
-    return res;
-  }
+Future<void> _createNotesTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE notes(
+      note_id INTEGER PRIMARY KEY,
+      name TEXT,
+      color TEXT)
+    """,
+  ).then((_) async {
+    // For development purposes, populate the database from the notes.json asset.
+    var note_string = await rootBundle.loadString('assets/notes.json');
+    List<dynamic> notes = json.decode(note_string);
+    var notesBloc = NoteBloc();
+    notes.forEach((note) {
+      notesBloc.insert(Note.fromAppDatabase(note));
+    });
+  });
+}
 
-  Future<List<CoffeeTasting>> getAllCoffeeTastings() async {
-    final db = await database;
-    var res = await db.query('coffee_tastings');
-    var list = res.isNotEmpty
-        ? res.map((c) {
-            return CoffeeTasting.fromAppDatabase(c);
-          }).toList()
-        : <CoffeeTasting>[];
-    return list;
-  }
+Future<void> _createCoffeeTastingNotesTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE coffee_tasting_notes(
+      coffee_tasting_id INTEGER,
+      note_id INTEGER)
+    """,
+  ).then((_) async {
+    // For development purposes, populate the database from the notes.json asset.
+    var coffee_tasting_notes_string =
+        await rootBundle.loadString('assets/coffee_tastings_notes.json');
+
+    // Update stream so that the downstream list view is updated.
+    var coffeeTastingDao =
+        CoffeeTastingNoteDao(database: AppDatabase.db.database);
+
+    List<dynamic> coffee_tasting_notes =
+        json.decode(coffee_tasting_notes_string);
+    coffee_tasting_notes.forEach((coffee_tasting_note) {
+      coffeeTastingDao.insert(coffee_tasting_note);
+    });
+  });
 }

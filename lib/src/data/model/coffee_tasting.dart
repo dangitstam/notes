@@ -1,14 +1,15 @@
 import 'dart:convert' show json;
+import 'package:notes/src/data/model/note.dart';
 
 class CoffeeTasting {
-  final int id;
-  String coffee_name;
+  final int coffeeTastingId;
+  String coffeeName;
   String description;
   String origin;
   String process;
   String roaster;
-  List<String> notes;
-  double roast_level;
+  List<Note> notes;
+  double roastLevel;
 
   double acidity;
   double aftertaste;
@@ -17,14 +18,14 @@ class CoffeeTasting {
   double fragrance;
 
   CoffeeTasting(
-      {this.id,
-      this.coffee_name,
+      {this.coffeeTastingId,
+      this.coffeeName,
       this.description,
       this.origin,
       this.process,
       this.roaster,
-      this.notes,
-      this.roast_level,
+      this.notes = const <Note>[],
+      this.roastLevel,
       this.acidity,
       this.aftertaste,
       this.body,
@@ -35,13 +36,12 @@ class CoffeeTasting {
   /// from the `coffee_tastings` table, maps the result to a CoffeeTasting.
   factory CoffeeTasting.fromAppDatabase(Map<String, dynamic> tastingMap) {
     return CoffeeTasting(
-        coffee_name: tastingMap['coffee_name'],
+        coffeeTastingId: tastingMap['coffee_tasting_id'],
+        coffeeName: tastingMap['coffee_name'],
         description: tastingMap['description'],
         origin: tastingMap['origin'],
         process: tastingMap['process'],
-        // Notes are stored as a serialized list of strings in the SQLite db.
-        notes: List<String>.from(json.decode(tastingMap['notes'])),
-        roast_level: tastingMap['roast_level'],
+        roastLevel: tastingMap['roast_level'],
         roaster: tastingMap['roaster'],
         acidity: tastingMap['acidity'],
         aftertaste: tastingMap['aftertaste'],
@@ -53,16 +53,16 @@ class CoffeeTasting {
   /// Converts this CoffeeTasting into a map.
   /// Invariant: `notes` is stored as a serialized list of strings.
   Map<String, dynamic> toMap() {
+    // TODO: Allow the id to be generated for now.
     return {
-      'id': id,
-      'coffee_name': coffee_name,
+      'coffee_name': coffeeName,
       'description': description,
       'origin': origin,
       'process': process,
       'roaster': roaster,
       // Local storage as serialized list of strings.
-      'notes': json.encode(notes),
-      'roast_level': roast_level,
+      // 'notes': json.encode(notes),
+      'roast_level': roastLevel,
       'acidity': acidity,
       'aftertaste': aftertaste,
       'body': body,

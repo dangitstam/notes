@@ -1,5 +1,6 @@
 [
   {
+    "coffee_tasting_id": 1,
     "coffee_name": "Congo RWH",
     "description": "Similar to an oatmeal raisin cookie. Balanced and pleasant, fruit-forward.",
     "notes": "[\"Plum\",\"Raisin\",\"Oatmeal\"]",
@@ -14,6 +15,7 @@
     "fragrance": 7.6
   },
   {
+    "coffee_tasting_id": 2,
     "coffee_name": "Holiday",
     "description": "Well-balanced, pleasant bitterness and acidity.",
     "notes": "[\"Chocolate\",\"Spice\",\"Blueberry\"]",
@@ -28,6 +30,7 @@
     "fragrance": 9.7
   },
   {
+    "coffee_tasting_id": 3,
     "coffee_name": "Bukonzo Join Cooperative Union",
     "description": "Well-balanced, mellow, not much bitterness. Medium body, brewed @ 205 degrees, 21g coffee, 274ml water.",
     "notes": "[\"Orange\",\"Cherry\"]",
@@ -42,6 +45,7 @@
     "fragrance": 7.1
   },
   {
+    "coffee_tasting_id": 4,
     "coffee_name": "Caturra-Bourbon-Castillo Blend",
     "description": "Chocolately, well-rounded coffee. Fuller-bodied, drinks like a darker roast without astringency.",
     "notes": "[\"Chocolate\",\"Sugarcane\",\"Black Cherry\"]",

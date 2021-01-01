@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/src/data/coffee_tasting.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/notes_repository.dart';
 import 'package:notes/src/styles/typography.dart';
+import 'package:notes/src/util.dart';
 
 import '../data/coffee_tasting_repository.dart';
 
@@ -13,7 +16,9 @@ class CoffeeTastingCreateViewWidget extends StatefulWidget {
 
 class _CoffeeTastingCreateViewWidgetState
     extends State<CoffeeTastingCreateViewWidget> {
-  final coffeeTastingBloc = CoffeeTastingBloc.instance;
+  final coffeeTastingBloc = CoffeeTastingBloc();
+
+  final noteBloc = NoteBloc();
 
   String coffeeName = '';
   String description = '';
@@ -65,15 +70,15 @@ class _CoffeeTastingCreateViewWidgetState
     );
   }
 
-  void insertCoffeeTasting() {
-    coffeeTastingBloc.inAddCoffeeTasting.add(CoffeeTasting(
-        coffee_name: coffeeName,
+  void insertCoffeeTasting() async {
+    final int coffeeTastingId = await coffeeTastingBloc.insert(CoffeeTasting(
+        coffeeName: coffeeName,
         description: description,
         origin: origin,
         process: process,
         roaster: roaster,
-        notes: ['Plum', 'Chocolate', 'Black Cherry'],
-        roast_level: roastLevel / 10,
+        // notes: ['Plum', 'Chocolate', 'Black Cherry'],
+        roastLevel: roastLevel / 10,
         acidity: acidityScore,
         aftertaste: aftertasteScore,
         body: bodyScore,
@@ -239,6 +244,22 @@ class _CoffeeTastingCreateViewWidgetState
                 ]),
               ]),
               SizedBox(height: 10),
+              Divider(),
+              SizedBox(height: 10),
+              StreamBuilder(
+                  stream: noteBloc.notes,
+                  builder: (context, AsyncSnapshot<List<Note>> snapshot) {
+                    var notes = snapshot.data;
+                    if (notes != null) {
+                      return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                              children:
+                                  notes.map((e) => displayNote(e)).toList()));
+                    } else {
+                      return Container(width: 0, height: 0);
+                    }
+                  }),
               Divider(),
               SizedBox(height: 10),
               /**
