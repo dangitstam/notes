@@ -80,29 +80,44 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
         padding: EdgeInsets.all(10),
         child: Column(children: [
           Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                    flex: 2,
-                    child: AspectRatio(
-                        aspectRatio: 1.0,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover)))),
-                SizedBox(width: 10),
-                Expanded(
-                    flex: 5,
-                    child: Column(children: [
-                      _buildEditableTextWithCaption('Roaster', 'Who roasted this coffee?', (value) {
-                        roaster = value;
-                      }),
-                      SizedBox(height: 10),
-                      _buildEditableTextWithCaption('Coffee Name', 'What kind of coffee is this?', (value) {
-                        coffeeName = value;
-                      })
-                    ]))
-              ]),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                flex: 5,
+                child: Column(
+                  children: [
+                    EditableTextWithCaptionWidget(
+                      label: 'Roaster',
+                      hint: 'Who roasted this coffee?',
+                      onChanged: (value) {
+                        context.watch<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    EditableTextWithCaptionWidget(
+                      label: 'Coffee Name',
+                      hint: 'What kind of coffee is this?',
+                      onChanged: (value) {
+                        context.watch<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           SizedBox(height: 10),
           TextField(
             minLines: 1,
@@ -118,37 +133,46 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
             },
             style: body_1(),
           ),
-          Row(children: [
-            Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
-            Expanded(
+          Row(
+            children: [
+              Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
+              Expanded(
                 child: TextField(
-              decoration: InputDecoration(
-                enabledBorder: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 5, bottom: 5),
-                hintText: 'Origin',
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                isDense: true,
-              ),
-              onChanged: (value) {
-                origin = value;
-              },
-              style: body_1(),
-            ))
-          ]),
+                  decoration: InputDecoration(
+                    enabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 5, bottom: 5),
+                    hintText: 'Origin',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    isDense: true,
+                  ),
+                  onChanged: (value) {
+                    origin = value;
+                  },
+                  style: body_1(),
+                ),
+              )
+            ],
+          ),
           Row(children: [
             Text('Roast Level', style: subtitle_1()),
             Expanded(
-                flex: 1,
-                child: blackSliderTheme(Slider(
-                    value: roastLevel,
-                    min: 0,
-                    max: 10,
-                    divisions: 10,
-                    onChanged: (value) {
-                      setState(() {
+              flex: 1,
+              child: blackSliderTheme(
+                Slider(
+                  value: roastLevel,
+                  min: 0,
+                  max: 10,
+                  divisions: 10,
+                  onChanged: (value) {
+                    setState(
+                      () {
                         roastLevel = value;
-                      });
-                    }))),
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
             Text('Process', style: subtitle_1()),
             SizedBox(width: 10),
             Container(
@@ -162,9 +186,11 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                 color: Colors.black87,
               ),
               onChanged: (String newValue) {
-                setState(() {
-                  process = newValue;
-                });
+                setState(
+                  () {
+                    process = newValue;
+                  },
+                );
               },
               items:
                   {'Washed': Icon(CupertinoIcons.drop), 'Natural': Icon(CupertinoIcons.sun_min)}.entries.map((entry) {
@@ -244,7 +270,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     insertCoffeeTasting();
 
                     // Navigate to the second screen using a named route.
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, '/');
                   },
                 ),
               ))

@@ -15,6 +15,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           bottom: PreferredSize(
               child: Container(
                 color: Colors.black38,
@@ -50,8 +51,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                       // TODO: Filter implementation.
                     },
                     child: Row(children: [
-                      Icon(CupertinoIcons.search,
-                          color: Colors.black, size: 20),
+                      Icon(CupertinoIcons.search, color: Colors.black, size: 20),
                       SizedBox(width: 5),
                       Text('Search', style: caption())
                     ]))),
@@ -62,8 +62,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                       // Navigate to the second screen using a named route.
                       Navigator.pushNamed(context, '/create');
                     },
-                    child: Icon(CupertinoIcons.plus_app,
-                        color: Colors.black, size: 35))),
+                    child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),
           ],
         ),
         body: CoffeeTastingListViewWidget());
@@ -78,22 +77,27 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: coffeeTastingBloc.coffeeTastings,
-        builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
+      stream: coffeeTastingBloc.coffeeTastings,
+      builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
+        print(snapshot);
+        if (snapshot.connectionState == ConnectionState.active) {
           var coffeeTastings = snapshot.data;
           return ListView.separated(
               itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
               itemBuilder: (BuildContext _context, int index) {
                 if (coffeeTastings != null && index < coffeeTastings.length) {
-                  return _CoffeeTastingListItem.fromCoffeeTasting(
-                      coffeeTastings[index]);
+                  return _CoffeeTastingListItem.fromCoffeeTasting(coffeeTastings[index]);
                 } else {
-                  return null;
+                  return Text('loading');
                 }
               },
               padding: const EdgeInsets.all(0.0),
               separatorBuilder: (context, index) => Divider());
-        });
+        } else {
+          return Text('loading');
+        }
+      },
+    );
   }
 }
 
@@ -134,8 +138,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
       thumbnail: Container(
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child:
-                  Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover))),
+              child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover))),
       title: '${tasting.roaster}, ${tasting.coffeeName}',
       origin: tasting.origin,
       process: tasting.process,
@@ -169,19 +172,14 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   Icon _buildRoastingProcessIcon(String process) {
     // TODO: Default to blank icon when process is neither 'Washed' or 'Natural'.
-    return Icon(
-        process == 'Natural' ? CupertinoIcons.sun_max : CupertinoIcons.drop,
-        color: Colors.black,
-        size: 14);
+    return Icon(process == 'Natural' ? CupertinoIcons.sun_max : CupertinoIcons.drop, color: Colors.black, size: 14);
   }
 
   Widget _buildScaCriteriaCaption(String criteria) {
     return Container(
         height: 20,
-        child: Align(
-            alignment: Alignment.center,
-            child: Text('$criteria',
-                textAlign: TextAlign.right, style: caption())));
+        child:
+            Align(alignment: Alignment.center, child: Text('$criteria', textAlign: TextAlign.right, style: caption())));
   }
 
   Widget _buildScaCriteriaRatingLinearIndicator(double value) {
@@ -207,9 +205,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             var leftPadding = max(constrains.maxWidth * scaledValue - 20, 0.0);
             return Padding(
                 padding: EdgeInsets.only(left: leftPadding),
-                child: Text('$formattedValue',
-                    style: caption(
-                        color: Colors.white, fontStyle: FontStyle.italic)));
+                child: Text('$formattedValue', style: caption(color: Colors.white, fontStyle: FontStyle.italic)));
           }),
         ]));
   }
@@ -234,13 +230,11 @@ class _CoffeeTastingListItem extends StatelessWidget {
                   style: heading_6(),
                 ),
                 const SizedBox(height: 5),
-                Row(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                    Widget>[
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                   Expanded(
                       flex: 2,
                       child: Row(children: [
-                        Icon(CupertinoIcons.location_solid,
-                            size: 14, color: Colors.black),
+                        Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
                         Text(
                           '$origin',
                           style: caption(),
@@ -253,9 +247,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                           style: caption(),
                         )
                       ])),
-                  Expanded(
-                      flex: 1,
-                      child: _buildCoffeeRoastLevelLinearIndicator(roastLevel)),
+                  Expanded(flex: 1, child: _buildCoffeeRoastLevelLinearIndicator(roastLevel)),
                 ])
               ],
             ),
@@ -286,9 +278,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                     // TODO: Should this use ListView?
                     SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(
-                            children:
-                                notes.map((e) => displayNote(e)).toList())),
+                        child: Row(children: notes.map((e) => displayNote(e)).toList())),
                   ]),
                 )
               ],
@@ -300,15 +290,13 @@ class _CoffeeTastingListItem extends StatelessWidget {
             Row(children: [
               Expanded(
                   flex: 0,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        _buildScaCriteriaCaption('Acidity'),
-                        _buildScaCriteriaCaption('Aftertaste'),
-                        _buildScaCriteriaCaption('Body'),
-                        _buildScaCriteriaCaption('Flavor'),
-                        _buildScaCriteriaCaption('Fragrance/Aroma'),
-                      ])),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                    _buildScaCriteriaCaption('Acidity'),
+                    _buildScaCriteriaCaption('Aftertaste'),
+                    _buildScaCriteriaCaption('Body'),
+                    _buildScaCriteriaCaption('Flavor'),
+                    _buildScaCriteriaCaption('Fragrance/Aroma'),
+                  ])),
               const SizedBox(width: 5),
               Expanded(
                   child: Column(

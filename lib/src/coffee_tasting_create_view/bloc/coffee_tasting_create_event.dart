@@ -3,6 +3,36 @@ part of 'coffee_tasting_create_bloc.dart';
 @immutable
 abstract class CoffeeTastingCreateEvent {}
 
+class CoffeeNameEvent extends CoffeeTastingCreateEvent {
+  final String coffeeName;
+  CoffeeNameEvent({this.coffeeName});
+}
+
+class DescriptionEvent extends CoffeeTastingCreateEvent {
+  final String description;
+  DescriptionEvent({this.description});
+}
+
+class OriginEvent extends CoffeeTastingCreateEvent {
+  final String origin;
+  OriginEvent({this.origin});
+}
+
+class RoasterEvent extends CoffeeTastingCreateEvent {
+  final String roaster;
+  RoasterEvent({this.roaster});
+}
+
+class ProcessEvent extends CoffeeTastingCreateEvent {
+  final String process;
+  ProcessEvent({this.process});
+}
+
+class RoastLevelEvent extends CoffeeTastingCreateEvent {
+  final double roastLevel;
+  RoastLevelEvent({this.roastLevel});
+}
+
 class AcidityScoreEvent extends CoffeeTastingCreateEvent {
   final double acidityScore;
   AcidityScoreEvent({this.acidityScore});

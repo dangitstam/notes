@@ -31,7 +31,17 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   Stream<CoffeeTastingCreateState> mapEventToState(
     CoffeeTastingCreateEvent event,
   ) async* {
-    if (event is AcidityScoreEvent) {
+    if (event is CoffeeNameEvent) {
+      yield state.copyWith(coffeeName: event.coffeeName);
+    } else if (event is DescriptionEvent) {
+      yield state.copyWith(description: event.description);
+    } else if (event is OriginEvent) {
+      yield state.copyWith(origin: event.origin);
+    } else if (event is RoastLevelEvent) {
+      yield state.copyWith(roastLevel: event.roastLevel);
+    } else if (event is ProcessEvent) {
+      yield state.copyWith(process: event.process);
+    } else if (event is AcidityScoreEvent) {
       yield state.copyWith(acidityScore: event.acidityScore);
     } else if (event is AcidityIntensityEvent) {
       yield state.copyWith(acidityIntensity: event.acidityIntensity);

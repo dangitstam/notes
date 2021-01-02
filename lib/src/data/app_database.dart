@@ -60,15 +60,14 @@ Future<void> _createCoffeeTastingsTable(Database db) {
   ).then((_) async {
     // For development purposes, populate the database from the
     // coffee_tastings.json asset.
-    var coffee_tastings_string =
-        await rootBundle.loadString('assets/coffee_tastings.json');
+    var coffee_tastings_string = await rootBundle.loadString('assets/coffee_tastings.json');
 
     // Update stream so that the downstream list view is updated.
     List<dynamic> coffee_tastings = json.decode(coffee_tastings_string);
     var coffeeTastingBloc = CoffeeTastingBloc();
-    coffee_tastings.forEach((coffee_tasting) {
-      coffeeTastingBloc.insert(CoffeeTasting.fromAppDatabase(coffee_tasting));
-    });
+    for (var coffeeTasting in coffee_tastings) {
+      await coffeeTastingBloc.insert(CoffeeTasting.fromAppDatabase(coffeeTasting));
+    }
   });
 }
 
@@ -104,15 +103,12 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
     """,
   ).then((_) async {
     // For development purposes, populate the database from the notes.json asset.
-    var coffee_tasting_notes_string =
-        await rootBundle.loadString('assets/coffee_tastings_notes.json');
+    var coffee_tasting_notes_string = await rootBundle.loadString('assets/coffee_tastings_notes.json');
 
     // Update stream so that the downstream list view is updated.
-    var coffeeTastingDao =
-        CoffeeTastingNoteDao(database: AppDatabase.db.database);
+    var coffeeTastingDao = CoffeeTastingNoteDao(database: AppDatabase.db.database);
 
-    List<dynamic> coffee_tasting_notes =
-        json.decode(coffee_tasting_notes_string);
+    List<dynamic> coffee_tasting_notes = json.decode(coffee_tasting_notes_string);
     coffee_tasting_notes.forEach((coffee_tasting_note) {
       coffeeTastingDao.insert(coffee_tasting_note);
     });

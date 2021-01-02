@@ -34,8 +34,7 @@ class NoteBloc {
 
   // Stream: out.
   // Purpose: Stream that other pages subscribe to for notes.
-  Stream<List<Note>> get notes =>
-      _getNotesController.stream.asBroadcastStream();
+  Stream<List<Note>> get notes => _getNotesController.stream.asBroadcastStream();
 
   Future<int> insert(Note note) async {
     final noteId = await _noteDao.insert(note.toMap());
