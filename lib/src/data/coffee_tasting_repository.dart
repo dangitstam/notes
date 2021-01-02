@@ -12,48 +12,7 @@ class CoffeeTastingRepository {
 
   final CoffeeTastingNoteDao _coffeeTastingNotesDao = CoffeeTastingNoteDao(database: AppDatabase.db.database);
 
-  CoffeeTastingRepository() {
-    getCoffeeTastings(); // Retrieve all tastings on init.
-  }
-
-  // Controller: Page <- App Database.
-  final _getCoffeeTastingsController = StreamController<List<CoffeeTasting>>.broadcast();
-
-  // Stream: In
-  // Purpose: Update stream that pages subscribe to.
-  StreamSink<List<CoffeeTasting>> get _inCoffeeTastings => _getCoffeeTastingsController.sink;
-
-  void dispose() {
-    _getCoffeeTastingsController.close();
-  }
-
-  void getCoffeeTastings() async {
-    print('getCoffeeTastings');
-    // Retrieve all the coffee tastings from the database.
-    var coffeeTastings = await _coffeeTastingDao.getAllCoffeeTastings();
-
-    // Collect tasting notes for each coffee tasting.
-    for (var coffeeTasting in coffeeTastings) {
-      final notes = await _coffeeTastingNotesDao.getCoffeeTastingNotes(coffeeTasting.coffeeTastingId);
-      coffeeTasting.notes = notes;
-    }
-
-    // Update the coffee tastings output stream so subscribing pages can update.
-    _inCoffeeTastings.add(coffeeTastings);
-  }
-
-  /// Repository API
-
-  // Stream: out.
-  // Purpose: Stream that other pages subscribe to for coffee tastings.
-  Stream<List<CoffeeTasting>> get coffeeTastings => _getCoffeeTastingsController.stream;
-
-  Future<int> insert(CoffeeTasting coffeeTasting) async {
-    final coffeeTastingId = await _coffeeTastingDao.insert(coffeeTasting.toMap());
-
-    // Update output stream on every insertion.
-    getCoffeeTastings();
-
-    return coffeeTastingId;
+  Future<int> insert(CoffeeTasting coffeeTasting) {
+    return _coffeeTastingDao.insert(coffeeTasting.toMap());
   }
 }

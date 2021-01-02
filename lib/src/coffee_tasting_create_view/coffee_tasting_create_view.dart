@@ -87,7 +87,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                             label: 'Roaster',
                             hint: 'Who roasted this coffee?',
                             onChanged: (value) {
-                              context.watch<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                              context.read<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
                             },
                           ),
                           SizedBox(height: 10),
@@ -95,7 +95,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                             label: 'Coffee Name',
                             hint: 'What kind of coffee is this?',
                             onChanged: (value) {
-                              context.watch<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                              context.read<CoffeeTastingCreateBloc>().add(CoffeeNameEvent(coffeeName: value));
                             },
                           ),
                         ],
@@ -114,7 +114,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       isDense: true),
                   onChanged: (value) {
-                    context.watch<CoffeeTastingCreateBloc>().add(DescriptionEvent(description: value));
+                    context.read<CoffeeTastingCreateBloc>().add(DescriptionEvent(description: value));
                   },
                   style: body_1(),
                 ),
@@ -131,7 +131,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                           isDense: true,
                         ),
                         onChanged: (value) {
-                          context.watch<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
+                          context.read<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
                         },
                         style: body_1(),
                       ),
@@ -149,7 +149,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                         max: 10,
                         divisions: 10,
                         onChanged: (value) {
-                          context.watch<CoffeeTastingCreateBloc>().add(RoastLevelEvent(roastLevel: value));
+                          context.read<CoffeeTastingCreateBloc>().add(RoastLevelEvent(roastLevel: value));
                         },
                       ),
                     ),
@@ -167,7 +167,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                       color: Colors.black87,
                     ),
                     onChanged: (value) {
-                      context.watch<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
+                      context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
                     },
                     items: {
                       'Washed': Icon(CupertinoIcons.drop),

@@ -63,6 +63,8 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       yield state.copyWith(description: event.description);
     } else if (event is OriginEvent) {
       yield state.copyWith(origin: event.origin);
+    } else if (event is RoasterEvent) {
+      yield state.copyWith(roaster: event.roaster);
     } else if (event is RoastLevelEvent) {
       yield state.copyWith(roastLevel: event.roastLevel);
     } else if (event is ProcessEvent) {
