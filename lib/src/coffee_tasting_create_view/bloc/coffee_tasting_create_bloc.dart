@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
@@ -16,25 +18,28 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   final noteBloc = NoteBloc();
 
   CoffeeTastingCreateBloc()
-      : super(CoffeeTastingCreateState(
-          coffeeName: 'I AM A TEST STATE!',
-          description: '',
-          origin: '',
-          roaster: '',
-          process: 'Washed',
-          roastLevel: 7.0,
-          acidityScore: 7.0,
-          acidityIntensity: 7.0,
-          aftertasteScore: 7.0,
-          bodyScore: 7.0,
-          bodyLevel: 7.0,
-          flavorScore: 7.0,
-          fragranceScore: 7.0,
-          fragranceBreak: 7.0,
-          fragranceDry: 7.0,
-        ));
+      : super(
+          CoffeeTastingCreateState(
+            isCoffeeTastingInserted: false,
+            coffeeName: 'I AM A TEST STATE!',
+            description: '',
+            origin: '',
+            roaster: '',
+            process: 'Washed',
+            roastLevel: 7.0,
+            acidityScore: 7.0,
+            acidityIntensity: 7.0,
+            aftertasteScore: 7.0,
+            bodyScore: 7.0,
+            bodyLevel: 7.0,
+            flavorScore: 7.0,
+            fragranceScore: 7.0,
+            fragranceBreak: 7.0,
+            fragranceDry: 7.0,
+          ),
+        );
 
-  void insertCoffeeTasting() async {
+  Future<int> insertCoffeeTasting() async {
     final coffeeTastingId = await coffeeTastingRepository.insert(CoffeeTasting(
         coffeeName: state.coffeeName,
         description: state.description,
@@ -48,6 +53,8 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         body: state.bodyScore,
         flavor: state.flavorScore,
         fragrance: state.fragranceScore));
+
+    return coffeeTastingId;
   }
 
   @override
@@ -55,8 +62,9 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     CoffeeTastingCreateEvent event,
   ) async* {
     if (event is InsertCoffeeTastingEvent) {
-      // State is not altered, but rather a new tasting is created.
-      insertCoffeeTasting();
+      // Reflect in state whether the tasting was successfully inserted.
+      var coffeeTastingId = await insertCoffeeTasting();
+      yield state.copyWith(isCoffeeTastingInserted: coffeeTastingId > 0);
     } else if (event is CoffeeNameEvent) {
       yield state.copyWith(coffeeName: event.coffeeName);
     } else if (event is DescriptionEvent) {

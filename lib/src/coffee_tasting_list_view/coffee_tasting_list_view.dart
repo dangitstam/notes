@@ -86,7 +86,6 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
     return StreamBuilder(
       stream: BlocProvider.of<CoffeeTastingListBloc>(context).coffeeTastings,
       builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
-        print(snapshot);
         if (snapshot.connectionState == ConnectionState.active) {
           var coffeeTastings = snapshot.data;
           return ListView.separated(

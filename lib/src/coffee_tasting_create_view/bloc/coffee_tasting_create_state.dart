@@ -2,6 +2,7 @@ part of 'coffee_tasting_create_bloc.dart';
 
 @immutable
 class CoffeeTastingCreateState extends Equatable {
+  final bool isCoffeeTastingInserted;
   final String coffeeName;
   final String description;
   final String origin;
@@ -19,6 +20,7 @@ class CoffeeTastingCreateState extends Equatable {
   final double fragranceDry;
 
   CoffeeTastingCreateState({
+    this.isCoffeeTastingInserted,
     this.coffeeName,
     this.description,
     this.origin,
@@ -37,6 +39,7 @@ class CoffeeTastingCreateState extends Equatable {
   });
 
   CoffeeTastingCreateState copyWith({
+    bool isCoffeeTastingInserted,
     String coffeeName,
     String description,
     String origin,
@@ -54,6 +57,7 @@ class CoffeeTastingCreateState extends Equatable {
     double fragranceDry,
   }) {
     return CoffeeTastingCreateState(
+      isCoffeeTastingInserted: isCoffeeTastingInserted ?? this.isCoffeeTastingInserted,
       coffeeName: coffeeName ?? this.coffeeName,
       description: description ?? this.description,
       origin: origin ?? this.origin,
@@ -74,6 +78,7 @@ class CoffeeTastingCreateState extends Equatable {
 
   @override
   List<Object> get props => [
+        isCoffeeTastingInserted,
         coffeeName,
         description,
         origin,
