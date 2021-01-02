@@ -3,11 +3,18 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
+import 'package:notes/src/data/coffee_tasting_repository.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/notes_repository.dart';
 
 part 'coffee_tasting_create_event.dart';
 part 'coffee_tasting_create_state.dart';
 
 class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTastingCreateState> {
+  final coffeeTastingRepository = CoffeeTastingRepository();
+
+  final noteBloc = NoteBloc();
+
   CoffeeTastingCreateBloc()
       : super(CoffeeTastingCreateState(
           coffeeName: 'I AM A TEST STATE!',
@@ -27,11 +34,30 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
           fragranceDry: 7.0,
         ));
 
+  void insertCoffeeTasting() async {
+    final coffeeTastingId = await coffeeTastingRepository.insert(CoffeeTasting(
+        coffeeName: state.coffeeName,
+        description: state.description,
+        origin: state.origin,
+        process: state.process,
+        roaster: state.roaster,
+        // TODO: Where should the normalization take place?
+        roastLevel: state.roastLevel / 10,
+        acidity: state.acidityScore,
+        aftertaste: state.aftertasteScore,
+        body: state.bodyScore,
+        flavor: state.flavorScore,
+        fragrance: state.fragranceScore));
+  }
+
   @override
   Stream<CoffeeTastingCreateState> mapEventToState(
     CoffeeTastingCreateEvent event,
   ) async* {
-    if (event is CoffeeNameEvent) {
+    if (event is InsertCoffeeTastingEvent) {
+      // State is not altered, but rather a new tasting is created.
+      insertCoffeeTasting();
+    } else if (event is CoffeeNameEvent) {
       yield state.copyWith(coffeeName: event.coffeeName);
     } else if (event is DescriptionEvent) {
       yield state.copyWith(description: event.description);

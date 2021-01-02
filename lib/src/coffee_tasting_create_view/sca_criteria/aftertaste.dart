@@ -29,7 +29,7 @@ class AftertasteWidget extends StatelessWidget {
                         max: 10,
                         divisions: 10,
                         onChanged: (value) {
-                          context.watch<CoffeeTastingCreateBloc>().add(AftertasteScoreEvent(aftertasteScore: value));
+                          context.read<CoffeeTastingCreateBloc>().add(AftertasteScoreEvent(aftertasteScore: value));
                         },
                       ),
                     ),

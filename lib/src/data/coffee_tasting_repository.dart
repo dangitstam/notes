@@ -7,12 +7,12 @@ import 'package:notes/src/data/dao/coffee_tasting_dao.dart';
 
 import 'dao/coffee_tasting_note_dao.dart';
 
-class CoffeeTastingBloc {
+class CoffeeTastingRepository {
   final CoffeeTastingDao _coffeeTastingDao = CoffeeTastingDao(database: AppDatabase.db.database);
 
   final CoffeeTastingNoteDao _coffeeTastingNotesDao = CoffeeTastingNoteDao(database: AppDatabase.db.database);
 
-  CoffeeTastingBloc() {
+  CoffeeTastingRepository() {
     getCoffeeTastings(); // Retrieve all tastings on init.
   }
 

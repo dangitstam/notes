@@ -18,27 +18,7 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
 
 class CoffeeTastingCreateViewWidget extends StatelessWidget {
-  final coffeeTastingBloc = CoffeeTastingBloc();
-
   final noteBloc = NoteBloc();
-
-  // TODO: This should be in the new bloc.
-  void insertCoffeeTasting(BuildContext context) async {
-    final state = context.watch<CoffeeTastingCreateBloc>().state;
-    final coffeeTastingId = await coffeeTastingBloc.insert(CoffeeTasting(
-        coffeeName: state.coffeeName,
-        description: state.description,
-        origin: state.origin,
-        process: state.process,
-        roaster: state.roaster,
-        // TODO: Where should the normalization take place?
-        roastLevel: state.roastLevel / 10,
-        acidity: state.acidityScore,
-        aftertaste: state.aftertasteScore,
-        body: state.bodyScore,
-        flavor: state.flavorScore,
-        fragrance: state.fragranceScore));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +49,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                   child: Text('Create', style: body_1(color: Colors.white)),
                   onPressed: () {
                     // Updaate app database with new tasting.
-                    insertCoffeeTasting(context);
+                    context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
 
                     // Navigate to the second screen using a named route.
                     Navigator.pushReplacementNamed(context, '/');

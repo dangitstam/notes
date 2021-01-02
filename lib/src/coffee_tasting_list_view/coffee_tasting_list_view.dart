@@ -72,7 +72,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
 class CoffeeTastingListViewWidget extends StatelessWidget {
   CoffeeTastingListViewWidget({Key key}) : super(key: key);
 
-  final coffeeTastingBloc = CoffeeTastingBloc();
+  final coffeeTastingBloc = CoffeeTastingRepository();
 
   @override
   Widget build(BuildContext context) {

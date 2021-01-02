@@ -30,7 +30,7 @@ class FragranceWidget extends StatelessWidget {
                       max: 10,
                       divisions: 10,
                       onChanged: (value) {
-                        context.watch<CoffeeTastingCreateBloc>().add(FragranceScoreEvent(fragranceScore: value));
+                        context.read<CoffeeTastingCreateBloc>().add(FragranceScoreEvent(fragranceScore: value));
                       },
                     ),
                   ),
@@ -51,9 +51,7 @@ class FragranceWidget extends StatelessWidget {
                               max: 10,
                               divisions: 10,
                               onChanged: (value) {
-                                context
-                                    .watch<CoffeeTastingCreateBloc>()
-                                    .add(FragranceBreakEvent(fragranceBreak: value));
+                                context.read<CoffeeTastingCreateBloc>().add(FragranceBreakEvent(fragranceBreak: value));
                               },
                             ),
                           ),

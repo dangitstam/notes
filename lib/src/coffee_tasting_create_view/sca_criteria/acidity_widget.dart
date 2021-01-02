@@ -29,7 +29,7 @@ class AcidityWidget extends StatelessWidget {
                       max: 10,
                       divisions: 10,
                       onChanged: (value) {
-                        context.watch<CoffeeTastingCreateBloc>().add(AcidityScoreEvent(acidityScore: value));
+                        context.read<CoffeeTastingCreateBloc>().add(AcidityScoreEvent(acidityScore: value));
                       },
                     ),
                   ),

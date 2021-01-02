@@ -64,7 +64,7 @@ Future<void> _createCoffeeTastingsTable(Database db) {
 
     // Update stream so that the downstream list view is updated.
     List<dynamic> coffee_tastings = json.decode(coffee_tastings_string);
-    var coffeeTastingBloc = CoffeeTastingBloc();
+    var coffeeTastingBloc = CoffeeTastingRepository();
     for (var coffeeTasting in coffee_tastings) {
       await coffeeTastingBloc.insert(CoffeeTasting.fromAppDatabase(coffeeTasting));
     }

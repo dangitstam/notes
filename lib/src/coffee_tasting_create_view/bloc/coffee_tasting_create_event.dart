@@ -3,6 +3,8 @@ part of 'coffee_tasting_create_bloc.dart';
 @immutable
 abstract class CoffeeTastingCreateEvent {}
 
+class InsertCoffeeTastingEvent extends CoffeeTastingCreateEvent {}
+
 class CoffeeNameEvent extends CoffeeTastingCreateEvent {
   final String coffeeName;
   CoffeeNameEvent({this.coffeeName});
