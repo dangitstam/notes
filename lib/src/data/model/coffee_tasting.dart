@@ -1,4 +1,3 @@
-import 'dart:convert' show json;
 import 'package:notes/src/data/model/note.dart';
 
 class CoffeeTasting {

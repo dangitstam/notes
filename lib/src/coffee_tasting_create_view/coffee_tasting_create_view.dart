@@ -2,13 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/data/notes_repository.dart';
+import 'package:notes/src/data/note_repository.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
 
-import '../data/coffee_tasting_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget.dart';
@@ -18,7 +16,7 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
 
 class CoffeeTastingCreateViewWidget extends StatelessWidget {
-  final noteBloc = NoteBloc();
+  final noteBloc = NoteRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +194,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
               Divider(),
               SizedBox(height: 10),
               StreamBuilder(
-                stream: noteBloc.notes,
+                stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
                 builder: (context, AsyncSnapshot<List<Note>> snapshot) {
                   var notes = snapshot.data;
                   if (notes != null) {

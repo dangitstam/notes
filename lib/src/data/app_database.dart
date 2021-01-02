@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/data/notes_repository.dart';
+import 'package:notes/src/data/note_repository.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -85,9 +85,9 @@ Future<void> _createNotesTable(Database db) {
     // For development purposes, populate the database from the notes.json asset.
     var note_string = await rootBundle.loadString('assets/notes.json');
     List<dynamic> notes = json.decode(note_string);
-    var notesBloc = NoteBloc();
+    var noteRepository = NoteRepository();
     notes.forEach((note) {
-      notesBloc.insert(Note.fromAppDatabase(note));
+      noteRepository.insert(Note.fromAppDatabase(note));
     });
   });
 }

@@ -7,7 +7,8 @@ import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
-import 'package:notes/src/data/notes_repository.dart';
+import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/note_repository.dart';
 
 part 'coffee_tasting_create_event.dart';
 part 'coffee_tasting_create_state.dart';
@@ -15,7 +16,7 @@ part 'coffee_tasting_create_state.dart';
 class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTastingCreateState> {
   final coffeeTastingRepository = CoffeeTastingRepository();
 
-  final noteBloc = NoteBloc();
+  final noteRepository = NoteRepository();
 
   CoffeeTastingCreateBloc()
       : super(
@@ -37,7 +38,10 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
             fragranceBreak: 7.0,
             fragranceDry: 7.0,
           ),
-        );
+        ) {
+    // Initialize the stream of notes.
+    getNotes();
+  }
 
   Future<int> insertCoffeeTasting() async {
     final coffeeTastingId = await coffeeTastingRepository.insert(CoffeeTasting(
@@ -55,6 +59,40 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         fragrance: state.fragranceScore));
 
     return coffeeTastingId;
+  }
+
+  // Controller: Page <- App Database.
+  final _getNotesController = StreamController<List<Note>>.broadcast();
+
+  // Stream: In
+  // Purpose: Update stream that pages subscribe to.
+  StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
+
+  void dispose() {
+    _getNotesController.close();
+  }
+
+  void getNotes() async {
+    // Retrieve all the notes from the database.
+    var notes = await noteRepository.getAllNotes();
+
+    // Update the notes output stream so subscribing pages can update.
+    _inNotes.add(notes);
+  }
+
+  /// Repository API
+
+  // Stream: out.
+  // Purpose: Stream that other pages subscribe to for notes.
+  Stream<List<Note>> get notes => _getNotesController.stream.asBroadcastStream();
+
+  Future<int> insert(Note note) async {
+    final noteId = await noteRepository.insert(note);
+
+    // Update output stream on every insertion.
+    getNotes();
+
+    return noteId;
   }
 
   @override
