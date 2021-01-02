@@ -29,7 +29,7 @@ class FlavorWidget extends StatelessWidget {
                         max: 10,
                         divisions: 10,
                         onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(FlavorScoreEvent(flavorScore: value));
+                          context.watch<CoffeeTastingCreateBloc>().add(FlavorScoreEvent(flavorScore: value));
                         },
                       ),
                     ),

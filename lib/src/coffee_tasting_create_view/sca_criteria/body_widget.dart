@@ -29,7 +29,7 @@ class BodyWidget extends StatelessWidget {
                       max: 10,
                       divisions: 10,
                       onChanged: (value) {
-                        context.read<CoffeeTastingCreateBloc>().add(BodyScoreEvent(bodyScore: value));
+                        context.watch<CoffeeTastingCreateBloc>().add(BodyScoreEvent(bodyScore: value));
                       },
                     ),
                   ),
@@ -50,9 +50,7 @@ class BodyWidget extends StatelessWidget {
                               max: 10,
                               divisions: 10,
                               onChanged: (value) {
-                                context
-                                    .read<CoffeeTastingCreateBloc>()
-                                    .add(BodyLevelEvent(bodyLevel: value));
+                                context.watch<CoffeeTastingCreateBloc>().add(BodyLevelEvent(bodyLevel: value));
                               },
                             ),
                           ),
