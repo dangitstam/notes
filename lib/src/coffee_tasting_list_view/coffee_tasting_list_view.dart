@@ -220,8 +220,9 @@ class _CoffeeTastingListItem extends StatelessWidget {
               // the entire bar at any point.
               var leftPadding = max(constrains.maxWidth * scaledValue - 20, 0.0);
               return Padding(
-                  padding: EdgeInsets.only(left: leftPadding),
-                  child: Text('$formattedValue', style: caption(color: Colors.white, fontStyle: FontStyle.italic)));
+                padding: EdgeInsets.only(left: leftPadding),
+                child: Text('$formattedValue', style: caption(color: Colors.white, fontStyle: FontStyle.italic)),
+              );
             },
           ),
         ],
