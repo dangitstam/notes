@@ -11,7 +11,7 @@ part 'coffee_tasting_list_state.dart';
 class CoffeeTastingListBloc extends Bloc<CoffeeTastingListEvent, CoffeeTastingListState> {
   CoffeeTastingListBloc() : super(CoffeeTastingListInitial()) {
     // Initialize the stream of past coffee tastings.
-    getCoffeeTastings();
+    refreshCoffeeTastingsStream();
   }
 
   final coffeeTastingRepository = CoffeeTastingRepository();
@@ -27,7 +27,7 @@ class CoffeeTastingListBloc extends Bloc<CoffeeTastingListEvent, CoffeeTastingLi
     //
     // State should reflect which filters, sorts, and searches are being placed.
     if (event is InitCoffeeTastingList) {
-      getCoffeeTastings();
+      refreshCoffeeTastingsStream();
       yield CoffeeTastingListInitial();
     }
   }
@@ -39,7 +39,7 @@ class CoffeeTastingListBloc extends Bloc<CoffeeTastingListEvent, CoffeeTastingLi
   // Purpose: Update stream that pages subscribe to.
   StreamSink<List<CoffeeTasting>> get _inCoffeeTastings => _getCoffeeTastingsController.sink;
 
-  void getCoffeeTastings() async {
+  void refreshCoffeeTastingsStream() async {
     // Retrieve all the coffee tastings from the database.
     var coffeeTastings = await coffeeTastingRepository.getCoffeeTastings();
 

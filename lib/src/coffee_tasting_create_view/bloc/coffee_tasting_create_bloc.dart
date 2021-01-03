@@ -40,7 +40,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
           ),
         ) {
     // Initialize the stream of notes.
-    getNotes();
+    refreshNotesStream();
   }
 
   Future<int> insertCoffeeTasting() async {
@@ -68,7 +68,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   // Purpose: Update stream that pages subscribe to.
   StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
 
-  void getNotes() async {
+  void refreshNotesStream() async {
     // Retrieve all the notes from the database.
     var notes = await noteRepository.getAllNotes();
 
@@ -86,7 +86,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     final noteId = await noteRepository.insert(note);
 
     // Update output stream on every insertion.
-    getNotes();
+    refreshNotesStream();
 
     return noteId;
   }
