@@ -22,7 +22,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       : super(
           CoffeeTastingCreateState(
             isCoffeeTastingInserted: false,
-            coffeeName: 'I AM A TEST STATE!',
+            coffeeName: '', // TODO: Require some fields in the create view.
             description: '',
             origin: '',
             roaster: '',
