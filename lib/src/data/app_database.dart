@@ -61,12 +61,11 @@ Future<void> _createCoffeeTastingsTable(Database db) {
     // For development purposes, populate the database from the
     // coffee_tastings.json asset.
     var coffeeTastingsString = await rootBundle.loadString('assets/coffee_tastings.json');
-
-    // Update stream so that the downstream list view is updated.
     List<dynamic> coffeeTastings = json.decode(coffeeTastingsString);
-    var coffeeTastingBloc = CoffeeTastingRepository();
+
+    var coffeeTastingRepository = CoffeeTastingRepository();
     for (var coffeeTasting in coffeeTastings) {
-      await coffeeTastingBloc.insert(CoffeeTasting.fromAppDatabase(coffeeTasting));
+      await coffeeTastingRepository.insert(CoffeeTasting.fromAppDatabase(coffeeTasting));
     }
   });
 }
