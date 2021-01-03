@@ -135,7 +135,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                 Text('Roast Level', style: subtitle_1()),
                 Expanded(
                   flex: 1,
-                  child: blackSliderTheme(
+                  child: BlackSliderTheme(
                     Slider(
                       value: context.watch<CoffeeTastingCreateBloc>().state.roastLevel,
                       min: 0,
@@ -194,7 +194,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: notes.map((e) => displayNote(e)).toList(),
+                        children: notes.map((e) => TastingNote(e)).toList(),
                       ),
                     );
                   } else {

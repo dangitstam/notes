@@ -304,7 +304,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                     // TODO: Should this use ListView?
                     SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(children: notes.map((e) => displayNote(e)).toList())),
+                        child: Row(children: notes.map((e) => TastingNote(e)).toList())),
                   ],
                 ),
               )
