@@ -8,13 +8,10 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.da
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
 import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/data/note_repository.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
 
 class CoffeeTastingCreateViewWidget extends StatelessWidget {
-  final noteBloc = NoteRepository();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
