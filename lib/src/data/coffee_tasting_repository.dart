@@ -1,9 +1,8 @@
-import 'package:notes/src/data/app_database.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
-
 import 'dart:async';
 
+import 'package:notes/src/data/app_database.dart';
 import 'package:notes/src/data/dao/coffee_tasting_dao.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
 
 import 'dao/coffee_tasting_note_dao.dart';
 

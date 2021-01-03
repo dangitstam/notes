@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notes/src/styles/typography.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/styles/typography.dart';
 
 import '../../util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';

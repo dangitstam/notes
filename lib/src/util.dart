@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notes/src/styles/typography.dart';
-
 import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/styles/typography.dart';
 
 class EditableTextWithCaptionWidget extends StatelessWidget {
   final String label;

@@ -1,14 +1,13 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
-import 'package:notes/src/data/coffee_tasting_repository.dart';
-import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/styles/typography.dart';
 import 'dart:math' show max;
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
+import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
 
 // TODO: Abstract into its own file.

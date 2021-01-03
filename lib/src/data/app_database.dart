@@ -1,12 +1,12 @@
+import 'dart:convert' show json;
+
 import 'package:flutter/services.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/note_repository.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'dart:convert' show json;
 
 import 'dao/coffee_tasting_note_dao.dart';
 
