@@ -39,10 +39,6 @@ class CoffeeTastingListBloc extends Bloc<CoffeeTastingListEvent, CoffeeTastingLi
   // Purpose: Update stream that pages subscribe to.
   StreamSink<List<CoffeeTasting>> get _inCoffeeTastings => _getCoffeeTastingsController.sink;
 
-  void dispose() {
-    _getCoffeeTastingsController.close();
-  }
-
   void getCoffeeTastings() async {
     // Retrieve all the coffee tastings from the database.
     var coffeeTastings = await coffeeTastingRepository.getCoffeeTastings();
@@ -54,4 +50,10 @@ class CoffeeTastingListBloc extends Bloc<CoffeeTastingListEvent, CoffeeTastingLi
   // Stream: out.
   // Purpose: Stream that other pages subscribe to for coffee tastings.
   Stream<List<CoffeeTasting>> get coffeeTastings => _getCoffeeTastingsController.stream;
+
+  @override
+  Future<void> close() {
+    _getCoffeeTastingsController.close();
+    return super.close();
+  }
 }

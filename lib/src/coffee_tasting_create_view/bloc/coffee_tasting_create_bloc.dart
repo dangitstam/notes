@@ -68,10 +68,6 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   // Purpose: Update stream that pages subscribe to.
   StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
 
-  void dispose() {
-    _getNotesController.close();
-  }
-
   void getNotes() async {
     // Retrieve all the notes from the database.
     var notes = await noteRepository.getAllNotes();
@@ -134,5 +130,12 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     } else if (event is FragranceDryEvent) {
       yield state.copyWith(fragranceDry: event.fragranceDry);
     }
+  }
+
+  @override
+  Future<void> close() {
+    _getNotesController.close();
+
+    return super.close();
   }
 }
