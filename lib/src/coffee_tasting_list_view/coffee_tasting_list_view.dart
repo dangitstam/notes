@@ -61,7 +61,6 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: GestureDetector(
                     onTap: () {
-                      // Navigate to the second screen using a named route.
                       Navigator.pushNamed(context, '/create');
                     },
                     child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),

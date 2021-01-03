@@ -25,26 +25,25 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            // Navigate to the second screen using a named route.
             Navigator.pop(context);
           },
-          child: Icon(CupertinoIcons.xmark, color: Colors.black // add custom icons also
-              ),
+          child: Icon(CupertinoIcons.xmark, color: Colors.black),
         ),
         actions: [
           Padding(
-              padding: EdgeInsets.all(10.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: FlatButton(
-                  color: Colors.black,
-                  child: Text('Create', style: body_1(color: Colors.white)),
-                  onPressed: () {
-                    // Updaate app database with new tasting.
-                    context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
-                  },
-                ),
-              ))
+            padding: EdgeInsets.all(10.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: FlatButton(
+                color: Colors.black,
+                child: Text('Create', style: body_1(color: Colors.white)),
+                onPressed: () {
+                  // Updaate app database with new tasting.
+                  context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
+                },
+              ),
+            ),
+          )
         ],
       ),
       body: BlocListener<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
