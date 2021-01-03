@@ -31,11 +31,11 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
+  bloc:
+  equatable:
+  flutter_bloc:
   flutter_test:
     sdk: flutter
-  bloc:
-  flutter_bloc:
-  equatable:
   pedantic: ^1.9.0
 
 # For information on the generic Dart part of this file, see the
@@ -51,8 +51,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/coffee_tastings.json
     - assets/notes.json
+    - assets/coffee_tastings.json
     - assets/coffee_tastings_notes.json
     - assets/images/coffee.jpg
 
