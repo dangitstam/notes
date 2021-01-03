@@ -77,7 +77,7 @@ class FragranceWidget extends StatelessWidget {
                               max: 10,
                               divisions: 10,
                               onChanged: (value) {
-                                context.watch<CoffeeTastingCreateBloc>().add(FragranceDryEvent(fragranceDry: value));
+                                context.read<CoffeeTastingCreateBloc>().add(FragranceDryEvent(fragranceDry: value));
                               },
                             ),
                           ),
