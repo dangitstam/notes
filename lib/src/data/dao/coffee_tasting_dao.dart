@@ -1,7 +1,4 @@
-import 'package:flutter/services.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
-import 'package:notes/src/data/coffee_tasting_repository.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CoffeeTastingDao {

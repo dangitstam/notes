@@ -1,4 +1,3 @@
-import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/coffee_tasting_note.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:sqflite/sqflite.dart';
