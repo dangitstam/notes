@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
+import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aftertaste.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.dart';
@@ -186,6 +187,16 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 10),
+              Text('Select Notes', style: subtitle_1()),
+              SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                      context.watch<CoffeeTastingCreateBloc>().state.notes.map((e) => RemoveTastingNote(e)).toList(),
+                ),
+              ),
+              SizedBox(height: 10),
               StreamBuilder(
                 stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
                 builder: (context, AsyncSnapshot<List<Note>> snapshot) {
@@ -194,11 +205,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: notes.map(
-                          (e) {
-                            return TastingNote(e, changeTintOnTap: true);
-                          },
-                        ).toList(),
+                        children: notes.map((e) => AddTastingNote(e)).toList(),
                       ),
                     );
                   } else {
@@ -206,6 +213,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                   }
                 },
               ),
+              SizedBox(height: 10),
               Divider(),
               SizedBox(height: 10),
               AcidityWidget(),

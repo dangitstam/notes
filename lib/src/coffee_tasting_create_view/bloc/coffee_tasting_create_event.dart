@@ -5,6 +5,16 @@ abstract class CoffeeTastingCreateEvent {}
 
 class InsertCoffeeTastingEvent extends CoffeeTastingCreateEvent {}
 
+class AddCoffeeTastingNoteEvent extends CoffeeTastingCreateEvent {
+  final Note note;
+  AddCoffeeTastingNoteEvent({this.note});
+}
+
+class RemoveCoffeeTastingNoteEvent extends CoffeeTastingCreateEvent {
+  final Note note;
+  RemoveCoffeeTastingNoteEvent({this.note});
+}
+
 class CoffeeNameEvent extends CoffeeTastingCreateEvent {
   final String coffeeName;
   CoffeeNameEvent({this.coffeeName});

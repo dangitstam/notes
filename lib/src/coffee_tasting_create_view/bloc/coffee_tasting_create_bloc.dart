@@ -37,6 +37,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
             fragranceScore: 7.0,
             fragranceBreak: 7.0,
             fragranceDry: 7.0,
+            notes: <Note>[],
           ),
         ) {
     // Initialize the stream of notes.
@@ -97,6 +98,20 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       // Reflect in state whether the tasting was successfully inserted.
       var coffeeTastingId = await insertCoffeeTasting();
       yield state.copyWith(isCoffeeTastingInserted: coffeeTastingId > 0);
+    } else if (event is AddCoffeeTastingNoteEvent) {
+      // List<Note>.from makes a mutable copy of an immutable list.
+      var newNotes = List<Note>.from(state.notes);
+      newNotes.add(event.note);
+      print(newNotes);
+
+      yield state.copyWith(notes: newNotes, coffeeName: event.note.name);
+    } else if (event is RemoveCoffeeTastingNoteEvent) {
+      print('hello');
+      print('removing note: ${event.note.name}');
+      var newNotes = List<Note>.from(state.notes);
+      newNotes.remove(event.note);
+      print(newNotes);
+      yield state.copyWith(notes: newNotes);
     } else if (event is CoffeeNameEvent) {
       yield state.copyWith(coffeeName: event.coffeeName);
     } else if (event is DescriptionEvent) {

@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Note {
+class Note extends Equatable {
   final int id;
-  String name;
-  String color;
+  final String name;
+  final String color;
 
   Note({this.id, this.name, this.color});
 
@@ -36,4 +37,8 @@ class Note {
   String toString() {
     return '$name';
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id, name, color];
 }
