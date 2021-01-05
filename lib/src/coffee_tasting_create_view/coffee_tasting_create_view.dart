@@ -194,7 +194,11 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: notes.map((e) => TastingNote(e)).toList(),
+                        children: notes.map(
+                          (e) {
+                            return TastingNote(e, changeTintOnTap: true);
+                          },
+                        ).toList(),
                       ),
                     );
                   } else {

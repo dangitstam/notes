@@ -29,18 +29,41 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
 
 /// Given a tasting note, creates a widget containing the note name
 /// filled with the note's color.
-class TastingNote extends StatelessWidget {
+///
+/// Optionally allows lightening color on tap.
+class TastingNote extends StatefulWidget {
   final Note note;
+  final bool changeTintOnTap;
 
-  TastingNote(this.note);
+  bool flip = false;
+
+  TastingNote(this.note, {this.changeTintOnTap = false});
+
+  @override
+  _TastingNoteState createState() => _TastingNoteState();
+}
+
+class _TastingNoteState extends State<TastingNote> {
+  bool _active = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('${note.name}', style: caption(color: Colors.white)),
-      margin: const EdgeInsets.only(right: 5.0),
-      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6.0)), color: note.fromHex()),
-      padding: EdgeInsets.all(7.0),
+    return GestureDetector(
+      onTap: () {
+        if (widget.changeTintOnTap) {
+          setState(() {
+            _active = !_active;
+          });
+        }
+      },
+      child: Container(
+        child: Text('${widget.note.name}', style: caption(color: Colors.white)),
+        margin: const EdgeInsets.only(right: 5.0),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+            color: _active ? widget.note.fromHex().withOpacity(0.7) : widget.note.fromHex()),
+        padding: EdgeInsets.all(7.0),
+      ),
     );
   }
 }
