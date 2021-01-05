@@ -109,15 +109,10 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       // List<Note>.from makes a mutable copy of an immutable list.
       var newNotes = List<Note>.from(state.notes);
       newNotes.add(event.note);
-      print(newNotes);
-
-      yield state.copyWith(notes: newNotes, coffeeName: event.note.name);
+      yield state.copyWith(notes: newNotes);
     } else if (event is RemoveCoffeeTastingNoteEvent) {
-      print('hello');
-      print('removing note: ${event.note.name}');
       var newNotes = List<Note>.from(state.notes);
       newNotes.remove(event.note);
-      print(newNotes);
       yield state.copyWith(notes: newNotes);
     } else if (event is CoffeeNameEvent) {
       yield state.copyWith(coffeeName: event.coffeeName);
