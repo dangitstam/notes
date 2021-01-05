@@ -189,12 +189,11 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
               SizedBox(height: 10),
               Text('Select Notes', style: subtitle_1()),
               SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                      context.watch<CoffeeTastingCreateBloc>().state.notes.map((e) => RemoveTastingNote(e)).toList(),
-                ),
+              Wrap(
+                direction: Axis.horizontal,
+                spacing: 5,
+                children:
+                    context.watch<CoffeeTastingCreateBloc>().state.notes.map((e) => RemoveTastingNote(e)).toList(),
               ),
               SizedBox(height: 10),
               StreamBuilder(
@@ -202,11 +201,9 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                 builder: (context, AsyncSnapshot<List<Note>> snapshot) {
                   var notes = snapshot.data;
                   if (notes != null) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: notes.map((e) => AddTastingNote(e)).toList(),
-                      ),
+                    return Wrap(
+                      spacing: 5,
+                      children: notes.map((e) => AddTastingNote(e)).toList(),
                     );
                   } else {
                     return Container(width: 0, height: 0);

@@ -291,7 +291,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Column(
                   children: <Widget>[
                     Text(
@@ -300,9 +300,12 @@ class _CoffeeTastingListItem extends StatelessWidget {
                     ),
                     SizedBox(height: 5),
                     // TODO: Should this use ListView?
-                    SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(children: notes.map((e) => TastingNote(e)).toList())),
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      direction: Axis.horizontal,
+                      spacing: 5,
+                      children: notes.map((e) => TastingNote(e)).toList(),
+                    ),
                   ],
                 ),
               )

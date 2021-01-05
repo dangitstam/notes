@@ -36,14 +36,17 @@ class TastingNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('${note.name}', style: caption(color: Colors.white)),
-      margin: const EdgeInsets.only(right: 5.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(6.0)),
-        color: note.fromHex(),
+    return Chip(
+      label: Text(
+        '${note.name}',
+        style: caption(color: Colors.white),
       ),
-      padding: EdgeInsets.all(7.0),
+      backgroundColor: note.fromHex(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
     );
   }
 }

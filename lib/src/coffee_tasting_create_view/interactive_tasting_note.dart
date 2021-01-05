@@ -25,20 +25,22 @@ class _AddTastingNoteState extends State<AddTastingNote> {
           _enabled = true;
         }
       },
-      child: GestureDetector(
-        onTap: _enabled
+      child: ActionChip(
+        onPressed: _enabled
             ? () {
                 context.read<CoffeeTastingCreateBloc>().add(AddCoffeeTastingNoteEvent(note: widget.note));
                 _enabled = false;
               }
-            : null,
-        child: Container(
-          child: Text('${widget.note.name}', style: caption(color: Colors.white)),
-          margin: const EdgeInsets.only(right: 5.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-              color: _enabled ? widget.note.fromHex() : widget.note.fromHex().withOpacity(0.7)),
-          padding: EdgeInsets.all(7.0),
+            : () {},
+        label: Text(
+          '${widget.note.name}',
+          style: caption(color: Colors.white),
+        ),
+        backgroundColor: _enabled ? widget.note.fromHex() : widget.note.fromHex().withOpacity(0.6),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
         ),
       ),
     );
@@ -53,27 +55,25 @@ class RemoveTastingNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
       builder: (context, state) {
-        return GestureDetector(
-          onTap: () {
-            context.read<CoffeeTastingCreateBloc>().add(
-                  RemoveCoffeeTastingNoteEvent(note: note),
-                );
+        // onDeleted target is only the delete icon. Allow tapping anywhere on the chip for deletion.
+        return ActionChip(
+          onPressed: () {
+            context.read<CoffeeTastingCreateBloc>().add(RemoveCoffeeTastingNoteEvent(note: note));
           },
-          child: Container(
-            child: Row(
-              children: [
-                Icon(
-                  CupertinoIcons.xmark,
-                  color: Colors.white,
-                  size: 10,
-                ),
-                SizedBox(width: 5),
-                Text('${note.name}', style: caption(color: Colors.white)),
-              ],
+          avatar: Icon(
+            CupertinoIcons.xmark,
+            color: Colors.white,
+            size: 10,
+          ),
+          label: Text(
+            '${note.name}',
+            style: caption(color: Colors.white),
+          ),
+          backgroundColor: note.fromHex(),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
             ),
-            margin: const EdgeInsets.only(right: 5.0),
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(6.0)), color: note.fromHex()),
-            padding: EdgeInsets.all(7.0),
           ),
         );
       },
