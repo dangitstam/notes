@@ -13,6 +13,7 @@ class Note extends Equatable {
   /// from the `coffee_tastings` table, maps the result to a CoffeeTasting.
   factory Note.fromAppDatabase(Map<String, dynamic> noteMap) {
     return Note(
+      id: noteMap['note_id'],
       name: noteMap['name'],
       color: noteMap['color'],
     );
@@ -22,6 +23,7 @@ class Note extends Equatable {
   /// Invariant: `notes` is stored as a serialized list of strings.
   Map<String, dynamic> toMap() {
     return {
+      'note_id': id,
       'name': name,
       'color': color,
     };

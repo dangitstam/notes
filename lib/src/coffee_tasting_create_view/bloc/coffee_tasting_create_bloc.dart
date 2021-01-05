@@ -59,6 +59,13 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         flavor: state.flavorScore,
         fragrance: state.fragranceScore));
 
+    for (var note in state.notes) {
+      var coffeeTastingNoteId = await noteRepository.insertNoteForCoffeeTasting(note.id, coffeeTastingId);
+      if (coffeeTastingNoteId < 0) {
+        // TODO: Logging
+      }
+    }
+
     return coffeeTastingId;
   }
 
