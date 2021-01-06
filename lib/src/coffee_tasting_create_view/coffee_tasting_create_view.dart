@@ -15,6 +15,8 @@ import 'package:notes/src/util.dart';
 class CoffeeTastingCreateViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var selectedTastingNotes = context.watch<CoffeeTastingCreateBloc>().state.notes;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -190,12 +192,18 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
               Text('Select Notes', style: subtitle_1()),
               SizedBox(height: 10),
               Wrap(
+                alignment: WrapAlignment.center,
                 direction: Axis.horizontal,
                 spacing: 5,
-                children:
-                    context.watch<CoffeeTastingCreateBloc>().state.notes.map((e) => RemoveTastingNote(e)).toList(),
+                children: selectedTastingNotes.map((e) => RemoveTastingNote(e)).toList(),
               ),
-              SizedBox(height: 10),
+              selectedTastingNotes.isNotEmpty
+                  ? Divider(
+                      height: 20,
+                      indent: 60,
+                      endIndent: 60,
+                    )
+                  : SizedBox(height: 10),
               StreamBuilder(
                 stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
                 builder: (context, AsyncSnapshot<List<Note>> snapshot) {
@@ -203,6 +211,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                   if (notes != null) {
                     return Wrap(
                       spacing: 5,
+                      alignment: WrapAlignment.center,
                       children: notes.map((e) => AddTastingNote(e)).toList(),
                     );
                   } else {

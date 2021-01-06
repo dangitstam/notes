@@ -1,52 +1,227 @@
 [
   {
     "note_id": 1,
-    "name":"Chocolate",
-    "color":"#4B240A"
+    "name": "Chocolate",
+    "color": "#4B240A"
   },
   {
     "note_id": 2,
-    "name":"Sugarcane",
-    "color":"#B48B53"
+    "name": "Vanilla",
+    "color": "#262626"
   },
   {
     "note_id": 3,
-    "name":"Black Cherry",
-    "color":"#4A1229"
+    "name": "Brown Sugar",
+    "color": "#8C583E"
   },
   {
     "note_id": 4,
-    "name":"Plum",
-    "color":"#25344E"
+    "name": "Almond",
+    "color": "#D7C7B8"
   },
   {
     "note_id": 5,
-    "name":"Raisin",
-    "color":"#4A1229"
+    "name": "Hazelnut",
+    "color": "#B8A894"
   },
   {
     "note_id": 6,
-    "name":"Oatmeal",
-    "color":"#90715C"
+    "name": "Walnut",
+    "color": "#5D432C"
   },
   {
     "note_id": 7,
-    "name":"Spice",
-    "color":"#d3574b"
+    "name": "Caramel",
+    "color": "#E5BF8A"
   },
   {
     "note_id": 8,
-    "name":"Blueberry",
-    "color":"#123456"
+    "name": "Honey",
+    "color": "#FDCF73"
   },
   {
     "note_id": 9,
-    "name":"Orange",
-    "color":"#FFB52C"
+    "name": "Sugarcane",
+    "color": "#B48B53"
   },
   {
     "note_id": 10,
-    "name":"Cherry",
-    "color":"#A51515"
+    "name": "Bergamot",
+    "color": "#D88745"
+  },
+  {
+    "note_id": 11,
+    "name": "Blood Orange",
+    "color": "#D1001C"
+  },
+  {
+    "note_id": 12,
+    "name": "Clementine",
+    "color": "#E87000"
+  },
+  {
+    "note_id": 13,
+    "name": "Grapefruit",
+    "color": "#FD5956"
+  },
+  {
+    "note_id": 14,
+    "name": "Lemon",
+    "color": "#E5DE00"
+  },
+  {
+    "note_id": 15,
+    "name": "Lime",
+    "color": "#ACE600"
+  },
+  {
+    "note_id": 16,
+    "name": "Orange",
+    "color": "#FFA500"
+  },
+  {
+    "note_id": 17,
+    "name": "Yuzu",
+    "color": "#FDD200"
+  },
+  {
+    "note_id": 18,
+    "name": "Blackberry",
+    "color": "#32001B"
+  },
+  {
+    "note_id": 19,
+    "name": "Blueberry",
+    "color": "#464196"
+  },
+  {
+    "note_id": 20,
+    "name": "Grape",
+    "color": "#58427C"
+  },
+  {
+    "note_id": 21,
+    "name": "Strawberry",
+    "color": "#EC0514"
+  },
+  {
+    "note_id": 22,
+    "name": "Raspberry",
+    "color": "#B3446C"
+  },
+  {
+    "note_id": 23,
+    "name": "Black Cherry",
+    "color": "#52253A"
+  },
+  {
+    "note_id": 24,
+    "name": "Peach",
+    "color": "#FFDC9B"
+  },
+  {
+    "note_id": 25,
+    "name": "Plum",
+    "color": "#3F012C"
+  },
+  {
+    "note_id": 26,
+    "name": "Rainier Cherry",
+    "color": "#FFDF00"
+  },
+  {
+    "note_id": 27,
+    "name": "Apple",
+    "color": "#FF0800"
+  },
+  {
+    "note_id": 28,
+    "name": "Pear",
+    "color": "#D1E231"
+  },
+  {
+    "note_id": 29,
+    "name": "Quince",
+    "color": "#ECD378"
+  },
+  {
+    "note_id": 30,
+    "name": "Dragonfruit",
+    "color": "#B73E6B"
+  },
+  {
+    "note_id": 31,
+    "name": "Jackfruit",
+    "color": "#F7C681"
+  },
+  {
+    "note_id": 32,
+    "name": "Mango",
+    "color": "#FECF83"
+  },
+  {
+    "note_id": 33,
+    "name": "Passion Fruit",
+    "color": "#7C2142"
+  },
+  {
+    "note_id": 34,
+    "name": "Persimmon",
+    "color": "#EC5800"
+  },
+  {
+    "note_id": 35,
+    "name": "Anise",
+    "color": "#5A4C45"
+  },
+  {
+    "note_id": 36,
+    "name": "Cardamom",
+    "color": "#958D34"
+  },
+  {
+    "note_id": 37,
+    "name": "Cinnamon",
+    "color": "#D2691E"
+  },
+  {
+    "note_id": 38,
+    "name": "Clove",
+    "color": "#504746"
+  },
+  {
+    "note_id": 39,
+    "name": "Nutmeg",
+    "color": "#83654E"
+  },
+  {
+    "note_id": 40,
+    "name": "Chamomile",
+    "color": "#E1DCBB"
+  },
+  {
+    "note_id": 41,
+    "name": "Honeysuckle",
+    "color": "#D2D063"
+  },
+  {
+    "note_id": 42,
+    "name": "Jasmine",
+    "color": "#F8DE7E"
+  },
+  {
+    "note_id": 43,
+    "name": "Lavender",
+    "color": "#967BB6"
+  },
+  {
+    "note_id": 44,
+    "name": "Rose",
+    "color": "#E5CDCA"
+  },
+  {
+    "note_id": 45,
+    "name": "Tea",
+    "color": "#BBD8AC"
   }
 ]

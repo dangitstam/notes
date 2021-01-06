@@ -240,6 +240,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
           /**
              * Title section.
             */
+          const SizedBox(height: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
