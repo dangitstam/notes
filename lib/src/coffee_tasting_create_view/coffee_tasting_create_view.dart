@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
+import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aftertaste.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.dart';
@@ -14,6 +15,8 @@ import 'package:notes/src/util.dart';
 class CoffeeTastingCreateViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var selectedTastingNotes = context.watch<CoffeeTastingCreateBloc>().state.notes;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -186,22 +189,37 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 10),
+              Text('Select Notes', style: subtitle_1()),
+              SizedBox(height: 10),
+              Wrap(
+                alignment: WrapAlignment.center,
+                direction: Axis.horizontal,
+                spacing: 5,
+                children: selectedTastingNotes.map((e) => RemoveTastingNote(e)).toList(),
+              ),
+              selectedTastingNotes.isNotEmpty
+                  ? Divider(
+                      height: 20,
+                      indent: 60,
+                      endIndent: 60,
+                    )
+                  : SizedBox(height: 10),
               StreamBuilder(
                 stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
                 builder: (context, AsyncSnapshot<List<Note>> snapshot) {
                   var notes = snapshot.data;
                   if (notes != null) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: notes.map((e) => TastingNote(e)).toList(),
-                      ),
+                    return Wrap(
+                      spacing: 5,
+                      alignment: WrapAlignment.center,
+                      children: notes.map((e) => AddTastingNote(e)).toList(),
                     );
                   } else {
                     return Container(width: 0, height: 0);
                   }
                 },
               ),
+              SizedBox(height: 10),
               Divider(),
               SizedBox(height: 10),
               AcidityWidget(),

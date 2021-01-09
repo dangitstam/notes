@@ -19,6 +19,8 @@ class CoffeeTastingCreateState extends Equatable {
   final double fragranceBreak;
   final double fragranceDry;
 
+  final List<Note> notes;
+
   CoffeeTastingCreateState({
     this.isCoffeeTastingInserted,
     this.coffeeName,
@@ -36,6 +38,7 @@ class CoffeeTastingCreateState extends Equatable {
     this.fragranceScore,
     this.fragranceBreak,
     this.fragranceDry,
+    this.notes,
   });
 
   CoffeeTastingCreateState copyWith({
@@ -55,6 +58,7 @@ class CoffeeTastingCreateState extends Equatable {
     double fragranceScore,
     double fragranceBreak,
     double fragranceDry,
+    List<Note> notes,
   }) {
     return CoffeeTastingCreateState(
       isCoffeeTastingInserted: isCoffeeTastingInserted ?? this.isCoffeeTastingInserted,
@@ -73,6 +77,7 @@ class CoffeeTastingCreateState extends Equatable {
       fragranceScore: fragranceScore ?? this.fragranceScore,
       fragranceBreak: fragranceBreak ?? this.fragranceBreak,
       fragranceDry: fragranceDry ?? this.fragranceDry,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -94,5 +99,6 @@ class CoffeeTastingCreateState extends Equatable {
         fragranceScore,
         fragranceBreak,
         fragranceDry,
+        notes,
       ];
 }
