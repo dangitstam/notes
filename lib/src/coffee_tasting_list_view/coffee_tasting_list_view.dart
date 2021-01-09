@@ -300,7 +300,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       style: body_1(),
                     ),
                     SizedBox(height: 5),
-                    // TODO: Should this use ListView?
                     Wrap(
                       alignment: WrapAlignment.start,
                       direction: Axis.horizontal,
