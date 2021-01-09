@@ -66,12 +66,41 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 2,
-                    child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
+                    child: GestureDetector(
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
+                        ),
                       ),
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Wrap(
+                              children: <Widget>[
+                                ListTile(
+                                    leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
+                                    title: Text('Photo Library', style: body_1()),
+                                    onTap: () {
+                                      // TODO: Open photo gallery and allow image selection; update state with photo file path.
+                                      Navigator.of(context).pop();
+                                    }),
+                                ListTile(
+                                  leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
+                                  title: Text('Camera', style: body_1()),
+                                  onTap: () {
+                                    // TODO: Open camera and allow image capture; update state with photo file path.
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                ListTile(),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                   SizedBox(width: 10),
