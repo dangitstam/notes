@@ -32,10 +32,12 @@ dependencies:
 
 dev_dependencies:
   bloc:
+  camera:
   equatable:
   flutter_bloc:
   flutter_test:
     sdk: flutter
+  path_provider:
   pedantic: ^1.9.0
 
 # For information on the generic Dart part of this file, see the
