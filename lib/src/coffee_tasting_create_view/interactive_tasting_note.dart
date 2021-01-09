@@ -55,7 +55,8 @@ class RemoveTastingNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
       builder: (context, state) {
-        // onDeleted target is only the delete icon. Allow tapping anywhere on the chip for deletion.
+        // For Flutter's standard chip, the onDeleted target is only the delete icon.
+        // Uses ActionChip instead to allow tapping anywhere on the chip for deletion.
         return ActionChip(
           onPressed: () {
             context.read<CoffeeTastingCreateBloc>().add(RemoveCoffeeTastingNoteEvent(note: note));
