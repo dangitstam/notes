@@ -41,7 +41,7 @@ class TastingNote extends StatelessWidget {
         '${note.name}',
         style: caption(color: Colors.white),
       ),
-      backgroundColor: note.fromHex(),
+      backgroundColor: note.getColor(),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
