@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget.dart';
@@ -16,6 +17,21 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var selectedTastingNotes = context.watch<CoffeeTastingCreateBloc>().state.notes;
+
+    final picker = ImagePicker();
+
+    Future getImage() async {
+      final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+      // TODO: Update state with File(pickedFile.path)
+      // setState(() {
+      //   if (pickedFile != null) {
+      //     _image = File(pickedFile.path);
+      //   } else {
+      //     print('No image selected.');
+      //   }
+      // });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -113,6 +129,7 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                                     title: Text('Camera', style: body_1()),
                                     onTap: () {
                                       // TODO: Open camera and allow image capture; update state with photo file path.
+                                      getImage();
                                       Navigator.of(context).pop();
                                     },
                                   )

@@ -37,6 +37,7 @@ dev_dependencies:
   flutter_bloc:
   flutter_test:
     sdk: flutter
+  image_picker:
   path_provider:
   pedantic: ^1.9.0
 
