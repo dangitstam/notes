@@ -12,7 +12,8 @@
     "aftertaste": 9.6,
     "body": 9.6,
     "flavor": 9.3,
-    "fragrance": 7.6
+    "fragrance": 7.6,
+    "image_path": null
   },
   {
     "coffee_tasting_id": 2,
@@ -27,7 +28,8 @@
     "aftertaste": 8.7,
     "body": 8.6,
     "flavor": 6.4,
-    "fragrance": 9.7
+    "fragrance": 9.7,
+    "image_path": null
   },
   {
     "coffee_tasting_id": 3,
@@ -42,7 +44,8 @@
     "aftertaste": 7.4,
     "body": 8.8,
     "flavor": 7.9,
-    "fragrance": 7.1
+    "fragrance": 7.1,
+    "image_path": null
   },
   {
     "coffee_tasting_id": 4,
@@ -57,6 +60,7 @@
     "aftertaste": 8.6,
     "body": 9.9,
     "flavor": 7.3,
-    "fragrance": 9.3
+    "fragrance": 9.3,
+    "image_path": null
   }
 ]

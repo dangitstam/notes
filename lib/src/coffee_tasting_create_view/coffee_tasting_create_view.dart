@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,25 +15,28 @@ import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
 
-class CoffeeTastingCreateViewWidget extends StatelessWidget {
+class CoffeeTastingCreateViewWidget extends StatefulWidget {
+  @override
+  _CoffeeTastingCreateViewWidgetState createState() => _CoffeeTastingCreateViewWidgetState();
+}
+
+class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewWidget> {
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    // Update image in the create view.
+    _image = File(pickedFile.path);
+
+    // Record file path as image for tasting.
+    context.read<CoffeeTastingCreateBloc>().add(AddImageEvent(imagePath: pickedFile.path));
+  }
+
   @override
   Widget build(BuildContext context) {
     var selectedTastingNotes = context.watch<CoffeeTastingCreateBloc>().state.notes;
-
-    final picker = ImagePicker();
-
-    Future getImage() async {
-      final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-      // TODO: Update state with File(pickedFile.path)
-      // setState(() {
-      //   if (pickedFile != null) {
-      //     _image = File(pickedFile.path);
-      //   } else {
-      //     print('No image selected.');
-      //   }
-      // });
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -95,10 +100,9 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
                                   Colors.black.withOpacity(0.4),
                                   BlendMode.darken,
                                 ),
-                                child: Image.asset(
-                                  'assets/images/coffee.jpg',
-                                  fit: BoxFit.cover,
-                                ),
+                                child: _image != null
+                                    ? Image.file(_image, fit: BoxFit.cover)
+                                    : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
                               ),
                             ),
                           ),

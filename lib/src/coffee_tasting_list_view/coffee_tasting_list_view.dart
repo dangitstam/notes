@@ -103,21 +103,22 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
 }
 
 class _CoffeeTastingListItem extends StatelessWidget {
-  _CoffeeTastingListItem(
-      {Key key,
-      this.title,
-      this.origin,
-      this.process,
-      this.description,
-      this.notes,
-      this.roastLevel,
-      this.thumbnail,
-      this.acidity,
-      this.aftertaste,
-      this.body,
-      this.flavor,
-      this.fragrance})
-      : super(key: key);
+  _CoffeeTastingListItem({
+    Key key,
+    this.title,
+    this.origin,
+    this.process,
+    this.description,
+    this.notes,
+    this.roastLevel,
+    this.thumbnail,
+    this.acidity,
+    this.aftertaste,
+    this.body,
+    this.flavor,
+    this.fragrance,
+    this.imagePath,
+  }) : super(key: key);
 
   final String title;
   final String origin;
@@ -126,6 +127,8 @@ class _CoffeeTastingListItem extends StatelessWidget {
   final List<Note> notes;
   final double roastLevel;
   final Widget thumbnail;
+
+  final String imagePath;
 
   // SCA criteria.
   final double acidity;
@@ -139,7 +142,9 @@ class _CoffeeTastingListItem extends StatelessWidget {
       thumbnail: Container(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
+          child: tasting.imagePath != null
+              ? Image.asset(tasting.imagePath, fit: BoxFit.cover)
+              : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
         ),
       ),
       title: '${tasting.roaster}, ${tasting.coffeeName}',
@@ -153,6 +158,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
       body: tasting.body,
       flavor: tasting.flavor,
       fragrance: tasting.fragrance,
+      imagePath: tasting.imagePath,
     );
   }
 
