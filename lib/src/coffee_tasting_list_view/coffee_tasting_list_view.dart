@@ -8,6 +8,7 @@ import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
+import 'package:path_provider/path_provider.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {
@@ -143,7 +144,22 @@ class _CoffeeTastingListItem extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: tasting.imagePath != null
-              ? Image.asset(tasting.imagePath, fit: BoxFit.cover)
+              ? FutureBuilder(
+                  future: getApplicationDocumentsDirectory(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        var appDocDir = snapshot.data;
+                        var appDocDirPath = appDocDir.path;
+                        return Image.asset('$appDocDirPath/${tasting.imagePath}', fit: BoxFit.cover);
+                      } else {
+                        return Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover);
+                      }
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                )
               : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
         ),
       ),

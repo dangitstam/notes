@@ -14,6 +14,9 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widg
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
+// Heads up: Path's conflict can conflict with BuildContext's context.
+import 'package:path/path.dart' show basename;
+import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {
   @override
@@ -24,14 +27,34 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
   File _image;
   final picker = ImagePicker();
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
+
+    if (pickedFile == null) return;
+
+    // Save the captured image to the app locally.
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final appDocDirPath = appDocDir.path;
+
+    var tmpFile = File(pickedFile.path);
+
+    var pickedFileBasename = basename(pickedFile.path);
+    var savePath = '$appDocDirPath/$pickedFileBasename';
+    var savedFile = await tmpFile.copy(savePath);
 
     // Update image in the create view.
-    _image = File(pickedFile.path);
+    setState(() {
+      _image = File(savedFile.path);
+    });
 
     // Record file path as image for tasting.
-    context.read<CoffeeTastingCreateBloc>().add(AddImageEvent(imagePath: pickedFile.path));
+    // Application directory changes between invocations of `flutter run`, so save the basename
+    // and retrive the application directory path at runtime to grab the image.
+    context.read<CoffeeTastingCreateBloc>().add(
+          AddImageEvent(
+            imagePath: basename(savedFile.path),
+          ),
+        );
   }
 
   @override
@@ -125,15 +148,14 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                                       leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
                                       title: Text('Photo Library', style: body_1()),
                                       onTap: () {
-                                        // TODO: Open photo gallery and allow image selection; update state with photo file path.
+                                        getImage(ImageSource.gallery);
                                         Navigator.of(context).pop();
                                       }),
                                   ListTile(
                                     leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
                                     title: Text('Camera', style: body_1()),
                                     onTap: () {
-                                      // TODO: Open camera and allow image capture; update state with photo file path.
-                                      getImage();
+                                      getImage(ImageSource.camera);
                                       Navigator.of(context).pop();
                                     },
                                   )
