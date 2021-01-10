@@ -89,3 +89,8 @@ class FragranceDryEvent extends CoffeeTastingCreateEvent {
   final double fragranceDry;
   FragranceDryEvent({this.fragranceDry});
 }
+
+class AddImageEvent extends CoffeeTastingCreateEvent {
+  final String imagePath;
+  AddImageEvent({this.imagePath});
+}
