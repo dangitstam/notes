@@ -61,42 +61,63 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                     flex: 2,
                     child: GestureDetector(
-                      child: AspectRatio(
-                        aspectRatio: 1.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
-                        ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.4),
+                                  BlendMode.darken,
+                                ),
+                                child: Image.asset(
+                                  'assets/images/coffee.jpg',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            CupertinoIcons.photo_camera,
+                            color: Colors.white.withOpacity(0.7),
+                            size: 40,
+                          ),
+                        ],
                       ),
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return Wrap(
-                              children: <Widget>[
-                                ListTile(
-                                    leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
-                                    title: Text('Photo Library', style: body_1()),
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 30.0),
+                              child: Wrap(
+                                children: <Widget>[
+                                  ListTile(
+                                      leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
+                                      title: Text('Photo Library', style: body_1()),
+                                      onTap: () {
+                                        // TODO: Open photo gallery and allow image selection; update state with photo file path.
+                                        Navigator.of(context).pop();
+                                      }),
+                                  ListTile(
+                                    leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
+                                    title: Text('Camera', style: body_1()),
                                     onTap: () {
-                                      // TODO: Open photo gallery and allow image selection; update state with photo file path.
+                                      // TODO: Open camera and allow image capture; update state with photo file path.
                                       Navigator.of(context).pop();
-                                    }),
-                                ListTile(
-                                  leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
-                                  title: Text('Camera', style: body_1()),
-                                  onTap: () {
-                                    // TODO: Open camera and allow image capture; update state with photo file path.
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                ListTile(),
-                              ],
+                                    },
+                                  )
+                                ],
+                              ),
                             );
                           },
                         );
