@@ -140,29 +140,28 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   static Widget fromCoffeeTasting(CoffeeTasting tasting) {
     return _CoffeeTastingListItem(
-      thumbnail: Container(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: tasting.imagePath != null
-              ? FutureBuilder(
-                  future: getApplicationDocumentsDirectory(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        var appDocDir = snapshot.data;
-                        var appDocDirPath = appDocDir.path;
-                        return Image.asset('$appDocDirPath/${tasting.imagePath}', fit: BoxFit.cover);
+      thumbnail: tasting.imagePath != null
+          ? Container(
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: FutureBuilder(
+                    future: getApplicationDocumentsDirectory(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          var appDocDir = snapshot.data;
+                          var appDocDirPath = appDocDir.path;
+                          return Image.asset('$appDocDirPath/${tasting.imagePath}', fit: BoxFit.cover);
+                        } else {
+                          return Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover);
+                        }
                       } else {
-                        return Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover);
+                        return CircularProgressIndicator();
                       }
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
-                )
-              : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
-        ),
-      ),
+                    },
+                  )),
+            )
+          : null,
       title: '${tasting.roaster}, ${tasting.coffeeName}',
       origin: tasting.origin,
       process: tasting.process,
@@ -262,7 +261,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
           /**
              * Title section.
             */
-          const SizedBox(height: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -299,6 +297,11 @@ class _CoffeeTastingListItem extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           /**
+           *  Optional image of tasting.
+           */
+          thumbnail != null ? AspectRatio(aspectRatio: 16 / 9, child: thumbnail) : Container(),
+          thumbnail != null ? const SizedBox(height: 10) : Container(),
+          /**
              * Description and notes section.
             */
           Row(
@@ -306,24 +309,16 @@ class _CoffeeTastingListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                flex: 1,
-                child: AspectRatio(
-                  aspectRatio: 1.0,
-                  child: thumbnail,
-                ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                flex: 3,
                 child: Column(
                   children: <Widget>[
                     Text(
                       '$description',
                       style: body_1(),
+                      textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 5),
                     Wrap(
-                      alignment: WrapAlignment.start,
+                      alignment: WrapAlignment.center,
                       direction: Axis.horizontal,
                       spacing: 5,
                       children: notes.map((e) => TastingNote(e)).toList(),
