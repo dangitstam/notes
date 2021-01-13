@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
+import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
@@ -103,29 +104,32 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
 }
 
 class _CoffeeTastingListItem extends StatelessWidget {
-  _CoffeeTastingListItem(
-      {Key key,
-      this.title,
-      this.origin,
-      this.process,
-      this.description,
-      this.notes,
-      this.roastLevel,
-      this.thumbnail,
-      this.acidity,
-      this.aftertaste,
-      this.body,
-      this.flavor,
-      this.fragrance})
-      : super(key: key);
+  _CoffeeTastingListItem({
+    Key key,
+    this.id,
+    this.title,
+    this.origin,
+    this.process,
+    this.description,
+    this.notes,
+    this.roastLevel,
+    this.acidity,
+    this.aftertaste,
+    this.body,
+    this.flavor,
+    this.fragrance,
+    this.imagePath,
+  }) : super(key: key);
 
+  // TODO: Would it be easier to just store the coffee tasting?
+  final int id;
   final String title;
   final String origin;
   final String process;
   final String description;
   final List<Note> notes;
   final double roastLevel;
-  final Widget thumbnail;
+  final String imagePath;
 
   // SCA criteria.
   final double acidity;
@@ -136,12 +140,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   static Widget fromCoffeeTasting(CoffeeTasting tasting) {
     return _CoffeeTastingListItem(
-      thumbnail: Container(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
-        ),
-      ),
+      id: tasting.coffeeTastingId,
       title: '${tasting.roaster}, ${tasting.coffeeName}',
       origin: tasting.origin,
       process: tasting.process,
@@ -153,6 +152,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
       body: tasting.body,
       flavor: tasting.flavor,
       fragrance: tasting.fragrance,
+      imagePath: tasting.imagePath,
     );
   }
 
@@ -240,7 +240,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
           /**
              * Title section.
             */
-          const SizedBox(height: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -277,6 +276,13 @@ class _CoffeeTastingListItem extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           /**
+           *  Optional image of tasting.
+           */
+          imagePath != null
+              ? CoffeeTastingHeroImageStart(tag: 'list view hero image for tasting $id', imagePath: imagePath)
+              : Container(),
+          imagePath != null ? const SizedBox(height: 10) : Container(),
+          /**
              * Description and notes section.
             */
           Row(
@@ -284,24 +290,16 @@ class _CoffeeTastingListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                flex: 1,
-                child: AspectRatio(
-                  aspectRatio: 1.0,
-                  child: thumbnail,
-                ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                flex: 3,
                 child: Column(
                   children: <Widget>[
                     Text(
                       '$description',
                       style: body_1(),
+                      textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 5),
                     Wrap(
-                      alignment: WrapAlignment.start,
+                      alignment: WrapAlignment.center,
                       direction: Axis.horizontal,
                       spacing: 5,
                       children: notes.map((e) => TastingNote(e)).toList(),

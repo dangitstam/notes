@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget.dart';
@@ -11,8 +14,49 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widg
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
+// Heads up: Path's conflict can conflict with BuildContext's context.
+import 'package:path/path.dart' show basename;
+import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
-class CoffeeTastingCreateViewWidget extends StatelessWidget {
+class CoffeeTastingCreateViewWidget extends StatefulWidget {
+  @override
+  _CoffeeTastingCreateViewWidgetState createState() => _CoffeeTastingCreateViewWidgetState();
+}
+
+class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewWidget> {
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
+
+    if (pickedFile == null) return;
+
+    // Save the captured image to the app locally.
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final appDocDirPath = appDocDir.path;
+
+    var tmpFile = File(pickedFile.path);
+
+    var pickedFileBasename = basename(pickedFile.path);
+    var savePath = '$appDocDirPath/$pickedFileBasename';
+    var savedFile = await tmpFile.copy(savePath);
+
+    // Update image in the create view.
+    setState(() {
+      _image = File(savedFile.path);
+    });
+
+    // Record file path as image for tasting.
+    // Application directory changes between invocations of `flutter run`, so save the basename
+    // and retrieve the application directory path at runtime to grab the image.
+    context.read<CoffeeTastingCreateBloc>().add(
+          AddImageEvent(
+            imagePath: basename(savedFile.path),
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     var selectedTastingNotes = context.watch<CoffeeTastingCreateBloc>().state.notes;
@@ -61,17 +105,67 @@ class CoffeeTastingCreateViewWidget extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                     flex: 2,
-                    child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
+                    child: GestureDetector(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1.0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.4),
+                                  BlendMode.darken,
+                                ),
+                                child: _image != null
+                                    ? Image.file(_image, fit: BoxFit.cover)
+                                    // TODO: Take a new stub photo.
+                                    : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            CupertinoIcons.photo_camera,
+                            color: Colors.white.withOpacity(0.7),
+                            size: 40,
+                          ),
+                        ],
                       ),
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 30.0),
+                              child: Wrap(
+                                children: <Widget>[
+                                  ListTile(
+                                      leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
+                                      title: Text('Photo Library', style: body_1()),
+                                      onTap: () {
+                                        getImage(ImageSource.gallery);
+                                        Navigator.of(context).pop();
+                                      }),
+                                  ListTile(
+                                    leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
+                                    title: Text('Camera', style: body_1()),
+                                    onTap: () {
+                                      getImage(ImageSource.camera);
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                   SizedBox(width: 10),

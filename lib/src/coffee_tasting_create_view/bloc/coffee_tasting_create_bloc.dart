@@ -38,6 +38,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
             fragranceBreak: 7.0,
             fragranceDry: 7.0,
             notes: <Note>[],
+            imagePath: null,
           ),
         ) {
     // Initialize the stream of notes.
@@ -45,7 +46,8 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   }
 
   Future<int> insertCoffeeTasting() async {
-    final coffeeTastingId = await coffeeTastingRepository.insert(CoffeeTasting(
+    final coffeeTastingId = await coffeeTastingRepository.insert(
+      CoffeeTasting(
         coffeeName: state.coffeeName,
         description: state.description,
         origin: state.origin,
@@ -57,7 +59,10 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         aftertaste: state.aftertasteScore,
         body: state.bodyScore,
         flavor: state.flavorScore,
-        fragrance: state.fragranceScore));
+        fragrance: state.fragranceScore,
+        imagePath: state.imagePath,
+      ),
+    );
 
     for (var note in state.notes) {
       var coffeeTastingNoteId = await noteRepository.insertNoteForCoffeeTasting(note.id, coffeeTastingId);
@@ -144,6 +149,8 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       yield state.copyWith(fragranceBreak: event.fragranceBreak);
     } else if (event is FragranceDryEvent) {
       yield state.copyWith(fragranceDry: event.fragranceDry);
+    } else if (event is AddImageEvent) {
+      yield state.copyWith(imagePath: event.imagePath);
     }
   }
 

@@ -55,7 +55,8 @@ Future<void> _createCoffeeTastingsTable(Database db) {
             aftertaste REAL,
             body REAL,
             flavor REAL,
-            fragrance REAL)
+            fragrance REAL,
+            image_path TEXT)
           """,
   ).then((_) async {
     // For development purposes, populate the database from the

@@ -16,6 +16,8 @@ class CoffeeTasting {
   double flavor;
   double fragrance;
 
+  String imagePath;
+
   CoffeeTasting(
       {this.coffeeTastingId,
       this.coffeeName,
@@ -29,24 +31,27 @@ class CoffeeTasting {
       this.aftertaste,
       this.body,
       this.flavor,
-      this.fragrance});
+      this.fragrance,
+      this.imagePath});
 
   /// Given a Map<String, dynamic> resulting from querying a coffee tasting
   /// from the `coffee_tastings` table, maps the result to a CoffeeTasting.
   factory CoffeeTasting.fromAppDatabase(Map<String, dynamic> tastingMap) {
     return CoffeeTasting(
-        coffeeTastingId: tastingMap['coffee_tasting_id'],
-        coffeeName: tastingMap['coffee_name'],
-        description: tastingMap['description'],
-        origin: tastingMap['origin'],
-        process: tastingMap['process'],
-        roastLevel: tastingMap['roast_level'],
-        roaster: tastingMap['roaster'],
-        acidity: tastingMap['acidity'],
-        aftertaste: tastingMap['aftertaste'],
-        body: tastingMap['body'],
-        flavor: tastingMap['flavor'],
-        fragrance: tastingMap['fragrance']);
+      coffeeTastingId: tastingMap['coffee_tasting_id'],
+      coffeeName: tastingMap['coffee_name'],
+      description: tastingMap['description'],
+      origin: tastingMap['origin'],
+      process: tastingMap['process'],
+      roastLevel: tastingMap['roast_level'],
+      roaster: tastingMap['roaster'],
+      acidity: tastingMap['acidity'],
+      aftertaste: tastingMap['aftertaste'],
+      body: tastingMap['body'],
+      flavor: tastingMap['flavor'],
+      fragrance: tastingMap['fragrance'],
+      imagePath: tastingMap['image_path'],
+    );
   }
 
   /// Converts this CoffeeTasting into a map.
@@ -66,7 +71,8 @@ class CoffeeTasting {
       'aftertaste': aftertaste,
       'body': body,
       'flavor': flavor,
-      'fragrance': fragrance
+      'fragrance': fragrance,
+      'image_path': imagePath,
     };
   }
 }
