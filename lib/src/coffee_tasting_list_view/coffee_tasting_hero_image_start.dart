@@ -37,11 +37,9 @@ class CoffeeTastingHeroImageStart extends StatelessWidget {
                 tag: tag,
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Container(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: image,
-                    ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: image,
                   ),
                 ),
               ),
