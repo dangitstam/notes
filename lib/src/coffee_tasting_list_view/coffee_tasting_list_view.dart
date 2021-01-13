@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
+import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
-import 'package:path_provider/path_provider.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {
@@ -106,13 +106,13 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
 class _CoffeeTastingListItem extends StatelessWidget {
   _CoffeeTastingListItem({
     Key key,
+    this.id,
     this.title,
     this.origin,
     this.process,
     this.description,
     this.notes,
     this.roastLevel,
-    this.thumbnail,
     this.acidity,
     this.aftertaste,
     this.body,
@@ -121,14 +121,14 @@ class _CoffeeTastingListItem extends StatelessWidget {
     this.imagePath,
   }) : super(key: key);
 
+  // TODO: Would it be easier to just store the coffee tasting?
+  final int id;
   final String title;
   final String origin;
   final String process;
   final String description;
   final List<Note> notes;
   final double roastLevel;
-  final Widget thumbnail;
-
   final String imagePath;
 
   // SCA criteria.
@@ -140,28 +140,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   static Widget fromCoffeeTasting(CoffeeTasting tasting) {
     return _CoffeeTastingListItem(
-      thumbnail: tasting.imagePath != null
-          ? Container(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: FutureBuilder(
-                    future: getApplicationDocumentsDirectory(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasData) {
-                          var appDocDir = snapshot.data;
-                          var appDocDirPath = appDocDir.path;
-                          return Image.asset('$appDocDirPath/${tasting.imagePath}', fit: BoxFit.cover);
-                        } else {
-                          return Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover);
-                        }
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    },
-                  )),
-            )
-          : null,
+      id: tasting.coffeeTastingId,
       title: '${tasting.roaster}, ${tasting.coffeeName}',
       origin: tasting.origin,
       process: tasting.process,
@@ -299,8 +278,10 @@ class _CoffeeTastingListItem extends StatelessWidget {
           /**
            *  Optional image of tasting.
            */
-          thumbnail != null ? AspectRatio(aspectRatio: 16 / 9, child: thumbnail) : Container(),
-          thumbnail != null ? const SizedBox(height: 10) : Container(),
+          imagePath != null
+              ? CoffeeTastingHeroImageStart(tag: 'list view hero image for tasting $id', imagePath: imagePath)
+              : Container(),
+          imagePath != null ? const SizedBox(height: 10) : Container(),
           /**
              * Description and notes section.
             */
