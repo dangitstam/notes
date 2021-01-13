@@ -49,7 +49,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
 
     // Record file path as image for tasting.
     // Application directory changes between invocations of `flutter run`, so save the basename
-    // and retrive the application directory path at runtime to grab the image.
+    // and retrieve the application directory path at runtime to grab the image.
     context.read<CoffeeTastingCreateBloc>().add(
           AddImageEvent(
             imagePath: basename(savedFile.path),
@@ -125,6 +125,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                                 ),
                                 child: _image != null
                                     ? Image.file(_image, fit: BoxFit.cover)
+                                    // TODO: Take a new stub photo.
                                     : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
                               ),
                             ),
