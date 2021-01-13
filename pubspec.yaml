@@ -32,7 +32,6 @@ dependencies:
 
 dev_dependencies:
   bloc:
-  camera:
   equatable:
   flutter_bloc:
   flutter_test:
