@@ -18,6 +18,9 @@ class CoffeeTastingHeroImageStart extends StatelessWidget {
           if (snapshot.hasData) {
             var appDocDir = snapshot.data;
             var appDocDirPath = appDocDir.path;
+
+            // TODO: Error handling for when image is not found.
+            // TODO: New stub photo.
             var image = Image.asset('$appDocDirPath/$imagePath', fit: BoxFit.cover);
             return GestureDetector(
               onTap: () {
