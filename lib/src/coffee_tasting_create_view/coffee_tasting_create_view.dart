@@ -11,6 +11,7 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aftertaste.dar
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/overall.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/util.dart';
@@ -313,24 +314,28 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   }
                 },
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               Divider(),
-              SizedBox(height: 10),
-              AcidityWidget(),
-              Divider(),
-              SizedBox(height: 10),
-              AftertasteWidget(),
-              Divider(),
-              SizedBox(height: 10),
-              BodyWidget(),
-              Divider(),
-              SizedBox(height: 10),
-              FlavorWidget(),
-              Divider(),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               FragranceWidget(),
               Divider(),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
+              AcidityWidget(),
+              Divider(),
+              SizedBox(height: 20),
+              BodyWidget(),
+              Divider(),
+              SizedBox(height: 20),
+              AftertasteWidget(),
+              SizedBox(height: 20),
+              Divider(),
+              SizedBox(height: 20),
+              FlavorWidget(),
+              SizedBox(height: 20),
+              Divider(),
+              SizedBox(height: 20),
+              OverallWidget(),
+              SizedBox(height: 20),
             ],
           ),
         ),

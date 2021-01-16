@@ -64,7 +64,7 @@ class BlackSliderTheme extends StatelessWidget {
         activeTrackColor: Colors.black87,
         inactiveTrackColor: Colors.black12,
         trackHeight: 1.0,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
         thumbColor: Colors.black87,
         overlayColor: Colors.grey.withAlpha(32),
         overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),

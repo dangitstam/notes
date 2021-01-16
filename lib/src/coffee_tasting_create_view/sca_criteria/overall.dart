@@ -6,7 +6,7 @@ import '../../util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';
 import 'criteria_util.dart';
 
-class FlavorWidget extends StatelessWidget {
+class OverallWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var score = context.watch<CoffeeTastingCreateBloc>().state.flavorScore;
@@ -20,7 +20,7 @@ class FlavorWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(width: 20),
-                  Text('Flavor', style: heading_6()),
+                  Text('Overall', style: heading_6()),
                   SizedBox(width: 20),
                   Text('Score: $score', style: caption(), textAlign: TextAlign.right),
                   Expanded(
