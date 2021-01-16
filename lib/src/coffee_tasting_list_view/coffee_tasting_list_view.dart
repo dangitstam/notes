@@ -183,9 +183,8 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   Widget _buildScaCriteriaCaption(String criteria) {
     return Container(
-      height: 20,
-      child: Align(
-        alignment: Alignment.center,
+      height: 45,
+      child: Center(
         child: Text(
           '$criteria',
           textAlign: TextAlign.right,
@@ -199,9 +198,46 @@ class _CoffeeTastingListItem extends StatelessWidget {
     // SCA ratings begin at a minimum of 6.
     // `value` is scaled so that a value of 6.0 appears as an empty bar.
     var scaledValue = (value - 6) / 4;
-    var formattedValue = value == 10.0 ? '10' : '$value';
+    var formattedValue = value == 10.0 ? 'Score: 10' : 'Score: $value';
     return Padding(
       padding: EdgeInsets.only(top: 2, bottom: 2),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(2.3),
+            child: Container(
+              height: 16,
+              child: LinearProgressIndicator(
+                backgroundColor: Color(0xffd1d1d1),
+                value: scaledValue,
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xff1b1b1b)),
+              ),
+            ),
+          ),
+          LayoutBuilder(
+            builder: (context, constrains) {
+              // Subtracting a fixed amount ensures the value appears in the
+              // colored part of the linear indicator and not outside of
+              // the entire bar at any point.
+              var leftPadding = max(constrains.maxWidth * scaledValue - 60, 0.0);
+              return Padding(
+                padding: EdgeInsets.only(left: leftPadding),
+                child: Text('$formattedValue', style: caption(color: Colors.white, fontStyle: FontStyle.italic)),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildScaCriteriaIntensityLinearIndicator(double value) {
+    // SCA ratings begin at a minimum of 6.
+    // `value` is scaled so that a value of 6.0 appears as an empty bar.
+    var scaledValue = (value - 6) / 4;
+    var formattedValue = value == 10.0 ? 'Intensity: 10' : 'Intensity: $value';
+    return Padding(
+      padding: EdgeInsets.only(top: 2, bottom: 7),
       child: Stack(
         children: [
           ClipRRect(
@@ -209,7 +245,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             child: LinearProgressIndicator(
               backgroundColor: Color(0xffd1d1d1),
               value: scaledValue,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.black87),
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xffa6a397)),
               minHeight: 16,
             ),
           ),
@@ -218,7 +254,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
               // Subtracting a fixed amount ensures the value appears in the
               // colored part of the linear indicator and not outside of
               // the entire bar at any point.
-              var leftPadding = max(constrains.maxWidth * scaledValue - 20, 0.0);
+              var leftPadding = max(constrains.maxWidth * scaledValue - 75, 0.0);
               return Padding(
                 padding: EdgeInsets.only(left: leftPadding),
                 child: Text('$formattedValue', style: caption(color: Colors.white, fontStyle: FontStyle.italic)),
@@ -324,7 +360,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
                     _buildScaCriteriaCaption('Acidity'),
                     _buildScaCriteriaCaption('Body'),
                     _buildScaCriteriaCaption('Aftertaste'),
-                    _buildScaCriteriaCaption('Flavor'),
                   ],
                 ),
               ),
@@ -335,10 +370,13 @@ class _CoffeeTastingListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     _buildScaCriteriaRatingLinearIndicator(fragrance),
+                    _buildScaCriteriaIntensityLinearIndicator(fragrance),
                     _buildScaCriteriaRatingLinearIndicator(acidity),
+                    _buildScaCriteriaIntensityLinearIndicator(acidity),
                     _buildScaCriteriaRatingLinearIndicator(body),
+                    _buildScaCriteriaIntensityLinearIndicator(body),
                     _buildScaCriteriaRatingLinearIndicator(aftertaste),
-                    _buildScaCriteriaRatingLinearIndicator(flavor),
+                    _buildScaCriteriaIntensityLinearIndicator(aftertaste),
                   ],
                 ),
               )
