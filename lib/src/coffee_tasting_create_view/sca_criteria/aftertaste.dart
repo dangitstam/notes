@@ -57,7 +57,6 @@ class AftertasteWidget extends StatelessWidget {
                           value: level,
                           min: 0,
                           max: 10,
-                          divisions: 10,
                           onChanged: (value) {
                             // TODO: Add duration to coffee tasting data model.
                             level = value;

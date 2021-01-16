@@ -54,7 +54,6 @@ class BodyWidget extends StatelessWidget {
                         value: level,
                         min: 0,
                         max: 10,
-                        divisions: 10,
                         onChanged: (value) {
                           context.read<CoffeeTastingCreateBloc>().add(BodyLevelEvent(bodyLevel: round(value)));
                         },

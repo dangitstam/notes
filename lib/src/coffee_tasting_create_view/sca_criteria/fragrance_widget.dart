@@ -33,7 +33,6 @@ class FragranceWidget extends StatelessWidget {
                         value: score,
                         min: 6,
                         max: 10,
-                        divisions: 10,
                         onChanged: (value) {
                           context
                               .read<CoffeeTastingCreateBloc>()
@@ -59,7 +58,6 @@ class FragranceWidget extends StatelessWidget {
                         value: fragranceBreak,
                         min: 6,
                         max: 10,
-                        divisions: 10,
                         onChanged: (value) {
                           context
                               .read<CoffeeTastingCreateBloc>()
