@@ -10,7 +10,7 @@ class AftertasteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var score = context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore;
-    var level = 7.0;
+    var duration = context.watch<CoffeeTastingCreateBloc>().state.fragranceDry;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
       builder: (context, state) {
         return Container(
@@ -54,12 +54,14 @@ class AftertasteWidget extends StatelessWidget {
                       quarterTurns: 3,
                       child: BlackSliderTheme(
                         Slider(
-                          value: level,
+                          value: duration,
                           min: 0,
                           max: 10,
                           onChanged: (value) {
                             // TODO: Add duration to coffee tasting data model.
-                            level = value;
+                            context
+                                .read<CoffeeTastingCreateBloc>()
+                                .add(AftertasteIntensityEvent(aftertasteIntensity: round(value)));
                           },
                         ),
                       ),

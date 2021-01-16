@@ -137,6 +137,8 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       yield state.copyWith(acidityIntensity: event.acidityIntensity);
     } else if (event is AftertasteScoreEvent) {
       yield state.copyWith(aftertasteScore: event.aftertasteScore);
+    } else if (event is AftertasteIntensityEvent) {
+      yield state.copyWith(fragranceDry: event.aftertasteIntensity);
     } else if (event is BodyScoreEvent) {
       yield state.copyWith(bodyScore: event.bodyScore);
     } else if (event is BodyLevelEvent) {
@@ -146,9 +148,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     } else if (event is FragranceScoreEvent) {
       yield state.copyWith(fragranceScore: event.fragranceScore);
     } else if (event is FragranceBreakEvent) {
-      yield state.copyWith(fragranceBreak: event.fragranceBreak);
-    } else if (event is FragranceDryEvent) {
-      yield state.copyWith(fragranceDry: event.fragranceDry);
+      yield state.copyWith(fragranceBreak: event.fragranceIntensity);
     } else if (event is AddImageEvent) {
       yield state.copyWith(imagePath: event.imagePath);
     }

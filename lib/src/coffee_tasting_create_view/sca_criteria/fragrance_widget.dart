@@ -12,7 +12,6 @@ class FragranceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var score = context.watch<CoffeeTastingCreateBloc>().state.fragranceScore;
     var fragranceBreak = context.watch<CoffeeTastingCreateBloc>().state.fragranceBreak;
-    var fragranceDry = context.watch<CoffeeTastingCreateBloc>().state.fragranceDry;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(builder: (context, state) {
       return Container(
         height: 225,
@@ -61,7 +60,7 @@ class FragranceWidget extends StatelessWidget {
                         onChanged: (value) {
                           context
                               .read<CoffeeTastingCreateBloc>()
-                              .add(FragranceBreakEvent(fragranceBreak: round(value)));
+                              .add(FragranceBreakEvent(fragranceIntensity: round(value)));
                         },
                       ),
                     ),
@@ -70,32 +69,6 @@ class FragranceWidget extends StatelessWidget {
                 Icon(CupertinoIcons.minus_circle),
               ],
             ),
-            // Text('Dry', style: caption(), textAlign: TextAlign.right),
-            // Expanded(
-            //   flex: 0,
-            //   child: Column(
-            //     children: [
-            //       Text('High', style: caption()),
-            //       Expanded(
-            //         child: RotatedBox(
-            //           quarterTurns: 3,
-            //           child: BlackSliderTheme(
-            //             Slider(
-            //               value: fragranceDry,
-            //               min: 6,
-            //               max: 10,
-            //               divisions: 10,
-            //               onChanged: (value) {
-            //                 context.read<CoffeeTastingCreateBloc>().add(FragranceDryEvent(fragranceDry: value));
-            //               },
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //       Text('Low', style: caption()),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       );

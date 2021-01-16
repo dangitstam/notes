@@ -320,11 +320,11 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    _buildScaCriteriaCaption('Aroma'),
                     _buildScaCriteriaCaption('Acidity'),
-                    _buildScaCriteriaCaption('Aftertaste'),
                     _buildScaCriteriaCaption('Body'),
+                    _buildScaCriteriaCaption('Aftertaste'),
                     _buildScaCriteriaCaption('Flavor'),
-                    _buildScaCriteriaCaption('Fragrance/Aroma'),
                   ],
                 ),
               ),
@@ -334,11 +334,11 @@ class _CoffeeTastingListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    _buildScaCriteriaRatingLinearIndicator(fragrance),
                     _buildScaCriteriaRatingLinearIndicator(acidity),
                     _buildScaCriteriaRatingLinearIndicator(body),
                     _buildScaCriteriaRatingLinearIndicator(aftertaste),
                     _buildScaCriteriaRatingLinearIndicator(flavor),
-                    _buildScaCriteriaRatingLinearIndicator(fragrance),
                   ],
                 ),
               )

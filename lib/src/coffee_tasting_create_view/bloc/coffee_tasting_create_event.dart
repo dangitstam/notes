@@ -60,6 +60,11 @@ class AftertasteScoreEvent extends CoffeeTastingCreateEvent {
   AftertasteScoreEvent({this.aftertasteScore});
 }
 
+class AftertasteIntensityEvent extends CoffeeTastingCreateEvent {
+  final double aftertasteIntensity;
+  AftertasteIntensityEvent({this.aftertasteIntensity});
+}
+
 class BodyScoreEvent extends CoffeeTastingCreateEvent {
   final double bodyScore;
   BodyScoreEvent({this.bodyScore});
@@ -81,13 +86,8 @@ class FragranceScoreEvent extends CoffeeTastingCreateEvent {
 }
 
 class FragranceBreakEvent extends CoffeeTastingCreateEvent {
-  final double fragranceBreak;
-  FragranceBreakEvent({this.fragranceBreak});
-}
-
-class FragranceDryEvent extends CoffeeTastingCreateEvent {
-  final double fragranceDry;
-  FragranceDryEvent({this.fragranceDry});
+  final double fragranceIntensity;
+  FragranceBreakEvent({this.fragranceIntensity});
 }
 
 class AddImageEvent extends CoffeeTastingCreateEvent {
