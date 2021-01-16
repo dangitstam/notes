@@ -12,35 +12,30 @@ class FlavorWidget extends StatelessWidget {
     var score = context.watch<CoffeeTastingCreateBloc>().state.flavorScore;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            Container(
-              height: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(width: 20),
-                  Text('Flavor', style: heading_6()),
-                  SizedBox(width: 20),
-                  Text('Score: $score', style: caption(), textAlign: TextAlign.right),
-                  Expanded(
-                    flex: 1,
-                    child: BlackSliderTheme(
-                      Slider(
-                        value: score,
-                        min: 0,
-                        max: 10,
-                        divisions: 10,
-                        onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(FlavorScoreEvent(flavorScore: round(value)));
-                        },
-                      ),
-                    ),
+        return Container(
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(width: 20),
+              Text('Flavor', style: heading_6()),
+              SizedBox(width: 20),
+              Text('Score: $score', style: caption(), textAlign: TextAlign.right),
+              Expanded(
+                flex: 1,
+                child: BlackSliderTheme(
+                  Slider(
+                    value: score,
+                    min: 0,
+                    max: 10,
+                    onChanged: (value) {
+                      context.read<CoffeeTastingCreateBloc>().add(FlavorScoreEvent(flavorScore: round(value)));
+                    },
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
