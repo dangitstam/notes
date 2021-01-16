@@ -241,11 +241,13 @@ class _CoffeeTastingListItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(2.3),
-            child: LinearProgressIndicator(
-              backgroundColor: Color(0xffd1d1d1),
-              value: scaledValue,
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xffa6a397)),
-              minHeight: 16,
+            child: Container(
+              height: 16,
+              child: LinearProgressIndicator(
+                backgroundColor: Color(0xffd1d1d1),
+                value: scaledValue,
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xffa6a397)),
+              ),
             ),
           ),
           LayoutBuilder(
