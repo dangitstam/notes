@@ -182,22 +182,23 @@ class _CoffeeTastingListItem extends StatelessWidget {
   }
 
   Widget _buildScaCriteriaCaption(String criteria) {
-    return Container(
-      height: 45,
-      child: Center(
-        child: Text(
-          '$criteria',
-          textAlign: TextAlign.right,
-          style: caption(),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5.0),
+      child: Container(
+        height: 40,
+        child: Center(
+          child: Text(
+            '$criteria',
+            textAlign: TextAlign.right,
+            style: caption(),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildScaCriteriaRatingLinearIndicator(double value) {
-    // SCA ratings begin at a minimum of 6.
-    // `value` is scaled so that a value of 6.0 appears as an empty bar.
-    var scaledValue = (value - 6) / 4;
+    var scaledValue = value / 10;
     var formattedValue = value == 10.0 ? 'Score: 10' : 'Score: $value';
     return Padding(
       padding: EdgeInsets.only(top: 2, bottom: 2),
@@ -232,9 +233,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
   }
 
   Widget _buildScaCriteriaIntensityLinearIndicator(double value) {
-    // SCA ratings begin at a minimum of 6.
-    // `value` is scaled so that a value of 6.0 appears as an empty bar.
-    var scaledValue = (value - 6) / 4;
+    var scaledValue = value / 10;
     var formattedValue = value == 10.0 ? 'Intensity: 10' : 'Intensity: $value';
     return Padding(
       padding: EdgeInsets.only(top: 2, bottom: 7),
