@@ -36,3 +36,11 @@ TextStyle caption({
     fontStyle: fontStyle,
   );
 }
+
+TextStyle const_caption = TextStyle(
+  color: Colors.black,
+  fontFamily: 'OpenSans',
+  fontSize: 12.0,
+  fontWeight: FontWeight.w100,
+  fontStyle: FontStyle.normal,
+);

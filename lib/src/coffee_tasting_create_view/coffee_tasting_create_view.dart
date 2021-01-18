@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
@@ -27,6 +28,23 @@ class CoffeeTastingCreateViewWidget extends StatefulWidget {
 class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewWidget> {
   File _image;
   final picker = ImagePicker();
+
+  var swiperController = SwiperController();
+  var swiperToggleButtonsSelections = [true, false, false, false];
+  var swiperTabs = [
+    Text('Fragrance'),
+    Text('Acidity'),
+    Text('Body'),
+    Text('Aftertaste'),
+  ];
+
+  void selectSwipperToggleButton(int index) {
+    setState(() {
+      for (var i = 0; i < swiperToggleButtonsSelections.length; i++) {
+        swiperToggleButtonsSelections[i] = i == index;
+      }
+    });
+  }
 
   Future getImage(ImageSource source) async {
     final pickedFile = await picker.getImage(source: source);
@@ -284,7 +302,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
               SizedBox(height: 10),
               Divider(),
               SizedBox(height: 10),
-              Text('Select Notes', style: subtitle_1()),
+              Text('Select Notes', style: heading_6()),
               SizedBox(height: 10),
               Wrap(
                 alignment: WrapAlignment.center,
@@ -314,19 +332,119 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   }
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Divider(),
+              SizedBox(height: 10),
+              Text('Quality & Intensity of Characteristics', style: heading_6()),
               SizedBox(height: 20),
-              FragranceWidget(),
-              Divider(),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        buildScaCriteriaCaption('Aroma'),
+                        buildScaCriteriaCaption('Acidity'),
+                        buildScaCriteriaCaption('Body'),
+                        buildScaCriteriaCaption('Sweetness'),
+                        buildScaCriteriaCaption('Alcohol'),
+                        buildScaCriteriaCaption('Finish'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        buildScaCriteriaRatingLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.fragranceScore),
+                        buildScaCriteriaIntensityLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.fragranceDry),
+                        buildScaCriteriaRatingLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.acidityScore),
+                        buildScaCriteriaIntensityLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.acidityIntensity),
+                        buildScaCriteriaRatingLinearIndicator(context.watch<CoffeeTastingCreateBloc>().state.bodyScore),
+                        buildScaCriteriaIntensityLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.bodyLevel),
+                        buildScaCriteriaRatingLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
+                        buildScaCriteriaIntensityLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
+                        buildScaCriteriaRatingLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
+                        buildScaCriteriaIntensityLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
+                        buildScaCriteriaRatingLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
+                        buildScaCriteriaIntensityLinearIndicator(
+                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
+                      ],
+                    ),
+                  )
+                ],
+              ),
               SizedBox(height: 20),
-              AcidityWidget(),
-              Divider(),
+              SizedBox(
+                height: 280,
+                child: Swiper(
+                  itemCount: 4,
+                  itemBuilder: (BuildContext context, int index) {
+                    switch (index) {
+                      case 0:
+                        return FragranceWidget();
+                      case 1:
+                        return AcidityWidget();
+                      case 2:
+                        return BodyWidget();
+                      default:
+                        return AftertasteWidget();
+                    }
+                  },
+                  control: SwiperControl(
+                    color: Colors.black,
+                    iconNext: CupertinoIcons.chevron_right_circle_fill,
+                    iconPrevious: CupertinoIcons.chevron_left_circle_fill,
+                    padding: const EdgeInsets.all(0.0),
+                    size: 25,
+                  ),
+                  controller: swiperController,
+                  onIndexChanged: (index) => {selectSwipperToggleButton(index)},
+                ),
+              ),
               SizedBox(height: 20),
-              BodyWidget(),
-              Divider(),
-              SizedBox(height: 20),
-              AftertasteWidget(),
+              Padding(
+                padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    final borderWidth = 1.0;
+                    final numVerticalBorders = swiperTabs.length + 1;
+                    return ToggleButtons(
+                      borderColor: Color(0xff2C2529),
+                      borderWidth: borderWidth,
+                      constraints: BoxConstraints.expand(
+                        // Allot space for each swiper tab, subtract width of vertical borders between each
+                        // element and on the edges to avoid overflow.
+                        width: constraints.maxWidth / swiperTabs.length - borderWidth * numVerticalBorders,
+                        height: 48,
+                      ),
+                      children: swiperTabs,
+                      fillColor: Colors.black,
+                      isSelected: swiperToggleButtonsSelections,
+                      onPressed: (int index) {
+                        swiperController.move(index);
+                        selectSwipperToggleButton(index);
+                      },
+                      selectedBorderColor: Colors.black,
+                      selectedColor: Colors.white,
+                      textStyle: subtitle_1(),
+                    );
+                  },
+                ),
+              ),
               SizedBox(height: 20),
               Divider(),
               SizedBox(height: 20),

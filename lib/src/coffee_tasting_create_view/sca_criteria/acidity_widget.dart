@@ -16,14 +16,14 @@ class AcidityWidget extends StatelessWidget {
       return Container(
         height: 225,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Acidity', style: heading_6()),
             SizedBox(width: 20),
-            Text('Score: $score', style: caption(), textAlign: TextAlign.right),
+            Text('Score', style: caption(), textAlign: TextAlign.right),
             Column(
               children: [
-                Text('10', style: caption(fontWeight: FontWeight.bold)),
+                Text('10', style: caption(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
@@ -39,7 +39,7 @@ class AcidityWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text('0', style: caption(fontWeight: FontWeight.bold)),
+                Text('0', style: caption(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
               ],
             ),
             SizedBox(width: 20),
@@ -53,7 +53,7 @@ class AcidityWidget extends StatelessWidget {
                     child: BlackSliderTheme(
                       Slider(
                         value: intensity,
-                        min: 6,
+                        min: 0,
                         max: 10,
                         onChanged: (value) {
                           context

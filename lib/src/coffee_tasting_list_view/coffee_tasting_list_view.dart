@@ -209,7 +209,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             child: Container(
               height: 16,
               child: LinearProgressIndicator(
-                backgroundColor: Color(0xffd1d1d1),
+                backgroundColor: Color(0xffffffff),
                 value: scaledValue,
                 valueColor: AlwaysStoppedAnimation<Color>(Color(0xff1b1b1b)),
               ),
@@ -244,9 +244,9 @@ class _CoffeeTastingListItem extends StatelessWidget {
             child: Container(
               height: 16,
               child: LinearProgressIndicator(
-                backgroundColor: Color(0xffd1d1d1),
+                backgroundColor: Color(0xffffffff),
                 value: scaledValue,
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xffa6a397)),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xff87bd91)),
               ),
             ),
           ),
