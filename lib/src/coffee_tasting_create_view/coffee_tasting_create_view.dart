@@ -34,12 +34,13 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
   final intensityBarColor = Color(0xff87bd91);
 
   var swiperController = SwiperController();
-  var swiperToggleButtonsSelections = [true, false, false, false];
+  var swiperToggleButtonsSelections = [true, false, false, false, false];
   var swiperTabs = [
-    Text('Fragrance'),
+    Text('Aroma'),
     Text('Acidity'),
     Text('Body'),
-    Text('Aftertaste'),
+    Text('Sweetness'),
+    Text('Finish'),
   ];
 
   void selectSwipperToggleButton(int index) {
@@ -383,7 +384,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
               SizedBox(
                 height: 280,
                 child: Swiper(
-                  itemCount: 4,
+                  itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
                     switch (index) {
                       case 0:
@@ -392,6 +393,8 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                         return AcidityWidget();
                       case 2:
                         return BodyWidget();
+                      case 3:
+                        return FragranceWidget();
                       default:
                         return AftertasteWidget();
                     }
