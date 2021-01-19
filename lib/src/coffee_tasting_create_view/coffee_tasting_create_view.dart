@@ -13,6 +13,7 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.da
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/overall.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/sweetness.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_linear_indicator.dart';
 import 'package:notes/src/data/model/note.dart';
@@ -35,6 +36,13 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
 
   var swiperController = SwiperController();
   var swiperToggleButtonsSelections = [true, false, false, false, false];
+  var swiperWidgets = [
+    FragranceWidget(),
+    AcidityWidget(),
+    BodyWidget(),
+    SweetnessWidget(),
+    AftertasteWidget(),
+  ];
   var swiperTabs = [
     Text('Aroma'),
     Text('Acidity'),
@@ -384,20 +392,9 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
               SizedBox(
                 height: 280,
                 child: Swiper(
-                  itemCount: 5,
+                  itemCount: swiperWidgets.length,
                   itemBuilder: (BuildContext context, int index) {
-                    switch (index) {
-                      case 0:
-                        return FragranceWidget();
-                      case 1:
-                        return AcidityWidget();
-                      case 2:
-                        return BodyWidget();
-                      case 3:
-                        return FragranceWidget();
-                      default:
-                        return AftertasteWidget();
-                    }
+                    return swiperWidgets[index];
                   },
                   control: SwiperControl(
                     color: Colors.black,
