@@ -111,7 +111,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
   // TODO: Would it be easier to just store the coffee tasting?
   final CoffeeTasting tasting;
 
-  Widget _buildCoffeeRoastLevelLinearIndicator(double value) {
+  Widget _buildCoffeeRoastLevelLinearIndicator(double percentage) {
     return Row(
       children: [
         Text('Roast Level', style: caption(), textAlign: TextAlign.left),
@@ -121,7 +121,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(2.0),
             child: LinearProgressIndicator(
               backgroundColor: Color(0xffd1d1d1),
-              value: value,
+              value: percentage,
               valueColor: AlwaysStoppedAnimation<Color>(Colors.black87),
               minHeight: 14,
             ),
@@ -262,7 +262,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(flex: 1, child: _buildCoffeeRoastLevelLinearIndicator(tasting.roastLevel)),
+                Expanded(flex: 1, child: _buildCoffeeRoastLevelLinearIndicator(tasting.roastLevel / 10)),
               ])
             ],
           ),
