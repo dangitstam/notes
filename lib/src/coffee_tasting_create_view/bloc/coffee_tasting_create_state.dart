@@ -9,15 +9,19 @@ class CoffeeTastingCreateState extends Equatable {
   final String roaster;
   final String process;
   final double roastLevel;
+  final double aromaScore;
+  final double aromaIntensity;
   final double acidityScore;
   final double acidityIntensity;
-  final double aftertasteScore;
   final double bodyScore;
   final double bodyLevel;
+  final double sweetnessScore;
+  final double sweetnessIntensity;
+  final double finishScore;
+  final double finishDuration;
+
   final double flavorScore;
-  final double fragranceScore;
-  final double fragranceBreak;
-  final double fragranceDry;
+
   final String imagePath;
 
   final List<Note> notes;
@@ -32,13 +36,15 @@ class CoffeeTastingCreateState extends Equatable {
     this.roastLevel,
     this.acidityScore,
     this.acidityIntensity,
-    this.aftertasteScore,
     this.bodyScore,
     this.bodyLevel,
+    this.aromaScore,
+    this.aromaIntensity,
+    this.sweetnessScore,
+    this.sweetnessIntensity,
+    this.finishScore,
+    this.finishDuration,
     this.flavorScore,
-    this.fragranceScore,
-    this.fragranceBreak,
-    this.fragranceDry,
     this.notes,
     this.imagePath,
   });
@@ -53,13 +59,15 @@ class CoffeeTastingCreateState extends Equatable {
     double roastLevel,
     double acidityScore,
     double acidityIntensity,
-    double aftertasteScore,
     double bodyScore,
     double bodyLevel,
     double flavorScore,
-    double fragranceScore,
-    double fragranceBreak,
-    double fragranceDry,
+    double aromaScore,
+    double aromaIntensity,
+    double sweetnessScore,
+    double sweetnessIntensity,
+    double finishScore,
+    double finishDuration,
     List<Note> notes,
     String imagePath,
   }) {
@@ -71,15 +79,17 @@ class CoffeeTastingCreateState extends Equatable {
       roaster: roaster ?? this.roaster,
       process: process ?? this.process,
       roastLevel: roastLevel ?? this.roastLevel,
+      aromaScore: aromaScore ?? this.aromaScore,
+      aromaIntensity: aromaIntensity ?? this.aromaIntensity,
       acidityScore: acidityScore ?? this.acidityScore,
       acidityIntensity: acidityIntensity ?? this.acidityIntensity,
-      aftertasteScore: aftertasteScore ?? this.aftertasteScore,
       bodyScore: bodyScore ?? this.bodyScore,
       bodyLevel: bodyLevel ?? this.bodyLevel,
+      sweetnessScore: sweetnessScore ?? this.sweetnessScore,
+      sweetnessIntensity: sweetnessIntensity ?? this.sweetnessIntensity,
+      finishScore: finishScore ?? this.finishScore,
+      finishDuration: finishDuration ?? this.finishDuration,
       flavorScore: flavorScore ?? this.flavorScore,
-      fragranceScore: fragranceScore ?? this.fragranceScore,
-      fragranceBreak: fragranceBreak ?? this.fragranceBreak,
-      fragranceDry: fragranceDry ?? this.fragranceDry,
       notes: notes ?? this.notes,
       imagePath: imagePath ?? this.imagePath,
     );
@@ -94,15 +104,17 @@ class CoffeeTastingCreateState extends Equatable {
         roaster,
         process,
         roastLevel,
+        aromaScore,
+        aromaIntensity,
         acidityScore,
         acidityIntensity,
-        aftertasteScore,
         bodyScore,
         bodyLevel,
         flavorScore,
-        fragranceScore,
-        fragranceBreak,
-        fragranceDry,
+        sweetnessScore,
+        sweetnessIntensity,
+        finishScore,
+        finishDuration,
         notes,
         imagePath,
       ];

@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
-import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/styles/typography.dart';
 import 'package:notes/src/common/util.dart';
+import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/styles/typography.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {
@@ -88,7 +87,7 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
               itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
               itemBuilder: (BuildContext _context, int index) {
                 if (coffeeTastings != null && index < coffeeTastings.length) {
-                  return _CoffeeTastingListItem.fromCoffeeTasting(coffeeTastings[index]);
+                  return _CoffeeTastingListItem(tasting: coffeeTastings[index]);
                 } else {
                   return Text('loading');
                 }
@@ -106,55 +105,11 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
 class _CoffeeTastingListItem extends StatelessWidget {
   _CoffeeTastingListItem({
     Key key,
-    this.id,
-    this.title,
-    this.origin,
-    this.process,
-    this.description,
-    this.notes,
-    this.roastLevel,
-    this.acidity,
-    this.aftertaste,
-    this.body,
-    this.flavor,
-    this.fragrance,
-    this.imagePath,
+    this.tasting,
   }) : super(key: key);
 
   // TODO: Would it be easier to just store the coffee tasting?
-  final int id;
-  final String title;
-  final String origin;
-  final String process;
-  final String description;
-  final List<Note> notes;
-  final double roastLevel;
-  final String imagePath;
-
-  // SCA criteria.
-  final double acidity;
-  final double aftertaste;
-  final double body;
-  final double flavor;
-  final double fragrance;
-
-  static Widget fromCoffeeTasting(CoffeeTasting tasting) {
-    return _CoffeeTastingListItem(
-      id: tasting.coffeeTastingId,
-      title: '${tasting.roaster}, ${tasting.coffeeName}',
-      origin: tasting.origin,
-      process: tasting.process,
-      description: tasting.description,
-      notes: tasting.notes,
-      roastLevel: tasting.roastLevel,
-      acidity: tasting.acidity,
-      aftertaste: tasting.aftertaste,
-      body: tasting.body,
-      flavor: tasting.flavor,
-      fragrance: tasting.fragrance,
-      imagePath: tasting.imagePath,
-    );
-  }
+  final CoffeeTasting tasting;
 
   Widget _buildCoffeeRoastLevelLinearIndicator(double value) {
     return Row(
@@ -281,7 +236,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '$title',
+                '${tasting.roaster}, ${tasting.coffeeName}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: heading_6(),
@@ -294,20 +249,20 @@ class _CoffeeTastingListItem extends StatelessWidget {
                     children: [
                       Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
                       Text(
-                        '$origin',
+                        '${tasting.origin}',
                         style: caption(),
                       ),
                       SizedBox(width: 5),
-                      _buildRoastingProcessIcon(process),
+                      _buildRoastingProcessIcon(tasting.process),
                       SizedBox(width: 2),
                       Text(
-                        '$process',
+                        '${tasting.process}',
                         style: caption(),
                       )
                     ],
                   ),
                 ),
-                Expanded(flex: 1, child: _buildCoffeeRoastLevelLinearIndicator(roastLevel)),
+                Expanded(flex: 1, child: _buildCoffeeRoastLevelLinearIndicator(tasting.roastLevel)),
               ])
             ],
           ),
@@ -315,10 +270,11 @@ class _CoffeeTastingListItem extends StatelessWidget {
           /**
            *  Optional image of tasting.
            */
-          imagePath != null
-              ? CoffeeTastingHeroImageStart(tag: 'list view hero image for tasting $id', imagePath: imagePath)
+          tasting.imagePath != null
+              ? CoffeeTastingHeroImageStart(
+                  tag: 'list view hero image for tasting ${tasting.coffeeTastingId}', imagePath: tasting.imagePath)
               : Container(),
-          imagePath != null ? const SizedBox(height: 10) : Container(),
+          tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
           /**
              * Description and notes section.
             */
@@ -330,7 +286,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      '$description',
+                      '${tasting.description}',
                       style: body_1(),
                       textAlign: TextAlign.center,
                     ),
@@ -339,7 +295,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       alignment: WrapAlignment.center,
                       direction: Axis.horizontal,
                       spacing: 5,
-                      children: notes.map((e) => TastingNote(e)).toList(),
+                      children: tasting.notes.map((e) => TastingNote(e)).toList(),
                     ),
                   ],
                 ),
@@ -360,7 +316,8 @@ class _CoffeeTastingListItem extends StatelessWidget {
                     _buildScaCriteriaCaption('Aroma'),
                     _buildScaCriteriaCaption('Acidity'),
                     _buildScaCriteriaCaption('Body'),
-                    _buildScaCriteriaCaption('Aftertaste'),
+                    _buildScaCriteriaCaption('Sweetness'),
+                    _buildScaCriteriaCaption('Finish'),
                   ],
                 ),
               ),
@@ -370,14 +327,16 @@ class _CoffeeTastingListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    _buildScaCriteriaRatingLinearIndicator(fragrance),
-                    _buildScaCriteriaIntensityLinearIndicator(fragrance),
-                    _buildScaCriteriaRatingLinearIndicator(acidity),
-                    _buildScaCriteriaIntensityLinearIndicator(acidity),
-                    _buildScaCriteriaRatingLinearIndicator(body),
-                    _buildScaCriteriaIntensityLinearIndicator(body),
-                    _buildScaCriteriaRatingLinearIndicator(aftertaste),
-                    _buildScaCriteriaIntensityLinearIndicator(aftertaste),
+                    _buildScaCriteriaRatingLinearIndicator(tasting.aromaScore),
+                    _buildScaCriteriaIntensityLinearIndicator(tasting.aromaIntensity),
+                    _buildScaCriteriaRatingLinearIndicator(tasting.acidityScore),
+                    _buildScaCriteriaIntensityLinearIndicator(tasting.acidityIntensity),
+                    _buildScaCriteriaRatingLinearIndicator(tasting.bodyScore),
+                    _buildScaCriteriaIntensityLinearIndicator(tasting.bodyLevel),
+                    _buildScaCriteriaRatingLinearIndicator(tasting.sweetnessScore),
+                    _buildScaCriteriaIntensityLinearIndicator(tasting.sweetnessIntensity),
+                    _buildScaCriteriaRatingLinearIndicator(tasting.finishScore),
+                    _buildScaCriteriaIntensityLinearIndicator(tasting.finishDuration),
                   ],
                 ),
               )

@@ -10,8 +10,8 @@ import 'criteria_util.dart';
 class SweetnessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.fragranceScore;
-    var fragranceBreak = context.watch<CoffeeTastingCreateBloc>().state.fragranceBreak;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.aromaScore;
+    var fragranceBreak = context.watch<CoffeeTastingCreateBloc>().state.aromaIntensity;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(builder: (context, state) {
       return Container(
         height: 225,
@@ -35,7 +35,7 @@ class SweetnessWidget extends StatelessWidget {
                         onChanged: (value) {
                           context
                               .read<CoffeeTastingCreateBloc>()
-                              .add(FragranceScoreEvent(fragranceScore: round(value)));
+                              .add(AromaScoreEvent(aromaScore: round(value)));
                         },
                       ),
                     ),
@@ -64,7 +64,7 @@ class SweetnessWidget extends StatelessWidget {
                         onChanged: (value) {
                           context
                               .read<CoffeeTastingCreateBloc>()
-                              .add(FragranceBreakEvent(fragranceIntensity: round(value)));
+                              .add(AromaIntensityEvent(aromaIntensity: round(value)));
                         },
                       ),
                     ),

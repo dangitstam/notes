@@ -30,13 +30,13 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
             roastLevel: 7.0,
             acidityScore: 7.0,
             acidityIntensity: 7.0,
-            aftertasteScore: 7.0,
+            finishScore: 7.0,
             bodyScore: 7.0,
             bodyLevel: 7.0,
             flavorScore: 7.0,
-            fragranceScore: 7.0,
-            fragranceBreak: 7.0,
-            fragranceDry: 7.0,
+            aromaScore: 7.0,
+            aromaIntensity: 7.0,
+            sweetnessScore: 7.0,
             notes: <Note>[],
             imagePath: null,
           ),
@@ -55,11 +55,11 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         roaster: state.roaster,
         // TODO: Where should the normalization take place?
         roastLevel: state.roastLevel / 10,
-        acidity: state.acidityScore,
-        aftertaste: state.aftertasteScore,
-        body: state.bodyScore,
-        flavor: state.flavorScore,
-        fragrance: state.fragranceScore,
+        acidityScore: state.acidityScore,
+        bodyScore: state.bodyScore,
+        finishScore: state.finishScore,
+        flavorScore: state.flavorScore,
+        aromaScore: state.aromaScore,
         imagePath: state.imagePath,
       ),
     );
@@ -131,24 +131,28 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       yield state.copyWith(roastLevel: event.roastLevel);
     } else if (event is ProcessEvent) {
       yield state.copyWith(process: event.process);
+    } else if (event is AromaScoreEvent) {
+      yield state.copyWith(aromaScore: event.aromaScore);
+    } else if (event is AromaIntensityEvent) {
+      yield state.copyWith(aromaIntensity: event.aromaIntensity);
     } else if (event is AcidityScoreEvent) {
       yield state.copyWith(acidityScore: event.acidityScore);
     } else if (event is AcidityIntensityEvent) {
       yield state.copyWith(acidityIntensity: event.acidityIntensity);
-    } else if (event is AftertasteScoreEvent) {
-      yield state.copyWith(aftertasteScore: event.aftertasteScore);
-    } else if (event is AftertasteIntensityEvent) {
-      yield state.copyWith(fragranceDry: event.aftertasteIntensity);
     } else if (event is BodyScoreEvent) {
       yield state.copyWith(bodyScore: event.bodyScore);
     } else if (event is BodyLevelEvent) {
       yield state.copyWith(bodyLevel: event.bodyLevel);
+    } else if (event is SweetnessScoreEvent) {
+      yield state.copyWith(sweetnessScore: event.sweetnessScore);
+    } else if (event is SweetnessIntensityEvent) {
+      yield state.copyWith(sweetnessIntensity: event.sweetnessIntensity);
+    } else if (event is FinishScoreEvent) {
+      yield state.copyWith(finishScore: event.finishScore);
+    } else if (event is FinishDurationEvent) {
+      yield state.copyWith(finishDuration: event.finishDuration);
     } else if (event is FlavorScoreEvent) {
       yield state.copyWith(flavorScore: event.flavorScore);
-    } else if (event is FragranceScoreEvent) {
-      yield state.copyWith(fragranceScore: event.fragranceScore);
-    } else if (event is FragranceBreakEvent) {
-      yield state.copyWith(fragranceBreak: event.fragranceIntensity);
     } else if (event is AddImageEvent) {
       yield state.copyWith(imagePath: event.imagePath);
     }

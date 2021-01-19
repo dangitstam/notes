@@ -9,8 +9,8 @@ import 'criteria_util.dart';
 class AftertasteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore;
-    var duration = context.watch<CoffeeTastingCreateBloc>().state.fragranceDry;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.finishScore;
+    var duration = context.watch<CoffeeTastingCreateBloc>().state.sweetnessScore;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
       builder: (context, state) {
         return Container(
@@ -35,7 +35,7 @@ class AftertasteWidget extends StatelessWidget {
                           onChanged: (value) {
                             context
                                 .read<CoffeeTastingCreateBloc>()
-                                .add(AftertasteScoreEvent(aftertasteScore: round(value)));
+                                .add(FinishScoreEvent(finishScore: round(value)));
                           },
                         ),
                       ),
@@ -61,7 +61,7 @@ class AftertasteWidget extends StatelessWidget {
                             // TODO: Add duration to coffee tasting data model.
                             context
                                 .read<CoffeeTastingCreateBloc>()
-                                .add(AftertasteIntensityEvent(aftertasteIntensity: round(value)));
+                                .add(FinishDurationEvent(finishDuration: round(value)));
                           },
                         ),
                       ),
