@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/styles/typography.dart';
 
-import '../../util.dart';
+import '../../common/util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';
 import 'criteria_util.dart';
 
@@ -30,7 +30,7 @@ class FragranceWidget extends StatelessWidget {
                     child: BlackSliderTheme(
                       Slider(
                         value: score,
-                        min: 6,
+                        min: 0,
                         max: 10,
                         onChanged: (value) {
                           context
@@ -59,7 +59,7 @@ class FragranceWidget extends StatelessWidget {
                     child: BlackSliderTheme(
                       Slider(
                         value: fragranceBreak,
-                        min: 6,
+                        min: 0,
                         max: 10,
                         onChanged: (value) {
                           context

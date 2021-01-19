@@ -8,7 +8,7 @@ import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_sta
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
-import 'package:notes/src/util.dart';
+import 'package:notes/src/common/util.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {

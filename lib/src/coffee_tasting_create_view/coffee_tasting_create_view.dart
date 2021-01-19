@@ -13,9 +13,10 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.da
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/overall.dart';
+import 'package:notes/src/common/util.dart';
+import 'package:notes/src/common/widgets/criteria_linear_indicator.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
-import 'package:notes/src/util.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
 import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
@@ -28,6 +29,9 @@ class CoffeeTastingCreateViewWidget extends StatefulWidget {
 class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewWidget> {
   File _image;
   final picker = ImagePicker();
+
+  final scoreBarColor = Color(0xff1b1b1b);
+  final intensityBarColor = Color(0xff87bd91);
 
   var swiperController = SwiperController();
   var swiperToggleButtonsSelections = [true, false, false, false];
@@ -79,6 +83,8 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
   @override
   Widget build(BuildContext context) {
     var selectedTastingNotes = context.watch<CoffeeTastingCreateBloc>().state.notes;
+
+    var coffeeTastingState = context.watch<CoffeeTastingCreateBloc>().state;
 
     return Scaffold(
       appBar: AppBar(
@@ -348,7 +354,6 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                         buildScaCriteriaCaption('Acidity'),
                         buildScaCriteriaCaption('Body'),
                         buildScaCriteriaCaption('Sweetness'),
-                        buildScaCriteriaCaption('Alcohol'),
                         buildScaCriteriaCaption('Finish'),
                       ],
                     ),
@@ -359,29 +364,16 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        buildScaCriteriaRatingLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.fragranceScore),
-                        buildScaCriteriaIntensityLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.fragranceDry),
-                        buildScaCriteriaRatingLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.acidityScore),
-                        buildScaCriteriaIntensityLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.acidityIntensity),
-                        buildScaCriteriaRatingLinearIndicator(context.watch<CoffeeTastingCreateBloc>().state.bodyScore),
-                        buildScaCriteriaIntensityLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.bodyLevel),
-                        buildScaCriteriaRatingLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
-                        buildScaCriteriaIntensityLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
-                        buildScaCriteriaRatingLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
-                        buildScaCriteriaIntensityLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
-                        buildScaCriteriaRatingLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
-                        buildScaCriteriaIntensityLinearIndicator(
-                            context.watch<CoffeeTastingCreateBloc>().state.aftertasteScore),
+                        CriteriaLinearIndicator(coffeeTastingState.fragranceScore, 'Score', scoreBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.fragranceDry, 'Intensity', intensityBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.acidityScore, 'Score', scoreBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.acidityIntensity, 'Intensity', intensityBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.bodyScore, 'Score', scoreBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.bodyLevel, 'Level', intensityBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.aftertasteScore, 'Score', scoreBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.aftertasteScore, 'Duration', intensityBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.aftertasteScore, 'Score', scoreBarColor),
+                        CriteriaLinearIndicator(coffeeTastingState.aftertasteScore, 'Duration', intensityBarColor),
                       ],
                     ),
                   )
