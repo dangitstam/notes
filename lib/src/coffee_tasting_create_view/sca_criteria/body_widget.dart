@@ -9,8 +9,8 @@ import 'criteria_util.dart';
 class BodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.bodyScore;
-    var level = context.watch<CoffeeTastingCreateBloc>().state.bodyLevel;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.bodyScore;
+    var level = context.watch<CoffeeTastingCreateBloc>().state.tasting.bodyLevel;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(builder: (context, state) {
       return Container(
         height: 225,

@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
 
-class CoffeeTasting {
+class CoffeeTasting extends Equatable {
   final int coffeeTastingId;
   String coffeeName;
   String description;
@@ -106,4 +107,74 @@ class CoffeeTasting {
       'image_path': imagePath,
     };
   }
+
+  CoffeeTasting copyWith({
+    int coffeeTastingId,
+    String coffeeName,
+    String description,
+    String origin,
+    String roaster,
+    String process,
+    double roastLevel,
+    double acidityScore,
+    double acidityIntensity,
+    double bodyScore,
+    double bodyLevel,
+    double flavorScore,
+    double aromaScore,
+    double aromaIntensity,
+    double sweetnessScore,
+    double sweetnessIntensity,
+    double finishScore,
+    double finishDuration,
+    List<Note> notes,
+    String imagePath,
+  }) {
+    return CoffeeTasting(
+      coffeeTastingId: coffeeTastingId ?? this.coffeeTastingId,
+      coffeeName: coffeeName ?? this.coffeeName,
+      description: description ?? this.description,
+      origin: origin ?? this.origin,
+      roaster: roaster ?? this.roaster,
+      process: process ?? this.process,
+      roastLevel: roastLevel ?? this.roastLevel,
+      aromaScore: aromaScore ?? this.aromaScore,
+      aromaIntensity: aromaIntensity ?? this.aromaIntensity,
+      acidityScore: acidityScore ?? this.acidityScore,
+      acidityIntensity: acidityIntensity ?? this.acidityIntensity,
+      bodyScore: bodyScore ?? this.bodyScore,
+      bodyLevel: bodyLevel ?? this.bodyLevel,
+      sweetnessScore: sweetnessScore ?? this.sweetnessScore,
+      sweetnessIntensity: sweetnessIntensity ?? this.sweetnessIntensity,
+      finishScore: finishScore ?? this.finishScore,
+      finishDuration: finishDuration ?? this.finishDuration,
+      flavorScore: flavorScore ?? this.flavorScore,
+      notes: notes ?? this.notes,
+      imagePath: imagePath ?? this.imagePath,
+    );
+  }
+
+  @override
+  List<Object> get props => [
+        coffeeTastingId,
+        coffeeName,
+        description,
+        origin,
+        roaster,
+        process,
+        roastLevel,
+        aromaScore,
+        aromaIntensity,
+        acidityScore,
+        acidityIntensity,
+        bodyScore,
+        bodyLevel,
+        flavorScore,
+        sweetnessScore,
+        sweetnessIntensity,
+        finishScore,
+        finishDuration,
+        notes,
+        imagePath,
+      ];
 }

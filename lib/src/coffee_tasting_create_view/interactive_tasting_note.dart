@@ -20,8 +20,8 @@ class _AddTastingNoteState extends State<AddTastingNote> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
-      listener: (context, state) {
-        if (!state.notes.contains(widget.note)) {
+      listener: (BuildContext context, CoffeeTastingCreateState state) {
+        if (!state.tasting.notes.contains(widget.note)) {
           _enabled = true;
         }
       },

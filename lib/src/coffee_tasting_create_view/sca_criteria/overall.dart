@@ -9,7 +9,7 @@ import 'criteria_util.dart';
 class OverallWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.flavorScore;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.flavorScore;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
       builder: (context, state) {
         return Column(

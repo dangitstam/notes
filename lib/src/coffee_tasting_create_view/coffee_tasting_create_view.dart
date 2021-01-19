@@ -91,9 +91,8 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
 
   @override
   Widget build(BuildContext context) {
-    var selectedTastingNotes = context.watch<CoffeeTastingCreateBloc>().state.notes;
-
-    var coffeeTastingState = context.watch<CoffeeTastingCreateBloc>().state;
+    var coffeeTastingState = context.watch<CoffeeTastingCreateBloc>().state.tasting;
+    var selectedTastingNotes = coffeeTastingState.notes;
 
     return Scaffold(
       appBar: AppBar(
@@ -127,326 +126,332 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
           )
         ],
       ),
-      body: BlocListener<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
-        listener: (context, state) {
-          // Navigate on state change after awaited db insertion to avoid race condition.
-          if (state.isCoffeeTastingInserted) {
-            Navigator.pushReplacementNamed(context, '/');
-          }
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
         },
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: GestureDetector(
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          AspectRatio(
-                            aspectRatio: 1.0,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: ColorFiltered(
-                                colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.4),
-                                  BlendMode.darken,
+        child: BlocListener<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
+          listener: (context, state) {
+            // Navigate on state change after awaited db insertion to avoid race condition.
+            if (state.isCoffeeTastingInserted) {
+              Navigator.pushReplacementNamed(context, '/');
+            }
+          },
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 2,
+                      child: GestureDetector(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1.0,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(0.4),
+                                    BlendMode.darken,
+                                  ),
+                                  child: _image != null
+                                      ? Image.file(_image, fit: BoxFit.cover)
+                                      // TODO: Take a new stub photo.
+                                      : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
                                 ),
-                                child: _image != null
-                                    ? Image.file(_image, fit: BoxFit.cover)
-                                    // TODO: Take a new stub photo.
-                                    : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
                               ),
                             ),
-                          ),
-                          Icon(
-                            CupertinoIcons.photo_camera,
-                            color: Colors.white.withOpacity(0.7),
-                            size: 40,
-                          ),
-                        ],
-                      ),
-                      onTap: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 30.0),
-                              child: Wrap(
-                                children: <Widget>[
-                                  ListTile(
-                                      leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
-                                      title: Text('Photo Library', style: body_1()),
+                            Icon(
+                              CupertinoIcons.photo_camera,
+                              color: Colors.white.withOpacity(0.7),
+                              size: 40,
+                            ),
+                          ],
+                        ),
+                        onTap: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 30.0),
+                                child: Wrap(
+                                  children: <Widget>[
+                                    ListTile(
+                                        leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
+                                        title: Text('Photo Library', style: body_1()),
+                                        onTap: () {
+                                          getImage(ImageSource.gallery);
+                                          Navigator.of(context).pop();
+                                        }),
+                                    ListTile(
+                                      leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
+                                      title: Text('Camera', style: body_1()),
                                       onTap: () {
-                                        getImage(ImageSource.gallery);
+                                        getImage(ImageSource.camera);
                                         Navigator.of(context).pop();
-                                      }),
-                                  ListTile(
-                                    leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
-                                    title: Text('Camera', style: body_1()),
-                                    onTap: () {
-                                      getImage(ImageSource.camera);
-                                      Navigator.of(context).pop();
-                                    },
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      children: [
-                        EditableTextWithCaptionWidget(
-                          label: 'Roaster',
-                          hint: 'Who roasted this coffee?',
-                          onChanged: (value) {
-                            context.read<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        EditableTextWithCaptionWidget(
-                          label: 'Coffee Name',
-                          hint: 'What kind of coffee is this?',
-                          onChanged: (value) {
-                            context.read<CoffeeTastingCreateBloc>().add(CoffeeNameEvent(coffeeName: value));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              TextField(
-                minLines: 1,
-                maxLines: 5,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Write a description here...',
-                    hintStyle: body_1(color: Color(0xff919191), fontStyle: FontStyle.italic),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    isDense: true),
-                onChanged: (value) {
-                  context.read<CoffeeTastingCreateBloc>().add(DescriptionEvent(description: value));
-                },
-                style: body_1(),
-              ),
-              Row(
-                children: [
-                  Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(top: 5, bottom: 5),
-                        hintText: 'Origin',
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        isDense: true,
+                                      },
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
                       ),
-                      onChanged: (value) {
-                        context.read<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
-                      },
-                      style: body_1(),
                     ),
-                  )
-                ],
-              ),
-              Row(children: [
-                Text('Roast Level', style: subtitle_1()),
-                Expanded(
-                  flex: 1,
-                  child: BlackSliderTheme(
-                    Slider(
-                      value: context.watch<CoffeeTastingCreateBloc>().state.roastLevel,
-                      min: 0,
-                      max: 10,
-                      divisions: 10,
-                      onChanged: (value) {
-                        context.read<CoffeeTastingCreateBloc>().add(RoastLevelEvent(roastLevel: value));
-                      },
-                    ),
-                  ),
-                ),
-                Text('Process', style: subtitle_1()),
-                SizedBox(width: 10),
-                Container(
-                    child: DropdownButton<String>(
-                  value: context.watch<CoffeeTastingCreateBloc>().state.process,
-                  icon: Icon(CupertinoIcons.arrow_down),
-                  iconSize: 14,
-                  style: body_1(),
-                  underline: Container(
-                    height: 0.5,
-                    color: Colors.black87,
-                  ),
-                  onChanged: (value) {
-                    context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
-                  },
-                  items: {
-                    'Washed': Icon(CupertinoIcons.drop),
-                    'Natural': Icon(CupertinoIcons.sun_min),
-                  }.entries.map((entry) {
-                    var processType = entry.key;
-                    var processIcon = entry.value;
-                    return DropdownMenuItem<String>(
-                      value: processType,
-                      child: Row(
+                    SizedBox(width: 10),
+                    Expanded(
+                      flex: 5,
+                      child: Column(
                         children: [
-                          processIcon,
-                          Text(
-                            processType,
-                            style: body_1(),
+                          EditableTextWithCaptionWidget(
+                            label: 'Roaster',
+                            hint: 'Who roasted this coffee?',
+                            onChanged: (value) {
+                              context.read<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          EditableTextWithCaptionWidget(
+                            label: 'Coffee Name',
+                            hint: 'What kind of coffee is this?',
+                            onChanged: (value) {
+                              context.read<CoffeeTastingCreateBloc>().add(CoffeeNameEvent(coffeeName: value));
+                            },
                           ),
                         ],
                       ),
-                    );
-                  }).toList(),
-                )),
-              ]),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 10),
-              Text('Select Notes', style: heading_6()),
-              SizedBox(height: 10),
-              Wrap(
-                alignment: WrapAlignment.center,
-                direction: Axis.horizontal,
-                spacing: 5,
-                children: selectedTastingNotes.map((e) => RemoveTastingNote(e)).toList(),
-              ),
-              selectedTastingNotes.isNotEmpty
-                  ? Divider(
-                      height: 20,
-                      indent: 60,
-                      endIndent: 60,
-                    )
-                  : SizedBox(height: 10),
-              StreamBuilder(
-                stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
-                builder: (context, AsyncSnapshot<List<Note>> snapshot) {
-                  var notes = snapshot.data;
-                  if (notes != null) {
-                    return Wrap(
-                      spacing: 5,
-                      alignment: WrapAlignment.center,
-                      children: notes.map((e) => AddTastingNote(e)).toList(),
-                    );
-                  } else {
-                    return Container(width: 0, height: 0);
-                  }
-                },
-              ),
-              SizedBox(height: 10),
-              Divider(),
-              SizedBox(height: 10),
-              Text('Quality & Intensity of Characteristics', style: heading_6()),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        buildScaCriteriaCaption('Aroma'),
-                        buildScaCriteriaCaption('Acidity'),
-                        buildScaCriteriaCaption('Body'),
-                        buildScaCriteriaCaption('Sweetness'),
-                        buildScaCriteriaCaption('Finish'),
-                      ],
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CriteriaLinearIndicator(coffeeTastingState.aromaScore, 'Score', scoreBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.sweetnessScore, 'Intensity', intensityBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.acidityScore, 'Score', scoreBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.acidityIntensity, 'Intensity', intensityBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.bodyScore, 'Score', scoreBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.bodyLevel, 'Level', intensityBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.finishScore, 'Score', scoreBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.finishScore, 'Duration', intensityBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.finishScore, 'Score', scoreBarColor),
-                        CriteriaLinearIndicator(coffeeTastingState.finishScore, 'Duration', intensityBarColor),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 20),
-              SizedBox(
-                height: 280,
-                child: Swiper(
-                  itemCount: swiperWidgets.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return swiperWidgets[index];
-                  },
-                  control: SwiperControl(
-                    color: Colors.black,
-                    iconNext: CupertinoIcons.chevron_right_circle_fill,
-                    iconPrevious: CupertinoIcons.chevron_left_circle_fill,
-                    padding: const EdgeInsets.all(0.0),
-                    size: 25,
-                  ),
-                  controller: swiperController,
-                  onIndexChanged: (index) => {selectSwipperToggleButton(index)},
+                  ],
                 ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                child: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    final borderWidth = 1.0;
-                    final numVerticalBorders = swiperTabs.length + 1;
-                    return ToggleButtons(
-                      borderColor: Color(0xff2C2529),
-                      borderWidth: borderWidth,
-                      constraints: BoxConstraints.expand(
-                        // Allot space for each swiper tab, subtract width of vertical borders between each
-                        // element and on the edges to avoid overflow.
-                        width: constraints.maxWidth / swiperTabs.length - borderWidth * numVerticalBorders,
-                        height: 48,
+                SizedBox(height: 10),
+                TextField(
+                  minLines: 1,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Write a description here...',
+                      hintStyle: body_1(color: Color(0xff919191), fontStyle: FontStyle.italic),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      isDense: true),
+                  onChanged: (value) {
+                    context.read<CoffeeTastingCreateBloc>().add(DescriptionEvent(description: value));
+                  },
+                  style: body_1(),
+                ),
+                Row(
+                  children: [
+                    Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          enabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(top: 5, bottom: 5),
+                          hintText: 'Origin',
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          isDense: true,
+                        ),
+                        onChanged: (value) {
+                          context.read<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
+                        },
+                        style: body_1(),
                       ),
-                      children: swiperTabs,
-                      fillColor: Colors.black,
-                      isSelected: swiperToggleButtonsSelections,
-                      onPressed: (int index) {
-                        swiperController.move(index);
-                        selectSwipperToggleButton(index);
-                      },
-                      selectedBorderColor: Colors.black,
-                      selectedColor: Colors.white,
-                      textStyle: subtitle_1(),
-                    );
+                    )
+                  ],
+                ),
+                Row(children: [
+                  Text('Roast Level', style: subtitle_1()),
+                  Expanded(
+                    flex: 1,
+                    child: BlackSliderTheme(
+                      Slider(
+                        value: coffeeTastingState.roastLevel,
+                        min: 0,
+                        max: 10,
+                        divisions: 10,
+                        onChanged: (value) {
+                          context.read<CoffeeTastingCreateBloc>().add(RoastLevelEvent(roastLevel: value));
+                        },
+                      ),
+                    ),
+                  ),
+                  Text('Process', style: subtitle_1()),
+                  SizedBox(width: 10),
+                  Container(
+                      child: DropdownButton<String>(
+                    value: coffeeTastingState.process,
+                    icon: Icon(CupertinoIcons.arrow_down),
+                    iconSize: 14,
+                    style: body_1(),
+                    underline: Container(
+                      height: 0.5,
+                      color: Colors.black87,
+                    ),
+                    onChanged: (value) {
+                      context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
+                    },
+                    items: {
+                      'Washed': Icon(CupertinoIcons.drop),
+                      'Natural': Icon(CupertinoIcons.sun_min),
+                    }.entries.map((entry) {
+                      var processType = entry.key;
+                      var processIcon = entry.value;
+                      return DropdownMenuItem<String>(
+                        value: processType,
+                        child: Row(
+                          children: [
+                            processIcon,
+                            Text(
+                              processType,
+                              style: body_1(),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  )),
+                ]),
+                SizedBox(height: 10),
+                Divider(),
+                SizedBox(height: 10),
+                Text('Select Notes', style: heading_6()),
+                SizedBox(height: 10),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  direction: Axis.horizontal,
+                  spacing: 5,
+                  children: selectedTastingNotes.map((e) => RemoveTastingNote(e)).toList(),
+                ),
+                selectedTastingNotes.isNotEmpty
+                    ? Divider(
+                        height: 20,
+                        indent: 60,
+                        endIndent: 60,
+                      )
+                    : SizedBox(height: 10),
+                StreamBuilder(
+                  stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
+                  builder: (context, AsyncSnapshot<List<Note>> snapshot) {
+                    var notes = snapshot.data;
+                    if (notes != null) {
+                      return Wrap(
+                        spacing: 5,
+                        alignment: WrapAlignment.center,
+                        children: notes.map((e) => AddTastingNote(e)).toList(),
+                      );
+                    } else {
+                      return Container(width: 0, height: 0);
+                    }
                   },
                 ),
-              ),
-              SizedBox(height: 20),
-              Divider(),
-              SizedBox(height: 20),
-              FlavorWidget(),
-              SizedBox(height: 20),
-              Divider(),
-              SizedBox(height: 20),
-              OverallWidget(),
-              SizedBox(height: 20),
-            ],
+                SizedBox(height: 10),
+                Divider(),
+                SizedBox(height: 10),
+                Text('Quality & Intensity of Characteristics', style: heading_6()),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          buildScaCriteriaCaption('Aroma'),
+                          buildScaCriteriaCaption('Acidity'),
+                          buildScaCriteriaCaption('Body'),
+                          buildScaCriteriaCaption('Sweetness'),
+                          buildScaCriteriaCaption('Finish'),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CriteriaLinearIndicator(coffeeTastingState.aromaScore, 'Score', scoreBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.aromaIntensity, 'Intensity', intensityBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.acidityScore, 'Score', scoreBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.acidityIntensity, 'Intensity', intensityBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.bodyScore, 'Score', scoreBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.bodyLevel, 'Level', intensityBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.sweetnessScore, 'Score', scoreBarColor),
+                          CriteriaLinearIndicator(
+                              coffeeTastingState.sweetnessIntensity, 'Intensity', intensityBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.finishScore, 'Score', scoreBarColor),
+                          CriteriaLinearIndicator(coffeeTastingState.finishDuration, 'Duration', intensityBarColor),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 280,
+                  child: Swiper(
+                    itemCount: swiperWidgets.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return swiperWidgets[index];
+                    },
+                    control: SwiperControl(
+                      color: Colors.black,
+                      iconNext: CupertinoIcons.chevron_right_circle_fill,
+                      iconPrevious: CupertinoIcons.chevron_left_circle_fill,
+                      padding: const EdgeInsets.all(0.0),
+                      size: 25,
+                    ),
+                    controller: swiperController,
+                    onIndexChanged: (index) => {selectSwipperToggleButton(index)},
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+                  child: LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      final borderWidth = 1.0;
+                      final numVerticalBorders = swiperTabs.length + 1;
+                      return ToggleButtons(
+                        borderColor: Color(0xff2C2529),
+                        borderWidth: borderWidth,
+                        constraints: BoxConstraints.expand(
+                          // Allot space for each swiper tab, subtract width of vertical borders between each
+                          // element and on the edges to avoid overflow.
+                          width: constraints.maxWidth / swiperTabs.length - borderWidth * numVerticalBorders,
+                          height: 48,
+                        ),
+                        children: swiperTabs,
+                        fillColor: Colors.black,
+                        isSelected: swiperToggleButtonsSelections,
+                        onPressed: (int index) {
+                          swiperController.move(index);
+                          selectSwipperToggleButton(index);
+                        },
+                        selectedBorderColor: Colors.black,
+                        selectedColor: Colors.white,
+                        textStyle: subtitle_1(),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 20),
+                Divider(),
+                SizedBox(height: 20),
+                FlavorWidget(),
+                SizedBox(height: 20),
+                Divider(),
+                SizedBox(height: 20),
+                OverallWidget(),
+                SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

@@ -10,8 +10,8 @@ import 'criteria_util.dart';
 class AcidityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.acidityScore;
-    var intensity = context.watch<CoffeeTastingCreateBloc>().state.acidityIntensity;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.acidityScore;
+    var intensity = context.watch<CoffeeTastingCreateBloc>().state.tasting.acidityIntensity;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(builder: (context, state) {
       return Container(
         height: 225,
