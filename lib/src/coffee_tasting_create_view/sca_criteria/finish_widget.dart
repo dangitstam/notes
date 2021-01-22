@@ -56,7 +56,6 @@ class FinishWidget extends StatelessWidget {
                           min: 0,
                           max: 10,
                           onChanged: (value) {
-                            // TODO: Add duration to coffee tasting data model.
                             context
                                 .read<CoffeeTastingCreateBloc>()
                                 .add(FinishDurationEvent(finishDuration: round(value)));
