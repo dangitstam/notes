@@ -15,6 +15,7 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widg
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/sweetness.dart';
 import 'package:notes/src/common/util.dart';
+import 'package:notes/src/common/widgets/criteria_caption.dart';
 import 'package:notes/src/common/widgets/criteria_linear_indicator.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
@@ -362,11 +363,11 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          buildScaCriteriaCaption('Aroma'),
-                          buildScaCriteriaCaption('Acidity'),
-                          buildScaCriteriaCaption('Body'),
-                          buildScaCriteriaCaption('Sweetness'),
-                          buildScaCriteriaCaption('Finish'),
+                          CriteriaCaption('Aroma'),
+                          CriteriaCaption('Acidity'),
+                          CriteriaCaption('Body'),
+                          CriteriaCaption('Sweetness'),
+                          CriteriaCaption('Finish'),
                         ],
                       ),
                     ),
