@@ -33,12 +33,12 @@ class CriteriaLinearIndicator extends StatelessWidget {
             ),
           ),
           LayoutBuilder(
-            builder: (context, constrains) {
+            builder: (BuildContext context, BoxConstraints constraints) {
               var rightPadding = min(
-                constrains.maxWidth * (1 - scaledValue),
+                constraints.maxWidth * (1 - scaledValue),
 
                 // Prevent pushing text overlaid on the progress indicator from going off the edge.
-                constrains.maxWidth - textWidth,
+                constraints.maxWidth - textWidth,
               );
 
               return Padding(
