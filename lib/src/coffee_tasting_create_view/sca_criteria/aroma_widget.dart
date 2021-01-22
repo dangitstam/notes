@@ -7,7 +7,7 @@ import '../../common/util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';
 import 'criteria_util.dart';
 
-class FragranceWidget extends StatelessWidget {
+class AromaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.aromaScore;

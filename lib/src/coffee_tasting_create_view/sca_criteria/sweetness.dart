@@ -10,8 +10,8 @@ import 'criteria_util.dart';
 class SweetnessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.aromaScore;
-    var fragranceBreak = context.watch<CoffeeTastingCreateBloc>().state.tasting.aromaIntensity;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.sweetnessScore;
+    var intensity = context.watch<CoffeeTastingCreateBloc>().state.tasting.sweetnessIntensity;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(builder: (context, state) {
       return Container(
         height: 225,
@@ -58,7 +58,7 @@ class SweetnessWidget extends StatelessWidget {
                     quarterTurns: 3,
                     child: BlackSliderTheme(
                       Slider(
-                        value: fragranceBreak,
+                        value: intensity,
                         min: 0,
                         max: 10,
                         onChanged: (value) {

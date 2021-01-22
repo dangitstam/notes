@@ -11,7 +11,7 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aftertaste.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aroma_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/sweetness.dart';
 import 'package:notes/src/common/util.dart';
@@ -37,7 +37,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
   var swiperController = SwiperController();
   var swiperToggleButtonsSelections = [true, false, false, false, false];
   var swiperWidgets = [
-    FragranceWidget(),
+    AromaWidget(),
     AcidityWidget(),
     BodyWidget(),
     SweetnessWidget(),
