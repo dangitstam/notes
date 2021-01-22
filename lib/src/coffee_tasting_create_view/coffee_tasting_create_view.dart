@@ -51,7 +51,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
     Text('Finish'),
   ];
 
-  void selectSwipperToggleButton(int index) {
+  void onSwiperToggleButtonClick(int index) {
     setState(() {
       for (var i = 0; i < swiperToggleButtonsSelections.length; i++) {
         swiperToggleButtonsSelections[i] = i == index;
@@ -418,7 +418,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       size: 25,
                     ),
                     controller: swiperController,
-                    onIndexChanged: (index) => {selectSwipperToggleButton(index)},
+                    onIndexChanged: (index) => {onSwiperToggleButtonClick(index)},
                   ),
                 ),
                 SizedBox(height: 20),
@@ -442,7 +442,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                         isSelected: swiperToggleButtonsSelections,
                         onPressed: (int index) {
                           swiperController.move(index);
-                          selectSwipperToggleButton(index);
+                          onSwiperToggleButtonClick(index);
                         },
                         selectedBorderColor: Colors.black,
                         selectedColor: Colors.white,
