@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/acidity_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aftertaste.dart';
+import 'package:notes/src/coffee_tasting_create_view/sca_criteria/finish_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/body_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/flavor_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/aroma_widget.dart';
@@ -41,7 +41,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
     AcidityWidget(),
     BodyWidget(),
     SweetnessWidget(),
-    AftertasteWidget(),
+    FinishWidget(),
   ];
   var swiperTabs = [
     Text('Aroma'),
