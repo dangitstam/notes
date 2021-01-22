@@ -26,7 +26,7 @@ class CriteriaLinearIndicator extends StatelessWidget {
             child: Container(
               height: barHeight,
               child: LinearProgressIndicator(
-                backgroundColor: Color(0xffd1d1d1),
+                backgroundColor: Color(0xfff1f1f1),
                 value: scaledValue,
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),
@@ -48,7 +48,7 @@ class CriteriaLinearIndicator extends StatelessWidget {
                   child: Container(
                     height: barHeight,
                     width: textWidth,
-                    padding: EdgeInsets.only(left: 2, right: 2),
+                    padding: EdgeInsets.only(left: 4, right: 4),
                     child: Align(
                       // Aligns the text left when the bar is empty, aligns it to the the right when full.
                       alignment: Alignment.lerp(

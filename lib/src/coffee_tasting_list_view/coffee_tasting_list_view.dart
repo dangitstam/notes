@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
 import 'package:notes/src/common/util.dart';
+import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/styles/typography.dart';
 
@@ -108,8 +109,11 @@ class _CoffeeTastingListItem extends StatelessWidget {
     this.tasting,
   }) : super(key: key);
 
-  // TODO: Would it be easier to just store the coffee tasting?
   final CoffeeTasting tasting;
+
+  // TODO: Theming
+  final scoreBarColor = Color(0xff1b1b1b);
+  final intensityBarColor = Color(0xff87bd91);
 
   Widget _buildCoffeeRoastLevelLinearIndicator(double percentage) {
     return Row(
@@ -136,92 +140,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
     return Icon(process == 'Natural' ? CupertinoIcons.sun_max : CupertinoIcons.drop, color: Colors.black, size: 14);
   }
 
-  Widget _buildScaCriteriaCaption(String criteria) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 5.0),
-      child: Container(
-        height: 40,
-        child: Center(
-          child: Text(
-            '$criteria',
-            textAlign: TextAlign.right,
-            style: caption(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildScaCriteriaRatingLinearIndicator(double value) {
-    var scaledValue = value / 10;
-    var formattedValue = value == 10.0 ? 'Score: 10' : 'Score: $value';
-    return Padding(
-      padding: EdgeInsets.only(top: 2, bottom: 2),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(2.3),
-            child: Container(
-              height: 16,
-              child: LinearProgressIndicator(
-                backgroundColor: Color(0xffffffff),
-                value: scaledValue,
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xff1b1b1b)),
-              ),
-            ),
-          ),
-          LayoutBuilder(
-            builder: (context, constrains) {
-              // Subtracting a fixed amount ensures the value appears in the
-              // colored part of the linear indicator and not outside of
-              // the entire bar at any point.
-              var leftPadding = max(constrains.maxWidth * scaledValue - 60, 0.0);
-              return Padding(
-                padding: EdgeInsets.only(left: leftPadding),
-                child: Text('$formattedValue', style: caption(color: Colors.white, fontStyle: FontStyle.italic)),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildScaCriteriaIntensityLinearIndicator(double value) {
-    var scaledValue = value / 10;
-    var formattedValue = value == 10.0 ? 'Intensity: 10' : 'Intensity: $value';
-    return Padding(
-      padding: EdgeInsets.only(top: 2, bottom: 7),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(2.3),
-            child: Container(
-              height: 16,
-              child: LinearProgressIndicator(
-                backgroundColor: Color(0xffffffff),
-                value: scaledValue,
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xff87bd91)),
-              ),
-            ),
-          ),
-          LayoutBuilder(
-            builder: (context, constrains) {
-              // Subtracting a fixed amount ensures the value appears in the
-              // colored part of the linear indicator and not outside of
-              // the entire bar at any point.
-              var leftPadding = max(constrains.maxWidth * scaledValue - 75, 0.0);
-              return Padding(
-                padding: EdgeInsets.only(left: leftPadding),
-                child: Text('$formattedValue', style: caption(color: Colors.white, fontStyle: FontStyle.italic)),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -230,8 +148,8 @@ class _CoffeeTastingListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           /**
-             * Title section.
-            */
+           * Title section.
+           */
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -272,12 +190,14 @@ class _CoffeeTastingListItem extends StatelessWidget {
            */
           tasting.imagePath != null
               ? CoffeeTastingHeroImageStart(
-                  tag: 'list view hero image for tasting ${tasting.coffeeTastingId}', imagePath: tasting.imagePath)
+                  tag: 'list view hero image for tasting ${tasting.coffeeTastingId}',
+                  imagePath: tasting.imagePath,
+                )
               : Container(),
           tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
           /**
-             * Description and notes section.
-            */
+           * Description and notes section.
+           */
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -304,48 +224,59 @@ class _CoffeeTastingListItem extends StatelessWidget {
           ),
           SizedBox(height: 10),
           /**
-             * SCA criteria.
-            */
-          Row(
-            children: [
-              Expanded(
-                flex: 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _buildScaCriteriaCaption('Aroma'),
-                    _buildScaCriteriaCaption('Acidity'),
-                    _buildScaCriteriaCaption('Body'),
-                    _buildScaCriteriaCaption('Sweetness'),
-                    _buildScaCriteriaCaption('Finish'),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 5),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    _buildScaCriteriaRatingLinearIndicator(tasting.aromaScore),
-                    _buildScaCriteriaIntensityLinearIndicator(tasting.aromaIntensity),
-                    _buildScaCriteriaRatingLinearIndicator(tasting.acidityScore),
-                    _buildScaCriteriaIntensityLinearIndicator(tasting.acidityIntensity),
-                    _buildScaCriteriaRatingLinearIndicator(tasting.bodyScore),
-                    _buildScaCriteriaIntensityLinearIndicator(tasting.bodyLevel),
-                    _buildScaCriteriaRatingLinearIndicator(tasting.sweetnessScore),
-                    _buildScaCriteriaIntensityLinearIndicator(tasting.sweetnessIntensity),
-                    _buildScaCriteriaRatingLinearIndicator(tasting.finishScore),
-                    _buildScaCriteriaIntensityLinearIndicator(tasting.finishDuration),
-                  ],
-                ),
-              )
-            ],
-          ),
+           * Criteria
+           */
+          CriteriaBarChart(children: [
+            CriteriaBarChartData(
+              criteriaLabel: 'Aroma',
+              score: tasting.aromaScore,
+              scoreLabel: 'Score',
+              scoreColor: scoreBarColor,
+              intensity: tasting.aromaIntensity,
+              intensityLabel: 'Intensity',
+              intensityColor: intensityBarColor,
+            ),
+            CriteriaBarChartData(
+              criteriaLabel: 'Acidity',
+              score: tasting.acidityScore,
+              scoreLabel: 'Score',
+              scoreColor: scoreBarColor,
+              intensity: tasting.acidityIntensity,
+              intensityLabel: 'Intensity',
+              intensityColor: intensityBarColor,
+            ),
+            CriteriaBarChartData(
+              criteriaLabel: 'Body',
+              score: tasting.bodyScore,
+              scoreLabel: 'Score',
+              scoreColor: scoreBarColor,
+              intensity: tasting.bodyLevel,
+              intensityLabel: 'Level',
+              intensityColor: intensityBarColor,
+            ),
+            CriteriaBarChartData(
+              criteriaLabel: 'Sweetness',
+              score: tasting.sweetnessScore,
+              scoreLabel: 'Score',
+              scoreColor: scoreBarColor,
+              intensity: tasting.sweetnessIntensity,
+              intensityLabel: 'Intensity',
+              intensityColor: intensityBarColor,
+            ),
+            CriteriaBarChartData(
+              criteriaLabel: 'Finish',
+              score: tasting.finishScore,
+              scoreLabel: 'Score',
+              scoreColor: scoreBarColor,
+              intensity: tasting.finishDuration,
+              intensityLabel: 'Duration',
+              intensityColor: intensityBarColor,
+            ),
+          ]),
           const SizedBox(height: 20),
           /**
-             * Date & time that this tasting took place.
-             */
+            * Date & time that this tasting took place.
+            */
           Align(
             alignment: Alignment.bottomRight,
             child: Text(

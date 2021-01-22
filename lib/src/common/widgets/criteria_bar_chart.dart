@@ -57,13 +57,6 @@ class CriteriaBarChart extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: children.map((e) => CriteriaCaption(e.criteriaLabel)).toList(),
-            // children: [
-            //   CriteriaCaption('Aroma'),
-            //   CriteriaCaption('Acidity'),
-            //   CriteriaCaption('Body'),
-            //   CriteriaCaption('Sweetness'),
-            //   CriteriaCaption('Finish'),
-            // ],
           ),
         ),
         const SizedBox(width: 5),
@@ -72,18 +65,6 @@ class CriteriaBarChart extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: linearIndicators,
-            // children: [
-            //   CriteriaLinearIndicator(coffeeTastingState.aromaScore, 'Score', scoreBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.aromaIntensity, 'Intensity', intensityBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.acidityScore, 'Score', scoreBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.acidityIntensity, 'Intensity', intensityBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.bodyScore, 'Score', scoreBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.bodyLevel, 'Level', intensityBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.sweetnessScore, 'Score', scoreBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.sweetnessIntensity, 'Intensity', intensityBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.finishScore, 'Score', scoreBarColor),
-            //   CriteriaLinearIndicator(coffeeTastingState.finishDuration, 'Duration', intensityBarColor),
-            // ],
           ),
         )
       ],
