@@ -75,16 +75,6 @@ class BodyLevelEvent extends CoffeeTastingCreateEvent {
   BodyLevelEvent({this.bodyLevel});
 }
 
-class FinishScoreEvent extends CoffeeTastingCreateEvent {
-  final double finishScore;
-  FinishScoreEvent({this.finishScore});
-}
-
-class FinishDurationEvent extends CoffeeTastingCreateEvent {
-  final double finishDuration;
-  FinishDurationEvent({this.finishDuration});
-}
-
 class SweetnessScoreEvent extends CoffeeTastingCreateEvent {
   final double sweetnessScore;
   SweetnessScoreEvent({this.sweetnessScore});
@@ -93,6 +83,16 @@ class SweetnessScoreEvent extends CoffeeTastingCreateEvent {
 class SweetnessIntensityEvent extends CoffeeTastingCreateEvent {
   final double sweetnessIntensity;
   SweetnessIntensityEvent({this.sweetnessIntensity});
+}
+
+class FinishScoreEvent extends CoffeeTastingCreateEvent {
+  final double finishScore;
+  FinishScoreEvent({this.finishScore});
+}
+
+class FinishDurationEvent extends CoffeeTastingCreateEvent {
+  final double finishDuration;
+  FinishDurationEvent({this.finishDuration});
 }
 
 class FlavorScoreEvent extends CoffeeTastingCreateEvent {
