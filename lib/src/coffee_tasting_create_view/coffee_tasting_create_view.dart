@@ -15,8 +15,7 @@ import 'package:notes/src/coffee_tasting_create_view/sca_criteria/fragrance_widg
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/sca_criteria/sweetness.dart';
 import 'package:notes/src/common/util.dart';
-import 'package:notes/src/common/widgets/criteria_caption.dart';
-import 'package:notes/src/common/widgets/criteria_linear_indicator.dart';
+import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/styles/typography.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
@@ -354,45 +353,55 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                 SizedBox(height: 10),
                 Divider(),
                 SizedBox(height: 10),
-                Text('Quality & Intensity of Characteristics', style: heading_6()),
+                Text('Characteristics', style: heading_6()),
                 SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          CriteriaCaption('Aroma'),
-                          CriteriaCaption('Acidity'),
-                          CriteriaCaption('Body'),
-                          CriteriaCaption('Sweetness'),
-                          CriteriaCaption('Finish'),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CriteriaLinearIndicator(coffeeTastingState.aromaScore, 'Score', scoreBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.aromaIntensity, 'Intensity', intensityBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.acidityScore, 'Score', scoreBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.acidityIntensity, 'Intensity', intensityBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.bodyScore, 'Score', scoreBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.bodyLevel, 'Level', intensityBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.sweetnessScore, 'Score', scoreBarColor),
-                          CriteriaLinearIndicator(
-                              coffeeTastingState.sweetnessIntensity, 'Intensity', intensityBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.finishScore, 'Score', scoreBarColor),
-                          CriteriaLinearIndicator(coffeeTastingState.finishDuration, 'Duration', intensityBarColor),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                CriteriaBarChart(children: [
+                  CriteriaBarChartData(
+                    criteriaLabel: 'Aroma',
+                    score: coffeeTastingState.aromaScore,
+                    scoreLabel: 'Score',
+                    scoreColor: scoreBarColor,
+                    intensity: coffeeTastingState.aromaIntensity,
+                    intensityLabel: 'Intensity',
+                    intensityColor: intensityBarColor,
+                  ),
+                  CriteriaBarChartData(
+                    criteriaLabel: 'Acidity',
+                    score: coffeeTastingState.acidityScore,
+                    scoreLabel: 'Score',
+                    scoreColor: scoreBarColor,
+                    intensity: coffeeTastingState.acidityIntensity,
+                    intensityLabel: 'Intensity',
+                    intensityColor: intensityBarColor,
+                  ),
+                  CriteriaBarChartData(
+                    criteriaLabel: 'Body',
+                    score: coffeeTastingState.bodyScore,
+                    scoreLabel: 'Score',
+                    scoreColor: scoreBarColor,
+                    intensity: coffeeTastingState.bodyLevel,
+                    intensityLabel: 'Level',
+                    intensityColor: intensityBarColor,
+                  ),
+                  CriteriaBarChartData(
+                    criteriaLabel: 'Sweetness',
+                    score: coffeeTastingState.sweetnessScore,
+                    scoreLabel: 'Score',
+                    scoreColor: scoreBarColor,
+                    intensity: coffeeTastingState.sweetnessIntensity,
+                    intensityLabel: 'Intensity',
+                    intensityColor: intensityBarColor,
+                  ),
+                  CriteriaBarChartData(
+                    criteriaLabel: 'Finish',
+                    score: coffeeTastingState.finishScore,
+                    scoreLabel: 'Score',
+                    scoreColor: scoreBarColor,
+                    intensity: coffeeTastingState.finishDuration,
+                    intensityLabel: 'Duration',
+                    intensityColor: intensityBarColor,
+                  ),
+                ]),
                 SizedBox(height: 20),
                 SizedBox(
                   height: 280,
