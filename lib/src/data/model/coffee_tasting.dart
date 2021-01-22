@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
 
-class CoffeeTasting {
+class CoffeeTasting extends Equatable {
   final int coffeeTastingId;
   String coffeeName;
   String description;
@@ -10,11 +11,18 @@ class CoffeeTasting {
   List<Note> notes;
   double roastLevel;
 
-  double acidity;
-  double aftertaste;
-  double body;
-  double flavor;
-  double fragrance;
+  double aromaScore;
+  double aromaIntensity;
+  double acidityScore;
+  double acidityIntensity;
+  double bodyScore;
+  double bodyLevel;
+  double sweetnessScore;
+  double sweetnessIntensity;
+  double finishScore;
+  double finishDuration;
+
+  double flavorScore;
 
   String imagePath;
 
@@ -27,11 +35,21 @@ class CoffeeTasting {
       this.roaster,
       this.notes = const <Note>[],
       this.roastLevel,
-      this.acidity,
-      this.aftertaste,
-      this.body,
-      this.flavor,
-      this.fragrance,
+
+      // Characteristics.
+      this.aromaScore,
+      this.aromaIntensity,
+      this.acidityScore,
+      this.acidityIntensity,
+      this.bodyScore,
+      this.bodyLevel,
+      this.sweetnessScore,
+      this.sweetnessIntensity,
+      this.finishScore,
+      this.finishDuration,
+      this.flavorScore,
+
+      // Image path.
       this.imagePath});
 
   /// Given a Map<String, dynamic> resulting from querying a coffee tasting
@@ -45,11 +63,21 @@ class CoffeeTasting {
       process: tastingMap['process'],
       roastLevel: tastingMap['roast_level'],
       roaster: tastingMap['roaster'],
-      acidity: tastingMap['acidity'],
-      aftertaste: tastingMap['aftertaste'],
-      body: tastingMap['body'],
-      flavor: tastingMap['flavor'],
-      fragrance: tastingMap['fragrance'],
+
+      // Characteristics.
+      aromaScore: tastingMap['aroma_score'],
+      aromaIntensity: tastingMap['aroma_intensity'],
+      acidityScore: tastingMap['acidity_score'],
+      acidityIntensity: tastingMap['acidity_intensity'],
+      bodyScore: tastingMap['body_score'],
+      bodyLevel: tastingMap['body_level'],
+      sweetnessScore: tastingMap['sweetness_score'],
+      sweetnessIntensity: tastingMap['sweetness_intensity'],
+      finishScore: tastingMap['finish_score'],
+      finishDuration: tastingMap['finish_duration'],
+      flavorScore: tastingMap['flavor_score'],
+
+      // Image path
       imagePath: tastingMap['image_path'],
     );
   }
@@ -64,15 +92,89 @@ class CoffeeTasting {
       'origin': origin,
       'process': process,
       'roaster': roaster,
-      // Local storage as serialized list of strings.
-      // 'notes': json.encode(notes),
       'roast_level': roastLevel,
-      'acidity': acidity,
-      'aftertaste': aftertaste,
-      'body': body,
-      'flavor': flavor,
-      'fragrance': fragrance,
+      'aroma_score': aromaScore,
+      'aroma_intensity': aromaIntensity,
+      'acidity_score': acidityScore,
+      'acidity_intensity': acidityIntensity,
+      'body_score': bodyScore,
+      'body_level': bodyLevel,
+      'sweetness_score': sweetnessScore,
+      'sweetness_intensity': sweetnessIntensity,
+      'finish_score': finishScore,
+      'finish_duration': finishDuration,
+      'flavor_score': flavorScore,
       'image_path': imagePath,
     };
   }
+
+  CoffeeTasting copyWith({
+    int coffeeTastingId,
+    String coffeeName,
+    String description,
+    String origin,
+    String roaster,
+    String process,
+    double roastLevel,
+    double acidityScore,
+    double acidityIntensity,
+    double bodyScore,
+    double bodyLevel,
+    double aromaScore,
+    double aromaIntensity,
+    double sweetnessScore,
+    double sweetnessIntensity,
+    double finishScore,
+    double finishDuration,
+    double flavorScore,
+    List<Note> notes,
+    String imagePath,
+  }) {
+    return CoffeeTasting(
+      coffeeTastingId: coffeeTastingId ?? this.coffeeTastingId,
+      coffeeName: coffeeName ?? this.coffeeName,
+      description: description ?? this.description,
+      origin: origin ?? this.origin,
+      roaster: roaster ?? this.roaster,
+      process: process ?? this.process,
+      roastLevel: roastLevel ?? this.roastLevel,
+      aromaScore: aromaScore ?? this.aromaScore,
+      aromaIntensity: aromaIntensity ?? this.aromaIntensity,
+      acidityScore: acidityScore ?? this.acidityScore,
+      acidityIntensity: acidityIntensity ?? this.acidityIntensity,
+      bodyScore: bodyScore ?? this.bodyScore,
+      bodyLevel: bodyLevel ?? this.bodyLevel,
+      sweetnessScore: sweetnessScore ?? this.sweetnessScore,
+      sweetnessIntensity: sweetnessIntensity ?? this.sweetnessIntensity,
+      finishScore: finishScore ?? this.finishScore,
+      finishDuration: finishDuration ?? this.finishDuration,
+      flavorScore: flavorScore ?? this.flavorScore,
+      notes: notes ?? this.notes,
+      imagePath: imagePath ?? this.imagePath,
+    );
+  }
+
+  @override
+  List<Object> get props => [
+        coffeeTastingId,
+        coffeeName,
+        description,
+        origin,
+        roaster,
+        process,
+        roastLevel,
+        aromaScore,
+        aromaIntensity,
+        acidityScore,
+        acidityIntensity,
+        bodyScore,
+        bodyLevel,
+        flavorScore,
+        sweetnessScore,
+        sweetnessIntensity,
+        finishScore,
+        finishDuration,
+        notes,
+        imagePath,
+      ];
 }
