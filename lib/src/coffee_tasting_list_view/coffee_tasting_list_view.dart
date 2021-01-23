@@ -1,5 +1,3 @@
-import 'dart:math' show max;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +26,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
           elevation: 0,
           title: Text(
             'Notes',
-            style: heading_5(),
+            style: heading_5,
           ),
           backgroundColor: Colors.white,
           actions: <Widget>[
@@ -38,14 +36,14 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                     onTap: () {
                       // TODO: Filter implementation.
                     },
-                    child: Row(children: [Text('Filter', style: caption())]))),
+                    child: Row(children: [Text('Filter', style: caption)]))),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: GestureDetector(
                     onTap: () {
                       // TODO: Filter implementation.
                     },
-                    child: Row(children: [Text('Sort', style: caption())]))),
+                    child: Row(children: [Text('Sort', style: caption)]))),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: GestureDetector(
@@ -55,7 +53,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                     child: Row(children: [
                       Icon(CupertinoIcons.search, color: Colors.black, size: 20),
                       SizedBox(width: 5),
-                      Text('Search', style: caption())
+                      Text('Search', style: caption)
                     ]))),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -118,7 +116,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
   Widget _buildCoffeeRoastLevelLinearIndicator(double percentage) {
     return Row(
       children: [
-        Text('Roast Level', style: caption(), textAlign: TextAlign.left),
+        Text('Roast Level', style: caption, textAlign: TextAlign.left),
         SizedBox(width: 5),
         Expanded(
           child: ClipRRect(
@@ -157,7 +155,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 '${tasting.roaster}, ${tasting.coffeeName}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: heading_6(),
+                style: heading_6,
               ),
               const SizedBox(height: 5),
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -168,14 +166,14 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
                       Text(
                         '${tasting.origin}',
-                        style: caption(),
+                        style: caption,
                       ),
                       SizedBox(width: 5),
                       _buildRoastingProcessIcon(tasting.process),
                       SizedBox(width: 2),
                       Text(
                         '${tasting.process}',
-                        style: caption(),
+                        style: caption,
                       )
                     ],
                   ),
@@ -207,7 +205,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       '${tasting.description}',
-                      style: body_1(),
+                      style: body_1,
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 5),
@@ -281,7 +279,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Text(
               '10:35 AM · Dec 23 2020',
-              style: caption(),
+              style: caption,
               textAlign: TextAlign.right,
             ),
           )

@@ -18,12 +18,12 @@ class FinishWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Finish', style: heading_6()),
+              Text('Finish', style: heading_6),
               SizedBox(width: 20),
-              Text('Score', style: caption(), textAlign: TextAlign.right),
+              Text('Score', style: caption, textAlign: TextAlign.right),
               Column(
                 children: [
-                  Text('10', style: caption(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
+                  Text('10', style: caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
                   Expanded(
                     child: RotatedBox(
                       quarterTurns: 3,
@@ -39,14 +39,14 @@ class FinishWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text('0', style: caption(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
+                  Text('0', style: caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
                 ],
               ),
               SizedBox(width: 20),
-              Text('Duration', style: caption(), textAlign: TextAlign.right),
+              Text('Duration', style: caption, textAlign: TextAlign.right),
               Column(
                 children: [
-                  Text('Long', style: caption(fontWeight: FontWeight.bold)),
+                  Text('Long', style: caption.copyWith(fontWeight: FontWeight.bold)),
                   Expanded(
                     child: RotatedBox(
                       quarterTurns: 3,
@@ -64,7 +64,7 @@ class FinishWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text('Short', style: caption(fontWeight: FontWeight.bold)),
+                  Text('Short', style: caption.copyWith(fontWeight: FontWeight.bold)),
                 ],
               ),
             ],
