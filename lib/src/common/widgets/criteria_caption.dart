@@ -16,7 +16,7 @@ class CriteriaCaption extends StatelessWidget {
           child: Text(
             '$criteria',
             textAlign: TextAlign.right,
-            style: caption(),
+            style: caption,
           ),
         ),
       ),

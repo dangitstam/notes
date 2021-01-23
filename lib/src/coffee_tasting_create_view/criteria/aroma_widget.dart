@@ -7,23 +7,23 @@ import '../../common/util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';
 import 'criteria_util.dart';
 
-class AcidityWidget extends StatelessWidget {
+class AromaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.acidityScore;
-    var intensity = context.watch<CoffeeTastingCreateBloc>().state.tasting.acidityIntensity;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.aromaScore;
+    var fragranceBreak = context.watch<CoffeeTastingCreateBloc>().state.tasting.aromaIntensity;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(builder: (context, state) {
       return Container(
         height: 225,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Acidity', style: heading_6()),
+            Text('Aroma', style: heading_6),
             SizedBox(width: 20),
-            Text('Score', style: caption(), textAlign: TextAlign.right),
+            Text('Score', style: caption, textAlign: TextAlign.right),
             Column(
               children: [
-                Text('10', style: caption(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
+                Text('10', style: caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
@@ -33,17 +33,21 @@ class AcidityWidget extends StatelessWidget {
                         min: 0,
                         max: 10,
                         onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(AcidityScoreEvent(acidityScore: round(value)));
+                          context.read<CoffeeTastingCreateBloc>().add(AromaScoreEvent(aromaScore: round(value)));
                         },
                       ),
                     ),
                   ),
                 ),
-                Text('0', style: caption(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
+                Text(
+                  '0',
+                  style: caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
             SizedBox(width: 20),
-            Text('Intensity', style: caption(), textAlign: TextAlign.right),
+            Text('Intensity', style: caption, textAlign: TextAlign.right),
             Column(
               children: [
                 Icon(CupertinoIcons.plus_circle),
@@ -52,13 +56,13 @@ class AcidityWidget extends StatelessWidget {
                     quarterTurns: 3,
                     child: BlackSliderTheme(
                       Slider(
-                        value: intensity,
+                        value: fragranceBreak,
                         min: 0,
                         max: 10,
                         onChanged: (value) {
                           context
                               .read<CoffeeTastingCreateBloc>()
-                              .add(AcidityIntensityEvent(acidityIntensity: round(value)));
+                              .add(AromaIntensityEvent(aromaIntensity: round(value)));
                         },
                       ),
                     ),

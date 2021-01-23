@@ -21,8 +21,8 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
             hintText: hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: label,
-            labelStyle: subtitle_1()),
-        style: body_1(),
+            labelStyle: subtitle_1),
+        style: body_1,
         onChanged: (value) => onChanged(value));
   }
 }
@@ -39,7 +39,7 @@ class TastingNote extends StatelessWidget {
     return Chip(
       label: Text(
         '${note.name}',
-        style: caption(color: Colors.white),
+        style: caption.copyWith(color: Colors.white),
       ),
       backgroundColor: note.getColor(),
       shape: RoundedRectangleBorder(

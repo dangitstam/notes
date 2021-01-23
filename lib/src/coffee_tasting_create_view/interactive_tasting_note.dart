@@ -34,7 +34,7 @@ class _AddTastingNoteState extends State<AddTastingNote> {
             : () {},
         label: Text(
           '${widget.note.name}',
-          style: caption(color: Colors.white),
+          style: caption.copyWith(color: Colors.white),
         ),
         backgroundColor: _enabled ? widget.note.getColor() : widget.note.getColor().withOpacity(0.6),
         shape: RoundedRectangleBorder(
@@ -68,7 +68,7 @@ class RemoveTastingNote extends StatelessWidget {
           ),
           label: Text(
             '${note.name}',
-            style: caption(color: Colors.white),
+            style: caption.copyWith(color: Colors.white),
           ),
           backgroundColor: note.getColor(),
           shape: RoundedRectangleBorder(

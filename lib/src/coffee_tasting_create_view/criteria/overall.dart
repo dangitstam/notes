@@ -20,9 +20,9 @@ class OverallWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(width: 20),
-                  Text('Overall', style: heading_6()),
+                  Text('Overall', style: heading_6),
                   SizedBox(width: 20),
-                  Text('Score: $score', style: caption(), textAlign: TextAlign.right),
+                  Text('Score: $score', style: caption, textAlign: TextAlign.right),
                   Expanded(
                     flex: 1,
                     child: BlackSliderTheme(
