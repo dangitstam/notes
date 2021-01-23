@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
 
-TextStyle heading_5 = const TextStyle(
+ThemeData lightTheme = ThemeData(
+  // Define the default TextTheme. Use this to specify the default
+  // text styling for headlines, titles, bodies of text, and more.
+  textTheme: TextTheme(
+    headline5: headline5,
+    headline6: headline6,
+    bodyText2: bodyText2,
+    caption: caption,
+    subtitle1: subtitle1,
+  ),
+);
+
+TextStyle headline5 = const TextStyle(
   color: Colors.black,
   fontFamily: 'Baskerville',
   fontSize: 34.0,
 );
 
-TextStyle heading_6 = const TextStyle(
+TextStyle headline6 = const TextStyle(
   color: Colors.black,
   fontFamily: 'Baskerville',
   fontSize: 20.0,
 );
 
-TextStyle body_1 = const TextStyle(
+TextStyle bodyText2 = const TextStyle(
   color: Colors.black87,
   fontFamily: 'OpenSans',
   fontSize: 14.0,
   fontWeight: FontWeight.w100,
 );
 
-TextStyle subtitle_1 = const TextStyle(
+TextStyle subtitle1 = const TextStyle(
   color: Colors.black,
   fontFamily: 'Baskerville',
   fontSize: 14.0,

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/styles/typography.dart';
 
 import '../../common/util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';
@@ -18,12 +17,17 @@ class SweetnessWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Sweetness', style: heading_6),
+            Text('Sweetness', style: Theme.of(context).textTheme.headline6),
             SizedBox(width: 10),
-            Text('Score', style: caption, textAlign: TextAlign.right),
+            Text('Score', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
             Column(
               children: [
-                Text('10', style: caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
+                Text('10',
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        .copyWith(fontWeight: FontWeight.bold)
+                        .copyWith(fontSize: 14)),
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
@@ -43,13 +47,14 @@ class SweetnessWidget extends StatelessWidget {
                 ),
                 Text(
                   '0',
-                  style: caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14),
+                  style:
+                      Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
             SizedBox(width: 10),
-            Text('Intensity', style: caption, textAlign: TextAlign.right),
+            Text('Intensity', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
             Column(
               children: [
                 Icon(CupertinoIcons.plus_circle),

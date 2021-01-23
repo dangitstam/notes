@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/styles/typography.dart';
 
 import '../../common/util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';
@@ -20,9 +19,9 @@ class OverallWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(width: 20),
-                  Text('Overall', style: heading_6),
+                  Text('Overall', style: Theme.of(context).textTheme.headline6),
                   SizedBox(width: 20),
-                  Text('Score: $score', style: caption, textAlign: TextAlign.right),
+                  Text('Score: $score', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
                   Expanded(
                     flex: 1,
                     child: BlackSliderTheme(

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/styles/typography.dart';
 
 class EditableTextWithCaptionWidget extends StatelessWidget {
   final String label;
@@ -21,8 +20,8 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
             hintText: hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: label,
-            labelStyle: subtitle_1),
-        style: body_1,
+            labelStyle: Theme.of(context).textTheme.subtitle1),
+        style: Theme.of(context).textTheme.bodyText2,
         onChanged: (value) => onChanged(value));
   }
 }
@@ -39,7 +38,7 @@ class TastingNote extends StatelessWidget {
     return Chip(
       label: Text(
         '${note.name}',
-        style: caption.copyWith(color: Colors.white),
+        style: Theme.of(context).textTheme.caption.copyWith(color: Colors.white),
       ),
       backgroundColor: note.getColor(),
       shape: RoundedRectangleBorder(

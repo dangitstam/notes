@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:notes/src/styles/typography.dart';
 
 class CriteriaLinearIndicator extends StatelessWidget {
   CriteriaLinearIndicator(this.value, this.label, this.color);
@@ -58,7 +57,10 @@ class CriteriaLinearIndicator extends StatelessWidget {
                       ),
                       child: Text(
                         '$formattedValue',
-                        style: caption.copyWith(color: Colors.white, fontStyle: FontStyle.italic),
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(color: Colors.white, fontStyle: FontStyle.italic),
                       ),
                     ),
                   ),
