@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:notes/src/styles/typography.dart';
 
 class CriteriaCaption extends StatelessWidget {
   CriteriaCaption(this.criteria);
@@ -16,7 +16,7 @@ class CriteriaCaption extends StatelessWidget {
           child: Text(
             '$criteria',
             textAlign: TextAlign.right,
-            style: caption,
+            style: Theme.of(context).textTheme.caption,
           ),
         ),
       ),

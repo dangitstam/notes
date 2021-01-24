@@ -3,28 +3,28 @@ import 'package:notes/src/data/model/note.dart';
 
 class CoffeeTasting extends Equatable {
   final int coffeeTastingId;
-  String coffeeName;
-  String description;
-  String origin;
-  String process;
-  String roaster;
-  List<Note> notes;
-  double roastLevel;
+  final String coffeeName;
+  final String description;
+  final String origin;
+  final String process;
+  final String roaster;
+  final List<Note> notes;
+  final double roastLevel;
 
-  double aromaScore;
-  double aromaIntensity;
-  double acidityScore;
-  double acidityIntensity;
-  double bodyScore;
-  double bodyLevel;
-  double sweetnessScore;
-  double sweetnessIntensity;
-  double finishScore;
-  double finishDuration;
+  final double aromaScore;
+  final double aromaIntensity;
+  final double acidityScore;
+  final double acidityIntensity;
+  final double bodyScore;
+  final double bodyLevel;
+  final double sweetnessScore;
+  final double sweetnessIntensity;
+  final double finishScore;
+  final double finishDuration;
 
-  double flavorScore;
+  final double flavorScore;
 
-  String imagePath;
+  final String imagePath;
 
   CoffeeTasting(
       {this.coffeeTastingId,

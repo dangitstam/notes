@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/styles/typography.dart';
 
 class EditableTextWithCaptionWidget extends StatelessWidget {
   final String label;
@@ -12,6 +11,8 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hintColor = Theme.of(context).hintColor;
+    final hintStyle = Theme.of(context).textTheme.bodyText2.copyWith(color: hintColor);
     return TextField(
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
@@ -21,8 +22,8 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
             hintText: hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: label,
-            labelStyle: subtitle_1),
-        style: body_1,
+            labelStyle: Theme.of(context).textTheme.subtitle1),
+        style: hintStyle,
         onChanged: (value) => onChanged(value));
   }
 }
@@ -39,7 +40,7 @@ class TastingNote extends StatelessWidget {
     return Chip(
       label: Text(
         '${note.name}',
-        style: caption.copyWith(color: Colors.white),
+        style: Theme.of(context).textTheme.caption.copyWith(color: Colors.white),
       ),
       backgroundColor: note.getColor(),
       shape: RoundedRectangleBorder(
@@ -52,27 +53,16 @@ class TastingNote extends StatelessWidget {
 }
 
 /// Given a slider, applies the black slider theme.
-class BlackSliderTheme extends StatelessWidget {
-  final Slider slider;
+class ThemedSlider extends StatelessWidget {
+  final Slider child;
 
-  BlackSliderTheme(this.slider);
+  ThemedSlider({this.child});
 
   @override
   Widget build(BuildContext context) {
     return SliderTheme(
-      data: SliderThemeData(
-        activeTrackColor: Colors.black87,
-        inactiveTrackColor: Colors.black12,
-        trackHeight: 1.0,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
-        thumbColor: Colors.black87,
-        overlayColor: Colors.grey.withAlpha(32),
-        overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-        tickMarkShape: RoundSliderTickMarkShape(),
-        activeTickMarkColor: Colors.black,
-        inactiveTickMarkColor: Colors.black,
-      ),
-      child: slider,
+      data: Theme.of(context).sliderTheme,
+      child: child,
     );
   }
 }

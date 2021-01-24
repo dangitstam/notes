@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
+import 'package:notes/src/coffee_tasting_list_view/roast_level_linear_indicator.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
-import 'package:notes/src/styles/typography.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           bottom: PreferredSize(
@@ -26,9 +26,9 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
           elevation: 0,
           title: Text(
             'Notes',
-            style: heading_5,
+            style: Theme.of(context).textTheme.headline5,
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).backgroundColor,
           actions: <Widget>[
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -36,14 +36,14 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                     onTap: () {
                       // TODO: Filter implementation.
                     },
-                    child: Row(children: [Text('Filter', style: caption)]))),
+                    child: Row(children: [Text('Filter', style: Theme.of(context).textTheme.caption)]))),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: GestureDetector(
                     onTap: () {
                       // TODO: Filter implementation.
                     },
-                    child: Row(children: [Text('Sort', style: caption)]))),
+                    child: Row(children: [Text('Sort', style: Theme.of(context).textTheme.caption)]))),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                 child: GestureDetector(
@@ -53,7 +53,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                     child: Row(children: [
                       Icon(CupertinoIcons.search, color: Colors.black, size: 20),
                       SizedBox(width: 5),
-                      Text('Search', style: caption)
+                      Text('Search', style: Theme.of(context).textTheme.caption)
                     ]))),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -109,30 +109,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   final CoffeeTasting tasting;
 
-  // TODO: Theming
-  final scoreBarColor = Color(0xff1b1b1b);
-  final intensityBarColor = Color(0xff87bd91);
-
-  Widget _buildCoffeeRoastLevelLinearIndicator(double percentage) {
-    return Row(
-      children: [
-        Text('Roast Level', style: caption, textAlign: TextAlign.left),
-        SizedBox(width: 5),
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(2.0),
-            child: LinearProgressIndicator(
-              backgroundColor: Color(0xffd1d1d1),
-              value: percentage,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.black87),
-              minHeight: 14,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
   Icon _buildRoastingProcessIcon(String process) {
     // TODO: Default to blank icon when process is neither 'Washed' or 'Natural'.
     return Icon(process == 'Natural' ? CupertinoIcons.sun_max : CupertinoIcons.drop, color: Colors.black, size: 14);
@@ -155,7 +131,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                 '${tasting.roaster}, ${tasting.coffeeName}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: heading_6,
+                style: Theme.of(context).textTheme.headline6,
               ),
               const SizedBox(height: 5),
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -166,19 +142,19 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
                       Text(
                         '${tasting.origin}',
-                        style: caption,
+                        style: Theme.of(context).textTheme.caption,
                       ),
                       SizedBox(width: 5),
                       _buildRoastingProcessIcon(tasting.process),
                       SizedBox(width: 2),
                       Text(
                         '${tasting.process}',
-                        style: caption,
+                        style: Theme.of(context).textTheme.caption,
                       )
                     ],
                   ),
                 ),
-                Expanded(flex: 1, child: _buildCoffeeRoastLevelLinearIndicator(tasting.roastLevel / 10)),
+                Expanded(flex: 1, child: RoastLevelLinearIndicator(tasting.roastLevel / 10)),
               ])
             ],
           ),
@@ -205,7 +181,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       '${tasting.description}',
-                      style: body_1,
+                      style: Theme.of(context).textTheme.bodyText2,
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 5),
@@ -229,46 +205,46 @@ class _CoffeeTastingListItem extends StatelessWidget {
               criteriaLabel: 'Aroma',
               score: tasting.aromaScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.aromaIntensity,
               intensityLabel: 'Intensity',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Acidity',
               score: tasting.acidityScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.acidityIntensity,
               intensityLabel: 'Intensity',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Body',
               score: tasting.bodyScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.bodyLevel,
               intensityLabel: 'Level',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Sweetness',
               score: tasting.sweetnessScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.sweetnessIntensity,
               intensityLabel: 'Intensity',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Finish',
               score: tasting.finishScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.finishDuration,
               intensityLabel: 'Duration',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
           ]),
           const SizedBox(height: 20),
@@ -279,7 +255,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Text(
               '10:35 AM · Dec 23 2020',
-              style: caption,
+              style: Theme.of(context).textTheme.caption,
               textAlign: TextAlign.right,
             ),
           )

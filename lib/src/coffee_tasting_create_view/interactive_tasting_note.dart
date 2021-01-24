@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/styles/typography.dart';
 
 class AddTastingNote extends StatefulWidget {
   final Note note;
@@ -34,7 +33,7 @@ class _AddTastingNoteState extends State<AddTastingNote> {
             : () {},
         label: Text(
           '${widget.note.name}',
-          style: caption.copyWith(color: Colors.white),
+          style: Theme.of(context).textTheme.caption.copyWith(color: Colors.white),
         ),
         backgroundColor: _enabled ? widget.note.getColor() : widget.note.getColor().withOpacity(0.6),
         shape: RoundedRectangleBorder(
@@ -68,7 +67,7 @@ class RemoveTastingNote extends StatelessWidget {
           ),
           label: Text(
             '${note.name}',
-            style: caption.copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.caption.copyWith(color: Colors.white),
           ),
           backgroundColor: note.getColor(),
           shape: RoundedRectangleBorder(
