@@ -266,36 +266,37 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     Text('Process', style: Theme.of(context).textTheme.subtitle1),
                     SizedBox(width: 10),
                     Container(
-                        child: DropdownButton<String>(
-                      value: coffeeTastingState.process,
-                      icon: Icon(CupertinoIcons.chevron_down),
-                      iconSize: 14,
-                      style: Theme.of(context).textTheme.bodyText2,
-                      underline: Container(height: 0.0),
-                      onChanged: (value) {
-                        context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
-                      },
-                      items: {
-                        'Washed': Icon(CupertinoIcons.drop),
-                        'Natural': Icon(CupertinoIcons.sun_min),
-                      }.entries.map((entry) {
-                        var processType = entry.key;
-                        var processIcon = entry.value;
-                        return DropdownMenuItem<String>(
-                          value: processType,
-                          child: Row(
-                            children: [
-                              processIcon,
-                              Text(
-                                processType,
-                                style: Theme.of(context).textTheme.bodyText2,
-                              ),
-                              SizedBox(width: 2),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    )),
+                      child: DropdownButton<String>(
+                        value: coffeeTastingState.process,
+                        icon: Icon(CupertinoIcons.chevron_down),
+                        iconSize: 14,
+                        style: Theme.of(context).textTheme.bodyText2,
+                        underline: Container(height: 0.0),
+                        onChanged: (value) {
+                          context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
+                        },
+                        items: {
+                          'Washed': Icon(CupertinoIcons.drop),
+                          'Natural': Icon(CupertinoIcons.sun_min),
+                        }.entries.map((entry) {
+                          var processType = entry.key;
+                          var processIcon = entry.value;
+                          return DropdownMenuItem<String>(
+                            value: processType,
+                            child: Row(
+                              children: [
+                                processIcon,
+                                Text(
+                                  processType,
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                SizedBox(width: 2),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ],
                 ),
                 Row(children: [
