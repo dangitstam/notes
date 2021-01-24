@@ -20,6 +20,8 @@ ThemeData lightTheme = ThemeData(
     surface: surfaceColor,
   ),
 
+  hintColor: Color(0xff919191),
+
   // Typography.
   textTheme: TextTheme(
           headline5: headline5,

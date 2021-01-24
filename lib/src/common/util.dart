@@ -11,6 +11,8 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hintColor = Theme.of(context).hintColor;
+    final hintStyle = Theme.of(context).textTheme.bodyText2.copyWith(color: hintColor);
     return TextField(
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
@@ -21,7 +23,7 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: label,
             labelStyle: Theme.of(context).textTheme.subtitle1),
-        style: Theme.of(context).textTheme.bodyText2,
+        style: hintStyle,
         onChanged: (value) => onChanged(value));
   }
 }

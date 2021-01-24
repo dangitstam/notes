@@ -231,15 +231,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                 ),
                 SizedBox(height: 10),
                 TextField(
-                  minLines: 1,
+                  minLines: 2,
                   maxLines: 5,
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Write a description here...',
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          .copyWith(color: Color(0xff919191), fontStyle: FontStyle.italic),
+                      hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).hintColor),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       isDense: true),
                   onChanged: (value) {
