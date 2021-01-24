@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
+  // Colors
   backgroundColor: Color(0xffffffff),
   cardColor: cardColor,
-
-  // Colors
   colorScheme: ColorScheme(
     primary: primaryColor,
     onSurface: onSurfaceColor,
@@ -20,7 +19,6 @@ ThemeData lightTheme = ThemeData(
     secondaryVariant: primaryColor,
     surface: surfaceColor,
   ),
-
   hintColor: Color(0xff919191),
 
   // Typography.
