@@ -320,14 +320,11 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                 ]),
                 SizedBox(height: 20),
                 Text('Notes'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+                SizedBox(height: 20),
                 Container(
-                  height: 20,
+                  height: 2.0,
                   width: 20,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Theme.of(context).colorScheme.onSurface, width: 2.0),
-                    ),
-                  ),
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 SizedBox(height: 20),
                 Text('Select all that apply', style: Theme.of(context).textTheme.caption),
@@ -362,14 +359,11 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                 ),
                 SizedBox(height: 20),
                 Text('Characteristics'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+                SizedBox(height: 20),
                 Container(
-                  height: 20,
+                  height: 2.0,
                   width: 20,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Theme.of(context).colorScheme.onSurface, width: 2.0),
-                    ),
-                  ),
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 SizedBox(height: 20),
                 Text('Identify and assess attributes', style: Theme.of(context).textTheme.caption),
