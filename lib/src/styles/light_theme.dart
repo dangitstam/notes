@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
   // Colors
-  backgroundColor: Color(0xffffffff),
+  backgroundColor: backgroundColor,
   cardColor: cardColor,
   colorScheme: ColorScheme(
     primary: primaryColor,
     onSurface: onSurfaceColor,
-    background: primaryColor,
+    background: backgroundColor,
     brightness: Brightness.light,
     error: primaryColor,
-    onBackground: primaryColor,
+    onBackground: onSurfaceColor,
     onError: primaryColor,
     onPrimary: primaryColor,
     onSecondary: primaryColor,
@@ -55,6 +55,7 @@ Color primaryVariantColor = Color(0xff809287);
 Color onSurfaceColor = Color(0xff333331);
 Color surfaceColor = Color(0xff222221);
 
+Color backgroundColor = Color(0xffffffff);
 Color cardColor = Color(0xfff1f1f1);
 
 TextStyle headline5 = const TextStyle(
