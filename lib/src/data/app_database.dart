@@ -2,6 +2,8 @@ import 'dart:convert' show json;
 
 import 'package:flutter/services.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
+import 'package:notes/src/data/dao/note_category_dao.dart';
+import 'package:notes/src/data/dao/note_to_note_category_dao.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/note_repository.dart';
@@ -31,6 +33,8 @@ class AppDatabase {
         _createCoffeeTastingsTable(db);
         _createNotesTable(db);
         _createCoffeeTastingNotesTable(db);
+        _createNoteCategoriesTable(db);
+        _createNoteToNoteCategoriesTable(db);
       },
       version: 1,
     );
@@ -98,6 +102,26 @@ Future<void> _createNotesTable(Database db) {
   });
 }
 
+Future<void> _createNoteCategoriesTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE note_categories(
+      note_category_id INTEGER PRIMARY KEY,
+      name TEXT)
+    """,
+  ).then((_) async {
+    // For development purposes, populate the database from the notes.json asset.
+    var noteCategoriesString = await rootBundle.loadString('assets/note_categories.json');
+    List<dynamic> noteCategories = json.decode(noteCategoriesString);
+    var noteCategoryDao = NoteCategoryDao();
+    noteCategories.forEach((noteCategory) {
+      noteCategoryDao.insert(noteCategory);
+    });
+  });
+}
+
 Future<void> _createCoffeeTastingNotesTable(Database db) {
   // Run the CREATE TABLE statement on the database.
   return db.execute(
@@ -117,6 +141,29 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
     List<dynamic> coffeeTastingNotes = json.decode(coffeeTastingNotesString);
     coffeeTastingNotes.forEach((coffeeTastingNote) {
       coffeeTastingDao.insert(coffeeTastingNote);
+    });
+  });
+}
+
+Future<void> _createNoteToNoteCategoriesTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE note_to_note_categories(
+      note_id INTEGER,
+      note_category_id INTEGER)
+    """,
+  ).then((_) async {
+    // For development purposes, populate the database from the notes.json asset.
+    var noteToNoteCategoryString = await rootBundle.loadString('assets/note_to_note_categories.json');
+
+    // Update stream so that the downstream list view is updated.
+    var noteToNoteCategoryDao = NoteToNoteCategoryDao(database: AppDatabase.db.database);
+
+    List<dynamic> noteToNoteCategoryEntries = json.decode(noteToNoteCategoryString);
+    noteToNoteCategoryEntries.forEach((noteToNoteCategory) {
+      noteToNoteCategoryDao.insert(noteToNoteCategory);
     });
   });
 }
