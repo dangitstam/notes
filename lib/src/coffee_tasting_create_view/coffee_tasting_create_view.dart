@@ -115,16 +115,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
         actions: [
           Padding(
             padding: EdgeInsets.all(10.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: FlatButton(
-                color: Color(0x00ffffff),
-                child: Text('Create'.toUpperCase(), style: Theme.of(context).textTheme.overline),
-                onPressed: () {
-                  // Updaate app database with new tasting.
-                  context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
-                },
-              ),
+            child: FlatButton(
+              child: Text('Create'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+              onPressed: () {
+                // Updaate app database with new tasting.
+                context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
+              },
             ),
           )
         ],
@@ -275,13 +271,10 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     Container(
                         child: DropdownButton<String>(
                       value: coffeeTastingState.process,
-                      icon: Icon(CupertinoIcons.arrow_down),
+                      icon: Icon(CupertinoIcons.chevron_down),
                       iconSize: 14,
                       style: Theme.of(context).textTheme.bodyText2,
-                      underline: Container(
-                        height: 0.5,
-                        color: Colors.black87,
-                      ),
+                      underline: Container(height: 0.0),
                       onChanged: (value) {
                         context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
                       },
@@ -300,6 +293,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                                 processType,
                                 style: Theme.of(context).textTheme.bodyText2,
                               ),
+                              SizedBox(width: 2),
                             ],
                           ),
                         );
