@@ -16,7 +16,7 @@ class RoastLevelLinearIndicator extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(2.0),
             child: LinearProgressIndicator(
-              backgroundColor: Color(0xffd1d1d1),
+              backgroundColor: Theme.of(context).colorScheme.onSurface,
               value: percentage,
               valueColor: AlwaysStoppedAnimation<Color>(Colors.black87),
               minHeight: 14,
