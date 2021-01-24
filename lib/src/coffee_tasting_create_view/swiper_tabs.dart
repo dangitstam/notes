@@ -41,7 +41,7 @@ class _SwiperTab extends StatelessWidget {
           text.toUpperCase(),
           style: Theme.of(context).textTheme.overline,
         ),
-        padding: isSelected ? EdgeInsets.only(bottom: 10) : null,
+        padding: EdgeInsets.only(bottom: 10),
         decoration: isSelected
             ? BoxDecoration(
                 border: Border(
