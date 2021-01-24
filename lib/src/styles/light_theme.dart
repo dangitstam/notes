@@ -35,6 +35,20 @@ ThemeData lightTheme = ThemeData(
     bodyColor: onSurfaceColor,
     displayColor: onSurfaceColor,
   ),
+
+  // Sliders.
+  sliderTheme: SliderThemeData(
+    activeTrackColor: onSurfaceColor,
+    inactiveTrackColor: cardColor,
+    trackHeight: 1.0,
+    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
+    thumbColor: onSurfaceColor,
+    overlayColor: Colors.grey.withAlpha(32),
+    overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
+    tickMarkShape: RoundSliderTickMarkShape(),
+    activeTickMarkColor: onSurfaceColor,
+    inactiveTickMarkColor: onSurfaceColor,
+  ),
 );
 
 Color primaryColor = Color(0xff779b85);

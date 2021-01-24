@@ -30,8 +30,8 @@ class BodyWidget extends StatelessWidget {
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
-                    child: BlackSliderTheme(
-                      Slider(
+                    child: ThemedSlider(
+                      child: Slider(
                         value: score,
                         min: 0,
                         max: 10,
@@ -58,8 +58,8 @@ class BodyWidget extends StatelessWidget {
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
-                    child: BlackSliderTheme(
-                      Slider(
+                    child: ThemedSlider(
+                      child: Slider(
                         value: level,
                         min: 0,
                         max: 10,

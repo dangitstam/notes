@@ -53,27 +53,16 @@ class TastingNote extends StatelessWidget {
 }
 
 /// Given a slider, applies the black slider theme.
-class BlackSliderTheme extends StatelessWidget {
-  final Slider slider;
+class ThemedSlider extends StatelessWidget {
+  final Slider child;
 
-  BlackSliderTheme(this.slider);
+  ThemedSlider({this.child});
 
   @override
   Widget build(BuildContext context) {
     return SliderTheme(
-      data: SliderThemeData(
-        activeTrackColor: Theme.of(context).colorScheme.onSurface,
-        inactiveTrackColor: Colors.black12,
-        trackHeight: 1.0,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
-        thumbColor: Theme.of(context).colorScheme.onSurface,
-        overlayColor: Colors.grey.withAlpha(32),
-        overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-        tickMarkShape: RoundSliderTickMarkShape(),
-        activeTickMarkColor: Theme.of(context).colorScheme.onSurface,
-        inactiveTickMarkColor: Theme.of(context).colorScheme.onSurface,
-      ),
-      child: slider,
+      data: Theme.of(context).sliderTheme,
+      child: child,
     );
   }
 }

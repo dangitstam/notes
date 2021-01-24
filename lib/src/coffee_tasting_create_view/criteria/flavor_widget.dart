@@ -22,8 +22,8 @@ class FlavorWidget extends StatelessWidget {
               Text('Score: $score', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
               Expanded(
                 flex: 1,
-                child: BlackSliderTheme(
-                  Slider(
+                child: ThemedSlider(
+                  child: Slider(
                     value: score,
                     min: 0,
                     max: 10,

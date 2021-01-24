@@ -305,8 +305,8 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   Text('Light', style: Theme.of(context).textTheme.caption),
                   Expanded(
                     flex: 1,
-                    child: BlackSliderTheme(
-                      Slider(
+                    child: ThemedSlider(
+                      child: Slider(
                         value: coffeeTastingState.roastLevel,
                         min: 0,
                         max: 10,

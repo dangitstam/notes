@@ -31,8 +31,8 @@ class SweetnessWidget extends StatelessWidget {
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
-                    child: BlackSliderTheme(
-                      Slider(
+                    child: ThemedSlider(
+                      child: Slider(
                         value: score,
                         min: 0,
                         max: 10,
@@ -61,8 +61,8 @@ class SweetnessWidget extends StatelessWidget {
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
-                    child: BlackSliderTheme(
-                      Slider(
+                    child: ThemedSlider(
+                      child: Slider(
                         value: intensity,
                         min: 0,
                         max: 10,
