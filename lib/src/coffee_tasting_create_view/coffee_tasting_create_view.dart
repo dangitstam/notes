@@ -18,6 +18,7 @@ import 'package:notes/src/coffee_tasting_create_view/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/model/note_category.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
 import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
@@ -343,17 +344,36 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       )
                     : SizedBox(height: 10),
                 StreamBuilder(
-                  stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
-                  builder: (context, AsyncSnapshot<List<Note>> snapshot) {
-                    var notes = snapshot.data;
-                    if (notes != null) {
-                      return Wrap(
-                        spacing: 5,
-                        alignment: WrapAlignment.center,
-                        children: notes.map((e) => AddTastingNote(e)).toList(),
+                  stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notesCategorized,
+                  builder: (context, AsyncSnapshot<Map<NoteCategory, List<Note>>> snapshot) {
+                    var notesCategorized = snapshot.data;
+                    if (notesCategorized != null) {
+                      return Column(
+                        children: notesCategorized.entries.map((e) {
+                          var category = e.key;
+                          var notes = e.value;
+                          return Column(
+                            children: [
+                              ExpansionTile(
+                                title: Text(
+                                  category.name.toUpperCase(),
+                                  style: Theme.of(context).textTheme.overline,
+                                ),
+                                children: [
+                                  Wrap(
+                                    spacing: 5,
+                                    alignment: WrapAlignment.center,
+                                    children: notes.map((e) => AddTastingNote(e)).toList(),
+                                  ),
+                                  SizedBox(height: 20),
+                                ],
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       );
                     } else {
-                      return Container(width: 0, height: 0);
+                      return Container();
                     }
                   },
                 ),

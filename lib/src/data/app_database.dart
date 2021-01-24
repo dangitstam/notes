@@ -5,12 +5,11 @@ import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/dao/note_category_dao.dart';
 import 'package:notes/src/data/dao/note_to_note_category_dao.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
-import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/data/note_repository.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'dao/coffee_tasting_note_dao.dart';
+import 'dao/note_dao.dart';
 
 class AppDatabase {
   AppDatabase._();
@@ -36,7 +35,15 @@ class AppDatabase {
         _createNoteCategoriesTable(db);
         _createNoteToNoteCategoriesTable(db);
       },
-      version: 1,
+      onUpgrade: (db, v1, v2) {
+        print('app_database: onUpgrade called');
+        _createCoffeeTastingsTable(db);
+        _createNotesTable(db);
+        _createCoffeeTastingNotesTable(db);
+        _createNoteCategoriesTable(db);
+        _createNoteToNoteCategoriesTable(db);
+      },
+      version: 2,
     );
   }
 }
@@ -83,6 +90,7 @@ Future<void> _createCoffeeTastingsTable(Database db) {
 
 Future<void> _createNotesTable(Database db) {
   // Run the CREATE TABLE statement on the database.
+  print('_createNotesTable called');
   return db.execute(
     // ignore: prefer_single_quotes
     """
@@ -95,29 +103,9 @@ Future<void> _createNotesTable(Database db) {
     // For development purposes, populate the database from the notes.json asset.
     var note_string = await rootBundle.loadString('assets/notes.json');
     List<dynamic> notes = json.decode(note_string);
-    var noteRepository = NoteRepository();
+    var noteDao = NoteDao(database: AppDatabase.db.database);
     notes.forEach((note) {
-      noteRepository.insert(Note.fromAppDatabase(note));
-    });
-  });
-}
-
-Future<void> _createNoteCategoriesTable(Database db) {
-  // Run the CREATE TABLE statement on the database.
-  return db.execute(
-    // ignore: prefer_single_quotes
-    """
-    CREATE TABLE note_categories(
-      note_category_id INTEGER PRIMARY KEY,
-      name TEXT)
-    """,
-  ).then((_) async {
-    // For development purposes, populate the database from the notes.json asset.
-    var noteCategoriesString = await rootBundle.loadString('assets/note_categories.json');
-    List<dynamic> noteCategories = json.decode(noteCategoriesString);
-    var noteCategoryDao = NoteCategoryDao();
-    noteCategories.forEach((noteCategory) {
-      noteCategoryDao.insert(noteCategory);
+      noteDao.insert(note);
     });
   });
 }
@@ -141,6 +129,28 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
     List<dynamic> coffeeTastingNotes = json.decode(coffeeTastingNotesString);
     coffeeTastingNotes.forEach((coffeeTastingNote) {
       coffeeTastingDao.insert(coffeeTastingNote);
+    });
+  });
+}
+
+Future<void> _createNoteCategoriesTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE note_categories(
+      note_category_id INTEGER PRIMARY KEY,
+      name TEXT,
+      color TEXT)
+    """,
+  ).then((_) async {
+    // For development purposes, populate the database from the notes.json asset.
+    var noteCategoriesString = await rootBundle.loadString('assets/note_categories.json');
+    List<dynamic> noteCategories = json.decode(noteCategoriesString);
+
+    var noteCategoryDao = NoteCategoryDao(database: AppDatabase.db.database);
+    noteCategories.forEach((noteCategory) {
+      noteCategoryDao.insert(noteCategory);
     });
   });
 }

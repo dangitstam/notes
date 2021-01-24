@@ -4,6 +4,11 @@ ThemeData lightTheme = ThemeData(
   // Colors
   backgroundColor: backgroundColor,
   cardColor: cardColor,
+  dividerTheme: DividerThemeData(
+    color: Color(0xfff1f1f1),
+    thickness: 1.0,
+  ),
+
   colorScheme: ColorScheme(
     primary: primaryColor,
     onSurface: onSurfaceColor,

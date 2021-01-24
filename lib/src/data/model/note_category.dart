@@ -8,14 +8,14 @@ class NoteCategory extends Equatable {
 
   factory NoteCategory.fromAppDatabase(Map<String, dynamic> noteMap) {
     return NoteCategory(
-      id: noteMap['note_id'],
+      id: noteMap['note_category_id'],
       name: noteMap['name'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'note_id': id,
+      'note_category_id': id,
       'name': name,
     };
   }

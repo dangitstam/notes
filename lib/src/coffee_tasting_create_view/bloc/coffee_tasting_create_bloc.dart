@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/model/note_category.dart';
 import 'package:notes/src/data/note_repository.dart';
 
 part 'coffee_tasting_create_event.dart';
@@ -64,10 +65,12 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
 
   // Controller: Page <- App Database.
   final _getNotesController = StreamController<List<Note>>.broadcast();
+  final _getNotesCategorizedController = StreamController<Map<NoteCategory, List<Note>>>.broadcast();
 
   // Stream: In
   // Purpose: Update stream that pages subscribe to.
   StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
+  StreamSink<Map<NoteCategory, List<Note>>> get _inNotesCategorized => _getNotesCategorizedController.sink;
 
   void refreshNotesStream() async {
     // Retrieve all the notes from the database.
@@ -75,11 +78,19 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
 
     // Update the notes output stream so subscribing pages can update.
     _inNotes.add(notes);
+
+    // Retrieve all the notes (categorized) from the database.
+    var notesCategorized = await noteRepository.getNotesCategorized();
+
+    // Update the notes output stream so subscribing pages can update.
+    _inNotesCategorized.add(notesCategorized);
   }
 
   // Stream: out.
   // Purpose: Stream that other pages subscribe to for notes.
   Stream<List<Note>> get notes => _getNotesController.stream.asBroadcastStream();
+  Stream<Map<NoteCategory, List<Note>>> get notesCategorized =>
+      _getNotesCategorizedController.stream.asBroadcastStream();
 
   Future<int> insert(Note note) async {
     final noteId = await noteRepository.insert(note);
@@ -189,7 +200,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   @override
   Future<void> close() {
     _getNotesController.close();
-
+    _getNotesCategorizedController.close();
     return super.close();
   }
 }

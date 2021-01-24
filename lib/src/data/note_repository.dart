@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:notes/main.dart';
 import 'package:notes/src/data/app_database.dart';
 import 'package:notes/src/data/dao/coffee_tasting_note_dao.dart';
 import 'package:notes/src/data/dao/note_category_dao.dart';
@@ -15,7 +14,6 @@ class NoteRepository {
   final NoteDao _noteDao = NoteDao(database: AppDatabase.db.database);
   final NoteCategoryDao _noteCategoryDao = NoteCategoryDao(database: AppDatabase.db.database);
   final NoteToNoteCategoryDao _noteToNoteCategoryDao = NoteToNoteCategoryDao(database: AppDatabase.db.database);
-
 
   final CoffeeTastingNoteDao _coffeeTastingNoteDao = CoffeeTastingNoteDao(database: AppDatabase.db.database);
 
@@ -34,9 +32,12 @@ class NoteRepository {
     var noteCategories = await _noteCategoryDao.getAllNoteCategories();
     var noteToNoteCategories = await _noteToNoteCategoryDao.getNoteToNoteRelations();
 
-    // Note category to list of notes.
-    var res = {};
+    // Ignore the type annotation linting error because without an annotation,
+    // this method will hang when awaiated.
+    // ignore: omit_local_variable_types
+    Map<NoteCategory, List<Note>> res = {};
     for (var noteCategory in noteCategories) {
+      // Without .toList(), the resulting iterable will case this method to hang.
       var notesForCategory = notes.where((Note note) {
         return noteToNoteCategories.contains(
           NoteToNoteCategory(
@@ -44,7 +45,7 @@ class NoteRepository {
             note_category_id: noteCategory.id,
           ),
         );
-      });
+      }).toList();
 
       res[noteCategory] = notesForCategory;
     }
