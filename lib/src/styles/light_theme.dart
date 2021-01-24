@@ -23,13 +23,13 @@ ThemeData lightTheme = ThemeData(
 
   // Typography.
   textTheme: TextTheme(
-          headline5: headline5,
-          headline6: headline6,
-          bodyText2: bodyText2,
-          caption: caption,
-          subtitle1: subtitle1,
-          overline: overline)
-      .apply(
+    headline5: headline5,
+    headline6: headline6,
+    bodyText2: bodyText2,
+    caption: caption,
+    subtitle1: subtitle1,
+    overline: overline,
+  ).apply(
     bodyColor: onSurfaceColor,
     displayColor: onSurfaceColor,
   ),

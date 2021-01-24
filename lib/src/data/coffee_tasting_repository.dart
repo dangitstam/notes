@@ -20,9 +20,9 @@ class CoffeeTastingRepository {
     var coffeeTastings = await _coffeeTastingDao.getAllCoffeeTastings();
 
     // Collect tasting notes for each coffee tasting.
-    for (var coffeeTasting in coffeeTastings) {
-      final notes = await _coffeeTastingNotesDao.getCoffeeTastingNotes(coffeeTasting.coffeeTastingId);
-      coffeeTasting.notes = notes;
+    for (var i = 0; i < coffeeTastings.length; i++) {
+      final notes = await _coffeeTastingNotesDao.getCoffeeTastingNotes(coffeeTastings[i].coffeeTastingId);
+      coffeeTastings[i] = coffeeTastings[i].copyWith(notes: notes);
     }
 
     return coffeeTastings;
