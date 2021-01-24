@@ -60,16 +60,16 @@ class BlackSliderTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliderTheme(
       data: SliderThemeData(
-        activeTrackColor: Colors.black87,
+        activeTrackColor: Theme.of(context).colorScheme.onSurface,
         inactiveTrackColor: Colors.black12,
         trackHeight: 1.0,
         thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
-        thumbColor: Colors.black87,
+        thumbColor: Theme.of(context).colorScheme.onSurface,
         overlayColor: Colors.grey.withAlpha(32),
         overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
         tickMarkShape: RoundSliderTickMarkShape(),
-        activeTickMarkColor: Colors.black,
-        inactiveTickMarkColor: Colors.black,
+        activeTickMarkColor: Theme.of(context).colorScheme.onSurface,
+        inactiveTickMarkColor: Theme.of(context).colorScheme.onSurface,
       ),
       child: slider,
     );

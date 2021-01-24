@@ -13,7 +13,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           bottom: PreferredSize(
@@ -28,7 +28,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
             'Notes',
             style: Theme.of(context).textTheme.headline5,
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).backgroundColor,
           actions: <Widget>[
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -108,9 +108,6 @@ class _CoffeeTastingListItem extends StatelessWidget {
   }) : super(key: key);
 
   final CoffeeTasting tasting;
-
-  final scoreBarColor = Color(0xff1b1b1b);
-  final intensityBarColor = Color(0xff87bd91);
 
   Icon _buildRoastingProcessIcon(String process) {
     // TODO: Default to blank icon when process is neither 'Washed' or 'Natural'.
@@ -208,46 +205,46 @@ class _CoffeeTastingListItem extends StatelessWidget {
               criteriaLabel: 'Aroma',
               score: tasting.aromaScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.aromaIntensity,
               intensityLabel: 'Intensity',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Acidity',
               score: tasting.acidityScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.acidityIntensity,
               intensityLabel: 'Intensity',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Body',
               score: tasting.bodyScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.bodyLevel,
               intensityLabel: 'Level',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Sweetness',
               score: tasting.sweetnessScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.sweetnessIntensity,
               intensityLabel: 'Intensity',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
             CriteriaBarChartData(
               criteriaLabel: 'Finish',
               score: tasting.finishScore,
               scoreLabel: 'Score',
-              scoreColor: scoreBarColor,
+              scoreColor: Theme.of(context).colorScheme.onSurface,
               intensity: tasting.finishDuration,
               intensityLabel: 'Duration',
-              intensityColor: intensityBarColor,
+              intensityColor: Theme.of(context).colorScheme.primary,
             ),
           ]),
           const SizedBox(height: 20),
