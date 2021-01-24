@@ -25,7 +25,7 @@ class CriteriaLinearIndicator extends StatelessWidget {
             child: Container(
               height: barHeight,
               child: LinearProgressIndicator(
-                backgroundColor: Color(0xfff1f1f1),
+                backgroundColor: Theme.of(context).cardColor,
                 value: scaledValue,
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),

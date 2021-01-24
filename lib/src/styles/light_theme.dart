@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
   backgroundColor: Color(0xffffffff),
+  cardColor: cardColor,
 
   // Colors
   colorScheme: ColorScheme(
@@ -41,6 +42,8 @@ Color primaryVariantColor = Color(0xff809287);
 
 Color onSurfaceColor = Color(0xff333331);
 Color surfaceColor = Color(0xff222221);
+
+Color cardColor = Color(0xfff1f1f1);
 
 TextStyle headline5 = const TextStyle(
   fontFamily: 'Baskerville',
