@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:notes/src/coffee_tasting_create_view/criteria/flavor_widget.dart
 import 'package:notes/src/coffee_tasting_create_view/criteria/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/criteria/sweetness.dart';
 import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
+import 'package:notes/src/coffee_tasting_create_view/section_title.dart';
 import 'package:notes/src/coffee_tasting_create_view/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
@@ -320,13 +322,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   Text('Dark', style: Theme.of(context).textTheme.caption),
                 ]),
                 SizedBox(height: 20),
-                Text('Notes'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+                /**
+                 * Notes
+                 */
+                SectionTitle(sectionNumber: 1, title: 'Notes'),
                 SizedBox(height: 20),
-                Container(
-                  height: 2.0,
-                  width: 20,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                SectionTitleDecoration(),
                 SizedBox(height: 20),
                 Text('Select all that apply', style: Theme.of(context).textTheme.caption),
                 SizedBox(height: 10),
@@ -336,13 +337,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   spacing: 5,
                   children: selectedTastingNotes.map((e) => RemoveTastingNote(e)).toList(),
                 ),
-                selectedTastingNotes.isNotEmpty
-                    ? Divider(
-                        height: 20,
-                        indent: 60,
-                        endIndent: 60,
-                      )
-                    : SizedBox(height: 10),
+                SizedBox(height: 20),
                 StreamBuilder(
                   stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notesCategorized,
                   builder: (context, AsyncSnapshot<Map<NoteCategory, List<Note>>> snapshot) {
@@ -377,64 +372,66 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     }
                   },
                 ),
+                SizedBox(height: 40),
+                /**
+                 * Characteristics
+                 */
+                SectionTitle(sectionNumber: 2, title: 'Characteristics'),
                 SizedBox(height: 20),
-                Text('Characteristics'.toUpperCase(), style: Theme.of(context).textTheme.overline),
-                SizedBox(height: 20),
-                Container(
-                  height: 2.0,
-                  width: 20,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                SectionTitleDecoration(),
                 SizedBox(height: 20),
                 Text('Identify and assess attributes', style: Theme.of(context).textTheme.caption),
                 SizedBox(height: 20),
-                CriteriaBarChart(children: [
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Aroma',
-                    score: coffeeTastingState.aromaScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.aromaIntensity,
-                    intensityLabel: 'Intensity',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Acidity',
-                    score: coffeeTastingState.acidityScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.acidityIntensity,
-                    intensityLabel: 'Intensity',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Body',
-                    score: coffeeTastingState.bodyScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.bodyLevel,
-                    intensityLabel: 'Level',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Sweetness',
-                    score: coffeeTastingState.sweetnessScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.sweetnessIntensity,
-                    intensityLabel: 'Intensity',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Finish',
-                    score: coffeeTastingState.finishScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.finishDuration,
-                    intensityLabel: 'Duration',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                ]),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 10.0),
+                  child: CriteriaBarChart(children: [
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Aroma',
+                      score: coffeeTastingState.aromaScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.aromaIntensity,
+                      intensityLabel: 'Intensity',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Acidity',
+                      score: coffeeTastingState.acidityScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.acidityIntensity,
+                      intensityLabel: 'Intensity',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Body',
+                      score: coffeeTastingState.bodyScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.bodyLevel,
+                      intensityLabel: 'Level',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Sweetness',
+                      score: coffeeTastingState.sweetnessScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.sweetnessIntensity,
+                      intensityLabel: 'Intensity',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Finish',
+                      score: coffeeTastingState.finishScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.finishDuration,
+                      intensityLabel: 'Duration',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ]),
+                ),
                 SizedBox(height: 20),
                 SizedBox(
                   height: 280,
