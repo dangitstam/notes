@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes/src/styles/SlimSliderTrackShape.dart';
 
 ThemeData lightTheme = ThemeData(
   // Colors
@@ -46,7 +47,7 @@ ThemeData lightTheme = ThemeData(
     activeTrackColor: onSurfaceColor,
     inactiveTrackColor: cardColor,
     trackHeight: 10.0,
-    trackShape: RectangularSliderTrackShape(),
+    trackShape: SlimRectangularSliderTrackShape(),
     thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
     thumbColor: onSurfaceColor,
     overlayColor: Colors.grey.withAlpha(32),

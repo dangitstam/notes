@@ -19,6 +19,7 @@ import 'package:notes/src/coffee_tasting_create_view/section_title.dart';
 import 'package:notes/src/coffee_tasting_create_view/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
+import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
@@ -119,7 +120,10 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
           Padding(
             padding: EdgeInsets.all(10.0),
             child: FlatButton(
-              child: Text('Create'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+              color: Theme.of(context).colorScheme.onSurface,
+              child: Text('Create'.toUpperCase(),
+                  style:
+                      Theme.of(context).textTheme.overline.copyWith(color: Colors.white, fontWeight: FontWeight.w300)),
               onPressed: () {
                 // Updaate app database with new tasting.
                 context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
@@ -266,7 +270,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       ),
                     ),
                     SizedBox(width: 10),
-                    Text('Process', style: Theme.of(context).textTheme.subtitle1),
+                    Text('Process'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
                     SizedBox(width: 10),
                     Container(
                       child: DropdownButton<String>(
@@ -303,12 +307,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   ],
                 ),
                 Row(children: [
-                  Text('Roast Level', style: Theme.of(context).textTheme.subtitle1),
-                  SizedBox(width: 10),
+                  Text('Roast'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                  SizedBox(width: 20),
                   Text('Light', style: Theme.of(context).textTheme.caption),
                   Expanded(
                     flex: 1,
-                    child: ThemedSlider(
+                    child: ThemedPaddedSlider(
                       child: Slider(
                         value: coffeeTastingState.roastLevel,
                         min: 0,
@@ -349,19 +353,23 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                           var notes = e.value;
                           return Column(
                             children: [
-                              ExpansionTile(
-                                title: Text(
-                                  category.name.toUpperCase(),
-                                  style: Theme.of(context).textTheme.overline,
-                                ),
-                                children: [
-                                  Wrap(
-                                    spacing: 5,
-                                    alignment: WrapAlignment.center,
-                                    children: notes.map((e) => AddTastingNote(e)).toList(),
+                              Theme(
+                                // Remove borders drawn by the expansion tile.
+                                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  title: Text(
+                                    category.name.toUpperCase(),
+                                    style: Theme.of(context).textTheme.overline,
                                   ),
-                                  SizedBox(height: 20),
-                                ],
+                                  children: [
+                                    Wrap(
+                                      spacing: 5,
+                                      alignment: WrapAlignment.center,
+                                      children: notes.map((e) => AddTastingNote(e)).toList(),
+                                    ),
+                                    SizedBox(height: 20),
+                                  ],
+                                ),
                               ),
                             ],
                           );
