@@ -349,8 +349,17 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     if (notesCategorized != null) {
                       return Column(
                         children: notesCategorized.entries.map((e) {
-                          var category = e.key;
-                          var notes = e.value;
+                          final category = e.key;
+                          final notes = e.value;
+
+                          // ignore: omit_local_variable_types
+                          List<Widget> children = [];
+                          for (var note in notes) {
+                            children.add(AddTastingNote(note));
+                          }
+                          children.add(
+                            CreateTastingNote(category),
+                          );
                           return Column(
                             children: [
                               Theme(
@@ -365,7 +374,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                                     Wrap(
                                       spacing: 5,
                                       alignment: WrapAlignment.center,
-                                      children: notes.map((e) => AddTastingNote(e)).toList(),
+                                      children: children,
                                     ),
                                     SizedBox(height: 20),
                                   ],

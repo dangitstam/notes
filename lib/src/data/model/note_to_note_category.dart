@@ -18,5 +18,10 @@ class NoteToNoteCategory extends Equatable {
   }
 
   @override
+  String toString() {
+    return '{ \'note_id\': $note_id, \'note_category_id\': $note_category_id }';
+  }
+
+  @override
   List<Object> get props => [note_id, note_category_id];
 }

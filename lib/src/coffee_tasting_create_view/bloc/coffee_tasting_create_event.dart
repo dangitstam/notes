@@ -15,6 +15,12 @@ class RemoveCoffeeTastingNoteEvent extends CoffeeTastingCreateEvent {
   RemoveCoffeeTastingNoteEvent({this.note});
 }
 
+class CreateCoffeeTastingNoteEvent extends CoffeeTastingCreateEvent {
+  final Note note;
+  final NoteCategory noteCategory;
+  CreateCoffeeTastingNoteEvent({this.note, this.noteCategory});
+}
+
 class CoffeeNameEvent extends CoffeeTastingCreateEvent {
   final String coffeeName;
   CoffeeNameEvent({this.coffeeName});
