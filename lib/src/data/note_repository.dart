@@ -38,7 +38,7 @@ class NoteRepository {
     var noteToNoteCategories = await _noteToNoteCategoryDao.getNoteToNoteRelations();
 
     // Ignore the type annotation linting error because without an annotation,
-    // this method will hang when awaiated.
+    // this method will hang when awaited.
     // ignore: omit_local_variable_types
     Map<NoteCategory, List<Note>> res = {};
     for (var noteCategory in noteCategories) {

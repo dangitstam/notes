@@ -94,26 +94,16 @@ class CreateTastingNote extends StatefulWidget {
 }
 
 class _CreateTastingNoteState extends State<CreateTastingNote> {
-  Color _color;
-  String _name;
+  Color _color = Color(0xff000000);
+  String _name = 'New Note';
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
       builder: (context, state) {
-  
-        var insert = () {
-          final colorHex = '#${_color.value.toRadixString(16)}';
-          context.read<CoffeeTastingCreateBloc>().add(
-                CreateCoffeeTastingNoteEvent(
-                  note: Note(
-                    color: colorHex,
-                    name: _name,
-                  ),
-                  noteCategory: widget.noteCategory,
-                ),
-              );
-        };
+        // Modal sheets exist outside of the widget tree, so they must be given
+        // the bloc explicitly.
+        var bloc = BlocProvider.of<CoffeeTastingCreateBloc>(context);
 
         return Builder(
           builder: (BuildContext context) {
@@ -148,10 +138,13 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
                                 });
                               },
                             ),
-                            Text('Color'.toUpperCase(),
-                                style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                            Text(
+                              'Color'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
                             ColorPicker(
-                              pickerColor: Color(0xff000000),
+                              pickerColor: _color,
+                              enableAlpha: false,
                               onColorChanged: (color) {
                                 setState(() {
                                   _color = color;
@@ -169,7 +162,16 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
                                         .overline
                                         .copyWith(color: Colors.white, fontWeight: FontWeight.w300)),
                                 onPressed: () {
-                                  insert();
+                                  bloc.add(
+                                    CreateCoffeeTastingNoteEvent(
+                                      note: Note(
+                                        color: '#${_color.value.toRadixString(16).substring(2)}',
+                                        name: _name,
+                                      ),
+                                      noteCategory: widget.noteCategory,
+                                    ),
+                                  );
+                                  Navigator.pop(context);
                                 },
                               ),
                             ),
