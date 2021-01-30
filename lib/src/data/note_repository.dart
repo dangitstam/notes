@@ -19,6 +19,8 @@ class NoteRepository {
 
   Future<int> insert(Note note) => _noteDao.insert(note.toMap());
 
+  Future<int> insertNoteCategory(NoteCategory noteCategory) => _noteCategoryDao.insert(noteCategory.toMap());
+
   /// Relate a note to a note category.
   Future<int> insertNoteToNoteCategory(int noteId, int noteCategoryId) => _noteToNoteCategoryDao.insert(
         {'note_id': noteId, 'note_category_id': noteCategoryId},

@@ -102,6 +102,14 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     refreshNotesStream();
   }
 
+  Future<void> insertNoteCategory(NoteCategory noteCategory) async {
+
+    final noteToNoteCategoryId = await noteRepository.insertNoteCategory(noteCategory);
+
+    // Update output stream on every insertion.
+    refreshNotesStream();
+  }
+
   @override
   Stream<CoffeeTastingCreateState> mapEventToState(
     CoffeeTastingCreateEvent event,
@@ -126,6 +134,9 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     } else if (event is CreateCoffeeTastingNoteEvent) {
       // Insert the newly created tasting note.
       await insertCategorizedNote(event.note, event.noteCategory);
+    } else if (event is CreateCoffeeTastingNoteCategoryEvent) {
+      // Insert the newly created tasting note.
+      await insertNoteCategory(event.noteCategory);
     } else if (event is CoffeeNameEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(coffeeName: event.coffeeName),

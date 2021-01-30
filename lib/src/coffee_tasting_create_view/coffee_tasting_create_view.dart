@@ -15,6 +15,7 @@ import 'package:notes/src/coffee_tasting_create_view/criteria/flavor_widget.dart
 import 'package:notes/src/coffee_tasting_create_view/criteria/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/criteria/sweetness.dart';
 import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
+import 'package:notes/src/coffee_tasting_create_view/new_category_dialog.dart';
 import 'package:notes/src/coffee_tasting_create_view/section_title.dart';
 import 'package:notes/src/coffee_tasting_create_view/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
@@ -388,6 +389,36 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       return Container();
                     }
                   },
+                ),
+                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    // BLoC is out of scope for the modal since it exists outside of the widget tree.
+                    final onSubmitted = (value) {
+                      context.read<CoffeeTastingCreateBloc>().add(
+                            CreateCoffeeTastingNoteCategoryEvent(
+                              noteCategory: NoteCategory(name: value),
+                            ),
+                          );
+                      Navigator.pop(context);
+                    };
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return NewCategoryDialog(
+                          onSubmitted: onSubmitted,
+                        );
+                      },
+                    );
+                  },
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.add),
+                      SizedBox(width: 20),
+                      Text('New Note Category'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 40),
                 /**

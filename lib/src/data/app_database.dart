@@ -43,7 +43,7 @@ class AppDatabase {
         _createNoteCategoriesTable(db);
         _createNoteToNoteCategoriesTable(db);
       },
-      version: 2,
+      version: 1,
     );
   }
 }
