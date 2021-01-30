@@ -36,7 +36,6 @@ class AppDatabase {
         _createNoteToNoteCategoriesTable(db);
       },
       onUpgrade: (db, v1, v2) {
-        print('app_database: onUpgrade called');
         _createCoffeeTastingsTable(db);
         _createNotesTable(db);
         _createCoffeeTastingNotesTable(db);
@@ -76,8 +75,7 @@ Future<void> _createCoffeeTastingsTable(Database db) {
             image_path TEXT)
           """,
   ).then((_) async {
-    // For development purposes, populate the database from the
-    // coffee_tastings.json asset.
+    // For development purposes, populate example tastings from the coffee_tastings.json asset.
     var coffeeTastingsString = await rootBundle.loadString('assets/coffee_tastings.json');
     List<dynamic> coffeeTastings = json.decode(coffeeTastingsString);
 
@@ -90,7 +88,6 @@ Future<void> _createCoffeeTastingsTable(Database db) {
 
 Future<void> _createNotesTable(Database db) {
   // Run the CREATE TABLE statement on the database.
-  print('_createNotesTable called');
   return db.execute(
     // ignore: prefer_single_quotes
     """
@@ -100,7 +97,7 @@ Future<void> _createNotesTable(Database db) {
       color TEXT)
     """,
   ).then((_) async {
-    // For development purposes, populate the database from the notes.json asset.
+    // Populate stock notes from the notes.json asset.
     var note_string = await rootBundle.loadString('assets/notes.json');
     List<dynamic> notes = json.decode(note_string);
     var noteDao = NoteDao(database: AppDatabase.db.database);
@@ -120,12 +117,10 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
       note_id INTEGER)
     """,
   ).then((_) async {
-    // For development purposes, populate the database from the notes.json asset.
+    // For development purposes, populate notes for example tastings from the coffee_tastings_notes.json asset.
     var coffeeTastingNotesString = await rootBundle.loadString('assets/coffee_tastings_notes.json');
 
-    // Update stream so that the downstream list view is updated.
     var coffeeTastingDao = CoffeeTastingNoteDao(database: AppDatabase.db.database);
-
     List<dynamic> coffeeTastingNotes = json.decode(coffeeTastingNotesString);
     coffeeTastingNotes.forEach((coffeeTastingNote) {
       coffeeTastingDao.insert(coffeeTastingNote);
@@ -144,7 +139,7 @@ Future<void> _createNoteCategoriesTable(Database db) {
       color TEXT)
     """,
   ).then((_) async {
-    // For development purposes, populate the database from the notes.json asset.
+    // Populate stock note categories from the note_categories.json asset.
     var noteCategoriesString = await rootBundle.loadString('assets/note_categories.json');
     List<dynamic> noteCategories = json.decode(noteCategoriesString);
 
@@ -165,7 +160,7 @@ Future<void> _createNoteToNoteCategoriesTable(Database db) {
       note_category_id INTEGER)
     """,
   ).then((_) async {
-    // For development purposes, populate the database from the notes.json asset.
+    // Populate stock note to note category relations from the note_to_note_categories.json asset.
     var noteToNoteCategoryString = await rootBundle.loadString('assets/note_to_note_categories.json');
 
     // Update stream so that the downstream list view is updated.
