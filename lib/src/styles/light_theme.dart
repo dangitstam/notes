@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notes/src/styles/SlimSliderTrackShape.dart';
+import 'package:notes/src/styles/slim_slider_track_shape.dart';
 
 ThemeData lightTheme = ThemeData(
   // Colors
@@ -40,6 +40,17 @@ ThemeData lightTheme = ThemeData(
   ).apply(
     bodyColor: onSurfaceColor,
     displayColor: onSurfaceColor,
+  ),
+
+  // Buttons.
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      primary: backgroundColor,
+      backgroundColor: onSurfaceColor,
+      textStyle: overline.copyWith(fontWeight: FontWeight.w300),
+    ),
   ),
 
   // Sliders.

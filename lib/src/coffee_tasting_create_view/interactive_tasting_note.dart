@@ -155,13 +155,9 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
                               pickerAreaHeightPercent: 0.8,
                             ),
                             Center(
-                              child: FlatButton(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                child: Text('Create Note'.toUpperCase(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .overline
-                                        .copyWith(color: Colors.white, fontWeight: FontWeight.w300)),
+                              child: TextButton(
+                                child: Text('Create Note'.toUpperCase()),
+                                style: Theme.of(context).textButtonTheme.style,
                                 onPressed: () {
                                   bloc.add(
                                     CreateCoffeeTastingNoteEvent(

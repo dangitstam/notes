@@ -120,11 +120,9 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
         actions: [
           Padding(
             padding: EdgeInsets.all(10.0),
-            child: FlatButton(
-              color: Theme.of(context).colorScheme.onSurface,
-              child: Text('Create'.toUpperCase(),
-                  style:
-                      Theme.of(context).textTheme.overline.copyWith(color: Colors.white, fontWeight: FontWeight.w300)),
+            child: TextButton(
+              style: Theme.of(context).textButtonTheme.style,
+              child: Text('Create'.toUpperCase()),
               onPressed: () {
                 // Updaate app database with new tasting.
                 context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());

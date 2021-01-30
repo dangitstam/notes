@@ -31,11 +31,9 @@ class _NewCategoryDialogState extends State<NewCategoryDialog> {
                 });
               },
             ),
-            FlatButton(
-              color: Theme.of(context).colorScheme.onSurface,
-              child: Text('Create category'.toUpperCase(),
-                  style:
-                      Theme.of(context).textTheme.overline.copyWith(color: Colors.white, fontWeight: FontWeight.w300)),
+            TextButton(
+              child: Text('Create category'.toUpperCase()),
+              style: Theme.of(context).textButtonTheme.style,
               onPressed: () {
                 widget.onSubmitted(_value);
               },
