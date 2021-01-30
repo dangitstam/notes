@@ -347,9 +347,15 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     var notesCategorized = snapshot.data;
                     if (notesCategorized != null) {
                       return Column(
-                        children: notesCategorized.entries.map((e) {
-                          final category = e.key;
-                          final notes = e.value;
+                        // Listify the entries and make a map of the result to get
+                        // an integer position index for each entry.
+                        children: notesCategorized.entries.toList().asMap().entries.map((entry) {
+                          final index = entry.key;
+
+                          // ignore: omit_local_variable_types
+                          MapEntry<NoteCategory, List<Note>> notesCategorizedEntry = entry.value;
+                          final category = notesCategorizedEntry.key;
+                          final notes = notesCategorizedEntry.value;
 
                           // ignore: omit_local_variable_types
                           List<Widget> children = [];
@@ -365,6 +371,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                                 // Remove borders drawn by the expansion tile.
                                 data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                                 child: ExpansionTile(
+                                  initiallyExpanded: index == 0,
                                   title: Text(
                                     category.name.toUpperCase(),
                                     style: Theme.of(context).textTheme.overline,
