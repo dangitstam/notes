@@ -99,6 +99,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     final noteId = await noteRepository.insert(note);
     final noteCategoryId = noteCategory.id;
 
+    // ignore: unused_local_variable
     final noteToNoteCategoryId = await noteRepository.insertNoteToNoteCategory(noteId, noteCategoryId);
 
     // Update output stream on every insertion.
@@ -107,6 +108,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   }
 
   Future<void> insertNoteCategory(NoteCategory noteCategory) async {
+    // ignore: unused_local_variable
     final noteToNoteCategoryId = await noteRepository.insertNoteCategory(noteCategory);
     refreshCategorizedNotesStream();
   }

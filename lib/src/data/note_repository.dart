@@ -49,7 +49,6 @@ class NoteRepository {
       // Without .toList(), the resulting iterable will case this method to hang.
       var note = notesMapped[noteToNoteCategory.note_id];
       var noteCategory = noteCategoriesMapped[noteToNoteCategory.note_category_id];
-
       if (note != null && noteCategory != null) {
         if (res[noteCategory] != null) {
           res[noteCategory].add(note);
