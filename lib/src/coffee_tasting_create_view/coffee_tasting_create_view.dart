@@ -357,6 +357,9 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                           final category = notesCategorizedEntry.key;
                           final notes = notesCategorizedEntry.value;
 
+                          // List of mixed widget types is possible, but breaks when attempting to
+                          // add a new widget type to a list of a single type constructed with a comprehension.
+                          // Use loops as a workaround.
                           // ignore: omit_local_variable_types
                           List<Widget> children = [];
                           for (var note in notes) {
