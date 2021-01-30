@@ -163,9 +163,7 @@ Future<void> _createNoteToNoteCategoriesTable(Database db) {
     // Populate stock note to note category relations from the note_to_note_categories.json asset.
     var noteToNoteCategoryString = await rootBundle.loadString('assets/note_to_note_categories.json');
 
-    // Update stream so that the downstream list view is updated.
     var noteToNoteCategoryDao = NoteToNoteCategoryDao(database: AppDatabase.db.database);
-
     List<dynamic> noteToNoteCategoryEntries = json.decode(noteToNoteCategoryString);
     noteToNoteCategoryEntries.forEach((noteToNoteCategory) {
       noteToNoteCategoryDao.insert(noteToNoteCategory);
