@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:notes/src/data/model/coffee_tasting_note.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CoffeeTastingNoteDao {
+  @required
   Future<Database> database;
 
   CoffeeTastingNoteDao({this.database});

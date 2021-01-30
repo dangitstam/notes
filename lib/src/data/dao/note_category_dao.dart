@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:notes/src/data/model/note_category.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NoteCategoryDao {
+  @required
   Future<Database> database;
 
   NoteCategoryDao({this.database});

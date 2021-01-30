@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NoteDao {
+  @required
   Future<Database> database;
 
   NoteDao({this.database});
