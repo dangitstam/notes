@@ -146,6 +146,7 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
                               pickerColor: _color,
                               enableAlpha: false,
                               onColorChanged: (color) {
+                                FocusScope.of(context).unfocus();
                                 setState(() {
                                   _color = color;
                                 });

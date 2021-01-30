@@ -48,6 +48,38 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         ) {
     // Initialize the stream of notes.
     refreshNotesStream();
+    refreshCategorizedNotesStream();
+  }
+
+  // Controller: Page <- App Database.
+  final _getNotesController = StreamController<List<Note>>.broadcast();
+  final _getNotesCategorizedController = StreamController<Map<NoteCategory, List<Note>>>.broadcast();
+
+  // Stream: In
+  // Purpose: Update stream that pages subscribe to.
+  StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
+  StreamSink<Map<NoteCategory, List<Note>>> get _inNotesCategorized => _getNotesCategorizedController.sink;
+
+  // Stream: out.
+  // Purpose: Stream that other pages subscribe to for notes.
+  Stream<List<Note>> get notes => _getNotesController.stream.asBroadcastStream();
+  Stream<Map<NoteCategory, List<Note>>> get notesCategorized =>
+      _getNotesCategorizedController.stream.asBroadcastStream();
+
+  void refreshNotesStream() async {
+    // Retrieve all the notes from the database.
+    var notes = await noteRepository.getAllNotes();
+
+    // Update the notes output stream so subscribing pages can update.
+    _inNotes.add(notes);
+  }
+
+  void refreshCategorizedNotesStream() async {
+    // Retrieve all the notes (categorized) from the database.
+    var notesCategorized = await noteRepository.getNotesCategorized();
+
+    // Update the notes (categorized) output stream so subscribing pages can update.
+    _inNotesCategorized.add(notesCategorized);
   }
 
   Future<int> insertCoffeeTasting() async {
@@ -63,35 +95,6 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     return coffeeTastingId;
   }
 
-  // Controller: Page <- App Database.
-  final _getNotesController = StreamController<List<Note>>.broadcast();
-  final _getNotesCategorizedController = StreamController<Map<NoteCategory, List<Note>>>.broadcast();
-
-  // Stream: In
-  // Purpose: Update stream that pages subscribe to.
-  StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
-  StreamSink<Map<NoteCategory, List<Note>>> get _inNotesCategorized => _getNotesCategorizedController.sink;
-
-  void refreshNotesStream() async {
-    // Retrieve all the notes from the database.
-    var notes = await noteRepository.getAllNotes();
-
-    // Update the notes output stream so subscribing pages can update.
-    _inNotes.add(notes);
-
-    // Retrieve all the notes (categorized) from the database.
-    var notesCategorized = await noteRepository.getNotesCategorized();
-
-    // Update the notes output stream so subscribing pages can update.
-    _inNotesCategorized.add(notesCategorized);
-  }
-
-  // Stream: out.
-  // Purpose: Stream that other pages subscribe to for notes.
-  Stream<List<Note>> get notes => _getNotesController.stream.asBroadcastStream();
-  Stream<Map<NoteCategory, List<Note>>> get notesCategorized =>
-      _getNotesCategorizedController.stream.asBroadcastStream();
-
   Future<void> insertCategorizedNote(Note note, NoteCategory noteCategory) async {
     final noteId = await noteRepository.insert(note);
     final noteCategoryId = noteCategory.id;
@@ -100,14 +103,12 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
 
     // Update output stream on every insertion.
     refreshNotesStream();
+    refreshCategorizedNotesStream();
   }
 
   Future<void> insertNoteCategory(NoteCategory noteCategory) async {
-
     final noteToNoteCategoryId = await noteRepository.insertNoteCategory(noteCategory);
-
-    // Update output stream on every insertion.
-    refreshNotesStream();
+    refreshCategorizedNotesStream();
   }
 
   @override
