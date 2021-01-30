@@ -45,11 +45,18 @@ class NoteRepository {
     Map<int, Note> notesMapped = {for (Note element in notes) element.id: element};
     Map<int, NoteCategory> noteCategoriesMapped = {for (NoteCategory element in noteCategories) element.id: element};
 
+    // Ensure that all note categories are reflected.
+    // The optimization below may skip categories that don't have notes yet.
+    for (NoteCategory noteCategory in noteCategories) {
+      res[noteCategory] = [];
+    }
+
     for (NoteToNoteCategory noteToNoteCategory in noteToNoteCategories) {
       // Without .toList(), the resulting iterable will case this method to hang.
       var note = notesMapped[noteToNoteCategory.note_id];
       var noteCategory = noteCategoriesMapped[noteToNoteCategory.note_category_id];
       if (note != null && noteCategory != null) {
+        // TODO: Add foreign key constraints for relation tables.
         if (res[noteCategory] != null) {
           res[noteCategory].add(note);
         } else {

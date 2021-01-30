@@ -35,7 +35,11 @@ class _NewCategoryDialogState extends State<NewCategoryDialog> {
               child: Text('Create category'.toUpperCase()),
               style: Theme.of(context).textButtonTheme.style,
               onPressed: () {
-                widget.onSubmitted(_value);
+                // Disable the button until a value is specified.
+                final isValueSpecified = _value != null && _value.trim() != '';
+                if (isValueSpecified) {
+                  widget.onSubmitted(_value);
+                }
               },
             ),
           ],

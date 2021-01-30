@@ -10,6 +10,7 @@ import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
 import 'package:notes/src/data/note_repository.dart';
+import 'package:pedantic/pedantic.dart';
 
 part 'coffee_tasting_create_event.dart';
 part 'coffee_tasting_create_state.dart';
@@ -135,9 +136,9 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         tasting: state.tasting.copyWith(notes: newNotes),
       );
     } else if (event is CreateCoffeeTastingNoteEvent) {
-      await insertCategorizedNote(event.note, event.noteCategory);
+      unawaited(insertCategorizedNote(event.note, event.noteCategory));
     } else if (event is CreateCoffeeTastingNoteCategoryEvent) {
-      await insertNoteCategory(event.noteCategory);
+      unawaited(insertNoteCategory(event.noteCategory));
     } else if (event is CoffeeNameEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(coffeeName: event.coffeeName),
