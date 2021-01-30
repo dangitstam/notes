@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,14 @@ import 'package:notes/src/coffee_tasting_create_view/criteria/flavor_widget.dart
 import 'package:notes/src/coffee_tasting_create_view/criteria/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/criteria/sweetness.dart';
 import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
+import 'package:notes/src/coffee_tasting_create_view/new_category_dialog.dart';
+import 'package:notes/src/coffee_tasting_create_view/section_title.dart';
 import 'package:notes/src/coffee_tasting_create_view/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
+import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/model/note_category.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
 import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
@@ -115,8 +120,9 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
         actions: [
           Padding(
             padding: EdgeInsets.all(10.0),
-            child: FlatButton(
-              child: Text('Create'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+            child: TextButton(
+              style: Theme.of(context).textButtonTheme.style,
+              child: Text('Create'.toUpperCase()),
               onPressed: () {
                 // Updaate app database with new tasting.
                 context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
@@ -263,7 +269,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       ),
                     ),
                     SizedBox(width: 10),
-                    Text('Process', style: Theme.of(context).textTheme.subtitle1),
+                    Text('Process'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
                     SizedBox(width: 10),
                     Container(
                       child: DropdownButton<String>(
@@ -300,12 +306,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   ],
                 ),
                 Row(children: [
-                  Text('Roast Level', style: Theme.of(context).textTheme.subtitle1),
-                  SizedBox(width: 10),
+                  Text('Roast'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                  SizedBox(width: 20),
                   Text('Light', style: Theme.of(context).textTheme.caption),
                   Expanded(
                     flex: 1,
-                    child: ThemedSlider(
+                    child: ThemedPaddedSlider(
                       child: Slider(
                         value: coffeeTastingState.roastLevel,
                         min: 0,
@@ -319,13 +325,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   Text('Dark', style: Theme.of(context).textTheme.caption),
                 ]),
                 SizedBox(height: 20),
-                Text('Notes'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+                /**
+                 * Notes
+                 */
+                SectionTitle(sectionNumber: 1, title: 'Notes'),
                 SizedBox(height: 20),
-                Container(
-                  height: 2.0,
-                  width: 20,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                SectionTitleDecoration(),
                 SizedBox(height: 20),
                 Text('Select all that apply', style: Theme.of(context).textTheme.caption),
                 SizedBox(height: 10),
@@ -335,86 +340,154 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   spacing: 5,
                   children: selectedTastingNotes.map((e) => RemoveTastingNote(e)).toList(),
                 ),
-                selectedTastingNotes.isNotEmpty
-                    ? Divider(
-                        height: 20,
-                        indent: 60,
-                        endIndent: 60,
-                      )
-                    : SizedBox(height: 10),
+                SizedBox(height: 20),
                 StreamBuilder(
-                  stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notes,
-                  builder: (context, AsyncSnapshot<List<Note>> snapshot) {
-                    var notes = snapshot.data;
-                    if (notes != null) {
-                      return Wrap(
-                        spacing: 5,
-                        alignment: WrapAlignment.center,
-                        children: notes.map((e) => AddTastingNote(e)).toList(),
+                  stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notesCategorized,
+                  builder: (context, AsyncSnapshot<Map<NoteCategory, List<Note>>> snapshot) {
+                    var notesCategorized = snapshot.data;
+                    if (notesCategorized != null) {
+                      return Column(
+                        // Listify the entries and make a map of the result to get
+                        // an integer position index for each entry.
+                        children: notesCategorized.entries.toList().asMap().entries.map((entry) {
+                          final index = entry.key;
+
+                          // ignore: omit_local_variable_types
+                          MapEntry<NoteCategory, List<Note>> notesCategorizedEntry = entry.value;
+                          final category = notesCategorizedEntry.key;
+                          final notes = notesCategorizedEntry.value;
+
+                          // List of mixed widget types is possible, but breaks when attempting to
+                          // add a new widget type to a list of a single type constructed with a comprehension.
+                          // Use loops as a workaround.
+                          // ignore: omit_local_variable_types
+                          List<Widget> children = [];
+                          for (var note in notes) {
+                            children.add(AddTastingNote(note));
+                          }
+                          children.add(
+                            CreateTastingNote(category),
+                          );
+                          return Column(
+                            children: [
+                              Theme(
+                                // Remove borders drawn by the expansion tile.
+                                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  initiallyExpanded: index == 0,
+                                  title: Text(
+                                    category.name.toUpperCase(),
+                                    style: Theme.of(context).textTheme.overline,
+                                  ),
+                                  children: [
+                                    Wrap(
+                                      spacing: 5,
+                                      alignment: WrapAlignment.center,
+                                      children: children,
+                                    ),
+                                    SizedBox(height: 20),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       );
                     } else {
-                      return Container(width: 0, height: 0);
+                      return Container();
                     }
                   },
                 ),
-                SizedBox(height: 20),
-                Text('Characteristics'.toUpperCase(), style: Theme.of(context).textTheme.overline),
-                SizedBox(height: 20),
-                Container(
-                  height: 2.0,
-                  width: 20,
-                  color: Theme.of(context).colorScheme.onSurface,
+                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    // BLoC is out of scope for the modal since it exists outside of the widget tree.
+                    final onSubmitted = (value) {
+                      context.read<CoffeeTastingCreateBloc>().add(
+                            CreateCoffeeTastingNoteCategoryEvent(
+                              noteCategory: NoteCategory(name: value),
+                            ),
+                          );
+                      Navigator.pop(context);
+                    };
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return NewCategoryDialog(
+                          onSubmitted: onSubmitted,
+                        );
+                      },
+                    );
+                  },
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.add),
+                      SizedBox(width: 20),
+                      Text('New Note Category'.toUpperCase(), style: Theme.of(context).textTheme.overline),
+                    ],
+                  ),
                 ),
+                SizedBox(height: 40),
+                /**
+                 * Characteristics
+                 */
+                SectionTitle(sectionNumber: 2, title: 'Characteristics'),
+                SizedBox(height: 20),
+                SectionTitleDecoration(),
                 SizedBox(height: 20),
                 Text('Identify and assess attributes', style: Theme.of(context).textTheme.caption),
                 SizedBox(height: 20),
-                CriteriaBarChart(children: [
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Aroma',
-                    score: coffeeTastingState.aromaScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.aromaIntensity,
-                    intensityLabel: 'Intensity',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Acidity',
-                    score: coffeeTastingState.acidityScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.acidityIntensity,
-                    intensityLabel: 'Intensity',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Body',
-                    score: coffeeTastingState.bodyScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.bodyLevel,
-                    intensityLabel: 'Level',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Sweetness',
-                    score: coffeeTastingState.sweetnessScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.sweetnessIntensity,
-                    intensityLabel: 'Intensity',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  CriteriaBarChartData(
-                    criteriaLabel: 'Finish',
-                    score: coffeeTastingState.finishScore,
-                    scoreLabel: 'Score',
-                    scoreColor: Theme.of(context).colorScheme.onSurface,
-                    intensity: coffeeTastingState.finishDuration,
-                    intensityLabel: 'Duration',
-                    intensityColor: Theme.of(context).colorScheme.primary,
-                  ),
-                ]),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 10.0),
+                  child: CriteriaBarChart(children: [
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Aroma',
+                      score: coffeeTastingState.aromaScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.aromaIntensity,
+                      intensityLabel: 'Intensity',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Acidity',
+                      score: coffeeTastingState.acidityScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.acidityIntensity,
+                      intensityLabel: 'Intensity',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Body',
+                      score: coffeeTastingState.bodyScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.bodyLevel,
+                      intensityLabel: 'Level',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Sweetness',
+                      score: coffeeTastingState.sweetnessScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.sweetnessIntensity,
+                      intensityLabel: 'Intensity',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    CriteriaBarChartData(
+                      criteriaLabel: 'Finish',
+                      score: coffeeTastingState.finishScore,
+                      scoreLabel: 'Score',
+                      scoreColor: Theme.of(context).colorScheme.onSurface,
+                      intensity: coffeeTastingState.finishDuration,
+                      intensityLabel: 'Duration',
+                      intensityColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ]),
+                ),
                 SizedBox(height: 20),
                 SizedBox(
                   height: 280,

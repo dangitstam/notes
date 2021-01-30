@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 
-import '../../common/util.dart';
 import '../bloc/coffee_tasting_create_bloc.dart';
 import 'criteria_util.dart';
 
@@ -31,7 +31,7 @@ class SweetnessWidget extends StatelessWidget {
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
-                    child: ThemedSlider(
+                    child: ThemedPaddedSlider(
                       child: Slider(
                         value: score,
                         min: 0,
@@ -61,7 +61,7 @@ class SweetnessWidget extends StatelessWidget {
                 Expanded(
                   child: RotatedBox(
                     quarterTurns: 3,
-                    child: ThemedSlider(
+                    child: ThemedPaddedSlider(
                       child: Slider(
                         value: intensity,
                         min: 0,

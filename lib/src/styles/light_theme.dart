@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:notes/src/styles/slim_slider_track_shape.dart';
 
 ThemeData lightTheme = ThemeData(
   // Colors
   backgroundColor: backgroundColor,
   cardColor: cardColor,
+  dividerTheme: DividerThemeData(
+    color: Color(0xfff1f1f1),
+    thickness: 1.0,
+  ),
+
   colorScheme: ColorScheme(
     primary: primaryColor,
     onSurface: onSurfaceColor,
@@ -28,24 +35,34 @@ ThemeData lightTheme = ThemeData(
     bodyText2: bodyText2,
     caption: caption,
     subtitle1: subtitle1,
+    subtitle2: subtitle2,
     overline: overline,
   ).apply(
     bodyColor: onSurfaceColor,
     displayColor: onSurfaceColor,
   ),
 
+  // Buttons.
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      primary: backgroundColor,
+      backgroundColor: onSurfaceColor,
+      textStyle: overline.copyWith(fontWeight: FontWeight.w300),
+    ),
+  ),
+
   // Sliders.
   sliderTheme: SliderThemeData(
     activeTrackColor: onSurfaceColor,
     inactiveTrackColor: cardColor,
-    trackHeight: 1.0,
+    trackHeight: 10.0,
+    trackShape: SlimRectangularSliderTrackShape(),
     thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
     thumbColor: onSurfaceColor,
     overlayColor: Colors.grey.withAlpha(32),
     overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-    tickMarkShape: RoundSliderTickMarkShape(),
-    activeTickMarkColor: onSurfaceColor,
-    inactiveTickMarkColor: onSurfaceColor,
   ),
 );
 
@@ -77,6 +94,11 @@ TextStyle bodyText2 = const TextStyle(
 TextStyle subtitle1 = const TextStyle(
   fontFamily: 'Baskerville',
   fontSize: 16.0,
+);
+
+TextStyle subtitle2 = GoogleFonts.inconsolata(
+  fontSize: 14.0,
+  fontWeight: FontWeight.w100,
 );
 
 TextStyle caption = const TextStyle(

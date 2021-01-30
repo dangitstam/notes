@@ -8,7 +8,9 @@ import 'package:meta/meta.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/model/note_category.dart';
 import 'package:notes/src/data/note_repository.dart';
+import 'package:pedantic/pedantic.dart';
 
 part 'coffee_tasting_create_event.dart';
 part 'coffee_tasting_create_state.dart';
@@ -47,6 +49,38 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         ) {
     // Initialize the stream of notes.
     refreshNotesStream();
+    refreshCategorizedNotesStream();
+  }
+
+  // Controller: Page <- App Database.
+  final _getNotesController = StreamController<List<Note>>.broadcast();
+  final _getNotesCategorizedController = StreamController<Map<NoteCategory, List<Note>>>.broadcast();
+
+  // Stream: In
+  // Purpose: Update stream that pages subscribe to.
+  StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
+  StreamSink<Map<NoteCategory, List<Note>>> get _inNotesCategorized => _getNotesCategorizedController.sink;
+
+  // Stream: out.
+  // Purpose: Stream that other pages subscribe to for notes.
+  Stream<List<Note>> get notes => _getNotesController.stream.asBroadcastStream();
+  Stream<Map<NoteCategory, List<Note>>> get notesCategorized =>
+      _getNotesCategorizedController.stream.asBroadcastStream();
+
+  void refreshNotesStream() async {
+    // Retrieve all the notes from the database.
+    var notes = await noteRepository.getAllNotes();
+
+    // Update the notes output stream so subscribing pages can update.
+    _inNotes.add(notes);
+  }
+
+  void refreshCategorizedNotesStream() async {
+    // Retrieve all the notes (categorized) from the database.
+    var notesCategorized = await noteRepository.getNotesCategorized();
+
+    // Update the notes (categorized) output stream so subscribing pages can update.
+    _inNotesCategorized.add(notesCategorized);
   }
 
   Future<int> insertCoffeeTasting() async {
@@ -62,32 +96,22 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
     return coffeeTastingId;
   }
 
-  // Controller: Page <- App Database.
-  final _getNotesController = StreamController<List<Note>>.broadcast();
-
-  // Stream: In
-  // Purpose: Update stream that pages subscribe to.
-  StreamSink<List<Note>> get _inNotes => _getNotesController.sink;
-
-  void refreshNotesStream() async {
-    // Retrieve all the notes from the database.
-    var notes = await noteRepository.getAllNotes();
-
-    // Update the notes output stream so subscribing pages can update.
-    _inNotes.add(notes);
-  }
-
-  // Stream: out.
-  // Purpose: Stream that other pages subscribe to for notes.
-  Stream<List<Note>> get notes => _getNotesController.stream.asBroadcastStream();
-
-  Future<int> insert(Note note) async {
+  Future<void> insertCategorizedNote(Note note, NoteCategory noteCategory) async {
     final noteId = await noteRepository.insert(note);
+    final noteCategoryId = noteCategory.id;
+
+    // ignore: unused_local_variable
+    final noteToNoteCategoryId = await noteRepository.insertNoteToNoteCategory(noteId, noteCategoryId);
 
     // Update output stream on every insertion.
     refreshNotesStream();
+    refreshCategorizedNotesStream();
+  }
 
-    return noteId;
+  Future<void> insertNoteCategory(NoteCategory noteCategory) async {
+    // ignore: unused_local_variable
+    final noteToNoteCategoryId = await noteRepository.insertNoteCategory(noteCategory);
+    refreshCategorizedNotesStream();
   }
 
   @override
@@ -111,6 +135,10 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
       yield state.copyWith(
         tasting: state.tasting.copyWith(notes: newNotes),
       );
+    } else if (event is CreateCoffeeTastingNoteEvent) {
+      unawaited(insertCategorizedNote(event.note, event.noteCategory));
+    } else if (event is CreateCoffeeTastingNoteCategoryEvent) {
+      unawaited(insertNoteCategory(event.noteCategory));
     } else if (event is CoffeeNameEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(coffeeName: event.coffeeName),
@@ -189,7 +217,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   @override
   Future<void> close() {
     _getNotesController.close();
-
+    _getNotesCategorizedController.close();
     return super.close();
   }
 }
