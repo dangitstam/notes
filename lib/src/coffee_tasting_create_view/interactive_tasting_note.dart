@@ -103,7 +103,7 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
       builder: (context, state) {
         // Modal sheets exist outside of the widget tree, so they must be given
         // the bloc explicitly.
-        var bloc = BlocProvider.of<CoffeeTastingCreateBloc>(context);
+        final bloc = BlocProvider.of<CoffeeTastingCreateBloc>(context);
 
         return Builder(
           builder: (BuildContext context) {
