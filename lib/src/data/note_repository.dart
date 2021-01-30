@@ -35,26 +35,28 @@ class NoteRepository {
   Future<List<Note>> getAllNotes() => _noteDao.getAllNotes();
 
   Future<Map<NoteCategory, List<Note>>> getNotesCategorized() async {
-    var notes = await _noteDao.getAllNotes();
-    var noteCategories = await _noteCategoryDao.getAllNoteCategories();
-    var noteToNoteCategories = await _noteToNoteCategoryDao.getNoteToNoteRelations();
+    List<Note> notes = await _noteDao.getAllNotes();
+    List<NoteCategory> noteCategories = await _noteCategoryDao.getAllNoteCategories();
+    List<NoteToNoteCategory> noteToNoteCategories = await _noteToNoteCategoryDao.getNoteToNoteRelations();
 
-    // Ignore the type annotation linting error because without an annotation,
-    // this method will hang when awaited.
-    // ignore: omit_local_variable_types
+    // Without a type annotation for `res`, this method will hang when awaited.
     Map<NoteCategory, List<Note>> res = {};
-    for (var noteCategory in noteCategories) {
-      // Without .toList(), the resulting iterable will case this method to hang.
-      var notesForCategory = notes.where((Note note) {
-        return noteToNoteCategories.contains(
-          NoteToNoteCategory(
-            note_id: note.id,
-            note_category_id: noteCategory.id,
-          ),
-        );
-      }).toList();
 
-      res[noteCategory] = notesForCategory;
+    Map<int, Note> notesMapped = {for (Note element in notes) element.id: element};
+    Map<int, NoteCategory> noteCategoriesMapped = {for (NoteCategory element in noteCategories) element.id: element};
+
+    for (NoteToNoteCategory noteToNoteCategory in noteToNoteCategories) {
+      // Without .toList(), the resulting iterable will case this method to hang.
+      var note = notesMapped[noteToNoteCategory.note_id];
+      var noteCategory = noteCategoriesMapped[noteToNoteCategory.note_category_id];
+
+      if (note != null && noteCategory != null) {
+        if (res[noteCategory] != null) {
+          res[noteCategory].add(note);
+        } else {
+          res[noteCategory] = [note];
+        }
+      }
     }
 
     return res;
