@@ -133,10 +133,8 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
         tasting: state.tasting.copyWith(notes: newNotes),
       );
     } else if (event is CreateCoffeeTastingNoteEvent) {
-      // Insert the newly created tasting note.
       await insertCategorizedNote(event.note, event.noteCategory);
     } else if (event is CreateCoffeeTastingNoteCategoryEvent) {
-      // Insert the newly created tasting note.
       await insertNoteCategory(event.noteCategory);
     } else if (event is CoffeeNameEvent) {
       yield state.copyWith(
