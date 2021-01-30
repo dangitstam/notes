@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// Given a slider, applies the black slider theme.
+/// Assumes that `sliderTheme` uses `SlimRectangularSliderTrackShape`
+/// to remove the stock padding from the slider.
 class ThemedPaddedSlider extends StatelessWidget {
   final Slider child;
   final EdgeInsets padding;

@@ -190,11 +190,6 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
                 style: Theme.of(context).textTheme.caption,
               ),
               backgroundColor: Theme.of(context).backgroundColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
             );
           },
         );
