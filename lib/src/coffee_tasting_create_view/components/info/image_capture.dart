@@ -7,7 +7,68 @@ import 'package:path/path.dart';
 import 'package:path/path.dart' show basename;
 import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
-/// Returns a modal allowing the user to set an image for the tasting
+/// Creates a widget that on tap, allows a user to select an image.
+///
+/// The image can be set via selection from the photo gallery or taken with the device's camera.
+/// When an image is selected, [onImageSelected] is called with the path for the image file.
+class ImageCapture extends StatefulWidget {
+  @required
+  final Function(String) onImageSelected;
+
+  ImageCapture({this.onImageSelected});
+
+  @override
+  _ImageCaptureState createState() => _ImageCaptureState();
+}
+
+class _ImageCaptureState extends State<ImageCapture> {
+  File _image;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          AspectRatio(
+            aspectRatio: 1.0,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.4),
+                  BlendMode.darken,
+                ),
+                child: _image != null
+                    ? Image.file(_image, fit: BoxFit.cover)
+                    // TODO: Take a new stub photo.
+                    : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
+              ),
+            ),
+          ),
+          Icon(
+            CupertinoIcons.photo_camera,
+            color: Colors.white.withOpacity(0.7),
+            size: 40,
+          ),
+        ],
+      ),
+      onTap: () {
+        imageCaptureSelectMethodModal(context, (savedImageFilePath) {
+          // Update this widget's image.
+          setState(() {
+            _image = File(savedImageFilePath);
+          });
+
+          // Pass selected image to onImageSelected.
+          widget.onImageSelected(savedImageFilePath);
+        });
+      },
+    );
+  }
+}
+
+/// Returns a modal allowing the user to set an image for the tasting.
 ///
 /// The image can be set via selection from the photo gallery or taken with the device's camera.
 /// When an image is selected, [onImageSelected] is called with the path for the image file.

@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/acidity_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/aroma_widget.dart';
@@ -35,9 +33,6 @@ class CoffeeTastingCreateViewWidget extends StatefulWidget {
 }
 
 class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewWidget> {
-  File _image;
-  final picker = ImagePicker();
-
   final scoreBarColor = Color(0xff1b1b1b);
   final intensityBarColor = Color(0xff87bd91);
 
@@ -68,11 +63,6 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
 
   /// Given [savedImageFilePath], a file path to the image taken/selected for the tasting, updates the tasting's image.
   void onImageSelected(String savedImageFilePath) {
-    // Update image in the create view.
-    setState(() {
-      _image = File(savedImageFilePath);
-    });
-
     // Record file path as image for tasting.
     // Application directory changes between invocations of `flutter run`, so save the basename
     // and retrieve the application directory path at runtime to grab the image.
@@ -133,39 +123,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    /**
+                     * Image capture: Select an image for the tasting.
+                     */
                     Expanded(
                       flex: 2,
-                      child: GestureDetector(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            AspectRatio(
-                              aspectRatio: 1.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.4),
-                                    BlendMode.darken,
-                                  ),
-                                  child: _image != null
-                                      ? Image.file(_image, fit: BoxFit.cover)
-                                      // TODO: Take a new stub photo.
-                                      : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
-                                ),
-                              ),
-                            ),
-                            Icon(
-                              CupertinoIcons.photo_camera,
-                              color: Colors.white.withOpacity(0.7),
-                              size: 40,
-                            ),
-                          ],
-                        ),
-                        onTap: () {
-                          imageCaptureSelectMethodModal(context, onImageSelected);
-                        },
-                      ),
+                      child: ImageCapture(onImageSelected: onImageSelected),
                     ),
                     SizedBox(width: 10),
                     Expanded(
