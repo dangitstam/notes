@@ -11,13 +11,13 @@ import 'package:notes/src/coffee_tasting_create_view/components/characteristics/
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/aroma_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/body_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/finish_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/flavor_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/sweetness.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/swiper_tabs.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/flavor_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/notes/interactive_tasting_note.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/notes/new_category_dialog.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/section_title.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/characteristics/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
@@ -25,9 +25,9 @@ import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
-import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
 import 'components/characteristics/criteria_util.dart';
+import 'components/info/image_capture.dart';
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {
   @override
@@ -66,34 +66,17 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
     });
   }
 
-  Future getImage(ImageSource source) async {
-    final pickedFile = await picker.getImage(source: source);
-
-    if (pickedFile == null) return;
-
-    // Save the captured image to the app locally.
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final appDocDirPath = appDocDir.path;
-
-    var tmpFile = File(pickedFile.path);
-
-    var pickedFileBasename = basename(pickedFile.path);
-    var savePath = '$appDocDirPath/$pickedFileBasename';
-    var savedFile = await tmpFile.copy(savePath);
-
+  /// Given [savedImageFilePath], a file path to the image taken/selected for the tasting, updates the tasting's image.
+  void onImageSelected(String savedImageFilePath) {
     // Update image in the create view.
     setState(() {
-      _image = File(savedFile.path);
+      _image = File(savedImageFilePath);
     });
 
     // Record file path as image for tasting.
     // Application directory changes between invocations of `flutter run`, so save the basename
     // and retrieve the application directory path at runtime to grab the image.
-    context.read<CoffeeTastingCreateBloc>().add(
-          AddImageEvent(
-            imagePath: basename(savedFile.path),
-          ),
-        );
+    context.read<CoffeeTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
   }
 
   @override
@@ -180,33 +163,7 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                           ],
                         ),
                         onTap: () {
-                          showModalBottomSheet<void>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 30.0),
-                                child: Wrap(
-                                  children: <Widget>[
-                                    ListTile(
-                                        leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
-                                        title: Text('Photo Library', style: Theme.of(context).textTheme.bodyText2),
-                                        onTap: () {
-                                          getImage(ImageSource.gallery);
-                                          Navigator.of(context).pop();
-                                        }),
-                                    ListTile(
-                                      leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
-                                      title: Text('Camera', style: Theme.of(context).textTheme.bodyText2),
-                                      onTap: () {
-                                        getImage(ImageSource.camera);
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          );
+                          imageCaptureSelectMethodModal(context, onImageSelected);
                         },
                       ),
                     ),
