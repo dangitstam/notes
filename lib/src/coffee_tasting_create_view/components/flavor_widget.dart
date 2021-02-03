@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 
 import '../bloc/coffee_tasting_create_bloc.dart';
-import 'criteria_util.dart';
+import 'characteristics/criteria_util.dart';
 
 class FlavorWidget extends StatelessWidget {
   @override

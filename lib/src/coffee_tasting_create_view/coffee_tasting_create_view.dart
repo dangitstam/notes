@@ -7,17 +7,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/acidity_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/aroma_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/body_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/finish_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/acidity_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/aroma_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/body_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/finish_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/flavor_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/overall.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/sweetness.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/interactive_tasting_note.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/new_category_dialog.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/sweetness.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/notes/interactive_tasting_note.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/notes/new_category_dialog.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/section_title.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/swiper_tabs.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
@@ -27,7 +27,7 @@ import 'package:notes/src/data/model/note_category.dart';
 import 'package:path/path.dart' show basename;
 import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
-import 'components/criteria_util.dart';
+import 'components/characteristics/criteria_util.dart';
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {
   @override
