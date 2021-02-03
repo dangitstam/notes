@@ -18,6 +18,7 @@ import 'package:notes/src/coffee_tasting_create_view/components/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/section_title.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
+import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
 import 'package:notes/src/coffee_tasting_list_view/roast_level_linear_indicator.dart';
-import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
+import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 
 // TODO: Abstract into its own file.
