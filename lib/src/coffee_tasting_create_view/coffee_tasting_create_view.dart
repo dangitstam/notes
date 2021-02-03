@@ -24,7 +24,6 @@ import 'package:notes/src/data/model/note_category.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
 
-import 'components/characteristics/criteria_util.dart';
 import 'components/info/image_capture.dart';
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {

@@ -52,35 +52,7 @@ class TastingNote extends StatelessWidget {
   }
 }
 
-/// Given a slider, applies the black slider theme.
-class ThemedSlider extends StatelessWidget {
-  final Slider child;
-
-  ThemedSlider({this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return SliderTheme(
-      data: Theme.of(context).sliderTheme,
-      child: child,
-    );
-  }
-}
-
-Widget blackSliderTheme(Slider slider) {
-  return SliderTheme(
-    data: SliderThemeData(
-      activeTrackColor: Colors.black87,
-      inactiveTrackColor: Colors.black12,
-      trackHeight: 1.0,
-      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
-      thumbColor: Colors.black87,
-      overlayColor: Colors.grey.withAlpha(32),
-      overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-      tickMarkShape: RoundSliderTickMarkShape(),
-      activeTickMarkColor: Colors.black,
-      inactiveTickMarkColor: Colors.black,
-    ),
-    child: slider,
-  );
+/// Given a double `value`, rounds to `n` decimal places.
+double round(double value, {int n = 1}) {
+  return double.parse(value.toStringAsFixed(n));
 }
