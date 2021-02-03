@@ -1,24 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 
-import '../bloc/coffee_tasting_create_bloc.dart';
-import 'criteria_util.dart';
+import '../../bloc/coffee_tasting_create_bloc.dart';
 
-class AromaWidget extends StatelessWidget {
+class SweetnessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.aromaScore;
-    var fragranceBreak = context.watch<CoffeeTastingCreateBloc>().state.tasting.aromaIntensity;
+    var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.sweetnessScore;
+    var intensity = context.watch<CoffeeTastingCreateBloc>().state.tasting.sweetnessIntensity;
     return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(builder: (context, state) {
       return Container(
         height: 225,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Aroma', style: Theme.of(context).textTheme.headline6),
-            SizedBox(width: 20),
+            Text('Sweetness', style: Theme.of(context).textTheme.headline6),
+            SizedBox(width: 10),
             Text('Score', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
             Column(
               children: [
@@ -37,7 +37,9 @@ class AromaWidget extends StatelessWidget {
                         min: 0,
                         max: 10,
                         onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(AromaScoreEvent(aromaScore: round(value)));
+                          context
+                              .read<CoffeeTastingCreateBloc>()
+                              .add(SweetnessScoreEvent(sweetnessScore: round(value)));
                         },
                       ),
                     ),
@@ -51,7 +53,7 @@ class AromaWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 20),
+            SizedBox(width: 10),
             Text('Intensity', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
             Column(
               children: [
@@ -61,13 +63,13 @@ class AromaWidget extends StatelessWidget {
                     quarterTurns: 3,
                     child: ThemedPaddedSlider(
                       child: Slider(
-                        value: fragranceBreak,
+                        value: intensity,
                         min: 0,
                         max: 10,
                         onChanged: (value) {
                           context
                               .read<CoffeeTastingCreateBloc>()
-                              .add(AromaIntensityEvent(aromaIntensity: round(value)));
+                              .add(SweetnessIntensityEvent(sweetnessIntensity: round(value)));
                         },
                       ),
                     ),

@@ -1,33 +1,31 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/criteria/acidity_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/criteria/aroma_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/criteria/body_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/criteria/finish_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/criteria/flavor_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/criteria/overall.dart';
-import 'package:notes/src/coffee_tasting_create_view/criteria/sweetness.dart';
-import 'package:notes/src/coffee_tasting_create_view/interactive_tasting_note.dart';
-import 'package:notes/src/coffee_tasting_create_view/new_category_dialog.dart';
-import 'package:notes/src/coffee_tasting_create_view/section_title.dart';
-import 'package:notes/src/coffee_tasting_create_view/swiper_tabs.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/acidity_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/aroma_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/body_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/finish_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/sweetness.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/swiper_tabs.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/flavor_widget.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/notes/interactive_tasting_note.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/notes/new_category_dialog.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/overall.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/section_title.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
+import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
-import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
-import 'criteria/criteria_util.dart';
+import 'components/info/image_capture.dart';
 
 class CoffeeTastingCreateViewWidget extends StatefulWidget {
   @override
@@ -35,9 +33,6 @@ class CoffeeTastingCreateViewWidget extends StatefulWidget {
 }
 
 class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewWidget> {
-  File _image;
-  final picker = ImagePicker();
-
   final scoreBarColor = Color(0xff1b1b1b);
   final intensityBarColor = Color(0xff87bd91);
 
@@ -66,34 +61,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
     });
   }
 
-  Future getImage(ImageSource source) async {
-    final pickedFile = await picker.getImage(source: source);
-
-    if (pickedFile == null) return;
-
-    // Save the captured image to the app locally.
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final appDocDirPath = appDocDir.path;
-
-    var tmpFile = File(pickedFile.path);
-
-    var pickedFileBasename = basename(pickedFile.path);
-    var savePath = '$appDocDirPath/$pickedFileBasename';
-    var savedFile = await tmpFile.copy(savePath);
-
-    // Update image in the create view.
-    setState(() {
-      _image = File(savedFile.path);
-    });
-
+  /// Given [savedImageFilePath], a file path to the image taken/selected for the tasting, updates the tasting's image.
+  void onImageSelected(String savedImageFilePath) {
     // Record file path as image for tasting.
     // Application directory changes between invocations of `flutter run`, so save the basename
     // and retrieve the application directory path at runtime to grab the image.
-    context.read<CoffeeTastingCreateBloc>().add(
-          AddImageEvent(
-            imagePath: basename(savedFile.path),
-          ),
-        );
+    context.read<CoffeeTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
   }
 
   @override
@@ -150,65 +123,12 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    /**
+                     * Image capture: Select an image for the tasting.
+                     */
                     Expanded(
                       flex: 2,
-                      child: GestureDetector(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            AspectRatio(
-                              aspectRatio: 1.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.4),
-                                    BlendMode.darken,
-                                  ),
-                                  child: _image != null
-                                      ? Image.file(_image, fit: BoxFit.cover)
-                                      // TODO: Take a new stub photo.
-                                      : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
-                                ),
-                              ),
-                            ),
-                            Icon(
-                              CupertinoIcons.photo_camera,
-                              color: Colors.white.withOpacity(0.7),
-                              size: 40,
-                            ),
-                          ],
-                        ),
-                        onTap: () {
-                          showModalBottomSheet<void>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 30.0),
-                                child: Wrap(
-                                  children: <Widget>[
-                                    ListTile(
-                                        leading: Icon(CupertinoIcons.photo_fill, color: Colors.black),
-                                        title: Text('Photo Library', style: Theme.of(context).textTheme.bodyText2),
-                                        onTap: () {
-                                          getImage(ImageSource.gallery);
-                                          Navigator.of(context).pop();
-                                        }),
-                                    ListTile(
-                                      leading: Icon(CupertinoIcons.photo_camera, color: Colors.black),
-                                      title: Text('Camera', style: Theme.of(context).textTheme.bodyText2),
-                                      onTap: () {
-                                        getImage(ImageSource.camera);
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
+                      child: ImageCapture(onImageSelected: onImageSelected),
                     ),
                     SizedBox(width: 10),
                     Expanded(

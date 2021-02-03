@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notes/src/common/util.dart';
+import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 
 class NewCategoryDialog extends StatefulWidget {
   final Function(String) onSubmitted;
