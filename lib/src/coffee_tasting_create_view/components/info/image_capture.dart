@@ -60,7 +60,7 @@ class _ImageCaptureState extends State<ImageCapture> {
             _image = File(savedImageFilePath);
           });
 
-          // Pass selected image to onImageSelected.
+          // Pass selected image's file path to onImageSelected.
           widget.onImageSelected(savedImageFilePath);
         });
       },
