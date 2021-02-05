@@ -33,7 +33,7 @@ class _AppState extends State<App> {
 }
 
 class AppRouter {
-  final _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
+  var _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
 
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -43,10 +43,15 @@ class AppRouter {
         );
       case '/create':
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _coffeeTastingCreateBloc,
-            child: CoffeeTastingCreateViewWidget(),
-          ),
+          builder: (_) {
+            // Reset the create tasting bloc on each navigate to '/create'.
+            dispose();
+            _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
+            return BlocProvider.value(
+              value: _coffeeTastingCreateBloc,
+              child: CoffeeTastingCreateViewWidget(),
+            );
+          },
         );
       case '/notes':
         return MaterialPageRoute(

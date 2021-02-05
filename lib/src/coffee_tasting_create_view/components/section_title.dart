@@ -18,7 +18,7 @@ class SectionTitle extends StatelessWidget {
         SizedBox(width: 5),
         Text(
           title.toUpperCase(),
-          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
+          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 20),
         ),
       ],
     );

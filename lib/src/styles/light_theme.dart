@@ -46,11 +46,11 @@ ThemeData lightTheme = ThemeData(
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
-      primary: onSurfaceColor,
+      primary: primaryVariantColor,
       backgroundColor: backgroundColor,
-      textStyle: overline,
+      textStyle: overline.copyWith(fontWeight: FontWeight.w500),
       shape: RoundedRectangleBorder(),
-      side: BorderSide(width: 2, color: onSurfaceColor),
+      side: BorderSide(width: 2, color: primaryVariantColor),
     ),
   ),
 
@@ -60,7 +60,7 @@ ThemeData lightTheme = ThemeData(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
       primary: backgroundColor,
       backgroundColor: onSurfaceColor,
-      textStyle: overline.copyWith(fontWeight: FontWeight.w300),
+      textStyle: overline.copyWith(fontWeight: FontWeight.w500),
     ),
   ),
 
