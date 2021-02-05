@@ -10,18 +10,12 @@ import 'package:notes/src/coffee_tasting_create_view/components/characteristics/
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/body_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/finish_widget.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/sweetness.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/characteristics/swiper_tabs.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/flavor_widget.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/notes/interactive_tasting_note.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/notes/new_category_dialog.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/overall.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/section_title.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
+import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
-import 'package:notes/src/data/model/note.dart';
-import 'package:notes/src/data/model/note_category.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
 
@@ -88,17 +82,20 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(CupertinoIcons.xmark, color: Theme.of(context).colorScheme.onSurface),
+          child: Icon(
+            CupertinoIcons.xmark,
+            color: Theme.of(context).colorScheme.onSurface,
+            size: 32,
+          ),
         ),
         actions: [
           Padding(
             padding: EdgeInsets.all(10.0),
             child: TextButton(
-              style: Theme.of(context).textButtonTheme.style,
-              child: Text('Create'.toUpperCase()),
+              style: Theme.of(context).outlinedButtonTheme.style,
+              child: Text('Next'.toUpperCase()),
               onPressed: () {
-                // Updaate app database with new tasting.
-                context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
+                Navigator.pushNamed(context, '/notes');
               },
             ),
           )
@@ -108,124 +105,89 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: BlocListener<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
-          listener: (context, state) {
-            // Navigate on state change after awaited db insertion to avoid race condition.
-            if (state.isCoffeeTastingInserted) {
-              Navigator.pushReplacementNamed(context, '/');
-            }
-          },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    /**
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Column(
+            children: [
+              // SectionTitle(sectionNumber: 1, title: 'Description'),
+              // SizedBox(height: 15),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  /**
                      * Image capture: Select an image for the tasting.
                      */
-                    Expanded(
-                      flex: 2,
-                      child: ImageCapture(onImageSelected: onImageSelected),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          EditableTextWithCaptionWidget(
-                            label: 'Roaster',
-                            hint: 'Who roasted this coffee?',
-                            onChanged: (value) {
-                              context.read<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
-                            },
-                          ),
-                          SizedBox(height: 10),
-                          EditableTextWithCaptionWidget(
-                            label: 'Coffee Name',
-                            hint: 'What kind of coffee is this?',
-                            onChanged: (value) {
-                              context.read<CoffeeTastingCreateBloc>().add(CoffeeNameEvent(coffeeName: value));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                TextField(
-                  minLines: 2,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Write a description here...',
-                      hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).hintColor),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      isDense: true),
-                  onChanged: (value) {
-                    context.read<CoffeeTastingCreateBloc>().add(DescriptionEvent(description: value));
-                  },
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                Row(
-                  children: [
-                    Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          enabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(top: 5, bottom: 5),
-                          hintText: 'Origin',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          isDense: true,
+                  Expanded(
+                    flex: 2,
+                    child: ImageCapture(onImageSelected: onImageSelected),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [
+                        EditableTextWithCaptionWidget(
+                          label: 'Roaster',
+                          hint: 'Who roasted this coffee?',
+                          onChanged: (value) {
+                            context.read<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                          },
                         ),
-                        onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
-                        },
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
+                        SizedBox(height: 10),
+                        EditableTextWithCaptionWidget(
+                          label: 'Coffee Name',
+                          hint: 'What kind of coffee is this?',
+                          onChanged: (value) {
+                            context.read<CoffeeTastingCreateBloc>().add(CoffeeNameEvent(coffeeName: value));
+                          },
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    Text('Process'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                    SizedBox(width: 10),
-                    Container(
-                      child: DropdownButton<String>(
-                        value: coffeeTastingState.process,
-                        icon: Icon(CupertinoIcons.chevron_down),
-                        iconSize: 14,
-                        style: Theme.of(context).textTheme.bodyText2,
-                        underline: Container(height: 0.0),
-                        onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
-                        },
-                        items: {
-                          'Washed': Icon(CupertinoIcons.drop),
-                          'Natural': Icon(CupertinoIcons.sun_min),
-                        }.entries.map((entry) {
-                          var processType = entry.key;
-                          var processIcon = entry.value;
-                          return DropdownMenuItem<String>(
-                            value: processType,
-                            child: Row(
-                              children: [
-                                processIcon,
-                                Text(
-                                  processType,
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                                SizedBox(width: 2),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              TextField(
+                minLines: 2,
+                maxLines: 5,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Write a description here...',
+                    hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).hintColor),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    isDense: true),
+                onChanged: (value) {
+                  context.read<CoffeeTastingCreateBloc>().add(DescriptionEvent(description: value));
+                },
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              Row(
+                children: [
+                  Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
+                  Text('Origin'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        enabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.only(top: 5, bottom: 5),
+                        hintText: 'Ex. Idjwi Island, Congo',
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        isDense: true,
                       ),
+                      onChanged: (value) {
+                        context.read<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
+                      },
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
-                  ],
-                ),
-                Row(children: [
+                  ),
+                  SizedBox(width: 10),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(width: 20),
                   Text('Roast'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
                   SizedBox(width: 20),
                   Text('Light', style: Theme.of(context).textTheme.caption),
@@ -243,122 +205,113 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     ),
                   ),
                   Text('Dark', style: Theme.of(context).textTheme.caption),
-                ]),
-                SizedBox(height: 20),
-                /**
-                 * Notes
-                 */
-                SectionTitle(sectionNumber: 1, title: 'Notes'),
-                SizedBox(height: 20),
-                SectionTitleDecoration(),
-                SizedBox(height: 20),
-                Text('Select all that apply', style: Theme.of(context).textTheme.caption),
-                SizedBox(height: 10),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  direction: Axis.horizontal,
-                  spacing: 5,
-                  children: selectedTastingNotes.map((e) => RemoveTastingNote(e)).toList(),
-                ),
-                SizedBox(height: 20),
-                StreamBuilder(
-                  stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notesCategorized,
-                  builder: (context, AsyncSnapshot<Map<NoteCategory, List<Note>>> snapshot) {
-                    var notesCategorized = snapshot.data;
-                    if (notesCategorized != null) {
-                      return Column(
-                        // Listify the entries and make a map of the result to get
-                        // an integer position index for each entry.
-                        children: notesCategorized.entries.toList().asMap().entries.map((entry) {
-                          final index = entry.key;
-
-                          // ignore: omit_local_variable_types
-                          MapEntry<NoteCategory, List<Note>> notesCategorizedEntry = entry.value;
-                          final category = notesCategorizedEntry.key;
-                          final notes = notesCategorizedEntry.value;
-
-                          // List of mixed widget types is possible, but breaks when attempting to
-                          // add a new widget type to a list of a single type constructed with a comprehension.
-                          // Use loops as a workaround.
-                          // ignore: omit_local_variable_types
-                          List<Widget> children = [];
-                          for (var note in notes) {
-                            children.add(AddTastingNote(note));
-                          }
-                          children.add(
-                            CreateTastingNote(category),
-                          );
-                          return Column(
-                            children: [
-                              Theme(
-                                // Remove borders drawn by the expansion tile.
-                                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                child: ExpansionTile(
-                                  initiallyExpanded: index == 0,
-                                  title: Text(
-                                    category.name.toUpperCase(),
-                                    style: Theme.of(context).textTheme.overline,
-                                  ),
-                                  children: [
-                                    Wrap(
-                                      spacing: 5,
-                                      alignment: WrapAlignment.center,
-                                      children: children,
-                                    ),
-                                    SizedBox(height: 20),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        }).toList(),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-                SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    // BLoC is out of scope for the modal since it exists outside of the widget tree.
-                    final onSubmitted = (value) {
-                      context.read<CoffeeTastingCreateBloc>().add(
-                            CreateCoffeeTastingNoteCategoryEvent(
-                              noteCategory: NoteCategory(name: value),
-                            ),
-                          );
-                      Navigator.pop(context);
-                    };
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return NewCategoryDialog(
-                          onSubmitted: onSubmitted,
-                        );
+                  SizedBox(width: 20),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(width: 20),
+                  Text('Process'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                  SizedBox(width: 10),
+                  Container(
+                    child: DropdownButton<String>(
+                      value: coffeeTastingState.process,
+                      icon: Icon(CupertinoIcons.chevron_down),
+                      iconSize: 14,
+                      style: Theme.of(context).textTheme.bodyText2,
+                      underline: Container(height: 0.0),
+                      onChanged: (value) {
+                        context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
                       },
-                    );
-                  },
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Icon(CupertinoIcons.add),
-                      SizedBox(width: 20),
-                      Text('New Note Category'.toUpperCase(), style: Theme.of(context).textTheme.overline),
-                    ],
+                      items: {
+                        'Washed': Icon(CupertinoIcons.drop),
+                        'Natural': Icon(CupertinoIcons.sun_min),
+                      }.entries.map((entry) {
+                        var processType = entry.key;
+                        var processIcon = entry.value;
+                        return DropdownMenuItem<String>(
+                          value: processType,
+                          child: Row(
+                            children: [
+                              processIcon,
+                              Text(
+                                processType,
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                              SizedBox(width: 2),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-                SizedBox(height: 40),
-                /**
-                 * Characteristics
-                 */
-                SectionTitle(sectionNumber: 2, title: 'Characteristics'),
-                SizedBox(height: 20),
-                SectionTitleDecoration(),
-                SizedBox(height: 20),
-                Text('Identify and assess attributes', style: Theme.of(context).textTheme.caption),
-                SizedBox(height: 20),
-                Padding(
+                  SizedBox(width: 20),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(CupertinoIcons.drop, size: 20, color: Colors.black),
+                  Text('Brew Method'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        enabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.only(top: 5, bottom: 5),
+                        hintText: 'Ex. Kalita Wave, 21g coffee to 274g water, 205F',
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        isDense: true,
+                      ),
+                      onChanged: (value) {
+                        context.read<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
+                      },
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                ],
+              ),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SectionTitle(sectionNumber: 2, title: 'Notes'),
+                  TextButton(
+                    style: Theme.of(context).outlinedButtonTheme.style,
+                    child: Text('Edit'.toUpperCase()),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/notes');
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              selectedTastingNotes.isNotEmpty
+                  ? Wrap(
+                      alignment: WrapAlignment.center,
+                      direction: Axis.horizontal,
+                      spacing: 5,
+                      children: selectedTastingNotes.map((e) => TastingNote(e)).toList(),
+                    )
+                  : Text('No tasting notes selected.'),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SectionTitle(sectionNumber: 3, title: 'Characteristics'),
+                  TextButton(
+                    style: Theme.of(context).outlinedButtonTheme.style,
+                    child: Text('Edit'.toUpperCase()),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/characteristics');
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
+              ColorFiltered(
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
+                child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 10.0),
                   child: CriteriaBarChart(children: [
                     CriteriaBarChartData(
@@ -408,47 +361,45 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     ),
                   ]),
                 ),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: 280,
-                  child: Swiper(
-                    itemCount: swiperWidgets.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return swiperWidgets[index];
-                    },
-                    control: SwiperControl(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      iconNext: CupertinoIcons.chevron_right_circle_fill,
-                      iconPrevious: CupertinoIcons.chevron_left_circle_fill,
-                      padding: const EdgeInsets.all(0.0),
-                      size: 25,
-                    ),
-                    controller: swiperController,
-                    onIndexChanged: (index) => {onSwiperToggleButtonClick(index)},
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-                  child: SwiperTabs(
-                    swiperTitles: swiperTabsTitles,
-                    isSelected: swiperToggleButtonsSelections,
-                    onTap: (int index) {
-                      swiperController.move(index);
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Divider(),
-                SizedBox(height: 20),
-                FlavorWidget(),
-                SizedBox(height: 20),
-                Divider(),
-                SizedBox(height: 20),
-                OverallWidget(),
-                SizedBox(height: 20),
-              ],
-            ),
+              ),
+              SizedBox(height: 20),
+              // Expanded(
+              //   child: Swiper(
+              //     itemCount: swiperWidgets.length,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return swiperWidgets[index];
+              //     },
+              //     control: SwiperControl(
+              //       color: Theme.of(context).colorScheme.onSurface,
+              //       iconNext: CupertinoIcons.chevron_right_circle_fill,
+              //       iconPrevious: CupertinoIcons.chevron_left_circle_fill,
+              //       padding: const EdgeInsets.all(0.0),
+              //       size: 25,
+              //     ),
+              //     controller: swiperController,
+              //     onIndexChanged: (index) => {onSwiperToggleButtonClick(index)},
+              //   ),
+              // ),
+              // SizedBox(height: 20),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 0.0, right: 0.0),
+              //   child: SwiperTabs(
+              //     swiperTitles: swiperTabsTitles,
+              //     isSelected: swiperToggleButtonsSelections,
+              //     onTap: (int index) {
+              //       swiperController.move(index);
+              //     },
+              //   ),
+              // ),
+              SizedBox(height: 30),
+
+              // Row(
+              //   children: [
+              //     SectionTitle(sectionNumber: 3, title: 'Characteristics'),
+              //     SizedBox(width: 30),
+              //   ],
+              // ),
+            ],
           ),
         ),
       ),

@@ -47,7 +47,7 @@ class _SwiperTab extends StatelessWidget {
                 border: Border(
                   bottom: BorderSide(
                     color: Theme.of(context).colorScheme.onSurface,
-                    width: 1.0,
+                    width: 2.0,
                   ),
                 ),
               )

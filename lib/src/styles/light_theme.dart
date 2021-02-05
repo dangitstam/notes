@@ -43,6 +43,17 @@ ThemeData lightTheme = ThemeData(
   ),
 
   // Buttons.
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      primary: onSurfaceColor,
+      backgroundColor: backgroundColor,
+      textStyle: overline,
+      shape: RoundedRectangleBorder(),
+      side: BorderSide(width: 2, color: onSurfaceColor),
+    ),
+  ),
+
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
@@ -57,9 +68,9 @@ ThemeData lightTheme = ThemeData(
   sliderTheme: SliderThemeData(
     activeTrackColor: onSurfaceColor,
     inactiveTrackColor: cardColor,
-    trackHeight: 10.0,
+    trackHeight: 24.0,
     trackShape: SlimRectangularSliderTrackShape(),
-    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
+    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 14.0),
     thumbColor: onSurfaceColor,
     overlayColor: Colors.grey.withAlpha(32),
     overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),

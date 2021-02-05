@@ -11,6 +11,7 @@ import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
 import 'package:notes/src/data/note_repository.dart';
 import 'package:pedantic/pedantic.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'coffee_tasting_create_event.dart';
 part 'coffee_tasting_create_state.dart';
@@ -54,7 +55,9 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
 
   // Controller: Page <- App Database.
   final _getNotesController = StreamController<List<Note>>.broadcast();
-  final _getNotesCategorizedController = StreamController<Map<NoteCategory, List<Note>>>.broadcast();
+
+  // BehaviorSubject allows subsequent screens that receive this BLoC to retrieve the last drip.
+  final _getNotesCategorizedController = BehaviorSubject<Map<NoteCategory, List<Note>>>();
 
   // Stream: In
   // Purpose: Update stream that pages subscribe to.
@@ -76,6 +79,8 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   }
 
   void refreshCategorizedNotesStream() async {
+    print('REFRESHING');
+
     // Retrieve all the notes (categorized) from the database.
     var notesCategorized = await noteRepository.getNotesCategorized();
 

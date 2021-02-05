@@ -25,8 +25,8 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
           centerTitle: false,
           elevation: 0,
           title: Text(
-            'Notes',
-            style: Theme.of(context).textTheme.headline5,
+            'NOTES',
+            style: Theme.of(context).textTheme.headline6,
           ),
           backgroundColor: Theme.of(context).backgroundColor,
           actions: <Widget>[

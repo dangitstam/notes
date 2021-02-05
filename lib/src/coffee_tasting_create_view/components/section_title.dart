@@ -18,7 +18,7 @@ class SectionTitle extends StatelessWidget {
         SizedBox(width: 5),
         Text(
           title.toUpperCase(),
-          style: Theme.of(context).textTheme.headline6.copyWith(letterSpacing: 1.5),
+          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
         ),
       ],
     );
@@ -28,10 +28,12 @@ class SectionTitle extends StatelessWidget {
 class SectionTitleDecoration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 2.0,
-      width: 20,
-      color: Theme.of(context).colorScheme.onSurface,
+    return Center(
+      child: Container(
+        height: 2.0,
+        width: 40,
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
     );
   }
 }

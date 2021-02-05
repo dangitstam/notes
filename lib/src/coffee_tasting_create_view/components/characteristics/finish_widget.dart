@@ -17,7 +17,7 @@ class FinishWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Finish', style: Theme.of(context).textTheme.headline6),
+              Text('Finish'.toUpperCase(), style: Theme.of(context).textTheme.overline),
               SizedBox(width: 20),
               Text('Score', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
               Column(

@@ -20,8 +20,8 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
             contentPadding: EdgeInsets.all(0),
             hintText: hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            labelText: label,
-            labelStyle: Theme.of(context).textTheme.subtitle1),
+            labelText: label.toUpperCase(),
+            labelStyle: Theme.of(context).textTheme.overline.copyWith(fontSize: 12)),
         style: hintStyle,
         onChanged: (value) => onChanged(value));
   }

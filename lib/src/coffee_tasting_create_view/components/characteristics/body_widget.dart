@@ -16,7 +16,7 @@ class BodyWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Body', style: Theme.of(context).textTheme.headline6),
+            Text('Body'.toUpperCase(), style: Theme.of(context).textTheme.overline),
             SizedBox(width: 20),
             Text('Score', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
             Column(

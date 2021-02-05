@@ -17,7 +17,7 @@ class SweetnessWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Sweetness', style: Theme.of(context).textTheme.headline6),
+            Text('Sweetness'.toUpperCase(), style: Theme.of(context).textTheme.overline),
             SizedBox(width: 10),
             Text('Score', style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right),
             Column(
