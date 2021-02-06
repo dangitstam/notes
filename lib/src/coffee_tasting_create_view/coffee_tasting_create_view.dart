@@ -231,13 +231,14 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                     SizedBox(width: 20),
                   ],
                 ),
+                Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SectionTitle(sectionNumber: 2, title: 'Notes'),
                     TextButton(
                       style: Theme.of(context).outlinedButtonTheme.style,
-                      child: Text('Edit'),
+                      child: Text('Edit'.toUpperCase()),
                       onPressed: () {
                         Navigator.pushNamed(context, '/notes');
                       },
@@ -254,13 +255,14 @@ class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewW
                       )
                     : Text('Tap \'edit\' to select tasting notes.'),
                 SizedBox(height: 20),
+                Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SectionTitle(sectionNumber: 3, title: 'Characteristics'),
                     TextButton(
                       style: Theme.of(context).outlinedButtonTheme.style,
-                      child: Text('Edit'),
+                      child: Text('Edit'.toUpperCase()),
                       onPressed: () {
                         isCharacteristicsEdited = true;
                         Navigator.pushNamed(context, '/characteristics');

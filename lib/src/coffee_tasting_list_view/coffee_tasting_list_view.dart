@@ -25,8 +25,8 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
           centerTitle: false,
           elevation: 0,
           title: Text(
-            'NOTES',
-            style: Theme.of(context).textTheme.headline6,
+            'Notes'.toUpperCase(),
+            style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
           ),
           backgroundColor: Theme.of(context).backgroundColor,
           actions: <Widget>[
@@ -116,84 +116,101 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String formattedId = tasting.coffeeTastingId.toString().padLeft(3, '0');
     return Container(
       padding: EdgeInsets.all(17),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           /**
-           * Title section.
-           */
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                '${tasting.roaster}, ${tasting.coffeeName}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              const SizedBox(height: 5),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
-                      Text(
-                        '${tasting.origin}',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      SizedBox(width: 5),
-                      _buildRoastingProcessIcon(tasting.process),
-                      SizedBox(width: 2),
-                      Text(
-                        '${tasting.process}',
-                        style: Theme.of(context).textTheme.caption,
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(flex: 1, child: RoastLevelLinearIndicator(tasting.roastLevel / 10)),
-              ])
-            ],
-          ),
-          const SizedBox(height: 10),
-          /**
-           *  Optional image of tasting.
-           */
-          tasting.imagePath != null
-              ? CoffeeTastingHeroImageStart(
-                  tag: 'list view hero image for tasting ${tasting.coffeeTastingId}',
-                  imagePath: tasting.imagePath,
-                )
-              : Container(),
-          tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
-          /**
            * Description and notes section.
            */
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${formattedId}.',
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16),
+                ),
+              ),
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    /**
+                     * Title section.
+                     */
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '${tasting.roaster}'.toUpperCase(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Text(
+                          '${tasting.coffeeName}'.toUpperCase(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        const SizedBox(height: 5),
+                        Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              children: [
+                                Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
+                                Text(
+                                  '${tasting.origin}',
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                                SizedBox(width: 5),
+                                _buildRoastingProcessIcon(tasting.process),
+                                SizedBox(width: 2),
+                                Text(
+                                  '${tasting.process}',
+                                  style: Theme.of(context).textTheme.caption,
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(flex: 1, child: RoastLevelLinearIndicator(tasting.roastLevel / 10)),
+                        ])
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    /**
+                     *  Optional image of tasting.
+                     */
+                    tasting.imagePath != null
+                        ? CoffeeTastingHeroImageStart(
+                            tag: 'list view hero image for tasting ${tasting.coffeeTastingId}',
+                            imagePath: tasting.imagePath,
+                          )
+                        : Container(),
+                    tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
                     Text(
                       '${tasting.description}',
                       style: Theme.of(context).textTheme.bodyText2,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                     ),
                     SizedBox(height: 5),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      direction: Axis.horizontal,
-                      spacing: 5,
-                      children: tasting.notes.map((e) => TastingNote(e)).toList(),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Wrap(
+                        spacing: 5,
+                        children: tasting.notes.map((e) => TastingNote(e)).toList(),
+                      ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
           SizedBox(height: 10),

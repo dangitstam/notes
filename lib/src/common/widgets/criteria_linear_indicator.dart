@@ -57,10 +57,11 @@ class CriteriaLinearIndicator extends StatelessWidget {
                       ),
                       child: Text(
                         '$formattedValue',
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(color: Colors.white, fontStyle: FontStyle.italic),
+                        style: Theme.of(context).textTheme.caption.copyWith(
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w300,
+                            ),
                       ),
                     ),
                   ),
