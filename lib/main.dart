@@ -41,16 +41,20 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: _coffeeTastingListBloc,
-            child: CoffeeTastingListViewScreen(),
-          ),
+          builder: (_) {
+            // Subsequent nav to this screen necessitates a stream refresh.
+            _coffeeTastingListBloc.refreshCoffeeTastingsStream();
+            return BlocProvider.value(
+              value: _coffeeTastingListBloc,
+              child: CoffeeTastingListViewScreen(),
+            );
+          },
         );
       case '/create':
         return MaterialPageRoute(
           builder: (_) {
             // Reset the create tasting bloc on each navigate to '/create'.
-            dispose();
+            _coffeeTastingCreateBloc.close();
             _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
             return BlocProvider.value(
               value: _coffeeTastingCreateBloc,

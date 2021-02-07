@@ -183,7 +183,9 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
           /**
            * Chart displaying characteristic scores and intensities.
            */
-          CharacteristicsChart(),
+          CharacteristicsChart(
+            tasting: context.watch<CoffeeTastingCreateBloc>().state.tasting,
+          ),
           SizedBox(height: 20),
           /**
            * Swipeable slider section for editing characteristics.

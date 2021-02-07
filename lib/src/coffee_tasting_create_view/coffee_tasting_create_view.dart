@@ -272,7 +272,9 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                 ),
                 SizedBox(height: 10),
                 isCharacteristicsEdited
-                    ? CharacteristicsChart()
+                    ? CharacteristicsChart(
+                        tasting: context.watch<CoffeeTastingCreateBloc>().state.tasting,
+                      )
                     : Column(
                         children: [
                           Text('Tap \'edit\' to assess characteristics.'),
@@ -280,7 +282,9 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                           ColorFiltered(
                             colorFilter:
                                 ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
-                            child: CharacteristicsChart(),
+                            child: CharacteristicsChart(
+                              tasting: context.watch<CoffeeTastingCreateBloc>().state.tasting,
+                            ),
                           ),
                         ],
                       ),

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
 import 'package:notes/src/coffee_tasting_list_view/roast_level_linear_indicator.dart';
-import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 
@@ -215,53 +215,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
           /**
            * Criteria
            */
-          CriteriaBarChart(children: [
-            CriteriaBarChartData(
-              criteriaLabel: 'Aroma',
-              score: tasting.aromaScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.aromaIntensity,
-              intensityLabel: 'Intensity',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Acidity',
-              score: tasting.acidityScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.acidityIntensity,
-              intensityLabel: 'Intensity',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Body',
-              score: tasting.bodyScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.bodyLevel,
-              intensityLabel: 'Level',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Sweetness',
-              score: tasting.sweetnessScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.sweetnessIntensity,
-              intensityLabel: 'Intensity',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Finish',
-              score: tasting.finishScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.finishDuration,
-              intensityLabel: 'Duration',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-          ]),
+          CharacteristicsChart(tasting: tasting),
           const SizedBox(height: 20),
           /**
             * Date & time that this tasting took place.
