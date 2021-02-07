@@ -199,12 +199,9 @@ class _CoffeeTastingListItem extends StatelessWidget {
                       textAlign: TextAlign.start,
                     ),
                     SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Wrap(
-                        spacing: 5,
-                        children: tasting.notes.map((e) => TastingNote(e)).toList(),
-                      ),
+                    Wrap(
+                      spacing: 5,
+                      children: tasting.notes.map((e) => TastingNote(e)).toList(),
                     ),
                   ],
                 ),
