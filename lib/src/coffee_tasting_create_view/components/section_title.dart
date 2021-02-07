@@ -27,16 +27,3 @@ class SectionTitle extends StatelessWidget {
     );
   }
 }
-
-class SectionTitleDecoration extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 2.0,
-        width: 40,
-        color: Theme.of(context).colorScheme.onSurface,
-      ),
-    );
-  }
-}
