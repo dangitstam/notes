@@ -13,61 +13,59 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          bottom: PreferredSize(
-              child: Container(
-                color: Colors.black38,
-                height: 0.20,
-              ),
-              preferredSize: Size.fromHeight(0.5)),
-          centerTitle: false,
-          elevation: 0,
-          title: Text(
-            'Notes'.toUpperCase(),
-            style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
-          ),
-          backgroundColor: Theme.of(context).backgroundColor,
-          actions: <Widget>[
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      // TODO: Filter implementation.
-                    },
-                    child: Row(children: [Text('Filter', style: Theme.of(context).textTheme.caption)]))),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      // TODO: Filter implementation.
-                    },
-                    child: Row(children: [Text('Sort', style: Theme.of(context).textTheme.caption)]))),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      // TODO: Filter implementation.
-                    },
-                    child: Row(children: [
-                      Icon(CupertinoIcons.search, color: Colors.black, size: 20),
-                      SizedBox(width: 5),
-                      Text('Search', style: Theme.of(context).textTheme.caption)
-                    ]))),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/create');
-                    },
-                    child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),
-          ],
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        bottom: PreferredSize(
+            child: Container(
+              color: Colors.black38,
+              height: 0.20,
+            ),
+            preferredSize: Size.fromHeight(0.5)),
+        centerTitle: false,
+        elevation: 0,
+        title: Text(
+          'Notes'.toUpperCase(),
+          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
         ),
-        body: BlocProvider<CoffeeTastingListBloc>(
-          create: (context) => CoffeeTastingListBloc(),
-          child: CoffeeTastingListViewWidget(),
-        ));
+        backgroundColor: Theme.of(context).backgroundColor,
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    // TODO: Filter implementation.
+                  },
+                  child: Row(children: [Text('Filter', style: Theme.of(context).textTheme.caption)]))),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    // TODO: Filter implementation.
+                  },
+                  child: Row(children: [Text('Sort', style: Theme.of(context).textTheme.caption)]))),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    // TODO: Filter implementation.
+                  },
+                  child: Row(children: [
+                    Icon(CupertinoIcons.search, color: Colors.black, size: 20),
+                    SizedBox(width: 5),
+                    Text('Search', style: Theme.of(context).textTheme.caption)
+                  ]))),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/create');
+                  },
+                  child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),
+        ],
+      ),
+      body: CoffeeTastingListViewWidget(),
+    );
   }
 }
 

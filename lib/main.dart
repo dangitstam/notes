@@ -7,6 +7,7 @@ import 'package:notes/src/coffee_tasting_create_view/components/notes/notes_sect
 import 'package:notes/src/styles/light_theme.dart';
 
 import 'src/coffee_tasting_create_view/coffee_tasting_create_view.dart';
+import 'src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'src/coffee_tasting_list_view/coffee_tasting_list_view.dart';
 
 void main() {
@@ -33,13 +34,17 @@ class _AppState extends State<App> {
 }
 
 class AppRouter {
+  var _coffeeTastingListBloc = CoffeeTastingListBloc();
   var _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
 
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => CoffeeTastingListViewScreen(),
+          builder: (_) => BlocProvider.value(
+            value: _coffeeTastingListBloc,
+            child: CoffeeTastingListViewScreen(),
+          ),
         );
       case '/create':
         return MaterialPageRoute(
@@ -73,6 +78,7 @@ class AppRouter {
   }
 
   void dispose() {
+    _coffeeTastingListBloc.close();
     _coffeeTastingCreateBloc.close();
   }
 }
