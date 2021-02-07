@@ -48,11 +48,9 @@ class NotesSection extends StatefulWidget {
   _NotesSectionState createState() => _NotesSectionState();
 }
 
-class _NotesSectionState extends State<NotesSection> with AutomaticKeepAliveClientMixin<NotesSection> {
+class _NotesSectionState extends State<NotesSection> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     var coffeeTastingState = context.watch<CoffeeTastingCreateBloc>().state.tasting;
     var selectedTastingNotes = coffeeTastingState.notes;
 
@@ -166,8 +164,4 @@ class _NotesSectionState extends State<NotesSection> with AutomaticKeepAliveClie
       ],
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
