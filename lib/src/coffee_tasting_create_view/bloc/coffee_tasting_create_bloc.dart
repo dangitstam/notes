@@ -79,8 +79,6 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   }
 
   void refreshCategorizedNotesStream() async {
-    print('REFRESHING');
-
     // Retrieve all the notes (categorized) from the database.
     var notesCategorized = await noteRepository.getNotesCategorized();
 
