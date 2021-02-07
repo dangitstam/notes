@@ -18,7 +18,6 @@ class CharacteristicsScreen extends StatefulWidget {
 class _CharacteristicsScreenState extends State<CharacteristicsScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
