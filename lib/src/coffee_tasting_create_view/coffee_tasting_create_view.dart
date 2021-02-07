@@ -166,68 +166,70 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Text('Process'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                    SizedBox(width: 10),
-                    Container(
-                      child: DropdownButton<String>(
-                        value: coffeeTastingState.process,
-                        icon: Icon(CupertinoIcons.chevron_down),
-                        iconSize: 14,
-                        style: Theme.of(context).textTheme.bodyText2,
-                        underline: Container(height: 0.0),
-                        onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
-                        },
-                        items: {
-                          'Washed': Icon(CupertinoIcons.drop),
-                          'Natural': Icon(CupertinoIcons.sun_min),
-                        }.entries.map((entry) {
-                          var processType = entry.key;
-                          var processIcon = entry.value;
-                          return DropdownMenuItem<String>(
-                            value: processType,
-                            child: Row(
-                              children: [
-                                processIcon,
-                                Text(
-                                  processType,
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                                SizedBox(width: 2),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Text('Roast'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                    SizedBox(width: 20),
-                    Text('Light', style: Theme.of(context).textTheme.caption),
-                    Expanded(
-                      flex: 1,
-                      child: ThemedPaddedSlider(
-                        child: Slider(
-                          value: coffeeTastingState.roastLevel,
-                          min: 0,
-                          max: 10,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Text('Process'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                      SizedBox(width: 10),
+                      Container(
+                        child: DropdownButton<String>(
+                          value: coffeeTastingState.process,
+                          icon: Icon(CupertinoIcons.chevron_down),
+                          iconSize: 14,
+                          style: Theme.of(context).textTheme.bodyText2,
+                          underline: Container(height: 0.0),
                           onChanged: (value) {
-                            context.read<CoffeeTastingCreateBloc>().add(RoastLevelEvent(roastLevel: round(value)));
+                            context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
                           },
+                          items: {
+                            'Washed': Icon(CupertinoIcons.drop),
+                            'Natural': Icon(CupertinoIcons.sun_min),
+                          }.entries.map((entry) {
+                            var processType = entry.key;
+                            var processIcon = entry.value;
+                            return DropdownMenuItem<String>(
+                              value: processType,
+                              child: Row(
+                                children: [
+                                  processIcon,
+                                  Text(
+                                    processType,
+                                    style: Theme.of(context).textTheme.bodyText2,
+                                  ),
+                                  SizedBox(width: 2),
+                                ],
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
-                    ),
-                    Text('Dark', style: Theme.of(context).textTheme.caption),
-                    SizedBox(width: 20),
-                  ],
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Text('Roast'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                      SizedBox(width: 20),
+                      Text('Light', style: Theme.of(context).textTheme.caption),
+                      Expanded(
+                        flex: 1,
+                        child: ThemedPaddedSlider(
+                          child: Slider(
+                            value: coffeeTastingState.roastLevel,
+                            min: 0,
+                            max: 10,
+                            onChanged: (value) {
+                              context.read<CoffeeTastingCreateBloc>().add(RoastLevelEvent(roastLevel: round(value)));
+                            },
+                          ),
+                        ),
+                      ),
+                      Text('Dark', style: Theme.of(context).textTheme.caption),
+                    ],
+                  ),
                 ),
                 Divider(),
                 Row(
