@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// A custom slider track shape that removes padding from either side
 /// of the track.
 /// Credit: https://github.com/flutter/flutter/issues/37057#issuecomment-516048356
-class SlimRectangularSliderTrackShape extends RoundedRectSliderTrackShape {
+class SlimRoundedRectSliderTrackShape extends RoundedRectSliderTrackShape {
   @override
   Rect getPreferredRect({
     @required RenderBox parentBox,
