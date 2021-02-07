@@ -94,7 +94,6 @@ flutter:
         - asset: assets/fonts/Jost-ExtraBoldItalic.ttf
         - asset: assets/fonts/Jost-ExtraLight.ttf
         - asset: assets/fonts/Jost-ExtraLightItalic.ttf
-        - asset: assets/fonts/Jost-Italic-VariableFont_wght.ttf
         - asset: assets/fonts/Jost-Italic.ttf
         - asset: assets/fonts/Jost-Light.ttf
         - asset: assets/fonts/Jost-LightItalic.ttf
@@ -105,7 +104,6 @@ flutter:
         - asset: assets/fonts/Jost-SemiBoldItalic.ttf
         - asset: assets/fonts/Jost-Thin.ttf
         - asset: assets/fonts/Jost-ThinItalic.ttf
-        - asset: assets/fonts/Jost-VariableFont_wght.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
