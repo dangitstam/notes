@@ -83,7 +83,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
             FocusScope.of(context).unfocus();
           },
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: EdgeInsets.all(10),
             child: Column(
               children: [
                 // SectionTitle(sectionNumber: 1, title: 'Description'),
