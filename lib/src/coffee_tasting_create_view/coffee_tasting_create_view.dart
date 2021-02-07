@@ -91,8 +91,8 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     /**
-                       * Image capture: Select an image for the tasting.
-                       */
+                     * Image capture: Select an image for the tasting.
+                     */
                     Expanded(
                       flex: 2,
                       child: ImageCapture(onImageSelected: onImageSelected),
