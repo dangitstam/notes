@@ -86,8 +86,6 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                // SectionTitle(sectionNumber: 1, title: 'Description'),
-                // SizedBox(height: 15),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
