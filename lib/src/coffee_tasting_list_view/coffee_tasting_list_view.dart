@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
 import 'package:notes/src/coffee_tasting_list_view/roast_level_linear_indicator.dart';
-import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 
@@ -13,61 +13,59 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          bottom: PreferredSize(
-              child: Container(
-                color: Colors.black38,
-                height: 0.20,
-              ),
-              preferredSize: Size.fromHeight(0.5)),
-          centerTitle: false,
-          elevation: 0,
-          title: Text(
-            'Notes',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          backgroundColor: Theme.of(context).backgroundColor,
-          actions: <Widget>[
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      // TODO: Filter implementation.
-                    },
-                    child: Row(children: [Text('Filter', style: Theme.of(context).textTheme.caption)]))),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      // TODO: Filter implementation.
-                    },
-                    child: Row(children: [Text('Sort', style: Theme.of(context).textTheme.caption)]))),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      // TODO: Filter implementation.
-                    },
-                    child: Row(children: [
-                      Icon(CupertinoIcons.search, color: Colors.black, size: 20),
-                      SizedBox(width: 5),
-                      Text('Search', style: Theme.of(context).textTheme.caption)
-                    ]))),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/create');
-                    },
-                    child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),
-          ],
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        bottom: PreferredSize(
+            child: Container(
+              color: Colors.black38,
+              height: 0.20,
+            ),
+            preferredSize: Size.fromHeight(0.5)),
+        centerTitle: false,
+        elevation: 0,
+        title: Text(
+          'Notes'.toUpperCase(),
+          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
         ),
-        body: BlocProvider<CoffeeTastingListBloc>(
-          create: (context) => CoffeeTastingListBloc(),
-          child: CoffeeTastingListViewWidget(),
-        ));
+        backgroundColor: Theme.of(context).backgroundColor,
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    // TODO: Filter implementation.
+                  },
+                  child: Row(children: [Text('Filter', style: Theme.of(context).textTheme.caption)]))),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    // TODO: Filter implementation.
+                  },
+                  child: Row(children: [Text('Sort', style: Theme.of(context).textTheme.caption)]))),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    // TODO: Filter implementation.
+                  },
+                  child: Row(children: [
+                    Icon(CupertinoIcons.search, color: Colors.black, size: 20),
+                    SizedBox(width: 5),
+                    Text('Search', style: Theme.of(context).textTheme.caption)
+                  ]))),
+          Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/create');
+                  },
+                  child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),
+        ],
+      ),
+      body: CoffeeTastingListViewWidget(),
+    );
   }
 }
 
@@ -116,137 +114,105 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String formattedId = tasting.coffeeTastingId.toString().padLeft(3, '0');
     return Container(
       padding: EdgeInsets.all(17),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           /**
-           * Title section.
-           */
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                '${tasting.roaster}, ${tasting.coffeeName}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              const SizedBox(height: 5),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
-                      Text(
-                        '${tasting.origin}',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      SizedBox(width: 5),
-                      _buildRoastingProcessIcon(tasting.process),
-                      SizedBox(width: 2),
-                      Text(
-                        '${tasting.process}',
-                        style: Theme.of(context).textTheme.caption,
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(flex: 1, child: RoastLevelLinearIndicator(tasting.roastLevel / 10)),
-              ])
-            ],
-          ),
-          const SizedBox(height: 10),
-          /**
-           *  Optional image of tasting.
-           */
-          tasting.imagePath != null
-              ? CoffeeTastingHeroImageStart(
-                  tag: 'list view hero image for tasting ${tasting.coffeeTastingId}',
-                  imagePath: tasting.imagePath,
-                )
-              : Container(),
-          tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
-          /**
            * Description and notes section.
            */
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '${formattedId}.',
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16),
+                ),
+              ),
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    /**
+                     * Title section.
+                     */
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '${tasting.roaster}'.toUpperCase(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Text(
+                          '${tasting.coffeeName}'.toUpperCase(),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        const SizedBox(height: 5),
+                        Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              children: [
+                                Icon(CupertinoIcons.location_solid, size: 14, color: Colors.black),
+                                Text(
+                                  '${tasting.origin}',
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                                SizedBox(width: 5),
+                                _buildRoastingProcessIcon(tasting.process),
+                                SizedBox(width: 2),
+                                Text(
+                                  '${tasting.process}',
+                                  style: Theme.of(context).textTheme.caption,
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(flex: 1, child: RoastLevelLinearIndicator(tasting.roastLevel / 10)),
+                        ])
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    /**
+                     *  Optional image of tasting.
+                     */
+                    tasting.imagePath != null
+                        ? CoffeeTastingHeroImageStart(
+                            tag: 'list view hero image for tasting ${tasting.coffeeTastingId}',
+                            imagePath: tasting.imagePath,
+                          )
+                        : Container(),
+                    tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
                     Text(
                       '${tasting.description}',
                       style: Theme.of(context).textTheme.bodyText2,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                     ),
                     SizedBox(height: 5),
                     Wrap(
-                      alignment: WrapAlignment.center,
-                      direction: Axis.horizontal,
                       spacing: 5,
                       children: tasting.notes.map((e) => TastingNote(e)).toList(),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
           SizedBox(height: 10),
           /**
            * Criteria
            */
-          CriteriaBarChart(children: [
-            CriteriaBarChartData(
-              criteriaLabel: 'Aroma',
-              score: tasting.aromaScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.aromaIntensity,
-              intensityLabel: 'Intensity',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Acidity',
-              score: tasting.acidityScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.acidityIntensity,
-              intensityLabel: 'Intensity',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Body',
-              score: tasting.bodyScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.bodyLevel,
-              intensityLabel: 'Level',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Sweetness',
-              score: tasting.sweetnessScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.sweetnessIntensity,
-              intensityLabel: 'Intensity',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-            CriteriaBarChartData(
-              criteriaLabel: 'Finish',
-              score: tasting.finishScore,
-              scoreLabel: 'Score',
-              scoreColor: Theme.of(context).colorScheme.onSurface,
-              intensity: tasting.finishDuration,
-              intensityLabel: 'Duration',
-              intensityColor: Theme.of(context).colorScheme.primary,
-            ),
-          ]),
+          CharacteristicsChart(tasting: tasting),
           const SizedBox(height: 20),
           /**
             * Date & time that this tasting took place.

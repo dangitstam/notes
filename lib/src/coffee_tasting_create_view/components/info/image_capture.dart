@@ -33,7 +33,7 @@ class _ImageCaptureState extends State<ImageCapture> {
           AspectRatio(
             aspectRatio: 1.0,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(3.0),
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.4),

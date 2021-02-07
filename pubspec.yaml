@@ -42,6 +42,7 @@ dev_dependencies:
   image_picker:
   path_provider:
   pedantic: ^1.9.0
+  rxdart: ^0.25.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -81,5 +82,26 @@ flutter:
         - asset: assets/fonts/OpenSans-Regular.ttf
         - asset: assets/fonts/OpenSans-Bold.ttf
           weight: 700
+    - family: Jost
+      fonts:
+        - asset: assets/fonts/Jost-Black.ttf
+        - asset: assets/fonts/Jost-BlackItalic.ttf
+        - asset: assets/fonts/Jost-Bold.ttf
+        - asset: assets/fonts/Jost-BoldItalic.ttf
+        - asset: assets/fonts/Jost-ExtraBold.ttf
+        - asset: assets/fonts/Jost-ExtraBoldItalic.ttf
+        - asset: assets/fonts/Jost-ExtraLight.ttf
+        - asset: assets/fonts/Jost-ExtraLightItalic.ttf
+        - asset: assets/fonts/Jost-Italic.ttf
+        - asset: assets/fonts/Jost-Light.ttf
+        - asset: assets/fonts/Jost-LightItalic.ttf
+        - asset: assets/fonts/Jost-Medium.ttf
+        - asset: assets/fonts/Jost-MediumItalic.ttf
+        - asset: assets/fonts/Jost-Regular.ttf
+        - asset: assets/fonts/Jost-SemiBold.ttf
+        - asset: assets/fonts/Jost-SemiBoldItalic.ttf
+        - asset: assets/fonts/Jost-Thin.ttf
+        - asset: assets/fonts/Jost-ThinItalic.ttf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

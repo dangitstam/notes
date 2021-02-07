@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notes/src/styles/slim_slider_track_shape.dart';
+import 'package:notes/src/styles/slim_rounded_rect_slider_track_shape.dart';
 
 ThemeData lightTheme = ThemeData(
   // Colors
@@ -43,13 +43,24 @@ ThemeData lightTheme = ThemeData(
   ),
 
   // Buttons.
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      primary: primaryColor,
+      backgroundColor: backgroundColor,
+      textStyle: overline.copyWith(fontWeight: FontWeight.w500),
+      shape: RoundedRectangleBorder(),
+      side: BorderSide(width: 2, color: primaryColor),
+    ),
+  ),
+
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
       primary: backgroundColor,
       backgroundColor: onSurfaceColor,
-      textStyle: overline.copyWith(fontWeight: FontWeight.w300),
+      textStyle: overline.copyWith(fontWeight: FontWeight.w400),
     ),
   ),
 
@@ -57,9 +68,9 @@ ThemeData lightTheme = ThemeData(
   sliderTheme: SliderThemeData(
     activeTrackColor: onSurfaceColor,
     inactiveTrackColor: cardColor,
-    trackHeight: 10.0,
-    trackShape: SlimRectangularSliderTrackShape(),
-    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
+    trackHeight: 24.0,
+    trackShape: SlimRoundedRectSliderTrackShape(),
+    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 14.0),
     thumbColor: onSurfaceColor,
     overlayColor: Colors.grey.withAlpha(32),
     overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
@@ -76,23 +87,27 @@ Color backgroundColor = Color(0xffffffff);
 Color cardColor = Color(0xfff1f1f1);
 
 TextStyle headline5 = const TextStyle(
-  fontFamily: 'Baskerville',
-  fontSize: 34.0,
+  fontFamily: 'Jost',
+  fontSize: 24.0,
+  letterSpacing: 3.6,
+  fontWeight: FontWeight.w500,
 );
 
 TextStyle headline6 = const TextStyle(
-  fontFamily: 'Baskerville',
-  fontSize: 20.0,
+  fontFamily: 'Jost',
+  fontSize: 16.0,
+  letterSpacing: 2.4,
+  fontWeight: FontWeight.w500,
 );
 
 TextStyle bodyText2 = const TextStyle(
-  fontFamily: 'OpenSans',
+  fontFamily: 'Jost',
   fontSize: 14.0,
-  fontWeight: FontWeight.w100,
+  fontWeight: FontWeight.w300,
 );
 
 TextStyle subtitle1 = const TextStyle(
-  fontFamily: 'Baskerville',
+  fontFamily: 'Jost',
   fontSize: 16.0,
 );
 
@@ -102,14 +117,14 @@ TextStyle subtitle2 = GoogleFonts.inconsolata(
 );
 
 TextStyle caption = const TextStyle(
-  fontFamily: 'OpenSans',
+  fontFamily: 'Jost',
   fontSize: 12.0,
-  fontWeight: FontWeight.w100,
+  fontWeight: FontWeight.normal,
 );
 
-TextStyle overline = caption.copyWith(
-  fontFamily: 'OpenSans',
+TextStyle overline = const TextStyle(
+  fontFamily: 'Jost',
   fontSize: 12.0,
-  fontWeight: FontWeight.w900,
-  letterSpacing: 1.5,
+  fontWeight: FontWeight.w700,
+  letterSpacing: 1.8,
 );

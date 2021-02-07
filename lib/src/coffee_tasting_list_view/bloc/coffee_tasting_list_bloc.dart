@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'coffee_tasting_list_event.dart';
 part 'coffee_tasting_list_state.dart';
@@ -33,7 +34,7 @@ class CoffeeTastingListBloc extends Bloc<CoffeeTastingListEvent, CoffeeTastingLi
   }
 
   // Controller: Page <- App Database.
-  final _getCoffeeTastingsController = StreamController<List<CoffeeTasting>>.broadcast();
+  final _getCoffeeTastingsController = BehaviorSubject<List<CoffeeTasting>>();
 
   // Stream: In
   // Purpose: Update stream that pages subscribe to.
