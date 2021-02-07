@@ -78,9 +78,13 @@ class CharacteristicsSliders extends StatelessWidget {
                 ),
               ),
             ),
-            Text('0',
-                style:
-                    Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold).copyWith(fontSize: 14)),
+            Text(
+              '0',
+              style: Theme.of(context).textTheme.caption.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
           ],
         ),
         SizedBox(width: 20),
