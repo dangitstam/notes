@@ -191,15 +191,12 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
             ),
           ),
           SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.only(left: 0.0, right: 0.0),
-            child: SwiperTabs(
-              swiperTitles: swiperTabsTitles,
-              isSelected: swiperToggleButtonsSelections,
-              onTap: (int index) {
-                swiperController.move(index);
-              },
-            ),
+          SwiperTabs(
+            swiperTitles: swiperTabsTitles,
+            isSelected: swiperToggleButtonsSelections,
+            onTap: (int index) {
+              swiperController.move(index);
+            },
           ),
           SizedBox(height: 40),
         ],
