@@ -38,19 +38,6 @@ class _CharacteristicsScreenState extends State<CharacteristicsScreen> {
             size: 32,
           ),
         ),
-        // actions: [
-        //   Padding(
-        //     padding: EdgeInsets.all(10.0),
-        //     child: TextButton(
-        //       style: Theme.of(context).outlinedButtonTheme.style,
-        //       child: Text('Next'.toUpperCase()),
-        //       onPressed: () {
-        //         // Updaate app database with new tasting.
-        //         context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
-        //       },
-        //     ),
-        //   )
-        // ],
       ),
       body: CharacteristicsSection(),
     );
@@ -63,9 +50,6 @@ class CharacteristicsSection extends StatefulWidget {
 }
 
 class _CharacteristicsSectionState extends State<CharacteristicsSection> {
-  final scoreBarColor = Color(0xff1b1b1b);
-  final intensityBarColor = Color(0xff87bd91);
-
   var swiperController = SwiperController();
   var swiperToggleButtonsSelections = [true, false, false, false, false];
   var swiperTabsTitles = [
