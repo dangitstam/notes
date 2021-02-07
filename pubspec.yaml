@@ -84,8 +84,6 @@ flutter:
           weight: 700
     - family: Jost
       fonts:
-        - asset: assets/fonts/Jost-Italic-VariableFont_wght.ttf
-        - asset: assets/fonts/Jost-VariableFont_wght.ttf
         - asset: assets/fonts/Jost-Black.ttf
         - asset: assets/fonts/Jost-BlackItalic.ttf
         - asset: assets/fonts/Jost-Bold.ttf
