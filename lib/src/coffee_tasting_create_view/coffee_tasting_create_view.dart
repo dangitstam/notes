@@ -15,12 +15,12 @@ import 'package:path/path.dart' show basename;
 
 import 'components/info/image_capture.dart';
 
-class CoffeeTastingCreateViewWidget extends StatefulWidget {
+class CoffeeTastingCreateViewScreen extends StatefulWidget {
   @override
-  _CoffeeTastingCreateViewWidgetState createState() => _CoffeeTastingCreateViewWidgetState();
+  _CoffeeTastingCreateViewScreenState createState() => _CoffeeTastingCreateViewScreenState();
 }
 
-class _CoffeeTastingCreateViewWidgetState extends State<CoffeeTastingCreateViewWidget> {
+class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewScreen> {
   // Detect whether the characteristics section has been interacted with to undo grayscale.
   var isCharacteristicsEdited = false;
 

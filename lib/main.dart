@@ -49,7 +49,7 @@ class AppRouter {
             _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
             return BlocProvider.value(
               value: _coffeeTastingCreateBloc,
-              child: CoffeeTastingCreateViewWidget(),
+              child: CoffeeTastingCreateViewScreen(),
             );
           },
         );
