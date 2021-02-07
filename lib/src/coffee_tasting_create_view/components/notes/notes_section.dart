@@ -22,6 +22,10 @@ class _NotesScreenState extends State<NotesScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
+        title: Text(
+          'Edit Notes',
+          style: Theme.of(context).textTheme.bodyText2,
+        ),
         backgroundColor: Theme.of(context).backgroundColor,
         leading: GestureDetector(
           onTap: () {
@@ -33,18 +37,6 @@ class _NotesScreenState extends State<NotesScreen> {
             size: 32,
           ),
         ),
-        actions: [
-          // Padding(
-          //   padding: EdgeInsets.all(10.0),
-          //   child: TextButton(
-          //     style: Theme.of(context).outlinedButtonTheme.style,
-          //     child: Text('Next'.toUpperCase()),
-          //     onPressed: () {
-          //       Navigator.pushNamed(context, '/characteristics');
-          //     },
-          //   ),
-          // )
-        ],
       ),
       body: NotesSection(),
     );
@@ -71,7 +63,7 @@ class _NotesSectionState extends State<NotesSection> with AutomaticKeepAliveClie
         SizedBox(height: 15),
         Center(
           child: Text(
-            'Select all that apply',
+            'Select all that apply.',
             style: Theme.of(context).textTheme.caption,
           ),
         ),
