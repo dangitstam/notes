@@ -3,24 +3,24 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/section_title.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
+import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
+import 'package:notes/src/wine_tasting_create_view/components/section_title.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
 
 import 'components/info/image_capture.dart';
 
-class CoffeeTastingCreateViewScreen extends StatefulWidget {
+class WineTastingCreateViewScreen extends StatefulWidget {
   @override
-  _CoffeeTastingCreateViewScreenState createState() => _CoffeeTastingCreateViewScreenState();
+  _WineTastingCreateViewScreenState createState() => _WineTastingCreateViewScreenState();
 }
 
-class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewScreen> {
+class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScreen> {
   // Detect whether the characteristics section has been interacted with to undo grayscale.
   var isCharacteristicsEdited = false;
 
@@ -29,15 +29,15 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
     // Record file path as image for tasting.
     // Application directory changes between invocations of `flutter run`, so save the basename
     // and retrieve the application directory path at runtime to grab the image.
-    context.read<CoffeeTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
+    context.read<WineTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
   }
 
   @override
   Widget build(BuildContext context) {
-    var coffeeTastingState = context.watch<CoffeeTastingCreateBloc>().state.tasting;
+    var coffeeTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
     var selectedTastingNotes = coffeeTastingState.notes;
 
-    return BlocListener<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
+    return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
         // Navigate on state change after awaited db insertion to avoid race condition.
         if (state.isCoffeeTastingInserted) {
@@ -50,7 +50,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
           automaticallyImplyLeading: false,
           elevation: 0,
           title: Text(
-            'New Tasting',
+            'New Wine Tasting',
             style: Theme.of(context).textTheme.bodyText2,
           ),
           backgroundColor: Theme.of(context).backgroundColor,
@@ -72,7 +72,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                 child: Text('Create'.toUpperCase()),
                 onPressed: () {
                   // Updaate app database with new tasting.
-                  context.read<CoffeeTastingCreateBloc>().add(InsertCoffeeTastingEvent());
+                  context.read<WineTastingCreateBloc>().add(InsertWineTastingEvent());
                 },
               ),
             )
@@ -106,7 +106,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                             label: 'Roaster',
                             hint: 'Who roasted this coffee?',
                             onChanged: (value) {
-                              context.read<CoffeeTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                              context.read<WineTastingCreateBloc>().add(RoasterEvent(roaster: value));
                             },
                           ),
                           SizedBox(height: 10),
@@ -114,7 +114,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                             label: 'Coffee Name',
                             hint: 'What kind of coffee is this?',
                             onChanged: (value) {
-                              context.read<CoffeeTastingCreateBloc>().add(CoffeeNameEvent(coffeeName: value));
+                              context.read<WineTastingCreateBloc>().add(NameEvent(name: value));
                             },
                           ),
                         ],
@@ -133,7 +133,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       isDense: true),
                   onChanged: (value) {
-                    context.read<CoffeeTastingCreateBloc>().add(DescriptionEvent(description: value));
+                    context.read<WineTastingCreateBloc>().add(DescriptionEvent(description: value));
                   },
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
@@ -159,7 +159,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                           isDense: true,
                         ),
                         onChanged: (value) {
-                          context.read<CoffeeTastingCreateBloc>().add(OriginEvent(origin: value));
+                          context.read<WineTastingCreateBloc>().add(OriginEvent(origin: value));
                         },
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
@@ -180,7 +180,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                           style: Theme.of(context).textTheme.bodyText2,
                           underline: Container(height: 0.0),
                           onChanged: (value) {
-                            context.read<CoffeeTastingCreateBloc>().add(ProcessEvent(process: value));
+                            context.read<WineTastingCreateBloc>().add(ProcessEvent(process: value));
                           },
                           items: {
                             'Washed': Icon(CupertinoIcons.drop),
@@ -222,7 +222,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                             min: 0,
                             max: 10,
                             onChanged: (value) {
-                              context.read<CoffeeTastingCreateBloc>().add(RoastLevelEvent(roastLevel: round(value)));
+                              context.read<WineTastingCreateBloc>().add(RoastLevelEvent(roastLevel: round(value)));
                             },
                           ),
                         ),
@@ -273,7 +273,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                 SizedBox(height: 10),
                 isCharacteristicsEdited
                     ? CharacteristicsChart(
-                        tasting: context.watch<CoffeeTastingCreateBloc>().state.tasting,
+                        tasting: context.watch<WineTastingCreateBloc>().state.tasting,
                       )
                     : Column(
                         children: [
@@ -283,7 +283,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                             colorFilter:
                                 ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
                             child: CharacteristicsChart(
-                              tasting: context.watch<CoffeeTastingCreateBloc>().state.tasting,
+                              tasting: context.watch<WineTastingCreateBloc>().state.tasting,
                             ),
                           ),
                         ],
