@@ -1,20 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
+import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
 import '../section_title.dart';
 import 'interactive_tasting_note.dart';
 import 'new_category_dialog.dart';
 
-class NotesScreen extends StatefulWidget {
+class WineNotesScreen extends StatefulWidget {
   @override
-  _NotesScreenState createState() => _NotesScreenState();
+  _WineNotesScreenState createState() => _WineNotesScreenState();
 }
 
-class _NotesScreenState extends State<NotesScreen> {
+class _WineNotesScreenState extends State<WineNotesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +51,8 @@ class NotesSection extends StatefulWidget {
 class _NotesSectionState extends State<NotesSection> {
   @override
   Widget build(BuildContext context) {
-    var coffeeTastingState = context.watch<CoffeeTastingCreateBloc>().state.tasting;
-    var selectedTastingNotes = coffeeTastingState.notes;
+    var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
+    var selectedTastingNotes = wineTastingState.notes;
 
     return ListView(
       padding: EdgeInsets.all(10.0),
@@ -74,7 +74,7 @@ class _NotesSectionState extends State<NotesSection> {
         ),
         SizedBox(height: 20),
         StreamBuilder(
-          stream: BlocProvider.of<CoffeeTastingCreateBloc>(context).notesCategorized,
+          stream: BlocProvider.of<WineTastingCreateBloc>(context).notesCategorized,
           builder: (context, AsyncSnapshot<Map<NoteCategory, List<Note>>> snapshot) {
             var notesCategorized = snapshot.data;
             if (notesCategorized != null) {
@@ -135,8 +135,8 @@ class _NotesSectionState extends State<NotesSection> {
           onTap: () {
             // BLoC is out of scope for the modal since it exists outside of the widget tree.
             final onSubmitted = (value) {
-              context.read<CoffeeTastingCreateBloc>().add(
-                    CreateCoffeeTastingNoteCategoryEvent(
+              context.read<WineTastingCreateBloc>().add(
+                    CreateWineTastingNoteCategoryEvent(
                       noteCategory: NoteCategory(name: value),
                     ),
                   );

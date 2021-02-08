@@ -5,10 +5,14 @@ import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_section.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/notes/notes_section.dart';
 import 'package:notes/src/styles/light_theme.dart';
+import 'package:notes/src/wine_tasting_create_view/components/characteristics/wine_characteristics_section.dart';
+import 'package:notes/src/wine_tasting_create_view/wine_tasting_create_view.dart';
 
 import 'src/coffee_tasting_create_view/coffee_tasting_create_view.dart';
 import 'src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'src/coffee_tasting_list_view/coffee_tasting_list_view.dart';
+import 'src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'src/wine_tasting_create_view/components/notes/wine_notes_section.dart';
 
 void main() {
   runApp(App());
@@ -36,6 +40,7 @@ class _AppState extends State<App> {
 class AppRouter {
   var _coffeeTastingListBloc = CoffeeTastingListBloc();
   var _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
+  var _wineTastingCreateBloc = WineTastingCreateBloc();
 
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -74,6 +79,34 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: _coffeeTastingCreateBloc,
             child: CharacteristicsScreen(),
+          ),
+        );
+
+      // Wine
+      case '/new-wine-tasting':
+        return MaterialPageRoute(
+          builder: (_) {
+            // Reset the create tasting bloc on each navigate to '/create'.
+            _wineTastingCreateBloc.close();
+            _wineTastingCreateBloc = WineTastingCreateBloc();
+            return BlocProvider.value(
+              value: _wineTastingCreateBloc,
+              child: WineTastingCreateViewScreen(),
+            );
+          },
+        );
+      case '/wine-notes':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _wineTastingCreateBloc,
+            child: WineNotesScreen(),
+          ),
+        );
+      case '/wine-characteristics':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _wineTastingCreateBloc,
+            child: WineCharacteristicsScreen(),
           ),
         );
       default:

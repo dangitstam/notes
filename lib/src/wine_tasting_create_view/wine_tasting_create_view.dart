@@ -34,8 +34,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
 
   @override
   Widget build(BuildContext context) {
-    var coffeeTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
-    var selectedTastingNotes = coffeeTastingState.notes;
+    var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
+    var selectedTastingNotes = wineTastingState.notes;
 
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
@@ -103,16 +103,16 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       child: Column(
                         children: [
                           EditableTextWithCaptionWidget(
-                            label: 'Roaster',
-                            hint: 'Who roasted this coffee?',
+                            label: 'Vigneron',
+                            hint: 'Who made this wine?',
                             onChanged: (value) {
                               context.read<WineTastingCreateBloc>().add(RoasterEvent(roaster: value));
                             },
                           ),
                           SizedBox(height: 10),
                           EditableTextWithCaptionWidget(
-                            label: 'Coffee Name',
-                            hint: 'What kind of coffee is this?',
+                            label: 'Wine Name',
+                            hint: 'What is this wine called?',
                             onChanged: (value) {
                               context.read<WineTastingCreateBloc>().add(NameEvent(name: value));
                             },
@@ -174,7 +174,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       SizedBox(width: 10),
                       Container(
                         child: DropdownButton<String>(
-                          value: coffeeTastingState.process,
+                          value: wineTastingState.process,
                           icon: Icon(CupertinoIcons.chevron_down),
                           iconSize: 14,
                           style: Theme.of(context).textTheme.bodyText2,
@@ -218,7 +218,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         flex: 1,
                         child: ThemedPaddedSlider(
                           child: Slider(
-                            value: coffeeTastingState.roastLevel,
+                            value: wineTastingState.roastLevel,
                             min: 0,
                             max: 10,
                             onChanged: (value) {
@@ -240,7 +240,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       style: Theme.of(context).outlinedButtonTheme.style,
                       child: Text('Edit'.toUpperCase()),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/notes');
+                        Navigator.pushNamed(context, '/wine-notes');
                       },
                     ),
                   ],
@@ -265,7 +265,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       child: Text('Edit'.toUpperCase()),
                       onPressed: () {
                         isCharacteristicsEdited = true;
-                        Navigator.pushNamed(context, '/characteristics');
+                        Navigator.pushNamed(context, '/wine-characteristics');
                       },
                     ),
                   ],

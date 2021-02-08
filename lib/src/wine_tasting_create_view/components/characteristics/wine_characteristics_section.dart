@@ -2,20 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/characteristics/swiper_tabs.dart';
 import 'package:notes/src/common/util.dart';
+import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
+import 'package:notes/src/wine_tasting_create_view/components/characteristics/swiper_tabs.dart';
 
 import '../section_title.dart';
 import 'characteristics_sliders.dart';
 
-class CharacteristicsScreen extends StatefulWidget {
+class WineCharacteristicsScreen extends StatefulWidget {
   @override
-  _CharacteristicsScreenState createState() => _CharacteristicsScreenState();
+  _WineCharacteristicsScreenState createState() => _WineCharacteristicsScreenState();
 }
 
-class _CharacteristicsScreenState extends State<CharacteristicsScreen> {
+class _WineCharacteristicsScreenState extends State<WineCharacteristicsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +70,7 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
 
   @override
   Widget build(BuildContext context) {
-    var coffeeTastingState = context.watch<CoffeeTastingCreateBloc>().state.tasting;
+    var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
 
     /**
      * Pair of sliders for each characteristic.
@@ -78,30 +78,30 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
     var swiperWidgets = [
       CharacteristicsSliders(
         characteristic: 'Aroma',
-        score: coffeeTastingState.aromaScore,
-        intensity: coffeeTastingState.aromaIntensity,
+        score: wineTastingState.aromaScore,
+        intensity: wineTastingState.aromaIntensity,
         updateScore: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(AromaScoreEvent(aromaScore: round(value)));
+          context.read<WineTastingCreateBloc>().add(AromaScoreEvent(aromaScore: round(value)));
         },
         updateIntensity: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(AromaIntensityEvent(aromaIntensity: round(value)));
+          context.read<WineTastingCreateBloc>().add(AromaIntensityEvent(aromaIntensity: round(value)));
         },
       ),
       CharacteristicsSliders(
         characteristic: 'Acidity',
-        score: coffeeTastingState.acidityScore,
-        intensity: coffeeTastingState.acidityIntensity,
+        score: wineTastingState.acidityScore,
+        intensity: wineTastingState.acidityIntensity,
         updateScore: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(AcidityScoreEvent(acidityScore: round(value)));
+          context.read<WineTastingCreateBloc>().add(AcidityScoreEvent(acidityScore: round(value)));
         },
         updateIntensity: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(AcidityIntensityEvent(acidityIntensity: round(value)));
+          context.read<WineTastingCreateBloc>().add(AcidityIntensityEvent(acidityIntensity: round(value)));
         },
       ),
       CharacteristicsSliders(
         characteristic: 'Body',
-        score: coffeeTastingState.bodyScore,
-        intensity: coffeeTastingState.bodyLevel,
+        score: wineTastingState.bodyScore,
+        intensity: wineTastingState.bodyLevel,
         intensitySliderLabel: 'Level',
         intensityPositiveEndLabel: Text(
           'Heavy',
@@ -112,27 +112,27 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
           style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold),
         ),
         updateScore: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(BodyScoreEvent(bodyScore: round(value)));
+          context.read<WineTastingCreateBloc>().add(BodyScoreEvent(bodyScore: round(value)));
         },
         updateIntensity: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(BodyLevelEvent(bodyLevel: round(value)));
+          context.read<WineTastingCreateBloc>().add(BodyLevelEvent(bodyLevel: round(value)));
         },
       ),
       CharacteristicsSliders(
         characteristic: 'Sweetness',
-        score: coffeeTastingState.sweetnessScore,
-        intensity: coffeeTastingState.sweetnessIntensity,
+        score: wineTastingState.sweetnessScore,
+        intensity: wineTastingState.sweetnessIntensity,
         updateScore: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(SweetnessScoreEvent(sweetnessScore: round(value)));
+          context.read<WineTastingCreateBloc>().add(SweetnessScoreEvent(sweetnessScore: round(value)));
         },
         updateIntensity: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(SweetnessIntensityEvent(sweetnessIntensity: round(value)));
+          context.read<WineTastingCreateBloc>().add(SweetnessIntensityEvent(sweetnessIntensity: round(value)));
         },
       ),
       CharacteristicsSliders(
         characteristic: 'Finish',
-        score: coffeeTastingState.finishScore,
-        intensity: coffeeTastingState.finishDuration,
+        score: wineTastingState.finishScore,
+        intensity: wineTastingState.finishDuration,
         intensitySliderLabel: 'Duration',
         intensityPositiveEndLabel: Text(
           'Long',
@@ -143,10 +143,10 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
           style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold),
         ),
         updateScore: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(FinishScoreEvent(finishScore: round(value)));
+          context.read<WineTastingCreateBloc>().add(FinishScoreEvent(finishScore: round(value)));
         },
         updateIntensity: (value) {
-          context.read<CoffeeTastingCreateBloc>().add(FinishDurationEvent(finishDuration: round(value)));
+          context.read<WineTastingCreateBloc>().add(FinishDurationEvent(finishDuration: round(value)));
         },
       ),
     ];
@@ -167,7 +167,7 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
            * Chart displaying characteristic scores and intensities.
            */
           CharacteristicsChart(
-            tasting: context.watch<CoffeeTastingCreateBloc>().state.tasting,
+            tasting: context.watch<WineTastingCreateBloc>().state.tasting,
           ),
           SizedBox(height: 20),
           /**

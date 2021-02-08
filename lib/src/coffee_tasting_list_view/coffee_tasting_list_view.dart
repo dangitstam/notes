@@ -85,6 +85,7 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                             onPressed: () {
                               // TODO: Nav to wine create view.
                               Navigator.pop(context);
+                              Navigator.pushNamed(context, '/new-wine-tasting');
                             },
                           ),
                         ],

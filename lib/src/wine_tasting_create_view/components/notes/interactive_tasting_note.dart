@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
+import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
 class AddTastingNote extends StatefulWidget {
   final Note note;
@@ -21,8 +21,8 @@ class _AddTastingNoteState extends State<AddTastingNote> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
-      listener: (BuildContext context, CoffeeTastingCreateState state) {
+    return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
+      listener: (BuildContext context, WineTastingCreateState state) {
         if (!state.tasting.notes.contains(widget.note)) {
           _enabled = true;
         }
@@ -30,7 +30,7 @@ class _AddTastingNoteState extends State<AddTastingNote> {
       child: ActionChip(
         onPressed: _enabled
             ? () {
-                context.read<CoffeeTastingCreateBloc>().add(AddCoffeeTastingNoteEvent(note: widget.note));
+                context.read<WineTastingCreateBloc>().add(AddWineTastingNoteEvent(note: widget.note));
                 _enabled = false;
               }
             : () {},
@@ -55,13 +55,13 @@ class RemoveTastingNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
+    return BlocBuilder<WineTastingCreateBloc, WineTastingCreateState>(
       builder: (context, state) {
         // For Flutter's standard chip, the onDeleted target is only the delete icon.
         // Uses ActionChip instead to allow tapping anywhere on the chip for deletion.
         return ActionChip(
           onPressed: () {
-            context.read<CoffeeTastingCreateBloc>().add(RemoveCoffeeTastingNoteEvent(note: note));
+            context.read<WineTastingCreateBloc>().add(RemoveWineTastingNoteEvent(note: note));
           },
           avatar: Icon(
             CupertinoIcons.xmark,
@@ -99,11 +99,11 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
+    return BlocBuilder<WineTastingCreateBloc, WineTastingCreateState>(
       builder: (context, state) {
         // Modal sheets exist outside of the widget tree, so they must be given
         // the bloc explicitly.
-        final bloc = BlocProvider.of<CoffeeTastingCreateBloc>(context);
+        final bloc = BlocProvider.of<WineTastingCreateBloc>(context);
 
         return Builder(
           builder: (BuildContext context) {
@@ -160,7 +160,7 @@ class _CreateTastingNoteState extends State<CreateTastingNote> {
                                 style: Theme.of(context).textButtonTheme.style,
                                 onPressed: () {
                                   bloc.add(
-                                    CreateCoffeeTastingNoteEvent(
+                                    CreateWineTastingNoteEvent(
                                       note: Note(
                                         color: '#${_color.value.toRadixString(16).substring(2)}',
                                         name: _name,
