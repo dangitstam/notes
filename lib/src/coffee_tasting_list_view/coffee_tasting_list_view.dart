@@ -56,12 +56,46 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
                     Text('Search', style: Theme.of(context).textTheme.caption)
                   ]))),
           Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/create');
+            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: GestureDetector(
+              onTap: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text('What are we tasting?'.toUpperCase(), style: Theme.of(context).textTheme.headline6),
+                          const SizedBox(height: 40),
+                          TextButton(
+                            style: Theme.of(context).outlinedButtonTheme.style,
+                            child: Text('Coffee'.toUpperCase()),
+                            onPressed: () {
+                              // Dismiss the modal before navigating.
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, '/create');
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextButton(
+                            style: Theme.of(context).outlinedButtonTheme.style,
+                            child: Text('Wine'.toUpperCase()),
+                            onPressed: () {
+                              // TODO: Nav to wine create view.
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
                   },
-                  child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),
+                );
+              },
+              child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35),
+            ),
+          ),
         ],
       ),
       body: CoffeeTastingListViewWidget(),
