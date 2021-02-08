@@ -5,11 +5,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:notes/src/data/coffee_tasting_repository.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
+import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/note_repository.dart';
+import 'package:notes/src/data/wine_tasting_repository.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -17,16 +17,16 @@ part 'wine_tasting_create_event.dart';
 part 'wine_tasting_create_state.dart';
 
 class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCreateState> {
-  final coffeeTastingRepository = CoffeeTastingRepository();
+  final wineTastingRepository = WineTastingRepository();
 
   final noteRepository = NoteRepository();
 
   WineTastingCreateBloc()
       : super(
           WineTastingCreateState(
-            isCoffeeTastingInserted: false,
-            tasting: CoffeeTasting(
-              coffeeName: '', // TODO: Require some fields in the create view.
+            isWineTastingInserted: false,
+            tasting: WineTasting(
+              name: '', // TODO: Require some fields in the create view.
               description: '',
               origin: '',
               roaster: '',
@@ -86,17 +86,17 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     _inNotesCategorized.add(notesCategorized);
   }
 
-  Future<int> insertCoffeeTasting() async {
-    final coffeeTastingId = await coffeeTastingRepository.insert(state.tasting);
+  Future<int> insertWineTasting() async {
+    final wineTastingId = await wineTastingRepository.insert(state.tasting);
 
     for (var note in state.tasting.notes) {
-      var coffeeTastingNoteId = await noteRepository.insertNoteForCoffeeTasting(note.id, coffeeTastingId);
-      if (coffeeTastingNoteId < 0) {
+      var wineTastingNoteId = await noteRepository.insertNoteForWineTasting(note.id, wineTastingId);
+      if (wineTastingNoteId < 0) {
         // TODO: Logging
       }
     }
 
-    return coffeeTastingId;
+    return wineTastingId;
   }
 
   Future<void> insertCategorizedNote(Note note, NoteCategory noteCategory) async {
@@ -123,8 +123,8 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   ) async* {
     if (event is InsertWineTastingEvent) {
       // Reflect in state whether the tasting was successfully inserted.
-      var coffeeTastingId = await insertCoffeeTasting();
-      yield state.copyWith(isCoffeeTastingInserted: coffeeTastingId > 0);
+      var wineTastingId = await insertWineTasting();
+      yield state.copyWith(isWineTastingInserted: wineTastingId > 0);
     } else if (event is AddWineTastingNoteEvent) {
       // List<Note>.from makes a mutable copy of an immutable list.
       var newNotes = List<Note>.from(state.tasting.notes);
@@ -144,7 +144,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       unawaited(insertNoteCategory(event.noteCategory));
     } else if (event is NameEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(coffeeName: event.name),
+        tasting: state.tasting.copyWith(name: event.name),
       );
     } else if (event is DescriptionEvent) {
       yield state.copyWith(

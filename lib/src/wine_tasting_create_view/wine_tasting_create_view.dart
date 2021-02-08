@@ -40,7 +40,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
         // Navigate on state change after awaited db insertion to avoid race condition.
-        if (state.isCoffeeTastingInserted) {
+        if (state.isWineTastingInserted) {
           Navigator.pushReplacementNamed(context, '/');
         }
       },

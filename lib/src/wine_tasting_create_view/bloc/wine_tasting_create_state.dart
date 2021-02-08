@@ -2,28 +2,28 @@ part of 'wine_tasting_create_bloc.dart';
 
 @immutable
 class WineTastingCreateState extends Equatable {
-  final bool isCoffeeTastingInserted;
+  final bool isWineTastingInserted;
 
-  final CoffeeTasting tasting;
+  final WineTasting tasting;
 
   WineTastingCreateState({
-    this.isCoffeeTastingInserted,
+    this.isWineTastingInserted,
     this.tasting,
   });
 
   WineTastingCreateState copyWith({
-    bool isCoffeeTastingInserted,
-    CoffeeTasting tasting,
+    bool isWineTastingInserted,
+    WineTasting tasting,
   }) {
     return WineTastingCreateState(
-      isCoffeeTastingInserted: isCoffeeTastingInserted ?? this.isCoffeeTastingInserted,
+      isWineTastingInserted: isWineTastingInserted ?? this.isWineTastingInserted,
       tasting: tasting ?? this.tasting,
     );
   }
 
   @override
   List<Object> get props => [
-        isCoffeeTastingInserted,
+        isWineTastingInserted,
         tasting,
       ];
 }

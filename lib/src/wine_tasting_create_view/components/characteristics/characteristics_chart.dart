@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/model/wine/wine_tasting.dart';
 
 class CharacteristicsChart extends StatelessWidget {
   @required
-  final CoffeeTasting tasting;
+  final WineTasting tasting;
 
   CharacteristicsChart({this.tasting});
 
