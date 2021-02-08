@@ -13,17 +13,17 @@ import 'package:notes/src/data/note_repository.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'coffee_tasting_create_event.dart';
-part 'coffee_tasting_create_state.dart';
+part 'wine_tasting_create_event.dart';
+part 'wine_tasting_create_state.dart';
 
-class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTastingCreateState> {
+class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, WineTastingCreateState> {
   final coffeeTastingRepository = CoffeeTastingRepository();
 
   final noteRepository = NoteRepository();
 
   CoffeeTastingCreateBloc()
       : super(
-          CoffeeTastingCreateState(
+          WineTastingCreateState(
             isCoffeeTastingInserted: false,
             tasting: CoffeeTasting(
               coffeeName: '', // TODO: Require some fields in the create view.
@@ -118,31 +118,31 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, CoffeeTasti
   }
 
   @override
-  Stream<CoffeeTastingCreateState> mapEventToState(
+  Stream<WineTastingCreateState> mapEventToState(
     CoffeeTastingCreateEvent event,
   ) async* {
-    if (event is InsertCoffeeTastingEvent) {
+    if (event is InsertWineTastingEvent) {
       // Reflect in state whether the tasting was successfully inserted.
       var coffeeTastingId = await insertCoffeeTasting();
       yield state.copyWith(isCoffeeTastingInserted: coffeeTastingId > 0);
-    } else if (event is AddCoffeeTastingNoteEvent) {
+    } else if (event is AddWineTastingNoteEvent) {
       // List<Note>.from makes a mutable copy of an immutable list.
       var newNotes = List<Note>.from(state.tasting.notes);
       newNotes.add(event.note);
       yield state.copyWith(
         tasting: state.tasting.copyWith(notes: newNotes),
       );
-    } else if (event is RemoveCoffeeTastingNoteEvent) {
+    } else if (event is RemoveWineTastingNoteEvent) {
       var newNotes = List<Note>.from(state.tasting.notes);
       newNotes.remove(event.note);
       yield state.copyWith(
         tasting: state.tasting.copyWith(notes: newNotes),
       );
-    } else if (event is CreateCoffeeTastingNoteEvent) {
+    } else if (event is CreateWineTastingNoteEvent) {
       unawaited(insertCategorizedNote(event.note, event.noteCategory));
-    } else if (event is CreateCoffeeTastingNoteCategoryEvent) {
+    } else if (event is CreateWineTastingNoteCategoryEvent) {
       unawaited(insertNoteCategory(event.noteCategory));
-    } else if (event is CoffeeNameEvent) {
+    } else if (event is WineNameEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(coffeeName: event.coffeeName),
       );

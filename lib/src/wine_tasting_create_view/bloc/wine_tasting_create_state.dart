@@ -1,21 +1,21 @@
-part of 'coffee_tasting_create_bloc.dart';
+part of 'wine_tasting_create_bloc.dart';
 
 @immutable
-class CoffeeTastingCreateState extends Equatable {
+class WineTastingCreateState extends Equatable {
   final bool isCoffeeTastingInserted;
 
   final CoffeeTasting tasting;
 
-  CoffeeTastingCreateState({
+  WineTastingCreateState({
     this.isCoffeeTastingInserted,
     this.tasting,
   });
 
-  CoffeeTastingCreateState copyWith({
+  WineTastingCreateState copyWith({
     bool isCoffeeTastingInserted,
     CoffeeTasting tasting,
   }) {
-    return CoffeeTastingCreateState(
+    return WineTastingCreateState(
       isCoffeeTastingInserted: isCoffeeTastingInserted ?? this.isCoffeeTastingInserted,
       tasting: tasting ?? this.tasting,
     );

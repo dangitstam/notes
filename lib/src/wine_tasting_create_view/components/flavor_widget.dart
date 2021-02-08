@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 
-import '../bloc/coffee_tasting_create_bloc.dart';
+import '../bloc/wine_tasting_create_bloc.dart';
 
 class FlavorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var score = context.watch<CoffeeTastingCreateBloc>().state.tasting.flavorScore;
-    return BlocBuilder<CoffeeTastingCreateBloc, CoffeeTastingCreateState>(
+    return BlocBuilder<CoffeeTastingCreateBloc, WineTastingCreateState>(
       builder: (context, state) {
         return Container(
           height: 100,
