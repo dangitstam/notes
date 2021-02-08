@@ -5,6 +5,7 @@ import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/dao/note_category_dao.dart';
 import 'package:notes/src/data/dao/note_to_note_category_dao.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/wine_tables.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -29,20 +30,32 @@ class AppDatabase {
     return openDatabase(
       join(await getDatabasesPath(), 'coffee_tasting_database.db'),
       onCreate: (db, version) {
-        _createCoffeeTastingsTable(db);
         _createNotesTable(db);
-        _createCoffeeTastingNotesTable(db);
         _createNoteCategoriesTable(db);
+
+        // Coffee
         _createNoteToNoteCategoriesTable(db);
+        _createCoffeeTastingNotesTable(db);
+        _createCoffeeTastingsTable(db);
+
+        // Wine
+        createWineTastingsTable(db);
+        createWineTastingNotesTable(db);
       },
       onUpgrade: (db, v1, v2) {
-        _createCoffeeTastingsTable(db);
         _createNotesTable(db);
-        _createCoffeeTastingNotesTable(db);
         _createNoteCategoriesTable(db);
+
+        // Coffee
         _createNoteToNoteCategoriesTable(db);
+        _createCoffeeTastingNotesTable(db);
+        _createCoffeeTastingsTable(db);
+
+        // Wine
+        createWineTastingsTable(db);
+        createWineTastingNotesTable(db);
       },
-      version: 1,
+      version: 2,
     );
   }
 }
