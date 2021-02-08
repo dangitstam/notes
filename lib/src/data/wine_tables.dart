@@ -7,7 +7,7 @@ Future<void> createWineTastingsTable(Database db) {
     """
     CREATE TABLE wine_tastings(
       wine_tasting_id INTEGER PRIMARY KEY,
-      coffee_name TEXT,
+      name TEXT,
       description TEXT,
       origin TEXT,
       process TEXT,

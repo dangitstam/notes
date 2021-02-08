@@ -31,10 +31,10 @@ class CreateWineTastingNoteCategoryEvent extends WineTastingCreateEvent {
   CreateWineTastingNoteCategoryEvent({this.noteCategory});
 }
 
-class WineNameEvent extends WineTastingCreateEvent {
+class NameEvent extends WineTastingCreateEvent {
   @required
   final String name;
-  WineNameEvent({this.name});
+  NameEvent({this.name});
 }
 
 class DescriptionEvent extends WineTastingCreateEvent {

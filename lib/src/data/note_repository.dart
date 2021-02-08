@@ -7,6 +7,7 @@ import 'package:notes/src/data/dao/note_dao.dart';
 import 'package:notes/src/data/dao/note_to_note_category_dao.dart';
 import 'package:notes/src/data/model/note.dart';
 
+import 'dao/wine/wine_tasting_note_dao.dart';
 import 'model/note_category.dart';
 import 'model/note_to_note_category.dart';
 
@@ -16,6 +17,7 @@ class NoteRepository {
   final NoteToNoteCategoryDao _noteToNoteCategoryDao = NoteToNoteCategoryDao(database: AppDatabase.db.database);
 
   final CoffeeTastingNoteDao _coffeeTastingNoteDao = CoffeeTastingNoteDao(database: AppDatabase.db.database);
+  final WineTastingNoteDao _wineTastingNoteDao = WineTastingNoteDao(database: AppDatabase.db.database);
 
   Future<int> insert(Note note) => _noteDao.insert(note.toMap());
 
@@ -29,6 +31,12 @@ class NoteRepository {
   Future<int> insertNoteForCoffeeTasting(int noteId, int coffeeTastingId) {
     return _coffeeTastingNoteDao.insert(
       {'coffee_tasting_id': coffeeTastingId, 'note_id': noteId},
+    );
+  }
+
+  Future<int> insertNoteForWineTasting(int noteId, int wineTastingId) {
+    return _wineTastingNoteDao.insert(
+      {'wine_tasting_id': wineTastingId, 'note_id': noteId},
     );
   }
 

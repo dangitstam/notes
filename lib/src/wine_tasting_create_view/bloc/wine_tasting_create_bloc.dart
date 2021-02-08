@@ -16,12 +16,12 @@ import 'package:rxdart/rxdart.dart';
 part 'wine_tasting_create_event.dart';
 part 'wine_tasting_create_state.dart';
 
-class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, WineTastingCreateState> {
+class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCreateState> {
   final coffeeTastingRepository = CoffeeTastingRepository();
 
   final noteRepository = NoteRepository();
 
-  CoffeeTastingCreateBloc()
+  WineTastingCreateBloc()
       : super(
           WineTastingCreateState(
             isCoffeeTastingInserted: false,
@@ -119,7 +119,7 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, WineTasting
 
   @override
   Stream<WineTastingCreateState> mapEventToState(
-    CoffeeTastingCreateEvent event,
+    WineTastingCreateEvent event,
   ) async* {
     if (event is InsertWineTastingEvent) {
       // Reflect in state whether the tasting was successfully inserted.
@@ -142,9 +142,9 @@ class CoffeeTastingCreateBloc extends Bloc<CoffeeTastingCreateEvent, WineTasting
       unawaited(insertCategorizedNote(event.note, event.noteCategory));
     } else if (event is CreateWineTastingNoteCategoryEvent) {
       unawaited(insertNoteCategory(event.noteCategory));
-    } else if (event is WineNameEvent) {
+    } else if (event is NameEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(coffeeName: event.coffeeName),
+        tasting: state.tasting.copyWith(coffeeName: event.name),
       );
     } else if (event is DescriptionEvent) {
       yield state.copyWith(
