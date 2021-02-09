@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 
-import 'coffee_tasting_list_item.dart';
+import 'list_item_coffee_tasting.dart';
 
 // TODO: Abstract into its own file.
 class CoffeeTastingListViewScreen extends StatelessWidget {
