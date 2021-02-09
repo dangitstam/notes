@@ -1,6 +1,6 @@
 part of 'coffee_tasting_list_bloc.dart';
 
 @immutable
-abstract class CoffeeTastingListState {}
+abstract class TastingListState {}
 
-class CoffeeTastingListInitial extends CoffeeTastingListState {}
+class TastingListInitialized extends TastingListState {}

@@ -108,7 +108,7 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<CoffeeTastingListBloc>(context).add(InitCoffeeTastingList());
+    BlocProvider.of<CoffeeTastingListBloc>(context).add(InitTastings());
     return StreamBuilder(
       stream: BlocProvider.of<CoffeeTastingListBloc>(context).tastings,
       builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
