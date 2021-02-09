@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
+import 'package:notes/src/coffee_tasting_list_view/list_item_wine_tasting.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/tasting.dart';
+import 'package:notes/src/data/model/wine/wine_tasting.dart';
 
 import 'list_item_coffee_tasting.dart';
 
@@ -121,7 +123,9 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
                   final tasting = tastings[index];
                   switch (tasting.runtimeType) {
                     case CoffeeTasting:
-                      return CoffeeTastingListItem(tasting: tastings[index]);
+                      return CoffeeTastingListItem(tasting: tasting);
+                    case WineTasting:
+                      return WineTastingListItem(tasting: tasting);
                     default:
                       return Container();
                   }

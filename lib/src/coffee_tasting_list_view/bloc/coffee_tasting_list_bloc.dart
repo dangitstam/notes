@@ -15,7 +15,7 @@ part 'coffee_tasting_list_state.dart';
 class CoffeeTastingListBloc extends Bloc<TastingListEvent, TastingListState> {
   CoffeeTastingListBloc() : super(TastingListInitialized()) {
     // Initialize the stream of past coffee tastings.
-    refreshCoffeeTastingsStream();
+    refreshTastingsStream();
   }
 
   final coffeeTastingRepository = CoffeeTastingRepository();
@@ -32,7 +32,7 @@ class CoffeeTastingListBloc extends Bloc<TastingListEvent, TastingListState> {
     //
     // State should reflect which filters, sorts, and searches are being placed.
     if (event is InitTastings) {
-      refreshAllTastings();
+      refreshTastingsStream();
       yield TastingListInitialized();
     }
   }
@@ -40,11 +40,13 @@ class CoffeeTastingListBloc extends Bloc<TastingListEvent, TastingListState> {
   // Controller: Page <- App Database.
   final _getCoffeeTastingsController = BehaviorSubject<List<CoffeeTasting>>();
   final _getWineTastingsController = BehaviorSubject<List<WineTasting>>();
+  final _getTastingsController = BehaviorSubject<List<Tasting>>();
 
   // Stream: In
   // Purpose: Update stream that pages subscribe to.
   StreamSink<List<CoffeeTasting>> get _inCoffeeTastings => _getCoffeeTastingsController.sink;
   StreamSink<List<WineTasting>> get _inWineTastings => _getWineTastingsController.sink;
+  StreamSink<List<Tasting>> get _inTastings => _getTastingsController.sink;
 
   void refreshCoffeeTastingsStream() async {
     // Retrieve all the coffee tastings from the database.
@@ -62,21 +64,31 @@ class CoffeeTastingListBloc extends Bloc<TastingListEvent, TastingListState> {
     _inWineTastings.add(wineTastings);
   }
 
-  void refreshAllTastings() {
-    refreshCoffeeTastingsStream();
-    refreshWineTastingsStream();
+  void refreshTastingsStream() async {
+    List<Tasting> coffeeTastings = await coffeeTastingRepository.getCoffeeTastings();
+
+    // Retrieve all the wine tastings from the database.
+    List<Tasting> wineTastings = await wineTastingRepository.getWineTastings();
+
+    // List of mixed  types is possible, but breaks when attempting to add a new type to a list of a single type
+    // constructed with a comprehension, or when attempting to combine lists with `+`.
+    // Use loops as a workaround.
+    List<Tasting> allTastings = [];
+    for (var coffeeTasting in coffeeTastings) {
+      allTastings.add(coffeeTasting);
+    }
+    for (var wineTasting in wineTastings) {
+      allTastings.add(wineTasting);
+    }
+
+    _inTastings.add(allTastings);
   }
 
   // Stream: out.
   // Purpose: Stream that other pages subscribe to for coffee tastings.
   Stream<List<CoffeeTasting>> get coffeeTastings => _getCoffeeTastingsController.stream;
   Stream<List<WineTasting>> get wineTastings => _getWineTastingsController.stream;
-  Stream<List<Tasting>> get tastings => Rx.merge(
-        [
-          coffeeTastings,
-          wineTastings,
-        ],
-      );
+  Stream<List<Tasting>> get tastings => _getTastingsController.stream;
 
   @override
   Future<void> close() {

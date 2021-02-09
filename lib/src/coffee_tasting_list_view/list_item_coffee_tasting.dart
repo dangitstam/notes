@@ -23,7 +23,7 @@ class CoffeeTastingListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String formattedId = tasting.coffeeTastingId.toString().padLeft(3, '0');
+    final String formattedId = tasting.coffeeTastingId.toString().padLeft(2, '0');
     return Container(
       padding: EdgeInsets.all(17),
       child: Column(
@@ -36,10 +36,14 @@ class CoffeeTastingListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '${formattedId}.',
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16),
+                padding: const EdgeInsets.only(top: 17, right: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('Coffee', style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(height: 5),
+                    Text('${formattedId}.', style: Theme.of(context).textTheme.subtitle2),
+                  ],
                 ),
               ),
               Expanded(
