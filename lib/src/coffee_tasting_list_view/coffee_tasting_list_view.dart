@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/model/tasting.dart';
 
 import 'list_item_coffee_tasting.dart';
 
@@ -109,15 +110,21 @@ class CoffeeTastingListViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     BlocProvider.of<CoffeeTastingListBloc>(context).add(InitCoffeeTastingList());
     return StreamBuilder(
-      stream: BlocProvider.of<CoffeeTastingListBloc>(context).coffeeTastings,
-      builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
+      stream: BlocProvider.of<CoffeeTastingListBloc>(context).tastings,
+      builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          var coffeeTastings = snapshot.data;
+          var tastings = snapshot.data;
           return ListView.separated(
-              itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
+              itemCount: tastings == null ? 0 : tastings.length,
               itemBuilder: (BuildContext _context, int index) {
-                if (coffeeTastings != null && index < coffeeTastings.length) {
-                  return CoffeeTastingListItem(tasting: coffeeTastings[index]);
+                if (tastings != null && index < tastings.length) {
+                  final tasting = tastings[index];
+                  switch (tasting.runtimeType) {
+                    case CoffeeTasting:
+                      return CoffeeTastingListItem(tasting: tastings[index]);
+                    default:
+                      return Container();
+                  }
                 } else {
                   return Text('loading');
                 }

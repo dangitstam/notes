@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/model/tasting.dart';
 
-class CoffeeTasting extends Equatable {
+class CoffeeTasting extends Equatable implements Tasting {
   final int coffeeTastingId;
   final String coffeeName;
   final String description;

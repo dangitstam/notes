@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/model/tasting.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'coffee_tasting_list_event.dart';
@@ -51,6 +52,12 @@ class CoffeeTastingListBloc extends Bloc<CoffeeTastingListEvent, CoffeeTastingLi
   // Stream: out.
   // Purpose: Stream that other pages subscribe to for coffee tastings.
   Stream<List<CoffeeTasting>> get coffeeTastings => _getCoffeeTastingsController.stream;
+
+  Stream<List<Tasting>> get tastings => Rx.merge(
+        [
+          coffeeTastings,
+        ],
+      );
 
   @override
   Future<void> close() {
