@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
 
-class CoffeeTasting extends Equatable implements Tasting {
-  final int coffeeTastingId;
-  final String coffeeName;
+class WineTasting extends Equatable implements Tasting {
+  final int wineTastingId;
+  final String name;
   final String description;
   final String origin;
   final String process;
@@ -27,9 +27,9 @@ class CoffeeTasting extends Equatable implements Tasting {
 
   final String imagePath;
 
-  CoffeeTasting(
-      {this.coffeeTastingId,
-      this.coffeeName,
+  WineTasting(
+      {this.wineTastingId,
+      this.name,
       this.description,
       this.origin,
       this.process,
@@ -53,12 +53,12 @@ class CoffeeTasting extends Equatable implements Tasting {
       // Image path.
       this.imagePath});
 
-  /// Given a Map<String, dynamic> resulting from querying a coffee tasting
-  /// from the `coffee_tastings` table, maps the result to a CoffeeTasting.
-  factory CoffeeTasting.fromAppDatabase(Map<String, dynamic> tastingMap) {
-    return CoffeeTasting(
-      coffeeTastingId: tastingMap['coffee_tasting_id'],
-      coffeeName: tastingMap['coffee_name'],
+  /// Given a Map<String, dynamic> resulting from querying a wine tasting
+  /// from the `wine_tastings` table, maps the result to a CoffeeTasting.
+  factory WineTasting.fromAppDatabase(Map<String, dynamic> tastingMap) {
+    return WineTasting(
+      wineTastingId: tastingMap['wine_tasting_id'],
+      name: tastingMap['name'],
       description: tastingMap['description'],
       origin: tastingMap['origin'],
       process: tastingMap['process'],
@@ -88,7 +88,7 @@ class CoffeeTasting extends Equatable implements Tasting {
   Map<String, dynamic> toMap() {
     // TODO: Allow the id to be generated for now.
     return {
-      'coffee_name': coffeeName,
+      'name': name,
       'description': description,
       'origin': origin,
       'process': process,
@@ -109,9 +109,9 @@ class CoffeeTasting extends Equatable implements Tasting {
     };
   }
 
-  CoffeeTasting copyWith({
-    int coffeeTastingId,
-    String coffeeName,
+  WineTasting copyWith({
+    int wineTastingId,
+    String name,
     String description,
     String origin,
     String roaster,
@@ -131,9 +131,9 @@ class CoffeeTasting extends Equatable implements Tasting {
     List<Note> notes,
     String imagePath,
   }) {
-    return CoffeeTasting(
-      coffeeTastingId: coffeeTastingId ?? this.coffeeTastingId,
-      coffeeName: coffeeName ?? this.coffeeName,
+    return WineTasting(
+      wineTastingId: wineTastingId ?? this.wineTastingId,
+      name: name ?? this.name,
       description: description ?? this.description,
       origin: origin ?? this.origin,
       roaster: roaster ?? this.roaster,
@@ -157,8 +157,8 @@ class CoffeeTasting extends Equatable implements Tasting {
 
   @override
   List<Object> get props => [
-        coffeeTastingId,
-        coffeeName,
+        wineTastingId,
+        name,
         description,
         origin,
         roaster,

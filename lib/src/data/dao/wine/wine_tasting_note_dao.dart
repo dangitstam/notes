@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:notes/src/data/model/coffee_tasting_note.dart';
 import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/model/wine/wine_tasting_note.dart';
 import 'package:sqflite/sqflite.dart';
 
-class CoffeeTastingNoteDao {
+class WineTastingNoteDao {
   @required
   Future<Database> database;
 
-  CoffeeTastingNoteDao({this.database});
+  WineTastingNoteDao({this.database});
 
-  Future<int> insert(Map<String, dynamic> newCoffeeTastingNote) async {
+  Future<int> insert(Map<String, dynamic> newWineTastingNote) async {
     final db = await database;
-    var res = await db.insert('coffee_tasting_notes', newCoffeeTastingNote);
+    var res = await db.insert('wine_tasting_notes', newWineTastingNote);
     return res;
   }
 
-  Future<List<Note>> getCoffeeTastingNotes(int coffeeTastingId) async {
+  Future<List<Note>> getWineTastingNotes(int wineTastingId) async {
     final db = await database;
     var res = await db.rawQuery(
         // ignore: prefer_single_quotes
         """
         WITH note_ids AS (
           SELECT note_id
-          FROM coffee_tasting_notes
-          WHERE coffee_tasting_id == $coffeeTastingId
+          FROM wine_tasting_notes
+          WHERE wine_tasting_id == $wineTastingId
         )
         SELECT name, color
         FROM notes
@@ -37,18 +37,18 @@ class CoffeeTastingNoteDao {
     return list;
   }
 
-  Future<List<CoffeeTastingNote>> getAllCoffeeTastingNotes() async {
+  Future<List<WineTastingNote>> getAllWineTastingNotes() async {
     final db = await database;
-    var res = await db.query('coffee_tasting_notes');
+    var res = await db.query('wine_tasting_notes');
     if (res.isEmpty) {
       return [];
     }
 
     var list = res.isNotEmpty
         ? res.map((c) {
-            return CoffeeTastingNote.fromAppDatabase(c);
+            return WineTastingNote.fromAppDatabase(c);
           }).toList()
-        : <CoffeeTastingNote>[];
+        : <WineTastingNote>[];
     return list;
   }
 }

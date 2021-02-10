@@ -1,106 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/widgets.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
-import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
-import 'package:notes/src/coffee_tasting_list_view/coffee_tasting_hero_image_start.dart';
-import 'package:notes/src/coffee_tasting_list_view/roast_level_linear_indicator.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/tasting_list_view/roast_level_linear_indicator.dart';
 
-// TODO: Abstract into its own file.
-class CoffeeTastingListViewScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        bottom: PreferredSize(
-            child: Container(
-              color: Colors.black38,
-              height: 0.20,
-            ),
-            preferredSize: Size.fromHeight(0.5)),
-        centerTitle: false,
-        elevation: 0,
-        title: Text(
-          'Notes'.toUpperCase(),
-          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
-        ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    // TODO: Filter implementation.
-                  },
-                  child: Row(children: [Text('Filter', style: Theme.of(context).textTheme.caption)]))),
-          Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    // TODO: Filter implementation.
-                  },
-                  child: Row(children: [Text('Sort', style: Theme.of(context).textTheme.caption)]))),
-          Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    // TODO: Filter implementation.
-                  },
-                  child: Row(children: [
-                    Icon(CupertinoIcons.search, color: Colors.black, size: 20),
-                    SizedBox(width: 5),
-                    Text('Search', style: Theme.of(context).textTheme.caption)
-                  ]))),
-          Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/create');
-                  },
-                  child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35))),
-        ],
-      ),
-      body: CoffeeTastingListViewWidget(),
-    );
-  }
-}
+import 'tasting_hero_image_start.dart';
 
-class CoffeeTastingListViewWidget extends StatelessWidget {
-  CoffeeTastingListViewWidget({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    BlocProvider.of<CoffeeTastingListBloc>(context).add(InitCoffeeTastingList());
-    return StreamBuilder(
-      stream: BlocProvider.of<CoffeeTastingListBloc>(context).coffeeTastings,
-      builder: (context, AsyncSnapshot<List<CoffeeTasting>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          var coffeeTastings = snapshot.data;
-          return ListView.separated(
-              itemCount: coffeeTastings == null ? 0 : coffeeTastings.length,
-              itemBuilder: (BuildContext _context, int index) {
-                if (coffeeTastings != null && index < coffeeTastings.length) {
-                  return _CoffeeTastingListItem(tasting: coffeeTastings[index]);
-                } else {
-                  return Text('loading');
-                }
-              },
-              padding: const EdgeInsets.all(0.0),
-              separatorBuilder: (context, index) => Divider());
-        } else {
-          return Text('loading');
-        }
-      },
-    );
-  }
-}
-
-class _CoffeeTastingListItem extends StatelessWidget {
-  _CoffeeTastingListItem({
+class CoffeeTastingListItem extends StatelessWidget {
+  CoffeeTastingListItem({
     Key key,
     this.tasting,
   }) : super(key: key);
@@ -114,7 +23,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String formattedId = tasting.coffeeTastingId.toString().padLeft(3, '0');
+    final String formattedId = tasting.coffeeTastingId.toString().padLeft(2, '0');
     return Container(
       padding: EdgeInsets.all(17),
       child: Column(
@@ -127,10 +36,14 @@ class _CoffeeTastingListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '${formattedId}.',
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16),
+                padding: const EdgeInsets.only(top: 17, right: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('Coffee', style: Theme.of(context).textTheme.subtitle2),
+                    const SizedBox(height: 5),
+                    Text('${formattedId}.', style: Theme.of(context).textTheme.subtitle2),
+                  ],
                 ),
               ),
               Expanded(
@@ -187,7 +100,7 @@ class _CoffeeTastingListItem extends StatelessWidget {
                      *  Optional image of tasting.
                      */
                     tasting.imagePath != null
-                        ? CoffeeTastingHeroImageStart(
+                        ? TastingHeroImageStart(
                             tag: 'list view hero image for tasting ${tasting.coffeeTastingId}',
                             imagePath: tasting.imagePath,
                           )
