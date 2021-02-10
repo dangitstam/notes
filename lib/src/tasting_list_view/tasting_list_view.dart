@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
-import 'package:notes/src/coffee_tasting_list_view/list_item_wine_tasting.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/model/tasting.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
+import 'package:notes/src/tasting_list_view/bloc/tasting_list_bloc.dart';
+import 'package:notes/src/tasting_list_view/list_item_wine_tasting.dart';
 
 import 'list_item_coffee_tasting.dart';
 
 // TODO: Abstract into its own file.
-class CoffeeTastingListViewScreen extends StatelessWidget {
+class TastingListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,19 +100,19 @@ class CoffeeTastingListViewScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: CoffeeTastingListViewWidget(),
+      body: TastingListViewWidget(),
     );
   }
 }
 
-class CoffeeTastingListViewWidget extends StatelessWidget {
-  CoffeeTastingListViewWidget({Key key}) : super(key: key);
+class TastingListViewWidget extends StatelessWidget {
+  TastingListViewWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<CoffeeTastingListBloc>(context).add(InitTastings());
+    BlocProvider.of<TastingListBloc>(context).add(InitTastings());
     return StreamBuilder(
-      stream: BlocProvider.of<CoffeeTastingListBloc>(context).tastings,
+      stream: BlocProvider.of<TastingListBloc>(context).tastings,
       builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           var tastings = snapshot.data;

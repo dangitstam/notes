@@ -9,8 +9,8 @@ import 'package:notes/src/wine_tasting_create_view/components/characteristics/wi
 import 'package:notes/src/wine_tasting_create_view/wine_tasting_create_view.dart';
 
 import 'src/coffee_tasting_create_view/coffee_tasting_create_view.dart';
-import 'src/coffee_tasting_list_view/bloc/coffee_tasting_list_bloc.dart';
-import 'src/coffee_tasting_list_view/coffee_tasting_list_view.dart';
+import 'src/tasting_list_view/bloc/tasting_list_bloc.dart';
+import 'src/tasting_list_view/tasting_list_view.dart';
 import 'src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'src/wine_tasting_create_view/components/notes/wine_notes_section.dart';
 
@@ -38,7 +38,7 @@ class _AppState extends State<App> {
 }
 
 class AppRouter {
-  var _coffeeTastingListBloc = CoffeeTastingListBloc();
+  var _coffeeTastingListBloc = TastingListBloc();
   var _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
   var _wineTastingCreateBloc = WineTastingCreateBloc();
 
@@ -51,7 +51,7 @@ class AppRouter {
             _coffeeTastingListBloc.refreshCoffeeTastingsStream();
             return BlocProvider.value(
               value: _coffeeTastingListBloc,
-              child: CoffeeTastingListViewScreen(),
+              child: TastingListViewScreen(),
             );
           },
         );

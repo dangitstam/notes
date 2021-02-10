@@ -1,4 +1,4 @@
-part of 'coffee_tasting_list_bloc.dart';
+part of 'tasting_list_bloc.dart';
 
 @immutable
 abstract class TastingListEvent {}

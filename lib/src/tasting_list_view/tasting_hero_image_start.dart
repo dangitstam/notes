@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'coffee_tasting_hero_image_end.dart';
+import 'tasting_hero_image_end.dart';
 
-class CoffeeTastingHeroImageStart extends StatelessWidget {
+class TastingHeroImageStart extends StatelessWidget {
   final String tag;
   final String imagePath;
 
-  CoffeeTastingHeroImageStart({this.tag, this.imagePath});
+  TastingHeroImageStart({this.tag, this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CoffeeTastingHeroImageStart extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) {
-                      return CoffeeTastingHeroImageEnd(
+                      return TastingHeroImageEnd(
                         tag: tag,
                         thumbnail: image,
                       );

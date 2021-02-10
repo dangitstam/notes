@@ -9,11 +9,11 @@ import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'coffee_tasting_list_event.dart';
-part 'coffee_tasting_list_state.dart';
+part 'tasting_list_event.dart';
+part 'tasting_list_state.dart';
 
-class CoffeeTastingListBloc extends Bloc<TastingListEvent, TastingListState> {
-  CoffeeTastingListBloc() : super(TastingListInitialized()) {
+class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
+  TastingListBloc() : super(TastingListInitialized()) {
     // Initialize the stream of past coffee tastings.
     refreshTastingsStream();
   }

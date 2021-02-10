@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:notes/src/coffee_tasting_list_view/roast_level_linear_indicator.dart';
+import 'package:notes/src/tasting_list_view/roast_level_linear_indicator.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
 
-import 'coffee_tasting_hero_image_start.dart';
+import 'tasting_hero_image_start.dart';
 
 class WineTastingListItem extends StatelessWidget {
   WineTastingListItem({
@@ -104,7 +104,7 @@ class WineTastingListItem extends StatelessWidget {
                      *  Optional image of tasting.
                      */
                     tasting.imagePath != null
-                        ? CoffeeTastingHeroImageStart(
+                        ? TastingHeroImageStart(
                             tag: 'list view hero image for tasting ${tasting.wineTastingId}',
                             imagePath: tasting.imagePath,
                           )

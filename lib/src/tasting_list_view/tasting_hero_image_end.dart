@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class CoffeeTastingHeroImageEnd extends StatelessWidget {
+class TastingHeroImageEnd extends StatelessWidget {
   final String tag;
   final Widget thumbnail;
 
-  CoffeeTastingHeroImageEnd({this.tag, this.thumbnail});
+  TastingHeroImageEnd({this.tag, this.thumbnail});
 
   @override
   Widget build(BuildContext context) {
