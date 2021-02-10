@@ -60,7 +60,7 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
     // Retrieve all the wine tastings from the database.
     var wineTastings = await wineTastingRepository.getWineTastings();
 
-    // Update the coffee tastings output stream so subscribing pages can update.
+    // Update the wine tastings output stream so subscribing pages can update.
     _inWineTastings.add(wineTastings);
   }
 
