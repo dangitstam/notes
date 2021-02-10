@@ -84,7 +84,6 @@ class TastingListViewScreen extends StatelessWidget {
                             style: Theme.of(context).outlinedButtonTheme.style,
                             child: Text('Wine'.toUpperCase()),
                             onPressed: () {
-                              // TODO: Nav to wine create view.
                               Navigator.pop(context);
                               Navigator.pushNamed(context, '/new-wine-tasting');
                             },
