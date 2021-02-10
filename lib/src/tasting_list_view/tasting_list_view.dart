@@ -76,7 +76,7 @@ class TastingListViewScreen extends StatelessWidget {
                             onPressed: () {
                               // Dismiss the modal before navigating.
                               Navigator.pop(context);
-                              Navigator.pushNamed(context, '/create');
+                              Navigator.pushNamed(context, '/new-coffee-tasting');
                             },
                           ),
                           const SizedBox(height: 10),

@@ -55,10 +55,10 @@ class AppRouter {
             );
           },
         );
-      case '/create':
+      case '/new-coffee-tasting':
         return MaterialPageRoute(
           builder: (_) {
-            // Reset the create tasting bloc on each navigate to '/create'.
+            // Reset the create tasting bloc on each navigate to '/new-coffee-tasting'.
             _coffeeTastingCreateBloc.close();
             _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
             return BlocProvider.value(
@@ -67,14 +67,14 @@ class AppRouter {
             );
           },
         );
-      case '/notes':
+      case '/coffee-notes':
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _coffeeTastingCreateBloc,
             child: NotesScreen(),
           ),
         );
-      case '/characteristics':
+      case '/coffee-characteristics':
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _coffeeTastingCreateBloc,
@@ -86,7 +86,7 @@ class AppRouter {
       case '/new-wine-tasting':
         return MaterialPageRoute(
           builder: (_) {
-            // Reset the create tasting bloc on each navigate to '/create'.
+            // Reset the create tasting bloc on each navigate to '/new-wine-tasting'.
             _wineTastingCreateBloc.close();
             _wineTastingCreateBloc = WineTastingCreateBloc();
             return BlocProvider.value(

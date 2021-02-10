@@ -50,7 +50,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
           automaticallyImplyLeading: false,
           elevation: 0,
           title: Text(
-            'New Tasting',
+            'New Coffee Tasting',
             style: Theme.of(context).textTheme.bodyText2,
           ),
           backgroundColor: Theme.of(context).backgroundColor,
@@ -240,7 +240,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                       style: Theme.of(context).outlinedButtonTheme.style,
                       child: Text('Edit'.toUpperCase()),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/notes');
+                        Navigator.pushNamed(context, '/coffee-notes');
                       },
                     ),
                   ],
@@ -265,7 +265,7 @@ class _CoffeeTastingCreateViewScreenState extends State<CoffeeTastingCreateViewS
                       child: Text('Edit'.toUpperCase()),
                       onPressed: () {
                         isCharacteristicsEdited = true;
-                        Navigator.pushNamed(context, '/characteristics');
+                        Navigator.pushNamed(context, '/coffee-characteristics');
                       },
                     ),
                   ],
