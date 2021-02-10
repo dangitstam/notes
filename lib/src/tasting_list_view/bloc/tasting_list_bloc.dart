@@ -65,12 +65,13 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
   }
 
   void refreshTastingsStream() async {
+    // Retrieve all the coffee tastings from the database.
     List<Tasting> coffeeTastings = await coffeeTastingRepository.getCoffeeTastings();
 
     // Retrieve all the wine tastings from the database.
     List<Tasting> wineTastings = await wineTastingRepository.getWineTastings();
 
-    // List of mixed  types is possible, but breaks when attempting to add a new type to a list of a single type
+    // List of mixed types is possible, but breaks when attempting to add a new type to a list of a single type
     // constructed with a comprehension, or when attempting to combine lists with `+`.
     // Use loops as a workaround.
     List<Tasting> allTastings = [];
@@ -93,6 +94,8 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
   @override
   Future<void> close() {
     _getCoffeeTastingsController.close();
+    _getWineTastingsController.close();
+    _getTastingsController.close();
     return super.close();
   }
 }
