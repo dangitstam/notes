@@ -45,9 +45,9 @@ class AppDatabase {
       onUpgrade: (db, v1, v2) {
         _createNotesTable(db);
         _createNoteCategoriesTable(db);
+        _createNoteToNoteCategoriesTable(db);
 
         // Coffee
-        _createNoteToNoteCategoriesTable(db);
         _createCoffeeTastingNotesTable(db);
         _createCoffeeTastingsTable(db);
 
