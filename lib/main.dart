@@ -117,5 +117,6 @@ class AppRouter {
   void dispose() {
     _tastingListBloc.close();
     _coffeeTastingCreateBloc.close();
+    _wineTastingCreateBloc.close();
   }
 }
