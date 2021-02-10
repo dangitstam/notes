@@ -9,9 +9,9 @@ class CoffeeTastingNoteDao {
 
   CoffeeTastingNoteDao({this.database});
 
-  Future<int> insert(Map<String, dynamic> newCoffeeTasting) async {
+  Future<int> insert(Map<String, dynamic> newCoffeeTastingNote) async {
     final db = await database;
-    var res = await db.insert('coffee_tasting_notes', newCoffeeTasting);
+    var res = await db.insert('coffee_tasting_notes', newCoffeeTastingNote);
     return res;
   }
 
