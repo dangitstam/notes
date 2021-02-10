@@ -38,7 +38,7 @@ class _AppState extends State<App> {
 }
 
 class AppRouter {
-  var _coffeeTastingListBloc = TastingListBloc();
+  var _tastingListBloc = TastingListBloc();
   var _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
   var _wineTastingCreateBloc = WineTastingCreateBloc();
 
@@ -48,9 +48,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) {
             // Subsequent nav to this screen necessitates a stream refresh.
-            _coffeeTastingListBloc.refreshCoffeeTastingsStream();
+            _tastingListBloc.refreshCoffeeTastingsStream();
             return BlocProvider.value(
-              value: _coffeeTastingListBloc,
+              value: _tastingListBloc,
               child: TastingListViewScreen(),
             );
           },
@@ -115,7 +115,7 @@ class AppRouter {
   }
 
   void dispose() {
-    _coffeeTastingListBloc.close();
+    _tastingListBloc.close();
     _coffeeTastingCreateBloc.close();
   }
 }
