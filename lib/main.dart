@@ -6,6 +6,7 @@ import 'package:notes/src/coffee_tasting_create_view/components/characteristics/
 import 'package:notes/src/coffee_tasting_create_view/components/notes/notes_section.dart';
 import 'package:notes/src/styles/light_theme.dart';
 import 'package:notes/src/wine_tasting_create_view/components/characteristics/wine_characteristics_section.dart';
+import 'package:notes/src/wine_tasting_create_view/components/info/wine_info_section.dart';
 import 'package:notes/src/wine_tasting_create_view/wine_tasting_create_view.dart';
 
 import 'src/coffee_tasting_create_view/coffee_tasting_create_view.dart';
@@ -94,6 +95,13 @@ class AppRouter {
               child: WineTastingCreateViewScreen(),
             );
           },
+        );
+      case '/wine-info':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _wineTastingCreateBloc,
+            child: WineInfoScreen(),
+          ),
         );
       case '/wine-notes':
         return MaterialPageRoute(
