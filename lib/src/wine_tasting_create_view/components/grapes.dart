@@ -8,8 +8,9 @@ class GrapeTextFields extends StatefulWidget {
 
 class _GrapeTextFieldsState extends State<GrapeTextFields> {
   var grapeFields = <Widget>[];
+  var _lastElementIndex = 0;
 
-  Widget createCard(BuildContext context) {
+  Widget createCard(BuildContext context, int index) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(
@@ -65,7 +66,7 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    grapeFields.add(createCard(context));
+    grapeFields.add(createCard(context, _lastElementIndex));
   }
 
   @override
@@ -79,7 +80,10 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
         TextButton(
           style: Theme.of(context).outlinedButtonTheme.style,
           child: Text('+ Add grape'.toUpperCase()),
-          onPressed: () => setState(() => grapeFields.add(createCard(context))),
+          onPressed: () {
+            _lastElementIndex++;
+            setState(() => grapeFields.add(createCard(context, _lastElementIndex)));
+          },
         ),
       ],
     );
