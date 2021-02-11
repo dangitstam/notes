@@ -30,6 +30,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
               description: '',
               origin: '',
               roaster: '',
+              varietals: '',
               process: 'Washed',
               roastLevel: 7.0,
               aromaScore: 7.0,
