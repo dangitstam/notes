@@ -2,6 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GrapeTextFields extends StatefulWidget {
+  @required
+  final Function(int) onUpdateVarietalName;
+  @required
+  final Function(int) onUpdateVarietalPercentage;
+  @required
+  final Function() onAddVarietal;
+
+  GrapeTextFields({this.onUpdateVarietalName, this.onUpdateVarietalPercentage, this.onAddVarietal});
+
   @override
   _GrapeTextFieldsState createState() => _GrapeTextFieldsState();
 }
@@ -10,7 +19,7 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
   var grapeFields = <Widget>[];
   var _lastElementIndex = 0;
 
-  Widget createCard(BuildContext context, int index) {
+  Widget createNewGrapeFields(BuildContext context, int index) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(
@@ -66,7 +75,7 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    grapeFields.add(createCard(context, _lastElementIndex));
+    grapeFields.add(createNewGrapeFields(context, _lastElementIndex));
   }
 
   @override
@@ -82,7 +91,7 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
           child: Text('+ Add grape'.toUpperCase()),
           onPressed: () {
             _lastElementIndex++;
-            setState(() => grapeFields.add(createCard(context, _lastElementIndex)));
+            setState(() => grapeFields.add(createNewGrapeFields(context, _lastElementIndex)));
           },
         ),
       ],
