@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:provider/provider.dart';
 
 class GrapeTextFields extends StatefulWidget {
   @required
@@ -16,8 +20,42 @@ class GrapeTextFields extends StatefulWidget {
 }
 
 class _GrapeTextFieldsState extends State<GrapeTextFields> {
-  var grapeFields = <Widget>[];
-  var _lastElementIndex = 0;
+  List<String> varietalNames = <String>[];
+  List<int> varietalPercentages = <int>[];
+  List<Widget> grapeFields = <Widget>[];
+  int _numVarietals = 0;
+
+  /// Override [didChangeDependencies] instead of [initState] so that theme
+  /// changes can be picked up for dependent widgets.
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    String varietals = context.read<WineTastingCreateBloc>().state.tasting.varietals;
+    print(varietals);
+    if (varietals.isNotEmpty) {
+      varietalNames = json.decode(varietals).cast<String>();
+      for (var _ in varietalNames) {
+        grapeFields.add(createNewGrapeFields(context, _numVarietals));
+        _numVarietals++;
+      }
+    } else {
+      varietalNames.add('');
+      grapeFields.add(createNewGrapeFields(context, _numVarietals));
+      _numVarietals++;
+    }
+  }
+
+  void submitVarietals() {
+    String varietalsJson = json.encode(varietalNames);
+    context.read<WineTastingCreateBloc>().add(AddWineVarietalsEvent(varietals: varietalsJson));
+  }
+
+  void addGrapeFields() {
+    varietalNames.add('');
+    setState(() => grapeFields.add(createNewGrapeFields(context, _numVarietals)));
+    _numVarietals++;
+  }
 
   Widget createNewGrapeFields(BuildContext context, int index) {
     return Padding(
@@ -30,13 +68,17 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
             children: [
               Expanded(
                 child: TextField(
+                  controller: TextEditingController()..text = varietalNames[index],
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(top: 5, bottom: 5),
                     hintText: 'Grenache',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     isDense: true,
                   ),
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    varietalNames[index] = value;
+                    submitVarietals();
+                  },
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
@@ -70,14 +112,6 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
     );
   }
 
-  /// Override [didChangeDependencies] instead of [initState] so that theme
-  /// changes can be picked up for dependent widgets.
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    grapeFields.add(createNewGrapeFields(context, _lastElementIndex));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -90,8 +124,7 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
           style: Theme.of(context).outlinedButtonTheme.style,
           child: Text('+ Add grape'.toUpperCase()),
           onPressed: () {
-            _lastElementIndex++;
-            setState(() => grapeFields.add(createNewGrapeFields(context, _lastElementIndex)));
+            addGrapeFields();
           },
         ),
       ],

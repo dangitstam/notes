@@ -67,6 +67,13 @@ class RoastLevelEvent extends WineTastingCreateEvent {
   RoastLevelEvent({this.roastLevel});
 }
 
+class AddWineVarietalsEvent extends WineTastingCreateEvent {
+  @required
+  final String varietals;
+  AddWineVarietalsEvent({this.varietals});
+}
+
+/// Enter: Characteristics.
 class AromaScoreEvent extends WineTastingCreateEvent {
   @required
   final double aromaScore;
@@ -126,6 +133,8 @@ class FinishDurationEvent extends WineTastingCreateEvent {
   final double finishDuration;
   FinishDurationEvent({this.finishDuration});
 }
+
+/// Exit: Characteristics.
 
 class FlavorScoreEvent extends WineTastingCreateEvent {
   @required
