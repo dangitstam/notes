@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -102,7 +103,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       child: Column(
                         children: [
                           EditableTextWithCaptionWidget(
-                            label: 'Vigneron',
+                            label: 'Vigneron(ne)',
                             hint: 'Who made this wine?',
                             onChanged: (value) {
                               context.read<WineTastingCreateBloc>().add(RoasterEvent(roaster: value));
@@ -202,7 +203,9 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                             ),
                             SizedBox(width: 10),
                             Text(
-                              '(Unspecified)',
+                              wineTastingState.varietals.isNotEmpty
+                                  ? json.decode(wineTastingState.varietals).cast<String>().join(', ')
+                                  : '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                             SizedBox(height: 20),
