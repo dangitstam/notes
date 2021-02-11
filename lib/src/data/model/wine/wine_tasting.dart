@@ -168,6 +168,7 @@ class WineTasting extends Equatable implements Tasting {
         description,
         origin,
         roaster,
+        varietals,
         process,
         roastLevel,
         aromaScore,
