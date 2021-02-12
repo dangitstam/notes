@@ -37,7 +37,12 @@ class _WineInfoScreenState extends State<WineInfoScreen> {
           ),
         ),
       ),
-      body: WineInfoSection(),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: WineInfoSection(),
+      ),
     );
   }
 }
@@ -52,67 +57,70 @@ class _WineInfoSectionState extends State<WineInfoSection> {
   Widget build(BuildContext context) {
     var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SectionTitle(sectionNumber: 1, title: 'Info'),
-        SizedBox(height: 20),
-        Text(
-          'Edit details about the wine.',
-          style: Theme.of(context).textTheme.caption,
-        ),
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 17.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text('Grapes'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                  SizedBox(width: 10),
-                ],
-              ),
-              SizedBox(height: 10),
-              GrapeTextFields(
-                onUpdateVarietalName: (name) {
-                  // TODO: Bloc event here.
-                },
-                onUpdateVarietalPercentage: (percentage) {
-                  // TODO: Bloc event here.
-                },
-                onAddVarietal: () {
-                  // TODO: Bloc event here.
-                },
-              ),
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SectionTitle(sectionNumber: 1, title: 'Info'),
+          SizedBox(height: 20),
+          Text(
+            'Edit details about the wine.',
+            style: Theme.of(context).textTheme.caption,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-            children: [
-              Text('Sugar'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-              SizedBox(width: 20),
-              Text('Dry', style: Theme.of(context).textTheme.caption),
-              Expanded(
-                flex: 1,
-                child: ThemedPaddedSlider(
-                  child: Slider(
-                    value: wineTastingState.roastLevel,
-                    min: 0,
-                    max: 10,
-                    onChanged: (value) {
-                      context.read<WineTastingCreateBloc>().add(RoastLevelEvent(roastLevel: round(value)));
-                    },
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 17.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text('Grapes'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                    SizedBox(width: 10),
+                  ],
+                ),
+                SizedBox(height: 10),
+                GrapeTextFields(
+                  onUpdateVarietalName: (name) {
+                    // TODO: Bloc event here.
+                  },
+                  onUpdateVarietalPercentage: (percentage) {
+                    // TODO: Bloc event here.
+                  },
+                  onAddVarietal: () {
+                    // TODO: Bloc event here.
+                  },
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              children: [
+                Text('Sugar'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                SizedBox(width: 20),
+                Text('Dry', style: Theme.of(context).textTheme.caption),
+                Expanded(
+                  flex: 1,
+                  child: ThemedPaddedSlider(
+                    child: Slider(
+                      value: wineTastingState.roastLevel,
+                      min: 0,
+                      max: 10,
+                      onChanged: (value) {
+                        context.read<WineTastingCreateBloc>().add(RoastLevelEvent(roastLevel: round(value)));
+                      },
+                    ),
                   ),
                 ),
-              ),
-              Text('Sweet', style: Theme.of(context).textTheme.caption),
-            ],
+                Text('Sweet', style: Theme.of(context).textTheme.caption),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

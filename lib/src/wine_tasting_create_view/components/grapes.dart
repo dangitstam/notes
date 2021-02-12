@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -31,49 +33,76 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    String varietals = context.read<WineTastingCreateBloc>().state.tasting.varietals;
-    print(varietals);
-    if (varietals.isNotEmpty) {
-      varietalNames = json.decode(varietals).cast<String>();
+    String varietalsFromBloc = context.read<WineTastingCreateBloc>().state.tasting.varietals;
+    String varietalPercentagesFromBloc = context.read<WineTastingCreateBloc>().state.tasting.varietalPercentages;
+    if (varietalsFromBloc.isNotEmpty && varietalPercentagesFromBloc.isNotEmpty) {
+      varietalNames = json.decode(varietalsFromBloc).cast<String>();
+      varietalPercentages = json.decode(varietalPercentagesFromBloc).cast<int>();
       for (var _ in varietalNames) {
-        grapeFields.add(createNewGrapeFields(context, _numVarietals));
-        _numVarietals++;
+        addGrapeFieldsWithDefaultValues(addDefaults: false);
       }
     } else {
-      varietalNames.add('');
-      grapeFields.add(createNewGrapeFields(context, _numVarietals));
-      _numVarietals++;
+      addGrapeFieldsWithDefaultValues(addDefaults: true);
     }
   }
 
-  void submitVarietals() {
-    String varietalsJson = json.encode(varietalNames);
-    context.read<WineTastingCreateBloc>().add(AddWineVarietalsEvent(varietals: varietalsJson));
+  int getVarietalPercentageSum() {
+    return varietalPercentages.fold(0, (acc, v) => acc + v);
   }
 
-  void addGrapeFields() {
-    varietalNames.add('');
+  // TODO: Would be more efficient to call this when closing.
+  void submitVarietals() {
+    String varietalNamesJson = json.encode(varietalNames);
+    String varietalPercentagesJson = json.encode(varietalPercentages);
+    context.read<WineTastingCreateBloc>().add(AddWineVarietalsEvent(varietals: varietalNamesJson));
+    context
+        .read<WineTastingCreateBloc>()
+        .add(AddWineVarietalPercentagesEvent(varietalPercentages: varietalPercentagesJson));
+  }
+
+  void addGrapeFieldsWithDefaultValues({bool addDefaults = false}) {
+    if (addDefaults) {
+      varietalNames.add('');
+
+      // Each subsequent grape will compute and autofill the remaining percentage.
+      int remainingPercent = max(100 - getVarietalPercentageSum(), 0);
+      varietalPercentages.add(remainingPercent);
+    }
     setState(() => grapeFields.add(createNewGrapeFields(context, _numVarietals)));
     _numVarietals++;
   }
 
   Widget createNewGrapeFields(BuildContext context, int index) {
+    // Text controller for percentage that begins the cursor at the end of the form.
+    final TextEditingController percentageController = TextEditingController(
+      text: varietalPercentages[index].toString(),
+    );
+
+    final TextEditingController varietalController = TextEditingController(
+      text: varietalNames[index].toString(),
+    );
+    varietalController.addListener(() {});
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: TextField(
-                  controller: TextEditingController()..text = varietalNames[index],
+                child: TextFormField(
+                  controller: varietalController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 5, bottom: 5),
                     hintText: 'Grenache',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    isDense: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Theme.of(context).hintColor, width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
+                    ),
                   ),
                   onChanged: (value) {
                     varietalNames[index] = value;
@@ -82,29 +111,64 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
-              const SizedBox(width: 20),
+              const SizedBox(width: 10),
               IntrinsicWidth(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.end,
-                  maxLength: 3,
+                child: TextFormField(
+                  autovalidateMode: AutovalidateMode.always,
+                  controller: percentageController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 5, bottom: 5),
-                    fillColor: Theme.of(context).colorScheme.onSurface,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(left: 10.0, right: 5.0),
+                      child: Icon(
+                        CupertinoIcons.percent,
+                        size: 16,
+                      ),
+                    ),
+                    suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                     hintText: '100',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    isDense: true,
                     counterText: '',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Theme.of(context).hintColor, width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+                    ),
+                    focusColor: Theme.of(context).colorScheme.primary,
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Theme.of(context).errorColor, width: 2),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Theme.of(context).errorColor, width: 2),
+                    ),
                   ),
-                  onChanged: (value) {},
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                  maxLength: 3,
+                  style: Theme.of(context).textTheme.bodyText2,
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      varietalPercentages[index] = int.parse(value);
+                    } else {
+                      varietalPercentages[index] = 100;
+                    }
+                    percentageController.value = percentageController.value.copyWith(
+                      text: value,
+                      selection: TextSelection(baseOffset: value.length, extentOffset: value.length),
+                    );
+                    submitVarietals();
+                  },
+                  validator: (String value) {
+                    // Percentage is required only when the varietal name is provided.
+                    if (varietalNames[index].isNotEmpty && value.isEmpty) {
+                      return 'Required';
+                    }
+                    if (value.isNotEmpty && getVarietalPercentageSum() > 100) {
+                      return 'Too high!';
+                    }
+                    return null;
+                  },
                 ),
               ),
-              const SizedBox(width: 10),
-              Text(
-                '%',
-                style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 20),
-              )
             ],
           ),
         ],
@@ -115,16 +179,20 @@ class _GrapeTextFieldsState extends State<GrapeTextFields> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Column(
           children: grapeFields,
         ),
-        TextButton(
+        TextButton.icon(
           style: Theme.of(context).outlinedButtonTheme.style,
-          child: Text('+ Add grape'.toUpperCase()),
+          icon: Icon(
+            CupertinoIcons.add,
+            size: 14,
+          ),
+          label: Text('Add grape'.toUpperCase()),
           onPressed: () {
-            addGrapeFields();
+            addGrapeFieldsWithDefaultValues(addDefaults: true);
           },
         ),
       ],

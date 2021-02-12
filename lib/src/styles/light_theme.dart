@@ -4,8 +4,11 @@ import 'package:notes/src/styles/slim_rounded_rect_slider_track_shape.dart';
 
 ThemeData lightTheme = ThemeData(
   // Colors
+  primaryColor: primaryColor,
   backgroundColor: backgroundColor,
   cardColor: cardColor,
+  errorColor: const Color(0xffb00020),
+
   dividerTheme: DividerThemeData(
     color: Color(0xfff1f1f1),
     thickness: 1.0,
@@ -16,9 +19,9 @@ ThemeData lightTheme = ThemeData(
     onSurface: onSurfaceColor,
     background: backgroundColor,
     brightness: Brightness.light,
-    error: primaryColor,
+    error: const Color(0xffb00020),
     onBackground: onSurfaceColor,
-    onError: primaryColor,
+    onError: const Color(0xffb00020),
     onPrimary: primaryColor,
     onSecondary: primaryColor,
     primaryVariant: primaryVariantColor,

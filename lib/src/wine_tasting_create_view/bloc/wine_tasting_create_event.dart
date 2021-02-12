@@ -73,6 +73,12 @@ class AddWineVarietalsEvent extends WineTastingCreateEvent {
   AddWineVarietalsEvent({this.varietals});
 }
 
+class AddWineVarietalPercentagesEvent extends WineTastingCreateEvent {
+  @required
+  final String varietalPercentages;
+  AddWineVarietalPercentagesEvent({this.varietalPercentages});
+}
+
 /// Enter: Characteristics.
 class AromaScoreEvent extends WineTastingCreateEvent {
   @required
