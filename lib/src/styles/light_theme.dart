@@ -29,7 +29,7 @@ ThemeData lightTheme = ThemeData(
     secondaryVariant: primaryColor,
     surface: surfaceColor,
   ),
-  hintColor: Color(0xff919191),
+  hintColor: Color(0xffb2b2b2),
 
   // Typography.
   textTheme: TextTheme(

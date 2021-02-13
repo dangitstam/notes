@@ -80,17 +80,7 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                   ],
                 ),
                 SizedBox(height: 10),
-                GrapeTextFields(
-                  onUpdateVarietalName: (name) {
-                    // TODO: Bloc event here.
-                  },
-                  onUpdateVarietalPercentage: (percentage) {
-                    // TODO: Bloc event here.
-                  },
-                  onAddVarietal: () {
-                    // TODO: Bloc event here.
-                  },
-                ),
+                GrapeTextFields(),
               ],
             ),
           ),
