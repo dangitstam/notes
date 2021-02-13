@@ -71,12 +71,26 @@ class AddWineVarietalsEvent extends WineTastingCreateEvent {
   @required
   final String varietals;
   AddWineVarietalsEvent({this.varietals});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is AddWineVarietalsEvent && other.varietals == varietals;
+  }
 }
 
 class AddWineVarietalPercentagesEvent extends WineTastingCreateEvent {
   @required
   final String varietalPercentages;
   AddWineVarietalPercentagesEvent({this.varietalPercentages});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is AddWineVarietalPercentagesEvent && other.varietalPercentages == varietalPercentages;
+  }
 }
 
 /// Enter: Characteristics.

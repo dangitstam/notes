@@ -90,6 +90,62 @@ void main() {
           expect(state.varietalPercentages, [80, 15, 5]);
         },
       );
+
+      testWidgets(
+        'GrapeTextFields varietals and percentages can update BLoC',
+        (WidgetTester tester) async {
+          when(wineTastingCreateBloc.state).thenReturn(
+            WineTastingCreateState(
+              isWineTastingInserted: false,
+              tasting: WineTasting(
+                varietals: '',
+                varietalPercentages: '',
+              ),
+            ),
+          );
+
+          var grapeFields = GrapeTextFields();
+          await tester.pumpWidget(
+            BlocProvider.value(
+              value: wineTastingCreateBloc,
+              child: MaterialApp(
+                home: Scaffold(
+                  body: grapeFields,
+                ),
+              ),
+            ),
+          );
+
+          GrapeTextFieldsState state = tester.state(
+            find.byKey(
+              Key('__grapeTextFields__'),
+            ),
+          );
+
+          state.varietalNames = [
+            'Sauvignon Blanc',
+            'Marsanne',
+          ];
+
+          state.varietalPercentages = [
+            60,
+            40,
+          ];
+
+          state.submitVarietals();
+
+          verify(
+            wineTastingCreateBloc.add(
+              AddWineVarietalsEvent(varietals: '[\"Sauvignon Blanc\",\"Marsanne\"]'),
+            ),
+          );
+          verify(
+            wineTastingCreateBloc.add(
+              AddWineVarietalPercentagesEvent(varietalPercentages: '[60,40]'),
+            ),
+          );
+        },
+      );
     },
   );
 }
