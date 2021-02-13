@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,6 +19,52 @@ void main() {
 
       setUp(() {
         wineTastingCreateBloc = MockWineTastingCreateBloc();
+      });
+
+      testWidgets('Add a new grape', (WidgetTester tester) async {
+        // TODO: Test removing a grape.
+        when(wineTastingCreateBloc.state).thenReturn(
+          WineTastingCreateState(
+            isWineTastingInserted: false,
+            tasting: WineTasting(
+              varietals: '',
+              varietalPercentages: '',
+            ),
+          ),
+        );
+
+        var grapeFields = GrapeTextFields();
+        await tester.pumpWidget(
+          BlocProvider.value(
+            value: wineTastingCreateBloc,
+            child: MaterialApp(
+              home: Scaffold(
+                body: grapeFields,
+              ),
+            ),
+          ),
+        );
+
+        GrapeTextFieldsState state = tester.state(
+          find.byKey(
+            Key('__grapeTextFields__'),
+          ),
+        );
+        expect(state.grapeFields.length, 1);
+
+        // Tap the `New grape` button.
+        // TextButton.icon returns a type derived from TextButton...
+        await tester.tap(
+          find.ancestor(
+            of: find.byIcon(CupertinoIcons.add),
+            matching: find.byWidgetPredicate((widget) => widget is TextButton),
+          ),
+        );
+
+        // Rebuild the widget after the state has changed.
+        await tester.pump();
+
+        expect(state.grapeFields.length, 2);
       });
 
       testWidgets(
