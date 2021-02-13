@@ -9,6 +9,7 @@ import 'package:notes/src/keys.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:provider/provider.dart';
 
+/// Custom widget with a pair of text forms to specify a varietal and it's proportion as a percentage.
 class GrapeTextFields extends StatefulWidget {
   GrapeTextFields() : super(key: WidgetKeys.grapeTextFields);
 
@@ -17,10 +18,18 @@ class GrapeTextFields extends StatefulWidget {
 }
 
 class GrapeTextFieldsState extends State<GrapeTextFields> {
+  // Invariant: Elements of `varietalNames` and `varietalPercentages` correspond with each other,
+  // such that at index i, the wine is varietalPercentages[i] of grape varietalNames[i].
   List<String> varietalNames = <String>[];
   List<int> varietalPercentages = <int>[];
+
+  // Each widget represents a pair of form fields: grape name and percentage.
   List<Widget> grapeFields = <Widget>[];
+
+  // Invariant: This value represents the number of varietals specified by the user.
   int _numVarietals = 0;
+
+  // Invariant: This represents the sum of percentages for all specified varietals.
   int _totalPercentage = 0;
 
   /// Override [didChangeDependencies] instead of [initState] so that theme
@@ -37,30 +46,18 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
       varietalNames = json.decode(varietalsFromBloc).cast<String>();
       varietalPercentages = json.decode(varietalPercentagesFromBloc).cast<int>();
       for (var _ in varietalNames) {
-        addGrapeFieldsWithDefaultValues(addDefaults: false);
+        _addGrapeFields(addDefaults: false);
       }
     } else {
-      addGrapeFieldsWithDefaultValues(addDefaults: true);
+      _addGrapeFields(addDefaults: true);
     }
 
-    _totalPercentage = getVarietalPercentageSum();
+    _totalPercentage = _getVarietalPercentageSum();
   }
 
-  int getVarietalPercentageSum() {
-    return varietalPercentages.fold(0, (acc, v) => acc + v);
-  }
-
-  void updateTotalPercentage() {
-    _totalPercentage = getVarietalPercentageSum();
-  }
-
-  void updateVarietalPercentage(int value, int index) {
-    varietalPercentages[index] = value;
-    updateTotalPercentage();
-  }
-
-  // TODO: Would be more efficient to call this when closing.
+  /// Given the currently specified varietals and their proportions, updates the BLoC.
   void submitVarietals() {
+    // TODO: Would be more efficient to call this function only once (at time of closing info screen).
     String varietalNamesJson = json.encode(varietalNames);
     String varietalPercentagesJson = json.encode(varietalPercentages);
     context.read<WineTastingCreateBloc>().add(AddWineVarietalsEvent(varietals: varietalNamesJson));
@@ -69,28 +66,45 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
         .add(AddWineVarietalPercentagesEvent(varietalPercentages: varietalPercentagesJson));
   }
 
-  void addGrapeFieldsWithDefaultValues({bool addDefaults = false}) {
-    if (addDefaults) {
-      varietalNames.add('');
-
-      // Each subsequent grape will compute and autofill the remaining percentage.
-      int remainingPercent = max(100 - getVarietalPercentageSum(), 0);
-      varietalPercentages.add(remainingPercent);
-    }
-    setState(() => grapeFields.add(createNewGrapeFields(context, _numVarietals)));
-    _numVarietals++;
-
-    updateTotalPercentage();
+  int _getVarietalPercentageSum() {
+    return varietalPercentages.fold(0, (acc, v) => acc + v);
   }
 
-  Widget createNewGrapeFields(BuildContext context, int index) {
-    // Text controller for percentage that begins the cursor at the end of the form.
-    final TextEditingController percentageController = TextEditingController(
-      text: varietalPercentages[index].toString(),
-    );
+  void _updateTotalPercentage() {
+    _totalPercentage = _getVarietalPercentageSum();
+  }
 
+  void _updateVarietalPercentage(int value, int index) {
+    varietalPercentages[index] = value;
+    _updateTotalPercentage();
+  }
+
+  void _addGrapeFields({bool addDefaults = false}) {
+    setState(() {
+      if (addDefaults) {
+        varietalNames.add('');
+
+        // Each subsequent grape will compute and autofill the remaining percentage.
+        int remainingPercent = max(100 - _getVarietalPercentageSum(), 0);
+        varietalPercentages.add(remainingPercent);
+      }
+
+      // Add fields for the new grape.
+      grapeFields.add(_createNewGrapeFields(context, _numVarietals));
+
+      // Update varietal metadata.
+      _numVarietals++;
+      _updateTotalPercentage();
+    });
+  }
+
+  Widget _createNewGrapeFields(BuildContext context, int index) {
     final TextEditingController varietalController = TextEditingController(
       text: varietalNames[index].toString(),
+    );
+
+    final TextEditingController percentageController = TextEditingController(
+      text: varietalPercentages[index].toString(),
     );
 
     // Custom input decoration.
@@ -127,6 +141,8 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
                   decoration: customInputDecoration.copyWith(hintText: 'Enter grape name'),
                   onChanged: (value) {
                     varietalNames[index] = value;
+
+                    // Update BLoC representation.
                     submitVarietals();
                   },
                   style: Theme.of(context).textTheme.bodyText2,
@@ -168,7 +184,7 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
                     );
 
                     // Update varietal percentage and BLoC representation.
-                    updateVarietalPercentage(valueAsInt, index);
+                    _updateVarietalPercentage(valueAsInt, index);
                     submitVarietals();
                   },
                   validator: (String value) {
@@ -189,10 +205,14 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
 
   @override
   Widget build(BuildContext context) {
+    // Display an error color when percentage exceeds 100.
     final Color remainingPercentColor =
         _totalPercentage > 100 ? Theme.of(context).errorColor : Theme.of(context).colorScheme.onSurface;
+
+    // Signal success with a checkmark when all fields are non-empty and percentages add to 100.
     final bool grapeTextFieldsComplete =
         _totalPercentage == 100 && varietalNames.fold(true, (acc, v) => (acc && v.isNotEmpty));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -206,21 +226,18 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
               'Remaining: ${100 - _totalPercentage}%',
               style: Theme.of(context).textTheme.bodyText2.copyWith(color: remainingPercentColor),
             ),
-            // Signal success when all fields are non-empty and percentages add to 100.
             if (grapeTextFieldsComplete)
               Expanded(
                 child: Icon(CupertinoIcons.checkmark_circle_fill, color: Colors.green),
               ),
+            // Allows Remaining and the checkmark to be left-aligned while also spacing out from 'New grape'.
             Expanded(child: Container()),
             TextButton.icon(
               style: Theme.of(context).outlinedButtonTheme.style,
-              icon: Icon(
-                CupertinoIcons.add,
-                size: 14,
-              ),
+              icon: Icon(CupertinoIcons.add, size: 14),
               label: Text('New grape'.toUpperCase()),
               onPressed: () {
-                addGrapeFieldsWithDefaultValues(addDefaults: true);
+                _addGrapeFields(addDefaults: true);
               },
             ),
           ],
