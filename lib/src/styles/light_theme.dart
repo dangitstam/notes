@@ -7,7 +7,7 @@ ThemeData lightTheme = ThemeData(
   primaryColor: primaryColor,
   backgroundColor: backgroundColor,
   cardColor: cardColor,
-  errorColor: const Color(0xffb00020),
+  errorColor: errorColor,
 
   dividerTheme: DividerThemeData(
     color: Color(0xfff1f1f1),
@@ -19,9 +19,9 @@ ThemeData lightTheme = ThemeData(
     onSurface: onSurfaceColor,
     background: backgroundColor,
     brightness: Brightness.light,
-    error: const Color(0xffb00020),
+    error: errorColor,
     onBackground: onSurfaceColor,
-    onError: const Color(0xffb00020),
+    onError: errorColor,
     onPrimary: primaryColor,
     onSecondary: primaryColor,
     primaryVariant: primaryVariantColor,
@@ -80,14 +80,16 @@ ThemeData lightTheme = ThemeData(
   ),
 );
 
-Color primaryColor = Color(0xff779b85);
-Color primaryVariantColor = Color(0xff809287);
+Color primaryColor = const Color(0xff779b85);
+Color primaryVariantColor = const Color(0xff809287);
 
-Color onSurfaceColor = Color(0xff333331);
-Color surfaceColor = Color(0xff222221);
+Color onSurfaceColor = const Color(0xff333331);
+Color surfaceColor = const Color(0xff222221);
 
-Color backgroundColor = Color(0xffffffff);
-Color cardColor = Color(0xfff1f1f1);
+Color backgroundColor = const Color(0xffffffff);
+Color cardColor = const Color(0xfff1f1f1);
+
+Color errorColor = const Color(0xffb00020);
 
 TextStyle headline5 = const TextStyle(
   fontFamily: 'Jost',
