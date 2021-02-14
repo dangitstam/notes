@@ -33,6 +33,9 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
     context.read<WineTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
   }
 
+  /// Given a wine tasting, creates a comma-separated string of percent and varietal pairs.
+  ///
+  /// E.g. "80% Grenache, 20% Mourvèdre".
   String formatVarietals(WineTasting tasting) {
     if (tasting.varietalNames.isNotEmpty && tasting.varietalPercentages.isNotEmpty) {
       List<String> varietals = json.decode(tasting.varietalNames).cast<String>();
