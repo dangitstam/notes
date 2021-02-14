@@ -51,8 +51,6 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
     } else {
       _addGrapeFields(addDefaults: true);
     }
-
-    _totalPercentage = _getVarietalPercentageSum();
   }
 
   /// Given the currently specified varietals and their proportions, updates the BLoC.
