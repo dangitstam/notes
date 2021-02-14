@@ -39,7 +39,7 @@ class _AppState extends State<App> {
 }
 
 class AppRouter {
-  var _tastingListBloc = TastingListBloc();
+  final _tastingListBloc = TastingListBloc();
   var _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
   var _wineTastingCreateBloc = WineTastingCreateBloc();
 
