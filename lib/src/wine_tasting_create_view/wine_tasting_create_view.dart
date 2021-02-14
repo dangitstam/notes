@@ -191,6 +191,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       style: Theme.of(context).outlinedButtonTheme.style,
                       child: Text('Edit'.toUpperCase()),
                       onPressed: () {
+                        // This won't re-render unless there's been a change
+                        // in `/wine-info` since exiting is simply a pop.
                         isInfoEdited = true;
                         Navigator.pushNamed(context, '/wine-info');
                       },
