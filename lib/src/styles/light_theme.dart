@@ -4,8 +4,11 @@ import 'package:notes/src/styles/slim_rounded_rect_slider_track_shape.dart';
 
 ThemeData lightTheme = ThemeData(
   // Colors
+  primaryColor: primaryColor,
   backgroundColor: backgroundColor,
   cardColor: cardColor,
+  errorColor: errorColor,
+
   dividerTheme: DividerThemeData(
     color: Color(0xfff1f1f1),
     thickness: 1.0,
@@ -16,9 +19,9 @@ ThemeData lightTheme = ThemeData(
     onSurface: onSurfaceColor,
     background: backgroundColor,
     brightness: Brightness.light,
-    error: primaryColor,
+    error: errorColor,
     onBackground: onSurfaceColor,
-    onError: primaryColor,
+    onError: errorColor,
     onPrimary: primaryColor,
     onSecondary: primaryColor,
     primaryVariant: primaryVariantColor,
@@ -26,7 +29,7 @@ ThemeData lightTheme = ThemeData(
     secondaryVariant: primaryColor,
     surface: surfaceColor,
   ),
-  hintColor: Color(0xff919191),
+  hintColor: Color(0xffb2b2b2),
 
   // Typography.
   textTheme: TextTheme(
@@ -77,14 +80,16 @@ ThemeData lightTheme = ThemeData(
   ),
 );
 
-Color primaryColor = Color(0xff779b85);
-Color primaryVariantColor = Color(0xff809287);
+Color primaryColor = const Color(0xff779b85);
+Color primaryVariantColor = const Color(0xff809287);
 
-Color onSurfaceColor = Color(0xff333331);
-Color surfaceColor = Color(0xff222221);
+Color onSurfaceColor = const Color(0xff333331);
+Color surfaceColor = const Color(0xff222221);
 
-Color backgroundColor = Color(0xffffffff);
-Color cardColor = Color(0xfff1f1f1);
+Color backgroundColor = const Color(0xffffffff);
+Color cardColor = const Color(0xfff1f1f1);
+
+Color errorColor = const Color(0xffb00020);
 
 TextStyle headline5 = const TextStyle(
   fontFamily: 'Jost',

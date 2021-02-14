@@ -30,6 +30,8 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
               description: '',
               origin: '',
               roaster: '',
+              varietalNames: '',
+              varietalPercentages: '',
               process: 'Washed',
               roastLevel: 7.0,
               aromaScore: 7.0,
@@ -165,6 +167,14 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     } else if (event is ProcessEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(process: event.process),
+      );
+    } else if (event is AddWineVarietalNamesEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(varietalNames: event.varietalNames),
+      );
+    } else if (event is AddWineVarietalPercentagesEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(varietalPercentages: event.varietalPercentages),
       );
     } else if (event is AromaScoreEvent) {
       yield state.copyWith(

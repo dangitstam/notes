@@ -1,12 +1,12 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
-import 'package:notes/src/common/widgets/themed_padded_slider.dart';
+import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/wine_tasting_create_view/components/section_title.dart';
@@ -23,6 +23,7 @@ class WineTastingCreateViewScreen extends StatefulWidget {
 class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScreen> {
   // Detect whether the characteristics section has been interacted with to undo grayscale.
   var isCharacteristicsEdited = false;
+  var isInfoEdited = false;
 
   /// Given [savedImageFilePath], a file path to the image taken/selected for the tasting, updates the tasting's image.
   void onImageSelected(String savedImageFilePath) {
@@ -30,6 +31,29 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
     // Application directory changes between invocations of `flutter run`, so save the basename
     // and retrieve the application directory path at runtime to grab the image.
     context.read<WineTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
+  }
+
+  /// Given a wine tasting, creates a comma-separated string of percent and varietal pairs.
+  ///
+  /// E.g. "80% Grenache, 20% Mourvèdre".
+  String formatVarietals(WineTasting tasting) {
+    if (tasting.varietalNames.isNotEmpty && tasting.varietalPercentages.isNotEmpty) {
+      List<String> varietals = json.decode(tasting.varietalNames).cast<String>();
+      List<int> varietalPercentages = json.decode(tasting.varietalPercentages).cast<int>();
+      if (varietals.length == varietalPercentages.length) {
+        List<String> res = [];
+        for (var i = 0; i < varietals.length; i++) {
+          final String varietal = varietals[i];
+          final String varietalPercentage = varietalPercentages[i].toString();
+          final String formattedVarietal = '$varietalPercentage% $varietal';
+          res.add(formattedVarietal);
+        }
+
+        return res.join(', ');
+      }
+    }
+
+    return '(Unspecified)';
   }
 
   @override
@@ -97,19 +121,19 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       flex: 2,
                       child: ImageCapture(onImageSelected: onImageSelected),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       flex: 5,
                       child: Column(
                         children: [
                           EditableTextWithCaptionWidget(
-                            label: 'Vigneron',
+                            label: 'Vigneron(ne)',
                             hint: 'Who made this wine?',
                             onChanged: (value) {
                               context.read<WineTastingCreateBloc>().add(RoasterEvent(roaster: value));
                             },
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           EditableTextWithCaptionWidget(
                             label: 'Wine Name',
                             hint: 'What is this wine called?',
@@ -122,9 +146,9 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
-                  minLines: 2,
+                  minLines: 1,
                   maxLines: 5,
                   decoration: InputDecoration(
                       border: InputBorder.none,
@@ -137,24 +161,18 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                   },
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
+                const SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SectionTitle(sectionNumber: 1, title: 'Info'),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
-                    Text('Origin'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                    SizedBox(width: 20),
+                    Icon(CupertinoIcons.location_solid, size: 24, color: Theme.of(context).colorScheme.onSurface),
+                    const SizedBox(width: 5),
                     Expanded(
                       child: TextField(
                         decoration: InputDecoration(
                           enabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: 5, bottom: 5),
-                          hintText: 'Ex. Idjwi Island, Congo',
+                          hintText: 'Roccatederighi, Tuscany, Italy',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           isDense: true,
                         ),
@@ -166,71 +184,117 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    children: [
-                      Text('Process'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                      SizedBox(width: 10),
-                      Container(
-                        child: DropdownButton<String>(
-                          value: wineTastingState.process,
-                          icon: Icon(CupertinoIcons.chevron_down),
-                          iconSize: 14,
-                          style: Theme.of(context).textTheme.bodyText2,
-                          underline: Container(height: 0.0),
-                          onChanged: (value) {
-                            context.read<WineTastingCreateBloc>().add(ProcessEvent(process: value));
-                          },
-                          items: {
-                            'Washed': Icon(CupertinoIcons.drop),
-                            'Natural': Icon(CupertinoIcons.sun_min),
-                          }.entries.map((entry) {
-                            var processType = entry.key;
-                            var processIcon = entry.value;
-                            return DropdownMenuItem<String>(
-                              value: processType,
-                              child: Row(
-                                children: [
-                                  processIcon,
-                                  Text(
-                                    processType,
-                                    style: Theme.of(context).textTheme.bodyText2,
-                                  ),
-                                  SizedBox(width: 2),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
+                const SizedBox(height: 10),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SectionTitle(sectionNumber: 1, title: 'Info'),
+                    TextButton(
+                      style: Theme.of(context).outlinedButtonTheme.style,
+                      child: Text('Edit'.toUpperCase()),
+                      onPressed: () {
+                        // This won't re-render unless there's been a change
+                        // in `/wine-info` since exiting is simply a pop.
+                        isInfoEdited = true;
+                        Navigator.pushNamed(context, '/wine-info');
+                      },
+                    ),
+                  ],
                 ),
+                const SizedBox(height: 10),
+                // Caveat: This section won't re-render if [isInfoEdited] is changed.
+                // A listener is required if the re-render is necessary when staying on the current screen.
+                isInfoEdited
+                    ? Container()
+                    : Column(
+                        children: [
+                          Text('Tap \'edit\' to add info.'),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 17.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Roast'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                      SizedBox(width: 20),
-                      Text('Light', style: Theme.of(context).textTheme.caption),
                       Expanded(
-                        flex: 1,
-                        child: ThemedPaddedSlider(
-                          child: Slider(
-                            value: wineTastingState.roastLevel,
-                            min: 0,
-                            max: 10,
-                            onChanged: (value) {
-                              context.read<WineTastingCreateBloc>().add(RoastLevelEvent(roastLevel: round(value)));
-                            },
-                          ),
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Grapes'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              formatVarietals(wineTastingState),
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Vinification'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '(Unspecified)',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Sugar'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '(Unspecified)',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                          ],
                         ),
                       ),
-                      Text('Dark', style: Theme.of(context).textTheme.caption),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Type'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '(Unspecified)',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Vintage'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '(Unspecified)',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'ABV'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '(Unspecified)',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 10),
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -245,7 +309,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 selectedTastingNotes.isNotEmpty
                     ? Wrap(
                         alignment: WrapAlignment.center,
@@ -254,7 +318,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         children: selectedTastingNotes.map((e) => TastingNote(e)).toList(),
                       )
                     : Text('Tap \'edit\' to select tasting notes.'),
-                SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -270,7 +334,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 isCharacteristicsEdited
                     ? CharacteristicsChart(
                         tasting: context.watch<WineTastingCreateBloc>().state.tasting,
@@ -278,7 +342,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     : Column(
                         children: [
                           Text('Tap \'edit\' to assess characteristics.'),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           ColorFiltered(
                             colorFilter:
                                 ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
@@ -288,7 +352,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                           ),
                         ],
                       ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),

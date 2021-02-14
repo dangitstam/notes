@@ -67,6 +67,33 @@ class RoastLevelEvent extends WineTastingCreateEvent {
   RoastLevelEvent({this.roastLevel});
 }
 
+class AddWineVarietalNamesEvent extends WineTastingCreateEvent {
+  @required
+  final String varietalNames;
+  AddWineVarietalNamesEvent({this.varietalNames});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is AddWineVarietalNamesEvent && other.varietalNames == varietalNames;
+  }
+}
+
+class AddWineVarietalPercentagesEvent extends WineTastingCreateEvent {
+  @required
+  final String varietalPercentages;
+  AddWineVarietalPercentagesEvent({this.varietalPercentages});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is AddWineVarietalPercentagesEvent && other.varietalPercentages == varietalPercentages;
+  }
+}
+
+/// Enter: Characteristics.
 class AromaScoreEvent extends WineTastingCreateEvent {
   @required
   final double aromaScore;
@@ -126,6 +153,8 @@ class FinishDurationEvent extends WineTastingCreateEvent {
   final double finishDuration;
   FinishDurationEvent({this.finishDuration});
 }
+
+/// Exit: Characteristics.
 
 class FlavorScoreEvent extends WineTastingCreateEvent {
   @required
