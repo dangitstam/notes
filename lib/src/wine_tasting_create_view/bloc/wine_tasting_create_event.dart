@@ -67,16 +67,16 @@ class RoastLevelEvent extends WineTastingCreateEvent {
   RoastLevelEvent({this.roastLevel});
 }
 
-class AddWineVarietalsEvent extends WineTastingCreateEvent {
+class AddWineVarietalNamesEvent extends WineTastingCreateEvent {
   @required
-  final String varietals;
-  AddWineVarietalsEvent({this.varietals});
+  final String varietalNames;
+  AddWineVarietalNamesEvent({this.varietalNames});
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is AddWineVarietalsEvent && other.varietals == varietals;
+    return other is AddWineVarietalNamesEvent && other.varietalNames == varietalNames;
   }
 }
 

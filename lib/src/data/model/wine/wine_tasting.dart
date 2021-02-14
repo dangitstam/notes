@@ -9,7 +9,7 @@ class WineTasting extends Equatable implements Tasting {
   final String origin;
   final String process;
   final String roaster;
-  final String varietals;
+  final String varietalNames;
   final String varietalPercentages;
   final List<Note> notes;
   final double roastLevel;
@@ -36,7 +36,7 @@ class WineTasting extends Equatable implements Tasting {
       this.origin,
       this.process,
       this.roaster,
-      this.varietals,
+      this.varietalNames,
       this.varietalPercentages,
       this.notes = const <Note>[],
       this.roastLevel,
@@ -68,8 +68,8 @@ class WineTasting extends Equatable implements Tasting {
       process: tastingMap['process'],
       roastLevel: tastingMap['roast_level'],
       roaster: tastingMap['roaster'],
-      varietals: tastingMap['varietals'],
-      varietalPercentages: tastingMap['varietalPercentages'],
+      varietalNames: tastingMap['varietal_names'],
+      varietalPercentages: tastingMap['varietal_percentages'],
 
       // Characteristics.
       aromaScore: tastingMap['aroma_score'],
@@ -99,8 +99,8 @@ class WineTasting extends Equatable implements Tasting {
       'origin': origin,
       'process': process,
       'roaster': roaster,
-      'varietals': varietals,
-      'varietalPercentages': varietalPercentages,
+      'varietal_names': varietalNames,
+      'varietal_percentages': varietalPercentages,
       'roast_level': roastLevel,
       'aroma_score': aromaScore,
       'aroma_intensity': aromaIntensity,
@@ -123,7 +123,7 @@ class WineTasting extends Equatable implements Tasting {
     String description,
     String origin,
     String roaster,
-    String varietals,
+    String varietalNames,
     String varietalPercentages,
     String process,
     double roastLevel,
@@ -147,7 +147,7 @@ class WineTasting extends Equatable implements Tasting {
       description: description ?? this.description,
       origin: origin ?? this.origin,
       roaster: roaster ?? this.roaster,
-      varietals: varietals ?? this.varietals,
+      varietalNames: varietalNames ?? this.varietalNames,
       varietalPercentages: varietalPercentages ?? this.varietalPercentages,
       process: process ?? this.process,
       roastLevel: roastLevel ?? this.roastLevel,
@@ -174,7 +174,7 @@ class WineTasting extends Equatable implements Tasting {
         description,
         origin,
         roaster,
-        varietals,
+        varietalNames,
         varietalPercentages,
         process,
         roastLevel,

@@ -39,11 +39,11 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
     super.didChangeDependencies();
 
     WineTasting currentTasting = context.read<WineTastingCreateBloc>().state.tasting;
-    String varietalsFromBloc = currentTasting.varietals;
+    String varietalNamesFromBloc = currentTasting.varietalNames;
     String varietalPercentagesFromBloc = currentTasting.varietalPercentages;
 
-    if (varietalsFromBloc.isNotEmpty && varietalPercentagesFromBloc.isNotEmpty) {
-      varietalNames = json.decode(varietalsFromBloc).cast<String>();
+    if (varietalNamesFromBloc.isNotEmpty && varietalPercentagesFromBloc.isNotEmpty) {
+      varietalNames = json.decode(varietalNamesFromBloc).cast<String>();
       varietalPercentages = json.decode(varietalPercentagesFromBloc).cast<int>();
       for (var _ in varietalNames) {
         _addGrapeFields(addDefaults: false);
@@ -60,7 +60,7 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
     // TODO: Would be more efficient to call this function only once (at time of closing info screen).
     String varietalNamesJson = json.encode(varietalNames);
     String varietalPercentagesJson = json.encode(varietalPercentages);
-    context.read<WineTastingCreateBloc>().add(AddWineVarietalsEvent(varietals: varietalNamesJson));
+    context.read<WineTastingCreateBloc>().add(AddWineVarietalNamesEvent(varietalNames: varietalNamesJson));
     context
         .read<WineTastingCreateBloc>()
         .add(AddWineVarietalPercentagesEvent(varietalPercentages: varietalPercentagesJson));

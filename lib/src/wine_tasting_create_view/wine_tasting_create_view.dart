@@ -34,8 +34,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
   }
 
   String formatVarietals(WineTasting tasting) {
-    if (tasting.varietals.isNotEmpty && tasting.varietalPercentages.isNotEmpty) {
-      List<String> varietals = json.decode(tasting.varietals).cast<String>();
+    if (tasting.varietalNames.isNotEmpty && tasting.varietalPercentages.isNotEmpty) {
+      List<String> varietals = json.decode(tasting.varietalNames).cast<String>();
       List<int> varietalPercentages = json.decode(tasting.varietalPercentages).cast<int>();
       if (varietals.length == varietalPercentages.length) {
         List<String> res = [];

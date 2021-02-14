@@ -27,7 +27,7 @@ void main() {
           WineTastingCreateState(
             isWineTastingInserted: false,
             tasting: WineTasting(
-              varietals: '',
+              varietalNames: '',
               varietalPercentages: '',
             ),
           ),
@@ -74,7 +74,7 @@ void main() {
             WineTastingCreateState(
               isWineTastingInserted: false,
               tasting: WineTasting(
-                varietals: '',
+                varietalNames: '',
                 varietalPercentages: '',
               ),
             ),
@@ -98,7 +98,6 @@ void main() {
             ),
           );
 
-          //
           expect(state.varietalNames, ['']);
           expect(state.varietalPercentages, [100]);
         },
@@ -111,7 +110,7 @@ void main() {
             WineTastingCreateState(
               isWineTastingInserted: false,
               tasting: WineTasting(
-                varietals: '[\"Grenache\",\"Mourvèdre\",\"Carignan\"]',
+                varietalNames: '[\"Grenache\",\"Mourvèdre\",\"Carignan\"]',
                 varietalPercentages: '[80,15,5]',
               ),
             ),
@@ -145,7 +144,7 @@ void main() {
             WineTastingCreateState(
               isWineTastingInserted: false,
               tasting: WineTasting(
-                varietals: '',
+                varietalNames: '',
                 varietalPercentages: '',
               ),
             ),
@@ -183,7 +182,7 @@ void main() {
 
           verify(
             wineTastingCreateBloc.add(
-              AddWineVarietalsEvent(varietals: '[\"Sauvignon Blanc\",\"Marsanne\"]'),
+              AddWineVarietalNamesEvent(varietalNames: '[\"Sauvignon Blanc\",\"Marsanne\"]'),
             ),
           );
           verify(
