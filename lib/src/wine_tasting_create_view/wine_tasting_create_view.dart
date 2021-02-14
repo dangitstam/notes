@@ -118,7 +118,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       flex: 2,
                       child: ImageCapture(onImageSelected: onImageSelected),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       flex: 5,
                       child: Column(
@@ -130,7 +130,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                               context.read<WineTastingCreateBloc>().add(RoasterEvent(roaster: value));
                             },
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           EditableTextWithCaptionWidget(
                             label: 'Wine Name',
                             hint: 'What is this wine called?',
@@ -143,7 +143,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   minLines: 1,
                   maxLines: 5,
@@ -158,12 +158,12 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                   },
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(CupertinoIcons.location_solid, size: 24, color: Theme.of(context).colorScheme.onSurface),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     Expanded(
                       child: TextField(
                         decoration: InputDecoration(
@@ -181,7 +181,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,7 +199,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Caveat: This section won't re-render if [isInfoEdited] is changed.
                 // A listener is required if the re-render is necessary when staying on the current screen.
                 isInfoEdited
@@ -207,7 +207,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     : Column(
                         children: [
                           Text('Tap \'edit\' to add info.'),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                         ],
                       ),
                 Padding(
@@ -224,27 +224,27 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                               'Grapes'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               formatVarietals(wineTastingState),
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
                               'Vinification'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
                               'Sugar'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
@@ -260,27 +260,27 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                               'Type'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
                               'Vintage'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
                               'ABV'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
@@ -291,7 +291,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -306,7 +306,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 selectedTastingNotes.isNotEmpty
                     ? Wrap(
                         alignment: WrapAlignment.center,
@@ -315,7 +315,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         children: selectedTastingNotes.map((e) => TastingNote(e)).toList(),
                       )
                     : Text('Tap \'edit\' to select tasting notes.'),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -331,7 +331,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 isCharacteristicsEdited
                     ? CharacteristicsChart(
                         tasting: context.watch<WineTastingCreateBloc>().state.tasting,
@@ -339,7 +339,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     : Column(
                         children: [
                           Text('Tap \'edit\' to assess characteristics.'),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           ColorFiltered(
                             colorFilter:
                                 ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
@@ -349,7 +349,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                           ),
                         ],
                       ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),

@@ -62,12 +62,12 @@ class _WineInfoSectionState extends State<WineInfoSection> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SectionTitle(sectionNumber: 1, title: 'Info'),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             'Edit details about the wine.',
             style: Theme.of(context).textTheme.caption,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 17.0),
             child: Column(
@@ -76,21 +76,21 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                 Row(
                   children: [
                     Text('Grapes'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 GrapeTextFields(),
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
               children: [
                 Text('Sugar'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Text('Dry', style: Theme.of(context).textTheme.caption),
                 Expanded(
                   flex: 1,
