@@ -5,8 +5,8 @@ import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
-import 'grapes.dart';
 import '../section_title.dart';
+import 'grapes.dart';
 
 class WineInfoScreen extends StatefulWidget {
   @override
@@ -81,6 +81,51 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                 ),
                 const SizedBox(height: 10),
                 GrapeTextFields(),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Divider(),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 17.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Alcohol By Volume'.toUpperCase(),
+                      style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                IntrinsicWidth(
+                  child: TextFormField(
+                    autovalidateMode: AutovalidateMode.always,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 5.0),
+                        child: Icon(CupertinoIcons.percent, size: 16),
+                      ),
+                      suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+                      hintText: '12.5',
+                      labelText: 'Percentage',
+                      counterText: '',
+                    ),
+
+                    // Restrict input to numeric, 3 digits.
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    maxLength: 4,
+                    style: Theme.of(context).textTheme.bodyText2,
+                    onChanged: (value) {},
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                ),
               ],
             ),
           ),
