@@ -95,7 +95,7 @@ class AddWineVarietalPercentagesEvent extends WineTastingCreateEvent {
 
 class AddAlcoholByVolumeEvent extends WineTastingCreateEvent {
   @required
-  final String alcoholByVolume;
+  final double alcoholByVolume;
   AddAlcoholByVolumeEvent({this.alcoholByVolume});
 }
 

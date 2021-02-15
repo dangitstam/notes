@@ -120,7 +120,11 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                     keyboardType: TextInputType.numberWithOptions(decimal: true),
                     maxLength: 4,
                     style: Theme.of(context).textTheme.bodyText2,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      context
+                          .read<WineTastingCreateBloc>()
+                          .add(AddAlcoholByVolumeEvent(alcoholByVolume: double.parse(value)));
+                    },
                     validator: (value) {
                       return null;
                     },
