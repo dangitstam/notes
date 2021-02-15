@@ -11,7 +11,7 @@ class WineTasting extends Equatable implements Tasting {
   final String roaster;
   final String varietalNames;
   final String varietalPercentages;
-  final String alcoholByVolume;
+  final double alcoholByVolume;
   final List<Note> notes;
   final double roastLevel;
 
