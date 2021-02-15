@@ -3,7 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
-class AlcoholByVolume extends StatelessWidget {
+class AlcoholByVolume extends StatefulWidget {
+  @override
+  _AlcoholByVolumeState createState() => _AlcoholByVolumeState();
+}
+
+class _AlcoholByVolumeState extends State<AlcoholByVolume> {
+  TextEditingController _alcoholByVolumeController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    double initialAlcoholByVolume = context.read<WineTastingCreateBloc>().state.tasting.alcoholByVolume;
+    _alcoholByVolumeController = TextEditingController(
+      text: initialAlcoholByVolume > 0.0 ? '$initialAlcoholByVolume' : null,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,6 +40,7 @@ class AlcoholByVolume extends StatelessWidget {
           IntrinsicWidth(
             child: TextFormField(
               autovalidateMode: AutovalidateMode.always,
+              controller: _alcoholByVolumeController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 suffixIcon: Padding(
