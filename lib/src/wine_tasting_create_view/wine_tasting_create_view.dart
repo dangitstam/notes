@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
-import 'package:notes/src/data/model/wine/wine_tasting.dart';
+import 'package:notes/src/common/wine_utils.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/wine_tasting_create_view/components/section_title.dart';
@@ -33,33 +32,17 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
     context.read<WineTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
   }
 
-  /// Given a wine tasting, creates a comma-separated string of percent and varietal pairs.
-  ///
-  /// E.g. "80% Grenache, 20% Mourvèdre".
-  String formatVarietals(WineTasting tasting) {
-    if (tasting.varietalNames.isNotEmpty && tasting.varietalPercentages.isNotEmpty) {
-      List<String> varietals = json.decode(tasting.varietalNames).cast<String>();
-      List<int> varietalPercentages = json.decode(tasting.varietalPercentages).cast<int>();
-      if (varietals.length == varietalPercentages.length) {
-        List<String> res = [];
-        for (var i = 0; i < varietals.length; i++) {
-          final String varietal = varietals[i];
-          final String varietalPercentage = varietalPercentages[i].toString();
-          final String formattedVarietal = '$varietalPercentage% $varietal';
-          res.add(formattedVarietal);
-        }
-
-        return res.join(', ');
-      }
-    }
-
-    return '(Unspecified)';
-  }
-
   @override
   Widget build(BuildContext context) {
     var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
     var selectedTastingNotes = wineTastingState.notes;
+
+    // Format varietals and percentages to be of the form '80% Grenache, 20% Carignan'.
+    // Default to '(Unspecified)'.
+    String formattedVarietals = formatVarietals(wineTastingState);
+    if (formattedVarietals.isEmpty) {
+      formattedVarietals = '(Unspecified)';
+    }
 
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
@@ -229,7 +212,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              formatVarietals(wineTastingState),
+                              '$formattedVarietals',
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                             const SizedBox(height: 20),
