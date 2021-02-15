@@ -150,6 +150,7 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
                     suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                     hintText: '100',
                     labelText: 'Percentage',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
                     counterText: '',
                   ),
 

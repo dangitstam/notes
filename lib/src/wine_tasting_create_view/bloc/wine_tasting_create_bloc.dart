@@ -32,7 +32,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
               roaster: '',
               varietalNames: '',
               varietalPercentages: '',
-              alcoholByVolume: 0.0,
+              alcoholByVolume: -1.0, // Use a negative value to signal as unspecified.
               process: 'Washed',
               roastLevel: 7.0,
               aromaScore: 7.0,

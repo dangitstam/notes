@@ -113,6 +113,7 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                       suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                       hintText: '12.5',
                       labelText: 'Percentage',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
                       counterText: '',
                     ),
 
