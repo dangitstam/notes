@@ -177,6 +177,10 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       yield state.copyWith(
         tasting: state.tasting.copyWith(varietalPercentages: event.varietalPercentages),
       );
+    } else if (event is AddAlcoholByVolumeEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(alcoholByVolume: event.alcoholByVolume),
+      );
     } else if (event is AromaScoreEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(aromaScore: event.aromaScore),
