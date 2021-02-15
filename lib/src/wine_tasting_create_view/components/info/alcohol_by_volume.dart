@@ -36,16 +36,30 @@ class AlcoholByVolume extends StatelessWidget {
                 counterText: '',
               ),
 
-              // Restrict input to numeric, 3 digits.
+              // Restrict input to numeric, room for 3 digits and a decimal.
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               maxLength: 4,
               style: Theme.of(context).textTheme.bodyText2,
               onChanged: (value) {
-                context
-                    .read<WineTastingCreateBloc>()
-                    .add(AddAlcoholByVolumeEvent(alcoholByVolume: double.parse(value)));
+                // Default to -1.0 to signal alcohol as unspecified.
+                final double parsedValue = double.tryParse(value);
+                if (parsedValue != null) {
+                  context.read<WineTastingCreateBloc>().add(AddAlcoholByVolumeEvent(alcoholByVolume: parsedValue));
+                } else {
+                  context.read<WineTastingCreateBloc>().add(AddAlcoholByVolumeEvent(alcoholByVolume: -1.0));
+                }
               },
               validator: (value) {
+                if (value.isNotEmpty) {
+                  final double parsedValue = double.tryParse(value);
+                  if (parsedValue == null) {
+                    return 'Not a %!';
+                  }
+                  if (double.tryParse(value) > 100) {
+                    return 'Too high!';
+                  }
+                }
+
                 return null;
               },
             ),
