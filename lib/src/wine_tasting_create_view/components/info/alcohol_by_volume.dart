@@ -73,7 +73,7 @@ class _AlcoholByVolumeState extends State<AlcoholByVolume> {
                   if (parsedValue == null) {
                     return 'Not a %!';
                   }
-                  if (double.tryParse(value) > 100) {
+                  if (parsedValue > 100) {
                     return 'Too high!';
                   }
                 }
