@@ -9,6 +9,29 @@ import 'package:notes/src/keys.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:provider/provider.dart';
 
+/// Grapes section allowing users to specify the varietals in their wine.
+class Grapes extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 17.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text('Grapes'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+              const SizedBox(width: 10),
+            ],
+          ),
+          const SizedBox(height: 10),
+          GrapeTextFields(),
+        ],
+      ),
+    );
+  }
+}
+
 /// Custom widget with a pair of text forms to specify a varietal and it's proportion as a percentage.
 class GrapeTextFields extends StatefulWidget {
   GrapeTextFields() : super(key: WidgetKeys.grapeTextFields);
@@ -105,24 +128,6 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
       text: varietalPercentages[index].toString(),
     );
 
-    // Custom input decoration.
-    var customInputDecoration = InputDecoration(
-      counterText: '',
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Theme.of(context).hintColor, width: 1),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
-      ),
-      focusColor: Theme.of(context).colorScheme.primary,
-      errorBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Theme.of(context).errorColor, width: 2),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Theme.of(context).errorColor, width: 2),
-      ),
-    );
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Column(
@@ -136,7 +141,12 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
               Expanded(
                 child: TextFormField(
                   controller: varietalController,
-                  decoration: customInputDecoration.copyWith(hintText: 'Enter grape name'),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter grape name',
+                    labelText: 'Varietal Name',
+                    counterText: '',
+                  ),
                   onChanged: (value) {
                     varietalNames[index] = value;
 
@@ -154,13 +164,17 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
                 child: TextFormField(
                   autovalidateMode: AutovalidateMode.always,
                   controller: percentageController,
-                  decoration: customInputDecoration.copyWith(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
                     suffixIcon: Padding(
                       padding: const EdgeInsets.only(left: 10.0, right: 5.0),
                       child: Icon(CupertinoIcons.percent, size: 16),
                     ),
                     suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
                     hintText: '100',
+                    labelText: 'Percentage',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    counterText: '',
                   ),
 
                   // Restrict input to numeric, 3 digits.

@@ -93,6 +93,12 @@ class AddWineVarietalPercentagesEvent extends WineTastingCreateEvent {
   }
 }
 
+class AddAlcoholByVolumeEvent extends WineTastingCreateEvent {
+  @required
+  final double alcoholByVolume;
+  AddAlcoholByVolumeEvent({this.alcoholByVolume});
+}
+
 /// Enter: Characteristics.
 class AromaScoreEvent extends WineTastingCreateEvent {
   @required

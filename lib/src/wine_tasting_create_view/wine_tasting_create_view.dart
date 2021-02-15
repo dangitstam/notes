@@ -44,6 +44,9 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
       formattedVarietals = '(Unspecified)';
     }
 
+    String formattedABV =
+        wineTastingState.alcoholByVolume > 0.0 ? '${wineTastingState.alcoholByVolume}%' : '(Unspecified)';
+
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
         // Navigate on state change after awaited db insertion to avoid race condition.
@@ -245,30 +248,35 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                             Text(
                               'Type'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                              textAlign: TextAlign.right,
                             ),
                             const SizedBox(width: 10),
                             Text(
                               '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
+                              textAlign: TextAlign.right,
                             ),
                             const SizedBox(height: 20),
                             Text(
                               'Vintage'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                              textAlign: TextAlign.right,
                             ),
                             const SizedBox(width: 10),
                             Text(
                               '(Unspecified)',
                               style: Theme.of(context).textTheme.bodyText2,
+                              textAlign: TextAlign.right,
                             ),
                             const SizedBox(height: 20),
                             Text(
-                              'ABV'.toUpperCase(),
+                              'Alcohol By Volume'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                              textAlign: TextAlign.right,
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              '(Unspecified)',
+                              '$formattedABV',
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                           ],
