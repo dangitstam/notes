@@ -120,7 +120,7 @@ class WineTastingListItem extends StatelessWidget {
                     /**
                      * Alcohol by volume.
                      */
-                    formattedVarietals.isNotEmpty ? const SizedBox(height: 10) : Container(),
+                    tasting.alcoholByVolume > 0.0 ? const SizedBox(height: 10) : Container(),
                     tasting.alcoholByVolume > 0.0
                         ? Text(
                             'Alc. ${tasting.alcoholByVolume}% by vol.',
