@@ -9,6 +9,29 @@ import 'package:notes/src/keys.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:provider/provider.dart';
 
+/// Grapes section allowing users to specify the varietals in their wine.
+class Grapes extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 17.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text('Grapes'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+              const SizedBox(width: 10),
+            ],
+          ),
+          const SizedBox(height: 10),
+          GrapeTextFields(),
+        ],
+      ),
+    );
+  }
+}
+
 /// Custom widget with a pair of text forms to specify a varietal and it's proportion as a percentage.
 class GrapeTextFields extends StatefulWidget {
   GrapeTextFields() : super(key: WidgetKeys.grapeTextFields);

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/wine_tasting_create_view/components/info/alcohol_by_volume.dart';
 
 import '../section_title.dart';
 import 'grapes.dart';
@@ -68,72 +69,11 @@ class _WineInfoSectionState extends State<WineInfoSection> {
             style: Theme.of(context).textTheme.caption,
           ),
           const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 17.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text('Grapes'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                    const SizedBox(width: 10),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                GrapeTextFields(),
-              ],
-            ),
-          ),
+          Grapes(),
           const SizedBox(height: 10),
           Divider(),
           const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 17.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Alcohol By Volume'.toUpperCase(),
-                      style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                IntrinsicWidth(
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.always,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 5.0),
-                        child: Icon(CupertinoIcons.percent, size: 16),
-                      ),
-                      suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
-                      hintText: '12.5',
-                      labelText: 'Percentage',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      counterText: '',
-                    ),
-
-                    // Restrict input to numeric, 3 digits.
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    maxLength: 4,
-                    style: Theme.of(context).textTheme.bodyText2,
-                    onChanged: (value) {
-                      context
-                          .read<WineTastingCreateBloc>()
-                          .add(AddAlcoholByVolumeEvent(alcoholByVolume: double.parse(value)));
-                    },
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+          AlcoholByVolume(),
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
