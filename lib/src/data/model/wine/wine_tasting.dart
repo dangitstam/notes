@@ -11,6 +11,7 @@ class WineTasting extends Equatable implements Tasting {
   final String roaster;
   final String varietalNames;
   final String varietalPercentages;
+  final String alcoholByVolume;
   final List<Note> notes;
   final double roastLevel;
 
@@ -38,6 +39,7 @@ class WineTasting extends Equatable implements Tasting {
       this.roaster,
       this.varietalNames,
       this.varietalPercentages,
+      this.alcoholByVolume,
       this.notes = const <Note>[],
       this.roastLevel,
 
@@ -70,6 +72,7 @@ class WineTasting extends Equatable implements Tasting {
       roaster: tastingMap['roaster'],
       varietalNames: tastingMap['varietal_names'],
       varietalPercentages: tastingMap['varietal_percentages'],
+      alcoholByVolume: tastingMap['alcohol_by_volume'],
 
       // Characteristics.
       aromaScore: tastingMap['aroma_score'],
@@ -101,6 +104,7 @@ class WineTasting extends Equatable implements Tasting {
       'roaster': roaster,
       'varietal_names': varietalNames,
       'varietal_percentages': varietalPercentages,
+      'alcohol_by_volume': alcoholByVolume,
       'roast_level': roastLevel,
       'aroma_score': aromaScore,
       'aroma_intensity': aromaIntensity,
@@ -125,6 +129,7 @@ class WineTasting extends Equatable implements Tasting {
     String roaster,
     String varietalNames,
     String varietalPercentages,
+    String alcoholByVolume,
     String process,
     double roastLevel,
     double acidityScore,
@@ -149,6 +154,7 @@ class WineTasting extends Equatable implements Tasting {
       roaster: roaster ?? this.roaster,
       varietalNames: varietalNames ?? this.varietalNames,
       varietalPercentages: varietalPercentages ?? this.varietalPercentages,
+      alcoholByVolume: alcoholByVolume ?? this.alcoholByVolume,
       process: process ?? this.process,
       roastLevel: roastLevel ?? this.roastLevel,
       aromaScore: aromaScore ?? this.aromaScore,
@@ -176,6 +182,7 @@ class WineTasting extends Equatable implements Tasting {
         roaster,
         varietalNames,
         varietalPercentages,
+        alcoholByVolume,
         process,
         roastLevel,
         aromaScore,
