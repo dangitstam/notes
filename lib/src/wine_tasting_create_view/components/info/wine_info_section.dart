@@ -5,7 +5,7 @@ import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
-import '../grapes.dart';
+import 'grapes.dart';
 import '../section_title.dart';
 
 class WineInfoScreen extends StatefulWidget {

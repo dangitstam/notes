@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/keys.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
-import 'package:notes/src/wine_tasting_create_view/components/grapes.dart';
+import 'package:notes/src/wine_tasting_create_view/components/info/grapes.dart';
 
 class MockWineTastingCreateBloc extends MockBloc implements WineTastingCreateBloc {}
 
