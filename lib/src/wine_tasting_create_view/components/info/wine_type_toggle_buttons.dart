@@ -6,6 +6,10 @@ class WineTypeToggleButtons extends StatefulWidget {
 }
 
 class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
+  String _wineType;
+  String _sparklingType;
+  String _result;
+
   List<String> types = [
     'Red',
     'White',
@@ -25,14 +29,21 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
     super.initState();
 
     setState(() {
+      _wineType = '';
+      _sparklingType = '';
+      _result = '';
       _typeSelection = List<bool>.generate(types.length, (_) => false);
       _bubblesSelection = [false, true];
     });
   }
 
+  void updateResult() {
+    // TODO: Update bloc with this value.
+    _result = '$_wineType $_sparklingType'.trim();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 17.0),
       child: Column(
@@ -66,6 +77,9 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
                     for (int i = 0; i < _typeSelection.length; i++) {
                       _typeSelection[i] = index == i;
                     }
+
+                    _wineType = types[index];
+                    updateResult();
                   });
                 },
 
@@ -145,7 +159,10 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
                           hintText: 'Pét-Nat',
                           counterText: '',
                         ),
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          _sparklingType = value;
+                          updateResult();
+                        },
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                     ],
