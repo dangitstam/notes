@@ -26,31 +26,8 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
 
     setState(() {
       _typeSelection = List<bool>.generate(types.length, (_) => false);
-      _bubblesSelection = List<bool>.generate(bubbles.length, (_) => false);
+      _bubblesSelection = [false, true];
     });
-  }
-
-  Widget bubblesSection() {
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 20),
-        Text(
-          'Specify bubbles'.toUpperCase(),
-          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
-        ),
-        const SizedBox(height: 10),
-        TextFormField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Pét-Nat',
-            counterText: '',
-          ),
-          onChanged: (value) {},
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
-      ],
-    );
   }
 
   @override
