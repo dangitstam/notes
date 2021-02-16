@@ -5,6 +5,7 @@ import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/components/info/alcohol_by_volume.dart';
+import 'package:notes/src/wine_tasting_create_view/components/info/wine_type_toggle_buttons.dart';
 
 import '../section_title.dart';
 import 'grapes.dart';
@@ -69,6 +70,10 @@ class _WineInfoSectionState extends State<WineInfoSection> {
             style: Theme.of(context).textTheme.caption,
           ),
           const SizedBox(height: 20),
+          WineTypeToggleButtons(),
+          const SizedBox(height: 10),
+          Divider(),
+          const SizedBox(height: 10),
           Grapes(),
           const SizedBox(height: 10),
           Divider(),
