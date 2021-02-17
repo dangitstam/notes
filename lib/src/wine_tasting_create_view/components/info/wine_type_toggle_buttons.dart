@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
 class WineTypeToggleButtons extends StatefulWidget {
   @override
@@ -38,8 +40,8 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
   }
 
   void updateResult() {
-    // TODO: Update bloc with this value.
     _result = '$_wineType $_sparklingType'.trim();
+    context.read<WineTastingCreateBloc>().add(AddWineTypeEvent(wineType: _result));
   }
 
   @override
