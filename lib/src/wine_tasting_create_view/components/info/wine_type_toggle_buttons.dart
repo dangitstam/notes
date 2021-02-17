@@ -8,40 +8,55 @@ class WineTypeToggleButtons extends StatefulWidget {
 }
 
 class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
-  String _wineType;
-  String _sparklingType;
-  String _result;
+  String _wineType = '';
+  String _sparklingType = '';
 
-  List<String> types = [
+  List<String> _types = [
     'Red',
-    'White',
     'Rosé',
-    'Skin-contact',
+    'Skin Contact',
+    'White',
   ];
-  List<bool> _typeSelection;
+  List<bool> _typeSelection = List<bool>.generate(4, (_) => false);
 
   List<String> bubbles = [
     'Yes',
     'No',
   ];
-  List<bool> _bubblesSelection;
+  List<bool> _bubblesSelection = [false, true];
+
+  TextEditingController _bubblesTextEditingController;
 
   @override
   void initState() {
     super.initState();
 
     setState(() {
-      _wineType = '';
-      _sparklingType = '';
-      _result = '';
-      _typeSelection = List<bool>.generate(types.length, (_) => false);
-      _bubblesSelection = [false, true];
+      _wineType = context.read<WineTastingCreateBloc>().state.tasting.wineType;
+      if (_wineType.isNotEmpty) {
+        int index = _types.indexOf(_wineType);
+        if (index >= 0) {
+          _typeSelection[index] = true;
+        }
+      }
+
+      _sparklingType = context.read<WineTastingCreateBloc>().state.tasting.bubbles;
+      if (_sparklingType.isNotEmpty) {
+        _bubblesSelection = [true, false];
+      }
+
+      _bubblesTextEditingController = TextEditingController(
+        text: _sparklingType,
+      );
     });
   }
 
-  void updateResult() {
-    _result = '$_wineType $_sparklingType'.trim();
-    context.read<WineTastingCreateBloc>().add(AddWineTypeEvent(wineType: _result));
+  void submitWineType() {
+    context.read<WineTastingCreateBloc>().add(AddWineTypeEvent(wineType: _wineType));
+  }
+
+  void submitBubbles() {
+    context.read<WineTastingCreateBloc>().add(AddBubblesEvent(bubbles: _sparklingType));
   }
 
   @override
@@ -67,12 +82,14 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
                 constraints: BoxConstraints.expand(
                   width: constraints.maxWidth / _typeSelection.length - borderOverflowOffsetWidth,
                 ),
-                children: [
-                  Padding(padding: EdgeInsets.symmetric(vertical: 10), child: Text('Red')),
-                  Text('Rosé'),
-                  Text('Skin Contact'),
-                  Text('White'),
-                ],
+                children: _types.map(
+                  (String type) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Text(type),
+                    );
+                  },
+                ).toList(),
                 isSelected: _typeSelection,
                 onPressed: (int index) {
                   setState(() {
@@ -80,8 +97,8 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
                       _typeSelection[i] = index == i;
                     }
 
-                    _wineType = types[index];
-                    updateResult();
+                    _wineType = _types[index];
+                    submitWineType();
                   });
                 },
 
@@ -127,6 +144,12 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
                         for (int i = 0; i < _bubblesSelection.length; i++) {
                           _bubblesSelection[i] = index == i;
                         }
+
+                        // Clear value if no is selected.
+                        if (index == 1) {
+                          _sparklingType = '';
+                          submitBubbles();
+                        }
                       });
                     },
 
@@ -155,6 +178,7 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        controller: _bubblesTextEditingController,
                         enabled: _bubblesSelection[0],
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -163,7 +187,7 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
                         ),
                         onChanged: (value) {
                           _sparklingType = value;
-                          updateResult();
+                          submitBubbles();
                         },
                         style: Theme.of(context).textTheme.bodyText2,
                       ),

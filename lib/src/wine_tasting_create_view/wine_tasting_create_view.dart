@@ -44,7 +44,9 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
       formattedVarietals = '(Unspecified)';
     }
 
-    String formattedType = wineTastingState.wineType;
+    String wineType = wineTastingState.wineType;
+    String bubbles = wineTastingState.bubbles;
+    String formattedType = '$wineType $bubbles'.trim();
     if (formattedType.isEmpty) {
       formattedType = '(Unspecified)';
     }
@@ -210,7 +212,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -247,6 +249,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         ),
                       ),
                       Expanded(
+                        flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [

@@ -105,6 +105,12 @@ class AddWineTypeEvent extends WineTastingCreateEvent {
   AddWineTypeEvent({this.wineType});
 }
 
+class AddBubblesEvent extends WineTastingCreateEvent {
+  @required
+  final String bubbles;
+  AddBubblesEvent({this.bubbles});
+}
+
 /// Enter: Characteristics.
 class AromaScoreEvent extends WineTastingCreateEvent {
   @required
