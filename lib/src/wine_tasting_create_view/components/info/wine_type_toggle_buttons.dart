@@ -164,8 +164,7 @@ class _WineTypeToggleButtonsState extends State<WineTypeToggleButtons> {
               const SizedBox(width: 20),
               Expanded(
                 child: AnimatedOpacity(
-                  // If the widget is visible, animate to 0.0 (invisible).
-                  // If the widget is hidden, animate to 1.0 (fully visible).
+                  // Fade the widget to 30% opacity when sparkling is on 'No'.
                   opacity: _bubblesSelection[0] ? 1.0 : 0.3,
                   duration: Duration(milliseconds: 100),
                   child: Column(
