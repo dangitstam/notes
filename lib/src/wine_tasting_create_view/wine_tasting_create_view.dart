@@ -44,6 +44,13 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
       formattedVarietals = '(Unspecified)';
     }
 
+    String wineType = wineTastingState.wineType;
+    String bubbles = wineTastingState.bubbles;
+    String formattedType = '$wineType $bubbles'.trim();
+    if (formattedType.isEmpty) {
+      formattedType = '(Unspecified)';
+    }
+
     String formattedABV =
         wineTastingState.alcoholByVolume > 0.0 ? '${wineTastingState.alcoholByVolume}%' : '(Unspecified)';
 
@@ -205,7 +212,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -242,6 +249,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         ),
                       ),
                       Expanded(
+                        flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -252,7 +260,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              '(Unspecified)',
+                              '$formattedType',
                               style: Theme.of(context).textTheme.bodyText2,
                               textAlign: TextAlign.right,
                             ),

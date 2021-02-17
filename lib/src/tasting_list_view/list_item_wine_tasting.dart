@@ -20,6 +20,21 @@ class WineTastingListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final String formattedId = tasting.wineTastingId.toString().padLeft(2, '0');
     final String formattedVarietals = formatVarietals(tasting);
+
+    /**
+     * Type (color, bubbles), vintage, alcohol by volume.
+     */
+    List<String> wineFacts = [];
+    String formattedType = '${tasting.wineType} ${tasting.bubbles}'.trim();
+    if (formattedType.isNotEmpty) {
+      wineFacts.add(formattedType);
+    }
+    if (tasting.alcoholByVolume >= 0.0) {
+      wineFacts.add('Alc. ${tasting.alcoholByVolume}% by vol.');
+    }
+
+    String wineFactsText = wineFacts.join(' · ');
+
     return Container(
       padding: EdgeInsets.all(17),
       child: Column(
@@ -118,12 +133,12 @@ class WineTastingListItem extends StatelessWidget {
                       textAlign: TextAlign.start,
                     ),
                     /**
-                     * Alcohol by volume.
+                     * Type, Vintage, Alcohol by volume.
                      */
-                    tasting.alcoholByVolume > 0.0 ? const SizedBox(height: 10) : Container(),
-                    tasting.alcoholByVolume > 0.0
+                    wineFactsText.isNotEmpty ? const SizedBox(height: 10) : Container(),
+                    wineFactsText.isNotEmpty
                         ? Text(
-                            'Alc. ${tasting.alcoholByVolume}% by vol.',
+                            '$wineFactsText',
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.end,
                           )

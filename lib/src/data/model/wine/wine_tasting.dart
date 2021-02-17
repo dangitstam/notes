@@ -12,6 +12,8 @@ class WineTasting extends Equatable implements Tasting {
   final String varietalNames;
   final String varietalPercentages;
   final double alcoholByVolume;
+  final String wineType;
+  final String bubbles;
   final List<Note> notes;
   final double roastLevel;
 
@@ -40,6 +42,8 @@ class WineTasting extends Equatable implements Tasting {
       this.varietalNames,
       this.varietalPercentages,
       this.alcoholByVolume,
+      this.wineType,
+      this.bubbles,
       this.notes = const <Note>[],
       this.roastLevel,
 
@@ -73,6 +77,8 @@ class WineTasting extends Equatable implements Tasting {
       varietalNames: tastingMap['varietal_names'],
       varietalPercentages: tastingMap['varietal_percentages'],
       alcoholByVolume: tastingMap['alcohol_by_volume'],
+      wineType: tastingMap['wine_type'],
+      bubbles: tastingMap['bubbles'],
 
       // Characteristics.
       aromaScore: tastingMap['aroma_score'],
@@ -105,6 +111,8 @@ class WineTasting extends Equatable implements Tasting {
       'varietal_names': varietalNames,
       'varietal_percentages': varietalPercentages,
       'alcohol_by_volume': alcoholByVolume,
+      'wine_type': wineType,
+      'bubbles': bubbles,
       'roast_level': roastLevel,
       'aroma_score': aromaScore,
       'aroma_intensity': aromaIntensity,
@@ -130,6 +138,8 @@ class WineTasting extends Equatable implements Tasting {
     String varietalNames,
     String varietalPercentages,
     double alcoholByVolume,
+    String wineType,
+    String bubbles,
     String process,
     double roastLevel,
     double acidityScore,
@@ -155,6 +165,8 @@ class WineTasting extends Equatable implements Tasting {
       varietalNames: varietalNames ?? this.varietalNames,
       varietalPercentages: varietalPercentages ?? this.varietalPercentages,
       alcoholByVolume: alcoholByVolume ?? this.alcoholByVolume,
+      wineType: wineType ?? this.wineType,
+      bubbles: bubbles ?? this.bubbles,
       process: process ?? this.process,
       roastLevel: roastLevel ?? this.roastLevel,
       aromaScore: aromaScore ?? this.aromaScore,
@@ -183,6 +195,8 @@ class WineTasting extends Equatable implements Tasting {
         varietalNames,
         varietalPercentages,
         alcoholByVolume,
+        wineType,
+        bubbles,
         process,
         roastLevel,
         aromaScore,
