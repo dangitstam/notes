@@ -29,7 +29,12 @@ class WineTastingListItem extends StatelessWidget {
     if (formattedType.isNotEmpty) {
       wineFacts.add(formattedType);
     }
-    if (tasting.alcoholByVolume >= 0.0) {
+
+    // TODO: Migrate to null safety.
+    if (tasting.vintage != null && tasting.vintage > 0) {
+      wineFacts.add('${tasting.vintage}');
+    }
+    if (tasting.alcoholByVolume != null && tasting.alcoholByVolume >= 0.0) {
       wineFacts.add('Alc. ${tasting.alcoholByVolume}% by vol.');
     }
 
