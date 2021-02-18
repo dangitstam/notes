@@ -144,6 +144,30 @@ class WineTastingListItem extends StatelessWidget {
                           )
                         : Container(),
                     /**
+                     * Vinification.
+                     */
+                    tasting.vinification.isNotEmpty ? const SizedBox(height: 10) : Container(),
+                    tasting.vinification.isNotEmpty
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 24,
+                                child: Image.asset(
+                                  'assets/images/np_vinification.png',
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Expanded(
+                                child: Text(
+                                  '${tasting.vinification}',
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(),
+                    /**
                      * Varietals.
                      */
                     formattedVarietals.isNotEmpty ? const SizedBox(height: 10) : Container(),
@@ -152,7 +176,7 @@ class WineTastingListItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: 20,
+                                height: 24,
                                 child: Image.asset(
                                   'assets/images/np_grapes_small.png',
                                 ),

@@ -17,6 +17,7 @@ Future<void> createWineTastingsTable(Database db) {
       alcohol_by_volume REAL,
       wine_type TEXT,
       bubbles TEXT,
+      vinification TEXT,
       notes TEXT,
       roast_level REAL,
       aroma_score REAL,

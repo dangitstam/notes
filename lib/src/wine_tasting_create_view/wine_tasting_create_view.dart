@@ -54,6 +54,11 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
     String formattedABV =
         wineTastingState.alcoholByVolume > 0.0 ? '${wineTastingState.alcoholByVolume}%' : '(Unspecified)';
 
+    String formattedVinification = wineTastingState.vinification;
+    if (formattedVinification.isEmpty) {
+      formattedVinification = '(Unspecified)';
+    }
+
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
         // Navigate on state change after awaited db insertion to avoid race condition.
@@ -210,48 +215,11 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                   padding: const EdgeInsets.symmetric(horizontal: 17.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 3,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Grapes'.toUpperCase(),
-                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              '$formattedVarietals',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'Vinification'.toUpperCase(),
-                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              '(Unspecified)',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'Sugar'.toUpperCase(),
-                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              '(Unspecified)',
-                              style: Theme.of(context).textTheme.bodyText2,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
                               'Type'.toUpperCase(),
@@ -278,13 +246,38 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                             ),
                             const SizedBox(height: 20),
                             Text(
-                              'Alcohol By Volume'.toUpperCase(),
+                              'Alc, By Vol.'.toUpperCase(),
                               style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
-                              textAlign: TextAlign.right,
                             ),
                             const SizedBox(width: 10),
                             Text(
                               '$formattedABV',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Grapes'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '$formattedVarietals',
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Vinification'.toUpperCase(),
+                              style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              '$formattedVinification',
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                           ],
