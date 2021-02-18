@@ -60,7 +60,7 @@ class _AlcoholByVolumeState extends State<AlcoholByVolume> {
                   ),
 
                   // Restrict input to numeric, room for 3 digits and a decimal.
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: TextInputType.number,
                   maxLength: 4,
                   style: Theme.of(context).textTheme.bodyText2,
                   onChanged: (value) {
