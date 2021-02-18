@@ -61,16 +61,35 @@ class _WineInfoSectionState extends State<WineInfoSection> {
 
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SectionTitle(sectionNumber: 1, title: 'Info'),
-          const SizedBox(height: 20),
-          Text(
-            'Edit details about the wine.',
-            style: Theme.of(context).textTheme.caption,
-          ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           WineTypeToggleButtons(),
+          const SizedBox(height: 10),
+          Divider(),
+          const SizedBox(height: 10),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 17),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Vinification'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
+                const SizedBox(height: 10),
+                TextField(
+                  minLines: 1,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'How was this wine made?',
+                  ),
+                  onChanged: (value) {
+                    context.read<WineTastingCreateBloc>().add(AddVinificationEvent(vinification: value));
+                  },
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 10),
           Divider(),
           const SizedBox(height: 10),
