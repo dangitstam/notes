@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
-import 'package:notes/src/wine_tasting_create_view/components/info/alcohol_by_volume.dart';
 import 'package:notes/src/wine_tasting_create_view/components/info/wine_type_toggle_buttons.dart';
 
 import '../section_title.dart';
+import 'alcohol_by_volume.dart';
 import 'grapes.dart';
 
 class WineInfoScreen extends StatefulWidget {
@@ -68,6 +68,12 @@ class _WineInfoSectionState extends State<WineInfoSection> {
           const SizedBox(height: 10),
           Divider(),
           const SizedBox(height: 10),
+          AlcoholByVolume(),
+          const SizedBox(height: 10),
+          Grapes(),
+          const SizedBox(height: 10),
+          Divider(),
+          const SizedBox(height: 10),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 17),
             child: Column(
@@ -92,12 +98,6 @@ class _WineInfoSectionState extends State<WineInfoSection> {
           ),
           const SizedBox(height: 10),
           Divider(),
-          const SizedBox(height: 10),
-          Grapes(),
-          const SizedBox(height: 10),
-          Divider(),
-          const SizedBox(height: 10),
-          AlcoholByVolume(),
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
