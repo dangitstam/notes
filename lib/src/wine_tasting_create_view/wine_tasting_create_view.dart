@@ -215,10 +215,11 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                   padding: const EdgeInsets.symmetric(horizontal: 17.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 1,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Type'.toUpperCase(),
@@ -257,8 +258,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         ),
                       ),
                       Expanded(
-                        flex: 1,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Grapes'.toUpperCase(),
