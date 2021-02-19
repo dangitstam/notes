@@ -15,6 +15,7 @@ class WineTasting extends Equatable implements Tasting {
   final String wineType;
   final String bubbles;
   final String vinification;
+  final int vintage;
   final List<Note> notes;
   final double roastLevel;
 
@@ -46,6 +47,7 @@ class WineTasting extends Equatable implements Tasting {
       this.wineType,
       this.bubbles,
       this.vinification,
+      this.vintage,
       this.notes = const <Note>[],
       this.roastLevel,
 
@@ -82,6 +84,7 @@ class WineTasting extends Equatable implements Tasting {
       wineType: tastingMap['wine_type'],
       bubbles: tastingMap['bubbles'],
       vinification: tastingMap['vinification'],
+      vintage: tastingMap['vintage'],
 
       // Characteristics.
       aromaScore: tastingMap['aroma_score'],
@@ -117,6 +120,7 @@ class WineTasting extends Equatable implements Tasting {
       'wine_type': wineType,
       'bubbles': bubbles,
       'vinification': vinification,
+      'vintage': vintage,
       'roast_level': roastLevel,
       'aroma_score': aromaScore,
       'aroma_intensity': aromaIntensity,
@@ -145,6 +149,7 @@ class WineTasting extends Equatable implements Tasting {
     String wineType,
     String bubbles,
     String vinification,
+    int vintage,
     String process,
     double roastLevel,
     double acidityScore,
@@ -173,6 +178,7 @@ class WineTasting extends Equatable implements Tasting {
       wineType: wineType ?? this.wineType,
       bubbles: bubbles ?? this.bubbles,
       vinification: vinification ?? this.vinification,
+      vintage: vintage ?? this.vintage,
       process: process ?? this.process,
       roastLevel: roastLevel ?? this.roastLevel,
       aromaScore: aromaScore ?? this.aromaScore,
@@ -204,6 +210,7 @@ class WineTasting extends Equatable implements Tasting {
         wineType,
         bubbles,
         vinification,
+        vintage,
         process,
         roastLevel,
         aromaScore,

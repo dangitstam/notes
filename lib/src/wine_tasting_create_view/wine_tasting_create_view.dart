@@ -59,6 +59,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
       formattedVinification = '(Unspecified)';
     }
 
+    String formattedVintage = wineTastingState.vintage > 0 ? '${wineTastingState.vintage}' : '(Unspecified)';
+
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
         // Navigate on state change after awaited db insertion to avoid race condition.
@@ -240,7 +242,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              '(Unspecified)',
+                              '$formattedVintage',
                               style: Theme.of(context).textTheme.bodyText2,
                               textAlign: TextAlign.right,
                             ),

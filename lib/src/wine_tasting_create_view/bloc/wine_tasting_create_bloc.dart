@@ -36,6 +36,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
               wineType: '',
               bubbles: '',
               vinification: '',
+              vintage: -1, // Use a negative value to signal as unspecified.
               process: 'Washed',
               roastLevel: 7.0,
               aromaScore: 7.0,
@@ -195,6 +196,10 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     } else if (event is AddVinificationEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(vinification: event.vinification),
+      );
+    } else if (event is AddVintageEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(vintage: event.vintage),
       );
     } else if (event is AromaScoreEvent) {
       yield state.copyWith(

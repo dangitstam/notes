@@ -117,6 +117,12 @@ class AddVinificationEvent extends WineTastingCreateEvent {
   AddVinificationEvent({this.vinification});
 }
 
+class AddVintageEvent extends WineTastingCreateEvent {
+  @required
+  final int vintage;
+  AddVintageEvent({this.vintage});
+}
+
 /// Enter: Characteristics.
 class AromaScoreEvent extends WineTastingCreateEvent {
   @required
