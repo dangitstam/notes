@@ -68,7 +68,7 @@ class _WineInfoSectionState extends State<WineInfoSection> {
           const SizedBox(height: 10),
           Divider(),
           const SizedBox(height: 10),
-          AlcoholByVolume(),
+          VintageAndAlcoholByVolume(),
           const SizedBox(height: 10),
           Grapes(),
           const SizedBox(height: 10),

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
-class AlcoholByVolume extends StatefulWidget {
+class VintageAndAlcoholByVolume extends StatefulWidget {
   @override
-  _AlcoholByVolumeState createState() => _AlcoholByVolumeState();
+  _VintageAndAlcoholByVolumeState createState() => _VintageAndAlcoholByVolumeState();
 }
 
-class _AlcoholByVolumeState extends State<AlcoholByVolume> {
+class _VintageAndAlcoholByVolumeState extends State<VintageAndAlcoholByVolume> {
   TextEditingController _vintageController;
   TextEditingController _alcoholByVolumeController;
 
@@ -59,12 +59,12 @@ class _AlcoholByVolumeState extends State<AlcoholByVolume> {
                     counterText: '',
                   ),
 
-                  // Restrict input to numeric, room for 3 digits and a decimal.
+                  // Restrict input to numeric, room for 4 digits.
                   keyboardType: TextInputType.number,
                   maxLength: 4,
                   style: Theme.of(context).textTheme.bodyText2,
                   onChanged: (value) {
-                    // Default to -1.0 to signal alcohol as unspecified.
+                    // Default to -1 to signal alcohol as unspecified.
                     final int parsedYear = int.tryParse(value);
                     if (parsedYear != null) {
                       context.read<WineTastingCreateBloc>().add(AddVintageEvent(vintage: parsedYear));
