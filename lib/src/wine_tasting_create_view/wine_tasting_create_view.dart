@@ -55,8 +55,14 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
         wineTastingState.alcoholByVolume > 0.0 ? '${wineTastingState.alcoholByVolume}%' : '(Unspecified)';
 
     String formattedVinification = wineTastingState.vinification;
-    if (formattedVinification.isEmpty) {
+    List<String> vinificationFacts = [];
+    if (wineTastingState.isBiodynamic) {
+      vinificationFacts.add('Biodynamic');
+    }
+    if (vinificationFacts.isEmpty) {
       formattedVinification = '(Unspecified)';
+    } else {
+      formattedVinification = vinificationFacts.join(', ');
     }
 
     String formattedVintage = wineTastingState.vintage > 0 ? '${wineTastingState.vintage}' : '(Unspecified)';
