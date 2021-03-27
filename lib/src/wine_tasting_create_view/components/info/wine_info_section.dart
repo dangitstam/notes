@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/wine_tasting_create_view/components/info/vinification.dart';
 import 'package:notes/src/wine_tasting_create_view/components/info/wine_type_toggle_buttons.dart';
 
 import 'alcohol_by_volume.dart';
@@ -72,121 +73,7 @@ class _WineInfoSectionState extends State<WineInfoSection> {
           const SizedBox(height: 10),
           Divider(),
           const SizedBox(height: 10),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Vinification'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                const SizedBox(height: 10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CheckboxListTile(
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            contentPadding: EdgeInsets.all(0),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            dense: true,
-                            title: Text('Biodynamic', style: Theme.of(context).textTheme.bodyText2),
-                            value: wineTastingState.isBiodynamic,
-                            onChanged: (bool value) {
-                              setState(() {
-                                context.read<WineTastingCreateBloc>().add(SetIsBiodynamicEvent(isBiodynamic: value));
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            contentPadding: EdgeInsets.all(0),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            dense: true,
-                            title: Text('Organic Farming', style: Theme.of(context).textTheme.bodyText2),
-                            value: wineTastingState.isOrganicFarming,
-                            onChanged: (bool value) {
-                              setState(() {
-                                context
-                                    .read<WineTastingCreateBloc>()
-                                    .add(SetIsOrganicFarmingEvent(isOrganicFarming: value));
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            contentPadding: EdgeInsets.all(0),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            dense: true,
-                            title: Text('Unfined & Unfiltered', style: Theme.of(context).textTheme.bodyText2),
-                            value: wineTastingState.isUnfinedUnfiltered,
-                            onChanged: (bool value) {
-                              setState(() {
-                                context
-                                    .read<WineTastingCreateBloc>()
-                                    .add(SetIsUnfinedUnfilteredEvent(isUnfinedUnfiltered: value));
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CheckboxListTile(
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            contentPadding: EdgeInsets.all(0),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            dense: true,
-                            title: Text('Wild Yeast', style: Theme.of(context).textTheme.bodyText2),
-                            value: wineTastingState.isWildYeast,
-                            onChanged: (bool value) {
-                              setState(() {
-                                context.read<WineTastingCreateBloc>().add(SetIsWildYeastEvent(isWildYeast: value));
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            contentPadding: EdgeInsets.all(0),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            dense: true,
-                            title: Text('No Added S02', style: Theme.of(context).textTheme.bodyText2),
-                            value: wineTastingState.isNoAddedSulfites,
-                            onChanged: (bool value) {
-                              setState(() {
-                                context
-                                    .read<WineTastingCreateBloc>()
-                                    .add(SetIsNoAddedSulfitesEvent(isNoAddedSulfites: value));
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            contentPadding: EdgeInsets.all(0),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            dense: true,
-                            title: Text('Ethically Made', style: Theme.of(context).textTheme.bodyText2),
-                            value: wineTastingState.isEthicallyMade,
-                            onChanged: (bool value) {
-                              setState(() {
-                                context
-                                    .read<WineTastingCreateBloc>()
-                                    .add(SetIsEthicallyMadeEvent(isEthicallyMade: value));
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          Vinification(),
           const SizedBox(height: 20),
         ],
       ),
