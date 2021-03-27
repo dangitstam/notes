@@ -246,7 +246,6 @@ class WineTasting extends Equatable implements Tasting {
         isBiodynamic,
         isOrganicFarming,
         isUnfinedUnfiltered,
-        isUnfinedUnfiltered,
         isWildYeast,
         isNoAddedSulfites,
         isEthicallyMade,
