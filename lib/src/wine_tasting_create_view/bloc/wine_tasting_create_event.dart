@@ -117,6 +117,12 @@ class AddVinificationEvent extends WineTastingCreateEvent {
   AddVinificationEvent({this.vinification});
 }
 
+class SetIsBiodynamicEvent extends WineTastingCreateEvent {
+  @required
+  final bool isBiodynamic;
+  SetIsBiodynamicEvent({this.isBiodynamic});
+}
+
 class AddVintageEvent extends WineTastingCreateEvent {
   @required
   final int vintage;
