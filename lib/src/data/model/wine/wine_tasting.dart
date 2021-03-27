@@ -14,7 +14,15 @@ class WineTasting extends Equatable implements Tasting {
   final double alcoholByVolume;
   final String wineType;
   final String bubbles;
-  final String vinification;
+
+  // Vinification.
+  final bool isBiodynamic;
+  final bool isOrganicFarming;
+  final bool isUnfinedUnfiltered;
+  final bool isNoAddedSulfites;
+  final bool isWildYeast;
+  final bool isEthicallyMade;
+
   final int vintage;
   final List<Note> notes;
   final double roastLevel;
@@ -46,7 +54,12 @@ class WineTasting extends Equatable implements Tasting {
       this.alcoholByVolume,
       this.wineType,
       this.bubbles,
-      this.vinification,
+      this.isBiodynamic,
+      this.isOrganicFarming,
+      this.isUnfinedUnfiltered,
+      this.isWildYeast,
+      this.isNoAddedSulfites,
+      this.isEthicallyMade,
       this.vintage,
       this.notes = const <Note>[],
       this.roastLevel,
@@ -83,7 +96,13 @@ class WineTasting extends Equatable implements Tasting {
       alcoholByVolume: tastingMap['alcohol_by_volume'],
       wineType: tastingMap['wine_type'],
       bubbles: tastingMap['bubbles'],
-      vinification: tastingMap['vinification'],
+      isBiodynamic: tastingMap['is_biodynamic'] == 1,
+      isOrganicFarming: tastingMap['is_organic_farming'] == 1,
+      isUnfinedUnfiltered: tastingMap['is_unfined_unfiltered'] == 1,
+      isWildYeast: tastingMap['is_wild_yeast'] == 1,
+      isNoAddedSulfites: tastingMap['is_no_added_sulfites'] == 1,
+      isEthicallyMade: tastingMap['is_ethically_made'] == 1,
+
       vintage: tastingMap['vintage'],
 
       // Characteristics.
@@ -119,7 +138,12 @@ class WineTasting extends Equatable implements Tasting {
       'alcohol_by_volume': alcoholByVolume,
       'wine_type': wineType,
       'bubbles': bubbles,
-      'vinification': vinification,
+      'is_biodynamic': isBiodynamic ? 1 : 0,
+      'is_organic_farming': isOrganicFarming ? 1 : 0,
+      'is_unfined_unfiltered': isUnfinedUnfiltered ? 1 : 0,
+      'is_wild_yeast': isWildYeast ? 1 : 0,
+      'is_no_added_sulfites': isNoAddedSulfites ? 1 : 0,
+      'is_ethically_made': isEthicallyMade ? 1 : 0,
       'vintage': vintage,
       'roast_level': roastLevel,
       'aroma_score': aromaScore,
@@ -148,7 +172,12 @@ class WineTasting extends Equatable implements Tasting {
     double alcoholByVolume,
     String wineType,
     String bubbles,
-    String vinification,
+    bool isBiodynamic,
+    bool isOrganicFarming,
+    bool isUnfinedUnfiltered,
+    bool isWildYeast,
+    bool isNoAddedSulfites,
+    bool isEthicallyMade,
     int vintage,
     String process,
     double roastLevel,
@@ -177,7 +206,12 @@ class WineTasting extends Equatable implements Tasting {
       alcoholByVolume: alcoholByVolume ?? this.alcoholByVolume,
       wineType: wineType ?? this.wineType,
       bubbles: bubbles ?? this.bubbles,
-      vinification: vinification ?? this.vinification,
+      isBiodynamic: isBiodynamic ?? this.isBiodynamic,
+      isOrganicFarming: isOrganicFarming ?? this.isOrganicFarming,
+      isUnfinedUnfiltered: isUnfinedUnfiltered ?? this.isUnfinedUnfiltered,
+      isWildYeast: isWildYeast ?? this.isWildYeast,
+      isNoAddedSulfites: isNoAddedSulfites ?? this.isNoAddedSulfites,
+      isEthicallyMade: isEthicallyMade ?? this.isEthicallyMade,
       vintage: vintage ?? this.vintage,
       process: process ?? this.process,
       roastLevel: roastLevel ?? this.roastLevel,
@@ -209,7 +243,12 @@ class WineTasting extends Equatable implements Tasting {
         alcoholByVolume,
         wineType,
         bubbles,
-        vinification,
+        isBiodynamic,
+        isOrganicFarming,
+        isUnfinedUnfiltered,
+        isWildYeast,
+        isNoAddedSulfites,
+        isEthicallyMade,
         vintage,
         process,
         roastLevel,

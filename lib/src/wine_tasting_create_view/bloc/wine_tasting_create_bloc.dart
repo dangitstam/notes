@@ -35,7 +35,12 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
               alcoholByVolume: -1.0, // Use a negative value to signal as unspecified.
               wineType: '',
               bubbles: '',
-              vinification: '',
+              isBiodynamic: false,
+              isOrganicFarming: false,
+              isUnfinedUnfiltered: false,
+              isWildYeast: false,
+              isNoAddedSulfites: false,
+              isEthicallyMade: false,
               vintage: -1, // Use a negative value to signal as unspecified.
               process: 'Washed',
               roastLevel: 7.0,
@@ -193,9 +198,29 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       yield state.copyWith(
         tasting: state.tasting.copyWith(bubbles: event.bubbles),
       );
-    } else if (event is AddVinificationEvent) {
+    } else if (event is SetIsBiodynamicEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(vinification: event.vinification),
+        tasting: state.tasting.copyWith(isBiodynamic: event.isBiodynamic),
+      );
+    } else if (event is SetIsOrganicFarmingEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(isOrganicFarming: event.isOrganicFarming),
+      );
+    } else if (event is SetIsUnfinedUnfilteredEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(isUnfinedUnfiltered: event.isUnfinedUnfiltered),
+      );
+    } else if (event is SetIsWildYeastEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(isWildYeast: event.isWildYeast),
+      );
+    } else if (event is SetIsNoAddedSulfitesEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(isNoAddedSulfites: event.isNoAddedSulfites),
+      );
+    } else if (event is SetIsEthicallyMadeEvent) {
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(isEthicallyMade: event.isEthicallyMade),
       );
     } else if (event is AddVintageEvent) {
       yield state.copyWith(
