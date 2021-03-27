@@ -111,10 +111,40 @@ class AddBubblesEvent extends WineTastingCreateEvent {
   AddBubblesEvent({this.bubbles});
 }
 
-class AddVinificationEvent extends WineTastingCreateEvent {
+class SetIsBiodynamicEvent extends WineTastingCreateEvent {
   @required
-  final String vinification;
-  AddVinificationEvent({this.vinification});
+  final bool isBiodynamic;
+  SetIsBiodynamicEvent({this.isBiodynamic});
+}
+
+class SetIsOrganicFarmingEvent extends WineTastingCreateEvent {
+  @required
+  final bool isOrganicFarming;
+  SetIsOrganicFarmingEvent({this.isOrganicFarming});
+}
+
+class SetIsUnfinedUnfilteredEvent extends WineTastingCreateEvent {
+  @required
+  final bool isUnfinedUnfiltered;
+  SetIsUnfinedUnfilteredEvent({this.isUnfinedUnfiltered});
+}
+
+class SetIsWildYeastEvent extends WineTastingCreateEvent {
+  @required
+  final bool isWildYeast;
+  SetIsWildYeastEvent({this.isWildYeast});
+}
+
+class SetIsNoAddedSulfitesEvent extends WineTastingCreateEvent {
+  @required
+  final bool isNoAddedSulfites;
+  SetIsNoAddedSulfitesEvent({this.isNoAddedSulfites});
+}
+
+class SetIsEthicallyMadeEvent extends WineTastingCreateEvent {
+  @required
+  final bool isEthicallyMade;
+  SetIsEthicallyMadeEvent({this.isEthicallyMade});
 }
 
 class AddVintageEvent extends WineTastingCreateEvent {

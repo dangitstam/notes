@@ -40,6 +40,12 @@ class WineTastingListItem extends StatelessWidget {
 
     String wineFactsText = wineFacts.join(' · ');
 
+    String formattedVinification = '';
+    List<String> vinificationFacts = formatVinification(tasting);
+    if (vinificationFacts.isNotEmpty) {
+      formattedVinification = vinificationFacts.join(' · ');
+    }
+
     return Container(
       padding: EdgeInsets.all(17),
       child: Column(
@@ -151,8 +157,8 @@ class WineTastingListItem extends StatelessWidget {
                     /**
                      * Vinification.
                      */
-                    tasting.vinification.isNotEmpty ? const SizedBox(height: 10) : Container(),
-                    tasting.vinification.isNotEmpty
+                    formattedVinification.isNotEmpty ? const SizedBox(height: 10) : Container(),
+                    formattedVinification.isNotEmpty
                         ? Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -165,7 +171,7 @@ class WineTastingListItem extends StatelessWidget {
                               const SizedBox(width: 5),
                               Expanded(
                                 child: Text(
-                                  '${tasting.vinification}',
+                                  '${formattedVinification}',
                                   style: Theme.of(context).textTheme.caption,
                                 ),
                               ),

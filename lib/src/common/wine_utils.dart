@@ -25,3 +25,29 @@ String formatVarietals(WineTasting tasting) {
 
   return '';
 }
+
+/// Given a wine tasting, returns a list of strings of the wine's production facts.
+///
+/// E.g. ["Biodynamic", "Organic Farming", "Wild Yeast"].
+List<String> formatVinification(WineTasting tasting) {
+  List<String> vinificationFacts = [];
+  if (tasting.isBiodynamic) {
+    vinificationFacts.add('Biodynamic');
+  }
+  if (tasting.isOrganicFarming) {
+    vinificationFacts.add('Organic Farming');
+  }
+  if (tasting.isUnfinedUnfiltered) {
+    vinificationFacts.add('Unfined & Unfiltered');
+  }
+  if (tasting.isWildYeast) {
+    vinificationFacts.add('Wild Yeast');
+  }
+  if (tasting.isNoAddedSulfites) {
+    vinificationFacts.add('No Added S02');
+  }
+  if (tasting.isEthicallyMade) {
+    vinificationFacts.add('Ethically Made');
+  }
+  return vinificationFacts;
+}

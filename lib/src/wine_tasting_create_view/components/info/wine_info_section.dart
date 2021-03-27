@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/wine_tasting_create_view/components/info/vinification.dart';
 import 'package:notes/src/wine_tasting_create_view/components/info/wine_type_toggle_buttons.dart';
 
-import '../section_title.dart';
 import 'alcohol_by_volume.dart';
 import 'grapes.dart';
 
@@ -60,7 +60,6 @@ class _WineInfoSectionState extends State<WineInfoSection> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SectionTitle(sectionNumber: 1, title: 'Info'),
           const SizedBox(height: 10),
           WineTypeToggleButtons(),
           const SizedBox(height: 10),
@@ -74,28 +73,7 @@ class _WineInfoSectionState extends State<WineInfoSection> {
           const SizedBox(height: 10),
           Divider(),
           const SizedBox(height: 10),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Vinification'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
-                const SizedBox(height: 10),
-                TextField(
-                  minLines: 1,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'How was this wine made?',
-                  ),
-                  onChanged: (value) {
-                    context.read<WineTastingCreateBloc>().add(AddVinificationEvent(vinification: value));
-                  },
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-              ],
-            ),
-          ),
+          Vinification(),
           const SizedBox(height: 20),
         ],
       ),
