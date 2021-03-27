@@ -105,8 +105,14 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                             controlAffinity: ListTileControlAffinity.leading,
                             dense: true,
                             title: Text('Organic Farming', style: Theme.of(context).textTheme.bodyText2),
-                            value: false,
-                            onChanged: (value) {},
+                            value: wineTastingState.isOrganicFarming,
+                            onChanged: (bool value) {
+                              setState(() {
+                                context
+                                    .read<WineTastingCreateBloc>()
+                                    .add(SetIsOrganicFarmingEvent(isOrganicFarming: value));
+                              });
+                            },
                           ),
                           CheckboxListTile(
                             activeColor: Theme.of(context).colorScheme.primary,
@@ -114,8 +120,14 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                             controlAffinity: ListTileControlAffinity.leading,
                             dense: true,
                             title: Text('Unfined & Unfiltered', style: Theme.of(context).textTheme.bodyText2),
-                            value: false,
-                            onChanged: (value) {},
+                            value: wineTastingState.isUnfinedUnfiltered,
+                            onChanged: (bool value) {
+                              setState(() {
+                                context
+                                    .read<WineTastingCreateBloc>()
+                                    .add(SetIsUnfinedUnfilteredEvent(isUnfinedUnfiltered: value));
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -130,8 +142,12 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                             controlAffinity: ListTileControlAffinity.leading,
                             dense: true,
                             title: Text('Wild Yeast', style: Theme.of(context).textTheme.bodyText2),
-                            value: false,
-                            onChanged: (value) {},
+                            value: wineTastingState.isWildYeast,
+                            onChanged: (bool value) {
+                              setState(() {
+                                context.read<WineTastingCreateBloc>().add(SetIsWildYeastEvent(isWildYeast: value));
+                              });
+                            },
                           ),
                           CheckboxListTile(
                             activeColor: Theme.of(context).colorScheme.primary,
@@ -139,8 +155,29 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                             controlAffinity: ListTileControlAffinity.leading,
                             dense: true,
                             title: Text('No Added S02', style: Theme.of(context).textTheme.bodyText2),
-                            value: false,
-                            onChanged: (value) {},
+                            value: wineTastingState.isNoAddedSulfites,
+                            onChanged: (bool value) {
+                              setState(() {
+                                context
+                                    .read<WineTastingCreateBloc>()
+                                    .add(SetIsNoAddedSulfitesEvent(isNoAddedSulfites: value));
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            dense: true,
+                            title: Text('Ethically Made', style: Theme.of(context).textTheme.bodyText2),
+                            value: wineTastingState.isEthicallyMade,
+                            onChanged: (bool value) {
+                              setState(() {
+                                context
+                                    .read<WineTastingCreateBloc>()
+                                    .add(SetIsEthicallyMadeEvent(isEthicallyMade: value));
+                              });
+                            },
                           ),
                         ],
                       ),

@@ -34,5 +34,20 @@ List<String> formatVinification(WineTasting tasting) {
   if (tasting.isBiodynamic) {
     vinificationFacts.add('Biodynamic');
   }
+  if (tasting.isOrganicFarming) {
+    vinificationFacts.add('Organic Farming');
+  }
+  if (tasting.isUnfinedUnfiltered) {
+    vinificationFacts.add('Unfined & Unfiltered');
+  }
+  if (tasting.isWildYeast) {
+    vinificationFacts.add('Wild Yeast');
+  }
+  if (tasting.isNoAddedSulfites) {
+    vinificationFacts.add('No Added S02');
+  }
+  if (tasting.isEthicallyMade) {
+    vinificationFacts.add('Ethically Made');
+  }
   return vinificationFacts;
 }
