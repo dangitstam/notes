@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/wine_tasting_create_view/components/info/wine_type_toggle_buttons.dart';
 
-import '../section_title.dart';
 import 'alcohol_by_volume.dart';
 import 'grapes.dart';
 
@@ -53,6 +52,9 @@ class WineInfoSection extends StatefulWidget {
 }
 
 class _WineInfoSectionState extends State<WineInfoSection> {
+  // TODO: Append to wineTastingState.
+  var _isBiodynamic = false;
+
   @override
   Widget build(BuildContext context) {
     var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
@@ -60,7 +62,6 @@ class _WineInfoSectionState extends State<WineInfoSection> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SectionTitle(sectionNumber: 1, title: 'Info'),
           const SizedBox(height: 10),
           WineTypeToggleButtons(),
           const SizedBox(height: 10),
@@ -81,17 +82,74 @@ class _WineInfoSectionState extends State<WineInfoSection> {
               children: [
                 Text('Vinification'.toUpperCase(), style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10)),
                 const SizedBox(height: 10),
-                TextField(
-                  minLines: 1,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'How was this wine made?',
-                  ),
-                  onChanged: (value) {
-                    context.read<WineTastingCreateBloc>().add(AddVinificationEvent(vinification: value));
-                  },
-                  style: Theme.of(context).textTheme.bodyText2,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CheckboxListTile(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            dense: true,
+                            title: Text('Biodynamic', style: Theme.of(context).textTheme.bodyText2),
+                            value: _isBiodynamic,
+                            onChanged: (bool value) {
+                              setState(() {
+                                print(value);
+                                _isBiodynamic = value;
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            dense: true,
+                            title: Text('Organic Farming', style: Theme.of(context).textTheme.bodyText2),
+                            value: false,
+                            onChanged: (value) {},
+                          ),
+                          CheckboxListTile(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            dense: true,
+                            title: Text('Unfined & Unfiltered', style: Theme.of(context).textTheme.bodyText2),
+                            value: false,
+                            onChanged: (value) {},
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CheckboxListTile(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            dense: true,
+                            title: Text('Wild Yeast', style: Theme.of(context).textTheme.bodyText2),
+                            value: false,
+                            onChanged: (value) {},
+                          ),
+                          CheckboxListTile(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            contentPadding: EdgeInsets.all(0),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            dense: true,
+                            title: Text('No Added S02', style: Theme.of(context).textTheme.bodyText2),
+                            value: false,
+                            onChanged: (value) {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
