@@ -52,9 +52,6 @@ class WineInfoSection extends StatefulWidget {
 }
 
 class _WineInfoSectionState extends State<WineInfoSection> {
-  // TODO: Append to wineTastingState.
-  var _isBiodynamic = false;
-
   @override
   Widget build(BuildContext context) {
     var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
@@ -95,11 +92,10 @@ class _WineInfoSectionState extends State<WineInfoSection> {
                             controlAffinity: ListTileControlAffinity.leading,
                             dense: true,
                             title: Text('Biodynamic', style: Theme.of(context).textTheme.bodyText2),
-                            value: _isBiodynamic,
+                            value: wineTastingState.isBiodynamic,
                             onChanged: (bool value) {
                               setState(() {
-                                print(value);
-                                _isBiodynamic = value;
+                                context.read<WineTastingCreateBloc>().add(SetIsBiodynamicEvent(isBiodynamic: value));
                               });
                             },
                           ),
