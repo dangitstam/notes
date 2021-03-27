@@ -14,7 +14,11 @@ class WineTasting extends Equatable implements Tasting {
   final double alcoholByVolume;
   final String wineType;
   final String bubbles;
-  final String vinification;
+
+  // Vinification.
+  final String vinification; // TODO: Remove
+  final bool isBiodynamic;
+
   final int vintage;
   final List<Note> notes;
   final double roastLevel;
@@ -47,6 +51,7 @@ class WineTasting extends Equatable implements Tasting {
       this.wineType,
       this.bubbles,
       this.vinification,
+      this.isBiodynamic,
       this.vintage,
       this.notes = const <Note>[],
       this.roastLevel,
@@ -84,6 +89,8 @@ class WineTasting extends Equatable implements Tasting {
       wineType: tastingMap['wine_type'],
       bubbles: tastingMap['bubbles'],
       vinification: tastingMap['vinification'],
+      isBiodynamic: tastingMap['is_biodynamic'] == 1,
+
       vintage: tastingMap['vintage'],
 
       // Characteristics.
@@ -120,6 +127,7 @@ class WineTasting extends Equatable implements Tasting {
       'wine_type': wineType,
       'bubbles': bubbles,
       'vinification': vinification,
+      'is_biodynamic': isBiodynamic ? 1 : 0,
       'vintage': vintage,
       'roast_level': roastLevel,
       'aroma_score': aromaScore,
@@ -149,6 +157,7 @@ class WineTasting extends Equatable implements Tasting {
     String wineType,
     String bubbles,
     String vinification,
+    bool isBiodynamic,
     int vintage,
     String process,
     double roastLevel,
@@ -178,6 +187,7 @@ class WineTasting extends Equatable implements Tasting {
       wineType: wineType ?? this.wineType,
       bubbles: bubbles ?? this.bubbles,
       vinification: vinification ?? this.vinification,
+      isBiodynamic: isBiodynamic ?? this.isBiodynamic,
       vintage: vintage ?? this.vintage,
       process: process ?? this.process,
       roastLevel: roastLevel ?? this.roastLevel,
@@ -210,6 +220,7 @@ class WineTasting extends Equatable implements Tasting {
         wineType,
         bubbles,
         vinification,
+        isBiodynamic,
         vintage,
         process,
         roastLevel,

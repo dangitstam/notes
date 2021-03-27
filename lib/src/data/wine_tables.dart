@@ -18,6 +18,7 @@ Future<void> createWineTastingsTable(Database db) {
       wine_type TEXT,
       bubbles TEXT,
       vinification TEXT,
+      is_biodynamic INTEGER,
       vintage INTEGER,
       notes TEXT,
       roast_level REAL,
