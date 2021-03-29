@@ -487,6 +487,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  readmore:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "0b34622dbc57fcd43900d0142cecfba814a5f725"
+      url: "git://github.com/epynic/readmore"
+    source: git
+    version: "1.0.1"
   rxdart:
     dependency: "direct dev"
     description:

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:readmore/readmore.dart';
 
 class NaturalWineDiscoveryListViewScreen extends StatelessWidget {
   @override
@@ -100,21 +101,88 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
   NaturalWineDiscoveryListViewWidget({Key key}) : super(key: key);
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
+    String formattedVinification = '';
+    List<String> vinificationFacts = [];
+    if (document['is_biodynamic']) {
+      vinificationFacts.add('Biodynamic');
+    }
+    if (document['is_organic_farming']) {
+      vinificationFacts.add('Organic Farming');
+    }
+    if (document['is_unfined_unfiltered']) {
+      vinificationFacts.add('Unfined & Unfiltered');
+    }
+    if (document['is_wild_yeast']) {
+      vinificationFacts.add('Wild Yeast');
+    }
+    if (document['is_no_added_sulfites']) {
+      vinificationFacts.add('No Added S02');
+    }
+    if (document['is_ethically_made']) {
+      vinificationFacts.add('Ethically Made');
+    }
+    if (vinificationFacts.isNotEmpty) {
+      formattedVinification = vinificationFacts.join(' · ');
+    }
+
     return ListTile(
+      contentPadding: EdgeInsets.all(17),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Text(document['name']),
+              Text(
+                document['winemaker'].toUpperCase(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ],
           ),
           Row(
             children: [
-              Text(document['winemaker']),
+              Text(
+                document['name'].toUpperCase(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.headline5,
+              ),
             ],
           ),
-          Text(document['story']),
+          ReadMoreText(
+            document['story'],
+            trimLines: 3,
+            trimMode: TrimMode.Line,
+            colorClickableText: Theme.of(context).colorScheme.primary,
+            trimCollapsedText: 'Expand',
+            trimExpandedText: 'Collapse',
+            delimiter: ' ..',
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          formattedVinification.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 24,
+                        child: Image.asset(
+                          'assets/images/np_vinification.png',
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(
+                          '${formattedVinification}',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
@@ -133,34 +201,5 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
         );
       },
     );
-    // return StreamBuilder(
-    //   stream: BlocProvider.of<TastingListBloc>(context).tastings,
-    //   builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.active) {
-    //       var tastings = snapshot.data;
-    //       return ListView.separated(
-    //           itemCount: tastings == null ? 0 : tastings.length,
-    //           itemBuilder: (BuildContext _context, int index) {
-    //             if (tastings != null && index < tastings.length) {
-    //               final tasting = tastings[index];
-    //               switch (tasting.runtimeType) {
-    //                 case CoffeeTasting:
-    //                   return CoffeeTastingListItem(tasting: tasting);
-    //                 case WineTasting:
-    //                   return WineTastingListItem(tasting: tasting);
-    //                 default:
-    //                   return Container();
-    //               }
-    //             } else {
-    //               return Text('loading');
-    //             }
-    //           },
-    //           padding: const EdgeInsets.all(0.0),
-    //           separatorBuilder: (context, index) => Divider());
-    //     } else {
-    //       return Text('loading');
-    //     }
-    //   },
-    // );
   }
 }
