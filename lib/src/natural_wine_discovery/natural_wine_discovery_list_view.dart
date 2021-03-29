@@ -1,16 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
-import 'package:notes/src/data/model/tasting.dart';
-import 'package:notes/src/data/model/wine/wine_tasting.dart';
-import 'package:notes/src/tasting_list_view/bloc/tasting_list_bloc.dart';
-import 'package:notes/src/tasting_list_view/list_item_wine_tasting.dart';
 
-import 'list_item_coffee_tasting.dart';
-
-// TODO: Abstract into its own file.
-class TastingListViewScreen extends StatelessWidget {
+class NaturalWineDiscoveryListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +42,6 @@ class TastingListViewScreen extends StatelessWidget {
               child: GestureDetector(
                   onTap: () {
                     // TODO: Filter implementation.
-                    Navigator.pushNamed(context, '/natural-wine-discover');
                   },
                   child: Row(children: [
                     Icon(CupertinoIcons.search, color: Colors.black, size: 20),
@@ -100,45 +91,76 @@ class TastingListViewScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: TastingListViewWidget(),
+      body: NaturalWineDiscoveryListViewWidget(),
     );
   }
 }
 
-class TastingListViewWidget extends StatelessWidget {
-  TastingListViewWidget({Key key}) : super(key: key);
+class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
+  NaturalWineDiscoveryListViewWidget({Key key}) : super(key: key);
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
+    return ListTile(
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(document['name']),
+            ],
+          ),
+          Row(
+            children: [
+              Text(document['winemaker']),
+            ],
+          ),
+          Text(document['story']),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<TastingListBloc>(context).add(InitTastings());
     return StreamBuilder(
-      stream: BlocProvider.of<TastingListBloc>(context).tastings,
-      builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          var tastings = snapshot.data;
-          return ListView.separated(
-              itemCount: tastings == null ? 0 : tastings.length,
-              itemBuilder: (BuildContext _context, int index) {
-                if (tastings != null && index < tastings.length) {
-                  final tasting = tastings[index];
-                  switch (tasting.runtimeType) {
-                    case CoffeeTasting:
-                      return CoffeeTastingListItem(tasting: tasting);
-                    case WineTasting:
-                      return WineTastingListItem(tasting: tasting);
-                    default:
-                      return Container();
-                  }
-                } else {
-                  return Text('loading');
-                }
-              },
-              padding: const EdgeInsets.all(0.0),
-              separatorBuilder: (context, index) => Divider());
-        } else {
-          return Text('loading');
-        }
+      stream: Firestore.instance.collection('naturalwinediscover').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Text('Loading...');
+
+        return ListView.builder(
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
+        );
       },
     );
+    // return StreamBuilder(
+    //   stream: BlocProvider.of<TastingListBloc>(context).tastings,
+    //   builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.active) {
+    //       var tastings = snapshot.data;
+    //       return ListView.separated(
+    //           itemCount: tastings == null ? 0 : tastings.length,
+    //           itemBuilder: (BuildContext _context, int index) {
+    //             if (tastings != null && index < tastings.length) {
+    //               final tasting = tastings[index];
+    //               switch (tasting.runtimeType) {
+    //                 case CoffeeTasting:
+    //                   return CoffeeTastingListItem(tasting: tasting);
+    //                 case WineTasting:
+    //                   return WineTastingListItem(tasting: tasting);
+    //                 default:
+    //                   return Container();
+    //               }
+    //             } else {
+    //               return Text('loading');
+    //             }
+    //           },
+    //           padding: const EdgeInsets.all(0.0),
+    //           separatorBuilder: (context, index) => Divider());
+    //     } else {
+    //       return Text('loading');
+    //     }
+    //   },
+    // );
   }
 }

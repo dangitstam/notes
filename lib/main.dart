@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_section.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/notes/notes_section.dart';
+import 'package:notes/src/natural_wine_discovery/natural_wine_discovery_list_view.dart';
 import 'package:notes/src/styles/light_theme.dart';
 import 'package:notes/src/wine_tasting_create_view/components/characteristics/wine_characteristics_section.dart';
 import 'package:notes/src/wine_tasting_create_view/components/info/wine_info_section.dart';
@@ -84,6 +85,12 @@ class AppRouter {
         );
 
       // Wine
+      case '/natural-wine-discover':
+        return MaterialPageRoute(
+          builder: (_) {
+            return NaturalWineDiscoveryListViewScreen();
+          },
+        );
       case '/new-wine-tasting':
         return MaterialPageRoute(
           builder: (_) {
