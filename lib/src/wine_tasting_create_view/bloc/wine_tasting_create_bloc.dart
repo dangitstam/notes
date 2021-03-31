@@ -21,43 +21,45 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
 
   final noteRepository = NoteRepository();
 
-  WineTastingCreateBloc()
-      : super(
+  WineTastingCreateBloc({
+    WineTasting initTasting,
+  }) : super(
           WineTastingCreateState(
             isWineTastingInserted: false,
-            tasting: WineTasting(
-              name: '', // TODO: Require some fields in the create view.
-              description: '',
-              origin: '',
-              roaster: '',
-              varietalNames: '',
-              varietalPercentages: '',
-              alcoholByVolume: -1.0, // Use a negative value to signal as unspecified.
-              wineType: '',
-              bubbles: '',
-              isBiodynamic: false,
-              isOrganicFarming: false,
-              isUnfinedUnfiltered: false,
-              isWildYeast: false,
-              isNoAddedSulfites: false,
-              isEthicallyMade: false,
-              vintage: -1, // Use a negative value to signal as unspecified.
-              process: 'Washed',
-              roastLevel: 7.0,
-              aromaScore: 7.0,
-              aromaIntensity: 7.0,
-              acidityScore: 7.0,
-              acidityIntensity: 7.0,
-              bodyScore: 7.0,
-              bodyLevel: 7.0,
-              sweetnessScore: 7.0,
-              sweetnessIntensity: 7.0,
-              finishScore: 7.0,
-              finishDuration: 7.0,
-              flavorScore: 7.0,
-              notes: <Note>[],
-              imagePath: null,
-            ),
+            tasting: initTasting ??
+                WineTasting(
+                  name: '', // TODO: Require some fields in the create view.
+                  description: '',
+                  origin: '',
+                  roaster: '',
+                  varietalNames: '',
+                  varietalPercentages: '',
+                  alcoholByVolume: -1.0, // Use a negative value to signal as unspecified.
+                  wineType: '',
+                  bubbles: '',
+                  isBiodynamic: false,
+                  isOrganicFarming: false,
+                  isUnfinedUnfiltered: false,
+                  isWildYeast: false,
+                  isNoAddedSulfites: false,
+                  isEthicallyMade: false,
+                  vintage: -1, // Use a negative value to signal as unspecified.
+                  process: 'Washed',
+                  roastLevel: 7.0,
+                  aromaScore: 7.0,
+                  aromaIntensity: 7.0,
+                  acidityScore: 7.0,
+                  acidityIntensity: 7.0,
+                  bodyScore: 7.0,
+                  bodyLevel: 7.0,
+                  sweetnessScore: 7.0,
+                  sweetnessIntensity: 7.0,
+                  finishScore: 7.0,
+                  finishDuration: 7.0,
+                  flavorScore: 7.0,
+                  notes: <Note>[],
+                  imagePath: null,
+                ),
           ),
         ) {
     // Initialize the stream of notes.

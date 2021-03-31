@@ -132,6 +132,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                           EditableTextWithCaptionWidget(
                             label: 'Vigneron(ne)',
                             hint: 'Who made this wine?',
+                            initialValue: wineTastingState.roaster.isNotEmpty ? wineTastingState.roaster : null,
                             onChanged: (value) {
                               context.read<WineTastingCreateBloc>().add(RoasterEvent(roaster: value));
                             },
@@ -140,6 +141,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                           EditableTextWithCaptionWidget(
                             label: 'Wine Name',
                             hint: 'What is this wine called?',
+                            initialValue: wineTastingState.name.isNotEmpty ? wineTastingState.name : null,
                             onChanged: (value) {
                               context.read<WineTastingCreateBloc>().add(NameEvent(name: value));
                             },
@@ -171,14 +173,15 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     Icon(CupertinoIcons.location_solid, size: 24, color: Theme.of(context).colorScheme.onSurface),
                     const SizedBox(width: 5),
                     Expanded(
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           enabledBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: 5, bottom: 5),
-                          hintText: 'Roccatederighi, Tuscany, Italy',
+                          hintText: 'Origin',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           isDense: true,
                         ),
+                        initialValue: wineTastingState.origin.isNotEmpty ? wineTastingState.origin : null,
                         onChanged: (value) {
                           context.read<WineTastingCreateBloc>().add(OriginEvent(origin: value));
                         },

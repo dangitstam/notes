@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:readmore/readmore.dart';
 
 class NaturalWineDiscoveryListViewScreen extends StatelessWidget {
@@ -97,6 +100,57 @@ class NaturalWineDiscoveryListViewScreen extends StatelessWidget {
   }
 }
 
+/// Given a [DocumentSnapshot] of a wine from Firebase, translate into a [WineTasting].
+WineTasting fromDocumentSnapshot(DocumentSnapshot wineDoc) {
+  // Collect varietals.
+  var varietalNames = [];
+  var varietalPercentages = [];
+  if (wineDoc.data.containsKey('varietals') && wineDoc['varietals'] is List) {
+    for (var varietal in wineDoc['varietals']) {
+      var name = varietal['name'];
+      varietalNames.add(name);
+
+      var percentage = varietal['percentage'];
+      varietalPercentages.add(percentage);
+    }
+  }
+  var varietalNamesJsonStr = json.encode(varietalNames);
+  var varietalPercentagesJsonStr = json.encode(varietalPercentages);
+
+  return WineTasting(
+    name: wineDoc['name'],
+    description: '',
+    origin: wineDoc['origin'],
+    roaster: wineDoc['winemaker'],
+    varietalNames: varietalNamesJsonStr,
+    varietalPercentages: varietalPercentagesJsonStr,
+    alcoholByVolume: wineDoc['alcohol_by_volume'].toDouble(),
+    wineType: wineDoc['type'],
+    bubbles: '',
+    isBiodynamic: wineDoc['is_biodynamic'],
+    isOrganicFarming: wineDoc['is_organic_farming'],
+    isUnfinedUnfiltered: wineDoc['is_unfined_unfiltered'],
+    isWildYeast: wineDoc['is_wild_yeast'],
+    isNoAddedSulfites: wineDoc['is_no_added_sulfites'],
+    isEthicallyMade: wineDoc['is_ethically_made'],
+    vintage: wineDoc['vintage'], // Use a negative value to signal as unspecified.
+    process: '',
+    roastLevel: 7.0,
+    aromaScore: 7.0,
+    aromaIntensity: 7.0,
+    acidityScore: 7.0,
+    acidityIntensity: 7.0,
+    bodyScore: 7.0,
+    bodyLevel: 7.0,
+    sweetnessScore: 7.0,
+    sweetnessIntensity: 7.0,
+    finishScore: 7.0,
+    finishDuration: 7.0,
+    flavorScore: 7.0,
+    imagePath: null,
+  );
+}
+
 class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
   NaturalWineDiscoveryListViewWidget({Key key}) : super(key: key);
 
@@ -152,9 +206,9 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
     if (document.data.containsKey('varietals') && document['varietals'] is List) {
       for (var varietal in document['varietals']) {
         var name = varietal['name'];
-        double percentage = varietal['percentage'];
+        int percentage = varietal['percentage'];
         if (percentage != null) {
-          varietals.add('$percentage\% %name');
+          varietals.add('$percentage\% $name');
         } else {
           varietals.add(name);
         }
@@ -308,7 +362,12 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
               style: Theme.of(context).outlinedButtonTheme.style,
               child: Text('Begin tasting'.toUpperCase()),
               onPressed: () {
-                Navigator.pushNamed(context, '/coffee-notes');
+                WineTasting initTasting = fromDocumentSnapshot(document);
+                Navigator.pushNamed(
+                  context,
+                  '/new-wine-tasting',
+                  arguments: initTasting,
+                );
               },
             ),
           ),
