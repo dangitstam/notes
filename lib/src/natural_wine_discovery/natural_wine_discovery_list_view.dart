@@ -218,142 +218,147 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
     String formattedVarietals = varietals.join(', ');
 
     return ListTile(
-      contentPadding: EdgeInsets.all(20),
-      title: Column(
+      contentPadding: EdgeInsets.all(12),
+      title: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            document['winemaker'].toUpperCase(),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          Text(
-            document['name'].toUpperCase(),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headline5,
-          ),
-
-          /**
-           * Origin
-           */
-          const SizedBox(height: 5),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                height: 20,
-                child: AspectRatio(
-                  // Icons are rendered in a square container.
-                  // Since this icon is taller than it is wide, reflect this as an
-                  // aspect ratio to remove the extra horizontal space.
-                  aspectRatio: 9.0 / 16.0,
-                  child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
+          Expanded(
+            flex: 1,
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4.0),
+                child: Image.network(
+                  document['image'],
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(width: 5),
-              Text(
-                '${document['origin']}',
-                style: Theme.of(context).textTheme.caption,
-              ),
-            ],
+            ),
           ),
-          document.data.containsKey('image')
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        document['image'],
-                        fit: BoxFit.cover,
+          SizedBox(width: 17),
+          Expanded(
+            flex: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  document['winemaker'].toUpperCase(),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 14),
+                ),
+                Text(
+                  document['name'].toUpperCase(),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline5.copyWith(fontSize: 22),
+                ),
+
+                /**
+                 * Origin
+                 */
+                const SizedBox(height: 5),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      height: 20,
+                      child: AspectRatio(
+                        // Icons are rendered in a square container.
+                        // Since this icon is taller than it is wide, reflect this as an
+                        // aspect ratio to remove the extra horizontal space.
+                        aspectRatio: 9.0 / 16.0,
+                        child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
                       ),
                     ),
-                  ),
-                )
-              : Container(),
-          SizedBox(height: 10),
-          ReadMoreText(
-            document['story'],
-            trimLines: 3,
-            trimMode: TrimMode.Line,
-            colorClickableText: Theme.of(context).colorScheme.primary,
-            trimCollapsedText: 'Expand',
-            trimExpandedText: 'Collapse',
-            delimiter: ' ',
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-          wineFactsText.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    '$wineFactsText',
-                    style: Theme.of(context).textTheme.caption,
-                    textAlign: TextAlign.end,
-                  ),
-                )
-              : Container(),
-          formattedVinification.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 24,
-                        child: Image.asset(
-                          'assets/images/np_vinification.png',
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      Expanded(
+                    const SizedBox(width: 5),
+                    Text(
+                      '${document['origin']}',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                ReadMoreText(
+                  document['story'],
+                  trimLines: 2,
+                  trimMode: TrimMode.Line,
+                  colorClickableText: Theme.of(context).colorScheme.primary,
+                  trimCollapsedText: 'more',
+                  trimExpandedText: 'less',
+                  delimiter: ' ... ',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                wineFactsText.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
-                          '${formattedVinification}',
+                          '$wineFactsText',
                           style: Theme.of(context).textTheme.caption,
+                          textAlign: TextAlign.end,
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : Container(),
-          formattedVarietals.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 24,
-                        child: Image.asset(
-                          'assets/images/np_grapes_small.png',
+                      )
+                    : Container(),
+                formattedVinification.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 24,
+                              child: Image.asset(
+                                'assets/images/np_vinification.png',
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Expanded(
+                              child: Text(
+                                '${formattedVinification}',
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(width: 5),
-                      Expanded(
-                        child: Text(
-                          '$formattedVarietals',
-                          style: Theme.of(context).textTheme.caption,
+                      )
+                    : Container(),
+                formattedVarietals.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 24,
+                              child: Image.asset(
+                                'assets/images/np_grapes_small.png',
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Expanded(
+                              child: Text(
+                                '$formattedVarietals',
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : Container(),
-          SizedBox(height: 10),
-          Center(
-            child: TextButton(
-              style: Theme.of(context).outlinedButtonTheme.style,
-              child: Text('Begin tasting'.toUpperCase()),
-              onPressed: () {
-                WineTasting initTasting = fromDocumentSnapshot(document);
-                Navigator.pushNamed(
-                  context,
-                  '/new-wine-tasting',
-                  arguments: initTasting,
-                );
-              },
+                      )
+                    : Container(),
+                SizedBox(height: 10),
+                TextButton(
+                  style: Theme.of(context).outlinedButtonTheme.style,
+                  child: Text('Begin tasting'.toUpperCase()),
+                  onPressed: () {
+                    WineTasting initTasting = fromDocumentSnapshot(document);
+                    Navigator.pushNamed(
+                      context,
+                      '/new-wine-tasting',
+                      arguments: initTasting,
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ],
@@ -368,7 +373,8 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Text('Loading...');
 
-        return ListView.builder(
+        return ListView.separated(
+          separatorBuilder: (context, index) => Divider(),
           itemCount: snapshot.data.documents.length,
           itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
         );
