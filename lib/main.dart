@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_section.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/notes/notes_section.dart';
+import 'package:notes/src/data/model/wine/wine_tasting.dart';
+import 'package:notes/src/natural_wine_discovery/natural_wine_discovery_list_view.dart';
 import 'package:notes/src/styles/light_theme.dart';
 import 'package:notes/src/wine_tasting_create_view/components/characteristics/wine_characteristics_section.dart';
 import 'package:notes/src/wine_tasting_create_view/components/info/wine_info_section.dart';
@@ -84,12 +86,24 @@ class AppRouter {
         );
 
       // Wine
+      case '/natural-wine-discover':
+        return MaterialPageRoute(
+          builder: (_) {
+            return NaturalWineDiscoveryListViewScreen();
+          },
+        );
       case '/new-wine-tasting':
         return MaterialPageRoute(
           builder: (_) {
             // Reset the create tasting bloc on each navigate to '/new-wine-tasting'.
             _wineTastingCreateBloc.close();
-            _wineTastingCreateBloc = WineTastingCreateBloc();
+
+            // Optionally pre-populate fields in the tasting.
+            var initTastingFromWineDoc = settings.arguments;
+            _wineTastingCreateBloc = initTastingFromWineDoc != null && initTastingFromWineDoc is WineTasting
+                ? WineTastingCreateBloc(initTasting: initTastingFromWineDoc)
+                : WineTastingCreateBloc();
+
             return BlocProvider.value(
               value: _wineTastingCreateBloc,
               child: WineTastingCreateViewScreen(),

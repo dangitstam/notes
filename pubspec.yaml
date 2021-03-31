@@ -21,6 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+
+  cloud_firestore:
+  readmore:
+    git: 
+      url: git://github.com/epynic/readmore
   flutter:
     sdk: flutter
   sqflite:

@@ -50,6 +50,7 @@ class TastingListViewScreen extends StatelessWidget {
               child: GestureDetector(
                   onTap: () {
                     // TODO: Filter implementation.
+                    Navigator.pushNamed(context, '/natural-wine-discover');
                   },
                   child: Row(children: [
                     Icon(CupertinoIcons.search, color: Colors.black, size: 20),
