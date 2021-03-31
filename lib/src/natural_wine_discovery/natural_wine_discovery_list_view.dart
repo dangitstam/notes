@@ -222,26 +222,19 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                document['winemaker'].toUpperCase(),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            ],
+          Text(
+            document['winemaker'].toUpperCase(),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline6,
           ),
-          Row(
-            children: [
-              Text(
-                document['name'].toUpperCase(),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            ],
+          Text(
+            document['name'].toUpperCase(),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline5,
           ),
+
           /**
            * Origin
            */
