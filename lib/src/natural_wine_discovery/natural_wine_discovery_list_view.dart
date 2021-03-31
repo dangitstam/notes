@@ -241,29 +241,21 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
           const SizedBox(height: 5),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Expanded(
-                flex: 2,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      height: 20,
-                      child: AspectRatio(
-                        // Icons are rendered in a square container.
-                        // Since this icon is taller than it is wide, reflect this as an
-                        // aspect ratio to remove the extra horizontal space.
-                        aspectRatio: 9.0 / 16.0,
-                        child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      '${document['origin']}',
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                  ],
+            children: [
+              Container(
+                height: 20,
+                child: AspectRatio(
+                  // Icons are rendered in a square container.
+                  // Since this icon is taller than it is wide, reflect this as an
+                  // aspect ratio to remove the extra horizontal space.
+                  aspectRatio: 9.0 / 16.0,
+                  child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
                 ),
+              ),
+              const SizedBox(width: 5),
+              Text(
+                '${document['origin']}',
+                style: Theme.of(context).textTheme.caption,
               ),
             ],
           ),
