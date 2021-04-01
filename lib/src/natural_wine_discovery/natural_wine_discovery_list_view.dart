@@ -21,9 +21,14 @@ class NaturalWineDiscoveryListViewScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(0.5)),
         centerTitle: false,
         elevation: 0,
-        title: Text(
-          'Notes'.toUpperCase(),
-          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
+        title: GestureDetector(
+          child: Text(
+            'Notes'.toUpperCase(),
+            style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, '/');
+          },
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         actions: <Widget>[
