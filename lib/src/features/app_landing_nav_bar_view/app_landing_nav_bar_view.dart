@@ -11,9 +11,6 @@ class AppLandingScreen extends StatefulWidget {
 class _AppLandingScreenState extends State<AppLandingScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Coming soon!',
-    ),
     NaturalWineDiscoveryListViewWidget(),
     TastingListViewWidget(),
   ];
@@ -105,10 +102,6 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
         selectedLabelStyle: navBarTextStyle,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.search),
             label: 'Search',
           ),
@@ -121,6 +114,7 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).colorScheme.onSurface,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface.withAlpha(150),
         onTap: _onItemTapped,
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
