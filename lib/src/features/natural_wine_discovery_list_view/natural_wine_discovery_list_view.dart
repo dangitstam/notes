@@ -156,9 +156,15 @@ WineTasting fromDocumentSnapshot(DocumentSnapshot wineDoc) {
   );
 }
 
-class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
+class NaturalWineDiscoveryListViewWidget extends StatefulWidget {
   NaturalWineDiscoveryListViewWidget({Key key}) : super(key: key);
 
+  @override
+  _NaturalWineDiscoveryListViewWidgetState createState() => _NaturalWineDiscoveryListViewWidgetState();
+}
+
+class _NaturalWineDiscoveryListViewWidgetState extends State<NaturalWineDiscoveryListViewWidget>
+    with AutomaticKeepAliveClientMixin {
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     /**
      * Type (color, bubbles), vintage, alcohol by volume.
@@ -372,7 +378,11 @@ class NaturalWineDiscoveryListViewWidget extends StatelessWidget {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin.
     return StreamBuilder(
       stream: Firestore.instance.collection('naturalwinediscover').snapshots(),
       builder: (context, snapshot) {

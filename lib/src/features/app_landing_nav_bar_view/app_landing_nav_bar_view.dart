@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/features/natural_wine_discovery_list_view/natural_wine_discovery_list_view.dart';
+import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
 import 'package:notes/src/features/tasting_list_view/tasting_list_view.dart';
 
 class AppLandingScreen extends StatefulWidget {
@@ -12,12 +14,30 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     NaturalWineDiscoveryListViewWidget(),
-    TastingListViewWidget(),
+    BlocProvider.value(
+      value: TastingListBloc(),
+      child: TastingListViewWidget(),
+    ),
   ];
+
+  PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.jumpToPage(index);
     });
   }
 
@@ -117,7 +137,15 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
         unselectedItemColor: Theme.of(context).colorScheme.onSurface.withAlpha(150),
         onTap: _onItemTapped,
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: SizedBox.expand(
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() => _selectedIndex = index);
+          },
+          children: _widgetOptions,
+        ),
+      ),
     );
   }
 }

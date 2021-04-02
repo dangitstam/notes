@@ -9,11 +9,21 @@ import 'package:notes/src/features/tasting_list_view/list_item_wine_tasting.dart
 
 import 'list_item_coffee_tasting.dart';
 
-class TastingListViewWidget extends StatelessWidget {
+class TastingListViewWidget extends StatefulWidget {
   TastingListViewWidget({Key key}) : super(key: key);
 
   @override
+  _TastingListViewWidgetState createState() => _TastingListViewWidgetState();
+}
+
+class _TastingListViewWidgetState extends State<TastingListViewWidget> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin.
+
     BlocProvider.of<TastingListBloc>(context).add(InitTastings());
     return StreamBuilder(
       stream: BlocProvider.of<TastingListBloc>(context).tastings,

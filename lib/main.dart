@@ -8,7 +8,6 @@ import 'package:notes/src/coffee_tasting_create_view/components/notes/notes_sect
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/app_landing_nav_bar_view/app_landing_nav_bar_view.dart';
 import 'package:notes/src/features/natural_wine_discovery_list_view/natural_wine_discovery_list_view.dart';
-import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/wine_characteristics_section.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/info/wine_info_section.dart';
@@ -40,7 +39,6 @@ class _AppState extends State<App> {
 }
 
 class AppRouter {
-  final _tastingListBloc = TastingListBloc();
   var _coffeeTastingCreateBloc = CoffeeTastingCreateBloc();
   var _wineTastingCreateBloc = WineTastingCreateBloc();
 
@@ -49,12 +47,7 @@ class AppRouter {
       case '/':
         return MaterialPageRoute(
           builder: (_) {
-            // Subsequent nav to this screen necessitates a stream refresh.
-            _tastingListBloc.refreshCoffeeTastingsStream();
-            return BlocProvider.value(
-              value: _tastingListBloc,
-              child: AppLandingScreen(),
-            );
+            return AppLandingScreen();
           },
         );
       case '/new-coffee-tasting':
@@ -136,7 +129,6 @@ class AppRouter {
   }
 
   void dispose() {
-    _tastingListBloc.close();
     _coffeeTastingCreateBloc.close();
     _wineTastingCreateBloc.close();
   }
