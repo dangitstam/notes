@@ -20,6 +20,10 @@ class TastingListViewWidget extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           var tastings = snapshot.data;
+          if (tastings.isEmpty) {
+            return NoTastingsYetWidget();
+          }
+
           return ListView.separated(
               itemCount: tastings == null ? 0 : tastings.length,
               itemBuilder: (BuildContext _context, int index) {
@@ -43,6 +47,41 @@ class TastingListViewWidget extends StatelessWidget {
           return Text('loading');
         }
       },
+    );
+  }
+}
+
+class NoTastingsYetWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'No tastings found.'.toUpperCase(),
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          SizedBox(height: 10),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Tap ',
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.normal),
+                ),
+                WidgetSpan(
+                  child: Icon(CupertinoIcons.plus_app, size: 16),
+                ),
+                TextSpan(
+                  text: ' above to start your first tasting.',
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.normal),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

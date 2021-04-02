@@ -41,11 +41,12 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-            child: Container(
-              color: Colors.black38,
-              height: 0.20,
-            ),
-            preferredSize: Size.fromHeight(0.5)),
+          child: Container(
+            color: Colors.black38,
+            height: 0.20,
+          ),
+          preferredSize: Size.fromHeight(0.5),
+        ),
         centerTitle: false,
         elevation: 0,
         title: Text(
@@ -54,32 +55,6 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    // TODO: Filter implementation.
-                  },
-                  child: Row(children: [Text('Filter', style: Theme.of(context).textTheme.caption)]))),
-          Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    // TODO: Filter implementation.
-                  },
-                  child: Row(children: [Text('Sort', style: Theme.of(context).textTheme.caption)]))),
-          Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              child: GestureDetector(
-                  onTap: () {
-                    // TODO: Filter implementation.
-                    Navigator.pushNamed(context, '/natural-wine-discover');
-                  },
-                  child: Row(children: [
-                    Icon(CupertinoIcons.search, color: Colors.black, size: 20),
-                    SizedBox(width: 5),
-                    Text('Search', style: Theme.of(context).textTheme.caption)
-                  ]))),
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: GestureDetector(
