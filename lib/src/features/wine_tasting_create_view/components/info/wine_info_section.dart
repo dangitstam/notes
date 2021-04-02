@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
-import 'package:notes/src/wine_tasting_create_view/components/info/vinification.dart';
-import 'package:notes/src/wine_tasting_create_view/components/info/wine_type_toggle_buttons.dart';
+import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/info/vinification.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/info/wine_type_toggle_buttons.dart';
 
 import 'alcohol_by_volume.dart';
 import 'grapes.dart';

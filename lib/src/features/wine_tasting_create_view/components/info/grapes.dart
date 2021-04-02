@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/keys.dart';
-import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:provider/provider.dart';
 
 /// Grapes section allowing users to specify the varietals in their wine.

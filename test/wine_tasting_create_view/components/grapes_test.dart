@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
+import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/info/grapes.dart';
 import 'package:notes/src/keys.dart';
-import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
-import 'package:notes/src/wine_tasting_create_view/components/info/grapes.dart';
 
 class MockWineTastingCreateBloc extends MockBloc implements WineTastingCreateBloc {}
 

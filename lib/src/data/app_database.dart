@@ -1,15 +1,12 @@
 import 'dart:convert' show json;
 
 import 'package:flutter/services.dart';
-import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/dao/note_category_dao.dart';
 import 'package:notes/src/data/dao/note_to_note_category_dao.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
 import 'package:notes/src/data/wine_tables.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'dao/coffee_tasting_note_dao.dart';
 import 'dao/note_dao.dart';
 
 class AppDatabase {
@@ -87,7 +84,10 @@ Future<void> _createCoffeeTastingsTable(Database db) {
             flavor_score REAL,
             image_path TEXT)
           """,
-  ).then((_) async {
+  );
+
+  /*
+  .then((_) async {
     // For development purposes, populate example tastings from the coffee_tastings.json asset.
     var coffeeTastingsString = await rootBundle.loadString('assets/coffee_tastings.json');
     List<dynamic> coffeeTastings = json.decode(coffeeTastingsString);
@@ -97,6 +97,7 @@ Future<void> _createCoffeeTastingsTable(Database db) {
       await coffeeTastingRepository.insert(CoffeeTasting.fromAppDatabase(coffeeTasting));
     }
   });
+  */
 }
 
 Future<void> _createNotesTable(Database db) {
@@ -129,7 +130,10 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
       coffee_tasting_id INTEGER,
       note_id INTEGER)
     """,
-  ).then((_) async {
+  );
+
+  /*
+  .then((_) async {
     // For development purposes, populate notes for example tastings from the coffee_tastings_notes.json asset.
     var coffeeTastingNotesString = await rootBundle.loadString('assets/coffee_tastings_notes.json');
 
@@ -139,6 +143,7 @@ Future<void> _createCoffeeTastingNotesTable(Database db) {
       coffeeTastingDao.insert(coffeeTastingNote);
     });
   });
+  */
 }
 
 Future<void> _createNoteCategoriesTable(Database db) {

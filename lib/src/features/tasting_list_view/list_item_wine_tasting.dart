@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/wine_utils.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
-import 'package:notes/src/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
 
 import 'tasting_hero_image_start.dart';
 
