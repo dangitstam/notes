@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
 /// Vinification section allows classifying the wine as being any of the following:
 /// Biodynamic, Organic Farming, Unfined & Unfiltered, Wild Yeast, No Added S02, and Ethically Made.

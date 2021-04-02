@@ -2,20 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
+import 'package:notes/src/coffee_tasting_create_view/coffee_tasting_create_view.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_section.dart';
 import 'package:notes/src/coffee_tasting_create_view/components/notes/notes_section.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/app_landing_nav_bar_view/app_landing_nav_bar_view.dart';
 import 'package:notes/src/features/natural_wine_discovery_list_view/natural_wine_discovery_list_view.dart';
+import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
+import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/wine_characteristics_section.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/info/wine_info_section.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/notes/wine_notes_section.dart';
+import 'package:notes/src/features/wine_tasting_create_view/wine_tasting_create_view.dart';
 import 'package:notes/src/styles/light_theme.dart';
-import 'package:notes/src/wine_tasting_create_view/components/characteristics/wine_characteristics_section.dart';
-import 'package:notes/src/wine_tasting_create_view/components/info/wine_info_section.dart';
-import 'package:notes/src/wine_tasting_create_view/wine_tasting_create_view.dart';
-
-import 'src/coffee_tasting_create_view/coffee_tasting_create_view.dart';
-import 'src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
-import 'src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
-import 'src/wine_tasting_create_view/components/notes/wine_notes_section.dart';
 
 void main() {
   runApp(App());

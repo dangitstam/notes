@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:notes/src/common/util.dart';
-import 'package:notes/src/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
-import 'package:notes/src/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
-import 'package:notes/src/wine_tasting_create_view/components/characteristics/swiper_tabs.dart';
+import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
+import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/swiper_tabs.dart';
 
 import '../section_title.dart';
 import 'characteristics_sliders.dart';
