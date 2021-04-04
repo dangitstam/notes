@@ -28,6 +28,7 @@ dependencies:
       url: git://github.com/epynic/readmore
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.0
   sqflite:
   path:
 
@@ -74,6 +75,7 @@ flutter:
     - assets/images/np_grapes_small.png
     - assets/images/np_vinification.png
     - assets/images/np_library.png
+    - assets/images/np_x.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -11,18 +11,8 @@ class CharacteristicsChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 10.0),
-      child: CriteriaBarChart(children: [
-        CriteriaBarChartData(
-          criteriaLabel: 'Aroma',
-          score: tasting.aromaScore,
-          scoreLabel: 'Score',
-          scoreColor: Theme.of(context).colorScheme.onSurface,
-          intensity: tasting.aromaIntensity,
-          intensityLabel: 'Intensity',
-          intensityColor: Theme.of(context).colorScheme.primary,
-        ),
+    return CriteriaBarChart(
+      children: [
         CriteriaBarChartData(
           criteriaLabel: 'Acidity',
           score: tasting.acidityScore,
@@ -30,15 +20,6 @@ class CharacteristicsChart extends StatelessWidget {
           scoreColor: Theme.of(context).colorScheme.onSurface,
           intensity: tasting.acidityIntensity,
           intensityLabel: 'Intensity',
-          intensityColor: Theme.of(context).colorScheme.primary,
-        ),
-        CriteriaBarChartData(
-          criteriaLabel: 'Body',
-          score: tasting.bodyScore,
-          scoreLabel: 'Score',
-          scoreColor: Theme.of(context).colorScheme.onSurface,
-          intensity: tasting.bodyLevel,
-          intensityLabel: 'Level',
           intensityColor: Theme.of(context).colorScheme.primary,
         ),
         CriteriaBarChartData(
@@ -51,7 +32,7 @@ class CharacteristicsChart extends StatelessWidget {
           intensityColor: Theme.of(context).colorScheme.primary,
         ),
         CriteriaBarChartData(
-          criteriaLabel: 'Finish',
+          criteriaLabel: 'Astringency',
           score: tasting.finishScore,
           scoreLabel: 'Score',
           scoreColor: Theme.of(context).colorScheme.onSurface,
@@ -59,7 +40,16 @@ class CharacteristicsChart extends StatelessWidget {
           intensityLabel: 'Duration',
           intensityColor: Theme.of(context).colorScheme.primary,
         ),
-      ]),
+        CriteriaBarChartData(
+          criteriaLabel: 'Body',
+          score: tasting.bodyScore,
+          scoreLabel: 'Score',
+          scoreColor: Theme.of(context).colorScheme.onSurface,
+          intensity: tasting.bodyLevel,
+          intensityLabel: 'Level',
+          intensityColor: Theme.of(context).colorScheme.primary,
+        ),
+      ],
     );
   }
 }

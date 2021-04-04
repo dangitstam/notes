@@ -208,7 +208,6 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
                 // Caveat: This section won't re-render if [isInfoEdited] is changed.
                 // A listener is required if the re-render is necessary when staying on the current screen.
                 isInfoEdited
@@ -336,8 +335,13 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 ),
                 const SizedBox(height: 10),
                 isCharacteristicsEdited
-                    ? CharacteristicsChart(
-                        tasting: context.watch<WineTastingCreateBloc>().state.tasting,
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CharacteristicsChart(
+                            tasting: context.watch<WineTastingCreateBloc>().state.tasting,
+                          ),
+                        ],
                       )
                     : Column(
                         children: [
@@ -346,8 +350,13 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                           ColorFiltered(
                             colorFilter:
                                 ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
-                            child: CharacteristicsChart(
-                              tasting: context.watch<WineTastingCreateBloc>().state.tasting,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CharacteristicsChart(
+                                  tasting: context.watch<WineTastingCreateBloc>().state.tasting,
+                                ),
+                              ],
                             ),
                           ),
                         ],

@@ -1,7 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'criteria_caption.dart';
-import 'criteria_linear_indicator.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CriteriaBarChartData {
   CriteriaBarChartData({
@@ -30,43 +29,77 @@ class CriteriaBarChart extends StatelessWidget {
 
   final List<CriteriaBarChartData> children;
 
+  final double size = 20;
+
   @override
   Widget build(BuildContext context) {
-    var linearIndicators = <CriteriaLinearIndicator>[];
-    for (var datum in children) {
-      linearIndicators.add(
-        CriteriaLinearIndicator(
-          datum.score,
-          datum.scoreLabel,
-          datum.scoreColor,
-        ),
-      );
-      linearIndicators.add(
-        CriteriaLinearIndicator(
-          datum.intensity,
-          datum.intensityLabel,
-          datum.intensityColor,
-        ),
-      );
-    }
-
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 0,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: children.map((e) => CriteriaCaption(e.criteriaLabel)).toList(),
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: children
+              .map(
+                (e) => Container(
+                  height: size,
+                  child: Center(
+                    child: Text(
+                      '${e.criteriaLabel}',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
         ),
-        const SizedBox(width: 5),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: linearIndicators,
-          ),
-        )
+        SizedBox(width: 20),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: children.map(
+            (e) {
+              var value = e.intensity;
+              return RatingBar(
+                allowHalfRating: false,
+                initialRating: value,
+                direction: Axis.horizontal,
+                ignoreGestures: true,
+                itemCount: 6,
+                itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                itemSize: size,
+                ratingWidget: RatingWidget(
+                  full: ImageIcon(
+                    AssetImage('assets/images/np_x.png'),
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  half: ImageIcon(
+                    AssetImage('assets/images/np_x.png'),
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  empty: Icon(
+                    CupertinoIcons.minus,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                onRatingUpdate: (rating) {},
+              );
+            },
+          ).toList(),
+        ),
+        SizedBox(width: 20),
+        Column(
+          children: children
+              .map(
+                (e) => Container(
+                  alignment: Alignment.center,
+                  height: size,
+                  child: Text(
+                    '${e.intensity} / 6.0',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ),
+              )
+              .toList(),
+        ),
       ],
     );
   }

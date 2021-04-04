@@ -93,14 +93,14 @@ Color errorColor = const Color(0xffb00020);
 
 TextStyle headline5 = const TextStyle(
   fontFamily: 'Jost',
-  fontSize: 24.0,
+  fontSize: 22.0,
   letterSpacing: 3.6,
   fontWeight: FontWeight.w500,
 );
 
 TextStyle headline6 = const TextStyle(
   fontFamily: 'Jost',
-  fontSize: 16.0,
+  fontSize: 14.0,
   letterSpacing: 2.4,
   fontWeight: FontWeight.w500,
 );

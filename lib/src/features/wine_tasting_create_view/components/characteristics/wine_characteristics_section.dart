@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
 import '../section_title.dart';
@@ -46,24 +46,6 @@ class CharacteristicsSection extends StatefulWidget {
 }
 
 class _CharacteristicsSectionState extends State<CharacteristicsSection> {
-  var swiperController = SwiperController();
-  var swiperToggleButtonsSelections = [true, false, false, false, false];
-  var swiperTabsTitles = [
-    'Aroma',
-    'Acidity',
-    'Body',
-    'Sweetness',
-    'Finish',
-  ];
-
-  void onSwiperToggleButtonClick(int index) {
-    setState(() {
-      for (var i = 0; i < swiperToggleButtonsSelections.length; i++) {
-        swiperToggleButtonsSelections[i] = i == index;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
@@ -105,53 +87,17 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
         children: [
           SectionTitle(sectionNumber: 2, title: 'Characteristics'),
           SizedBox(height: 20),
-          RichText(
+          Text(
+            'Tap or drag to mark the intensity of a characteristic on a scale of zero to six.',
+            style: Theme.of(context).textTheme.caption,
             textAlign: TextAlign.center,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Tap any notch to note the intensity of a characteristic on a scale of zero to six with ',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                WidgetSpan(
-                  child: Icon(
-                    CupertinoIcons.xmark_circle,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                TextSpan(
-                  text: '.',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 16),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Tap ',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                WidgetSpan(
-                  child: Icon(
-                    CupertinoIcons.xmark_circle,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                TextSpan(
-                  text: ' again to undo the mark at that position.',
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
           ),
           SizedBox(height: 30),
           Expanded(
             child: ListView.separated(
+              // Disable vertical scrolling so that it doesn't interfere with dragging horizontally.
+              physics: const NeverScrollableScrollPhysics(),
+
               itemBuilder: (context, index) {
                 String name = characteristics[index]['name'];
                 double value = characteristics[index]['value'];
@@ -167,12 +113,12 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.overline,
                         ),
-                        Text('${value} / 6', style: Theme.of(context).textTheme.subtitle2),
+                        Text('${value} / 6.0', style: Theme.of(context).textTheme.subtitle2),
                       ],
                     ),
                     SizedBox(height: 10),
                     CharacteristicStrengthWidget(
-                      value: value.toInt(),
+                      initialValue: value,
                       onChanged: onChanged,
                     ),
                   ],
@@ -188,44 +134,13 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
   }
 }
 
-class CharacteristicStrengthNotch extends StatefulWidget {
-  final int notch_level; // The position of this notch as used in the strength widget.
-  final int current_level; // The current strength level specified by the user.
-  final onTap;
-  CharacteristicStrengthNotch({this.notch_level, this.current_level, this.onTap});
-
-  @override
-  _CharacteristicStrengthNotchState createState() => _CharacteristicStrengthNotchState();
-}
-
-class _CharacteristicStrengthNotchState extends State<CharacteristicStrengthNotch> {
-  @override
-  Widget build(BuildContext context) {
-    var iconData = widget.current_level >= widget.notch_level ? CupertinoIcons.xmark_circle : CupertinoIcons.minus;
-    var color = widget.current_level >= widget.notch_level
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.onSurface;
-    return GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Icon(
-          iconData,
-          color: color,
-          size: 30,
-        ),
-      ),
-      onTap: widget.onTap,
-    );
-  }
-}
-
 class CharacteristicStrengthWidget extends StatefulWidget {
-  int value;
-  final Function(int) onChanged;
+  final double initialValue;
+  final Function(double) onChanged;
   final String weakLabel;
   final String strongLabel;
   CharacteristicStrengthWidget({
-    this.value,
+    this.initialValue,
     this.onChanged,
     this.weakLabel = 'Weak',
     this.strongLabel = 'Strong',
@@ -236,44 +151,52 @@ class CharacteristicStrengthWidget extends StatefulWidget {
 }
 
 class _CharacteristicStrengthWidgetState extends State<CharacteristicStrengthWidget> {
-  var _selectedPosition;
   var _value;
-  final _numNotches = 6;
 
   @override
   void initState() {
     super.initState();
-    _selectedPosition = widget.value - 1;
-    _value = widget.value;
+    _value = widget.initialValue;
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(
-            _numNotches,
-            (index) => CharacteristicStrengthNotch(
-              notch_level: index,
-              current_level: _selectedPosition,
-              onTap: () {
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RatingBar(
+              initialRating: _value,
+              direction: Axis.horizontal,
+              allowHalfRating: false,
+              updateOnDrag: true,
+              itemCount: 6,
+              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              glow: false,
+              ratingWidget: RatingWidget(
+                full: ImageIcon(
+                  AssetImage('assets/images/np_x.png'),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                half: Icon(
+                  CupertinoIcons.xmark,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                empty: Icon(
+                  CupertinoIcons.minus,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              wrapAlignment: WrapAlignment.spaceBetween,
+              onRatingUpdate: (rating) {
                 setState(() {
-                  if (_selectedPosition == index) {
-                    _selectedPosition -= 1;
-                  } else {
-                    _selectedPosition = index;
-                  }
-
-                  // _selectedPosition is zero-indexed, bump by one to represent the actual value.
-                  _value = _selectedPosition + 1;
+                  _value = rating;
                   widget.onChanged(_value);
                 });
               },
             ),
-          ),
+          ],
         ),
         SizedBox(height: 10),
         Row(
