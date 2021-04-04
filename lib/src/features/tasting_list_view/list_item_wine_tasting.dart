@@ -5,6 +5,7 @@ import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/wine_utils.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
+import 'package:readmore/readmore.dart';
 
 import 'tasting_hero_image_start.dart';
 
@@ -144,10 +145,15 @@ class WineTastingListItem extends StatelessWidget {
                 /**
                  *  Description.
                  */
-                Text(
+                ReadMoreText(
                   '${tasting.description}',
+                  trimLines: 2,
+                  trimMode: TrimMode.Line,
+                  colorClickableText: Theme.of(context).colorScheme.primary,
+                  trimCollapsedText: 'more',
+                  trimExpandedText: 'less',
+                  delimiter: ' ... ',
                   style: Theme.of(context).textTheme.bodyText2,
-                  textAlign: TextAlign.start,
                 ),
                 const SizedBox(height: 10),
                 /**
