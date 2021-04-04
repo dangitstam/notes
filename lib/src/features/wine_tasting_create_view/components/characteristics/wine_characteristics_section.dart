@@ -53,30 +53,30 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
     var characteristics = [
       {
         'name': 'Acidity',
-        'value': wineTastingState.acidityIntensity,
+        'value': wineTastingState.acidity,
         'on_changed': (value) {
-          context.read<WineTastingCreateBloc>().add(AcidityIntensityEvent(acidityIntensity: value.toDouble()));
+          context.read<WineTastingCreateBloc>().add(AddAcidityIntensityEvent(acidityIntensity: value));
         },
       },
       {
         'name': 'Sweetness',
-        'value': wineTastingState.sweetnessIntensity,
+        'value': wineTastingState.sweetness,
         'on_changed': (value) {
-          context.read<WineTastingCreateBloc>().add(SweetnessIntensityEvent(sweetnessIntensity: value.toDouble()));
+          context.read<WineTastingCreateBloc>().add(AddSweetnessIntensityEvent(sweetnessIntensity: value));
         },
       },
       {
-        'name': 'Astringency',
-        'value': wineTastingState.acidityIntensity,
+        'name': 'Tannin',
+        'value': wineTastingState.tannin,
         'on_changed': (value) {
-          context.read<WineTastingCreateBloc>().add(AcidityIntensityEvent(acidityIntensity: value.toDouble()));
+          context.read<WineTastingCreateBloc>().add(AddTanninIntensityEvent(tanninIntensity: value));
         },
       },
       {
         'name': 'Body',
-        'value': wineTastingState.bodyLevel,
+        'value': wineTastingState.body,
         'on_changed': (value) {
-          context.read<WineTastingCreateBloc>().add(BodyLevelEvent(bodyLevel: value.toDouble()));
+          context.read<WineTastingCreateBloc>().add(AddBodyIntensity(bodyIntensity: value));
         },
       }
     ];

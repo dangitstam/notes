@@ -66,7 +66,7 @@ class WineTastingListItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            '${tasting.roaster}'.toUpperCase(),
+                            '${tasting.winemaker}'.toUpperCase(),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.headline6,

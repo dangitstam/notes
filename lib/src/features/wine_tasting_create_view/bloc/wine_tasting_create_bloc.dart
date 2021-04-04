@@ -31,7 +31,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
                   name: '', // TODO: Require some fields in the create view.
                   description: '',
                   origin: '',
-                  roaster: '',
+                  winemaker: '',
                   varietalNames: '',
                   varietalPercentages: '',
                   alcoholByVolume: -1.0, // Use a negative value to signal as unspecified.
@@ -44,19 +44,10 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
                   isNoAddedSulfites: false,
                   isEthicallyMade: false,
                   vintage: -1, // Use a negative value to signal as unspecified.
-                  process: 'Washed',
-                  roastLevel: 7.0,
-                  aromaScore: 7.0,
-                  aromaIntensity: 7.0,
-                  acidityScore: 7.0,
-                  acidityIntensity: 7.0,
-                  bodyScore: 7.0,
-                  bodyLevel: 7.0,
-                  sweetnessScore: 7.0,
-                  sweetnessIntensity: 7.0,
-                  finishScore: 7.0,
-                  finishDuration: 7.0,
-                  flavorScore: 7.0,
+                  acidity: 0,
+                  sweetness: 0,
+                  tannin: 0,
+                  body: 0,
                   notes: <Note>[],
                   imagePath: null,
                 ),
@@ -168,17 +159,9 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       yield state.copyWith(
         tasting: state.tasting.copyWith(origin: event.origin),
       );
-    } else if (event is RoasterEvent) {
+    } else if (event is AddWinemakerEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(roaster: event.roaster),
-      );
-    } else if (event is RoastLevelEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(roastLevel: event.roastLevel),
-      );
-    } else if (event is ProcessEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(process: event.process),
+        tasting: state.tasting.copyWith(winemaker: event.winemaker),
       );
     } else if (event is AddWineVarietalNamesEvent) {
       yield state.copyWith(
@@ -228,49 +211,21 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       yield state.copyWith(
         tasting: state.tasting.copyWith(vintage: event.vintage),
       );
-    } else if (event is AromaScoreEvent) {
+    } else if (event is AddAcidityIntensityEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(aromaScore: event.aromaScore),
+        tasting: state.tasting.copyWith(acidity: event.acidityIntensity),
       );
-    } else if (event is AromaIntensityEvent) {
+    } else if (event is AddBodyIntensity) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(aromaIntensity: event.aromaIntensity),
+        tasting: state.tasting.copyWith(body: event.bodyIntensity),
       );
-    } else if (event is AcidityScoreEvent) {
+    } else if (event is AddSweetnessIntensityEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(acidityScore: event.acidityScore),
+        tasting: state.tasting.copyWith(sweetness: event.sweetnessIntensity),
       );
-    } else if (event is AcidityIntensityEvent) {
+    } else if (event is AddTanninIntensityEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(acidityIntensity: event.acidityIntensity),
-      );
-    } else if (event is BodyScoreEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(bodyScore: event.bodyScore),
-      );
-    } else if (event is BodyLevelEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(bodyLevel: event.bodyLevel),
-      );
-    } else if (event is SweetnessScoreEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(sweetnessScore: event.sweetnessScore),
-      );
-    } else if (event is SweetnessIntensityEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(sweetnessIntensity: event.sweetnessIntensity),
-      );
-    } else if (event is FinishScoreEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(finishScore: event.finishScore),
-      );
-    } else if (event is FinishDurationEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(finishDuration: event.finishDuration),
-      );
-    } else if (event is FlavorScoreEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(flavorScore: event.flavorScore),
+        tasting: state.tasting.copyWith(tannin: event.tanninIntensity),
       );
     } else if (event is AddImageEvent) {
       yield state.copyWith(

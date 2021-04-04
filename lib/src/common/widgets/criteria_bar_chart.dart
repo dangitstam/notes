@@ -3,25 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CriteriaBarChartData {
+  String criteriaLabel;
+  double intensity;
+
   CriteriaBarChartData({
     this.criteriaLabel,
-    this.score,
-    this.scoreLabel,
-    this.scoreColor,
     this.intensity,
-    this.intensityLabel,
-    this.intensityColor,
   });
-
-  String criteriaLabel;
-
-  double score;
-  String scoreLabel;
-  Color scoreColor;
-
-  double intensity;
-  String intensityLabel;
-  Color intensityColor;
 }
 
 class CriteriaBarChart extends StatelessWidget {

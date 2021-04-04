@@ -7,8 +7,7 @@ class WineTasting extends Equatable implements Tasting {
   final String name;
   final String description;
   final String origin;
-  final String process;
-  final String roaster;
+  final String winemaker;
   final String varietalNames;
   final String varietalPercentages;
   final double alcoholByVolume;
@@ -25,20 +24,11 @@ class WineTasting extends Equatable implements Tasting {
 
   final int vintage;
   final List<Note> notes;
-  final double roastLevel;
 
-  final double aromaScore;
-  final double aromaIntensity;
-  final double acidityScore;
-  final double acidityIntensity;
-  final double bodyScore;
-  final double bodyLevel;
-  final double sweetnessScore;
-  final double sweetnessIntensity;
-  final double finishScore;
-  final double finishDuration;
-
-  final double flavorScore;
+  final double acidity;
+  final double sweetness;
+  final double tannin;
+  final double body;
 
   final String imagePath;
 
@@ -47,8 +37,7 @@ class WineTasting extends Equatable implements Tasting {
       this.name,
       this.description,
       this.origin,
-      this.process,
-      this.roaster,
+      this.winemaker,
       this.varietalNames,
       this.varietalPercentages,
       this.alcoholByVolume,
@@ -62,20 +51,12 @@ class WineTasting extends Equatable implements Tasting {
       this.isEthicallyMade,
       this.vintage,
       this.notes = const <Note>[],
-      this.roastLevel,
 
       // Characteristics.
-      this.aromaScore,
-      this.aromaIntensity,
-      this.acidityScore,
-      this.acidityIntensity,
-      this.bodyScore,
-      this.bodyLevel,
-      this.sweetnessScore,
-      this.sweetnessIntensity,
-      this.finishScore,
-      this.finishDuration,
-      this.flavorScore,
+      this.acidity,
+      this.sweetness,
+      this.tannin,
+      this.body,
 
       // Image path.
       this.imagePath});
@@ -88,9 +69,7 @@ class WineTasting extends Equatable implements Tasting {
       name: tastingMap['name'],
       description: tastingMap['description'],
       origin: tastingMap['origin'],
-      process: tastingMap['process'],
-      roastLevel: tastingMap['roast_level'],
-      roaster: tastingMap['roaster'],
+      winemaker: tastingMap['winemaker'],
       varietalNames: tastingMap['varietal_names'],
       varietalPercentages: tastingMap['varietal_percentages'],
       alcoholByVolume: tastingMap['alcohol_by_volume'],
@@ -106,17 +85,10 @@ class WineTasting extends Equatable implements Tasting {
       vintage: tastingMap['vintage'],
 
       // Characteristics.
-      aromaScore: tastingMap['aroma_score'],
-      aromaIntensity: tastingMap['aroma_intensity'],
-      acidityScore: tastingMap['acidity_score'],
-      acidityIntensity: tastingMap['acidity_intensity'],
-      bodyScore: tastingMap['body_score'],
-      bodyLevel: tastingMap['body_level'],
-      sweetnessScore: tastingMap['sweetness_score'],
-      sweetnessIntensity: tastingMap['sweetness_intensity'],
-      finishScore: tastingMap['finish_score'],
-      finishDuration: tastingMap['finish_duration'],
-      flavorScore: tastingMap['flavor_score'],
+      acidity: tastingMap['acidity'],
+      sweetness: tastingMap['sweetness'],
+      tannin: tastingMap['tannin'],
+      body: tastingMap['body'],
 
       // Image path
       imagePath: tastingMap['image_path'],
@@ -131,8 +103,7 @@ class WineTasting extends Equatable implements Tasting {
       'name': name,
       'description': description,
       'origin': origin,
-      'process': process,
-      'roaster': roaster,
+      'winemaker': winemaker,
       'varietal_names': varietalNames,
       'varietal_percentages': varietalPercentages,
       'alcohol_by_volume': alcoholByVolume,
@@ -145,18 +116,10 @@ class WineTasting extends Equatable implements Tasting {
       'is_no_added_sulfites': isNoAddedSulfites ? 1 : 0,
       'is_ethically_made': isEthicallyMade ? 1 : 0,
       'vintage': vintage,
-      'roast_level': roastLevel,
-      'aroma_score': aromaScore,
-      'aroma_intensity': aromaIntensity,
-      'acidity_score': acidityScore,
-      'acidity_intensity': acidityIntensity,
-      'body_score': bodyScore,
-      'body_level': bodyLevel,
-      'sweetness_score': sweetnessScore,
-      'sweetness_intensity': sweetnessIntensity,
-      'finish_score': finishScore,
-      'finish_duration': finishDuration,
-      'flavor_score': flavorScore,
+      'acidity': acidity,
+      'body': body,
+      'sweetness': sweetness,
+      'tannin': tannin,
       'image_path': imagePath,
     };
   }
@@ -166,7 +129,7 @@ class WineTasting extends Equatable implements Tasting {
     String name,
     String description,
     String origin,
-    String roaster,
+    String winemaker,
     String varietalNames,
     String varietalPercentages,
     double alcoholByVolume,
@@ -179,19 +142,10 @@ class WineTasting extends Equatable implements Tasting {
     bool isNoAddedSulfites,
     bool isEthicallyMade,
     int vintage,
-    String process,
-    double roastLevel,
-    double acidityScore,
-    double acidityIntensity,
-    double bodyScore,
-    double bodyLevel,
-    double aromaScore,
-    double aromaIntensity,
-    double sweetnessScore,
-    double sweetnessIntensity,
-    double finishScore,
-    double finishDuration,
-    double flavorScore,
+    double acidity,
+    double sweetness,
+    double tannin,
+    double body,
     List<Note> notes,
     String imagePath,
   }) {
@@ -200,7 +154,7 @@ class WineTasting extends Equatable implements Tasting {
       name: name ?? this.name,
       description: description ?? this.description,
       origin: origin ?? this.origin,
-      roaster: roaster ?? this.roaster,
+      winemaker: winemaker ?? this.winemaker,
       varietalNames: varietalNames ?? this.varietalNames,
       varietalPercentages: varietalPercentages ?? this.varietalPercentages,
       alcoholByVolume: alcoholByVolume ?? this.alcoholByVolume,
@@ -213,19 +167,10 @@ class WineTasting extends Equatable implements Tasting {
       isNoAddedSulfites: isNoAddedSulfites ?? this.isNoAddedSulfites,
       isEthicallyMade: isEthicallyMade ?? this.isEthicallyMade,
       vintage: vintage ?? this.vintage,
-      process: process ?? this.process,
-      roastLevel: roastLevel ?? this.roastLevel,
-      aromaScore: aromaScore ?? this.aromaScore,
-      aromaIntensity: aromaIntensity ?? this.aromaIntensity,
-      acidityScore: acidityScore ?? this.acidityScore,
-      acidityIntensity: acidityIntensity ?? this.acidityIntensity,
-      bodyScore: bodyScore ?? this.bodyScore,
-      bodyLevel: bodyLevel ?? this.bodyLevel,
-      sweetnessScore: sweetnessScore ?? this.sweetnessScore,
-      sweetnessIntensity: sweetnessIntensity ?? this.sweetnessIntensity,
-      finishScore: finishScore ?? this.finishScore,
-      finishDuration: finishDuration ?? this.finishDuration,
-      flavorScore: flavorScore ?? this.flavorScore,
+      acidity: acidity ?? this.acidity,
+      sweetness: sweetness ?? this.sweetness,
+      tannin: tannin ?? this.tannin,
+      body: body ?? this.body,
       notes: notes ?? this.notes,
       imagePath: imagePath ?? this.imagePath,
     );
@@ -237,7 +182,7 @@ class WineTasting extends Equatable implements Tasting {
         name,
         description,
         origin,
-        roaster,
+        winemaker,
         varietalNames,
         varietalPercentages,
         alcoholByVolume,
@@ -250,19 +195,10 @@ class WineTasting extends Equatable implements Tasting {
         isNoAddedSulfites,
         isEthicallyMade,
         vintage,
-        process,
-        roastLevel,
-        aromaScore,
-        aromaIntensity,
-        acidityScore,
-        acidityIntensity,
-        bodyScore,
-        bodyLevel,
-        flavorScore,
-        sweetnessScore,
-        sweetnessIntensity,
-        finishScore,
-        finishDuration,
+        acidity,
+        sweetness,
+        tannin,
+        body,
         notes,
         imagePath,
       ];

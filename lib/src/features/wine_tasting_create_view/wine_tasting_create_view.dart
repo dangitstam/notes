@@ -132,9 +132,9 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                           EditableTextWithCaptionWidget(
                             label: 'Vigneron(ne)',
                             hint: 'Who made this wine?',
-                            initialValue: wineTastingState.roaster.isNotEmpty ? wineTastingState.roaster : null,
+                            initialValue: wineTastingState.winemaker.isNotEmpty ? wineTastingState.winemaker : null,
                             onChanged: (value) {
-                              context.read<WineTastingCreateBloc>().add(RoasterEvent(roaster: value));
+                              context.read<WineTastingCreateBloc>().add(AddWinemakerEvent(winemaker: value));
                             },
                           ),
                           const SizedBox(height: 10),

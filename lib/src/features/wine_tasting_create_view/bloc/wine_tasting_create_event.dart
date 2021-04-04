@@ -49,22 +49,10 @@ class OriginEvent extends WineTastingCreateEvent {
   OriginEvent({this.origin});
 }
 
-class RoasterEvent extends WineTastingCreateEvent {
+class AddWinemakerEvent extends WineTastingCreateEvent {
   @required
-  final String roaster;
-  RoasterEvent({this.roaster});
-}
-
-class ProcessEvent extends WineTastingCreateEvent {
-  @required
-  final String process;
-  ProcessEvent({this.process});
-}
-
-class RoastLevelEvent extends WineTastingCreateEvent {
-  @required
-  final double roastLevel;
-  RoastLevelEvent({this.roastLevel});
+  final String winemaker;
+  AddWinemakerEvent({this.winemaker});
 }
 
 class AddWineVarietalNamesEvent extends WineTastingCreateEvent {
@@ -154,73 +142,31 @@ class AddVintageEvent extends WineTastingCreateEvent {
 }
 
 /// Enter: Characteristics.
-class AromaScoreEvent extends WineTastingCreateEvent {
-  @required
-  final double aromaScore;
-  AromaScoreEvent({this.aromaScore});
-}
-
-class AromaIntensityEvent extends WineTastingCreateEvent {
-  @required
-  final double aromaIntensity;
-  AromaIntensityEvent({this.aromaIntensity});
-}
-
-class AcidityScoreEvent extends WineTastingCreateEvent {
-  @required
-  final double acidityScore;
-  AcidityScoreEvent({this.acidityScore});
-}
-
-class AcidityIntensityEvent extends WineTastingCreateEvent {
+class AddAcidityIntensityEvent extends WineTastingCreateEvent {
   @required
   final double acidityIntensity;
-  AcidityIntensityEvent({this.acidityIntensity});
+  AddAcidityIntensityEvent({this.acidityIntensity});
 }
 
-class BodyScoreEvent extends WineTastingCreateEvent {
+class AddBodyIntensity extends WineTastingCreateEvent {
   @required
-  final double bodyScore;
-  BodyScoreEvent({this.bodyScore});
+  final double bodyIntensity;
+  AddBodyIntensity({this.bodyIntensity});
 }
 
-class BodyLevelEvent extends WineTastingCreateEvent {
-  @required
-  final double bodyLevel;
-  BodyLevelEvent({this.bodyLevel});
-}
-
-class SweetnessScoreEvent extends WineTastingCreateEvent {
-  @required
-  final double sweetnessScore;
-  SweetnessScoreEvent({this.sweetnessScore});
-}
-
-class SweetnessIntensityEvent extends WineTastingCreateEvent {
+class AddSweetnessIntensityEvent extends WineTastingCreateEvent {
   @required
   final double sweetnessIntensity;
-  SweetnessIntensityEvent({this.sweetnessIntensity});
+  AddSweetnessIntensityEvent({this.sweetnessIntensity});
 }
 
-class FinishScoreEvent extends WineTastingCreateEvent {
+class AddTanninIntensityEvent extends WineTastingCreateEvent {
   @required
-  final double finishScore;
-  FinishScoreEvent({this.finishScore});
-}
-
-class FinishDurationEvent extends WineTastingCreateEvent {
-  @required
-  final double finishDuration;
-  FinishDurationEvent({this.finishDuration});
+  final double tanninIntensity;
+  AddTanninIntensityEvent({this.tanninIntensity});
 }
 
 /// Exit: Characteristics.
-
-class FlavorScoreEvent extends WineTastingCreateEvent {
-  @required
-  final double flavorScore;
-  FlavorScoreEvent({this.flavorScore});
-}
 
 class AddImageEvent extends WineTastingCreateEvent {
   @required
