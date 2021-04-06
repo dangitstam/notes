@@ -12,6 +12,7 @@ class TastingNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       label: Text(
         '${note.name}',
         style: Theme.of(context).textTheme.caption.copyWith(color: Colors.white),

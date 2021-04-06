@@ -336,7 +336,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 const SizedBox(height: 10),
                 isCharacteristicsEdited
                     ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           CharacteristicsChart(
                             tasting: context.watch<WineTastingCreateBloc>().state.tasting,
@@ -350,13 +350,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                           ColorFiltered(
                             colorFilter:
                                 ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CharacteristicsChart(
-                                  tasting: context.watch<WineTastingCreateBloc>().state.tasting,
-                                ),
-                              ],
+                            child: CharacteristicsChart(
+                              tasting: context.watch<WineTastingCreateBloc>().state.tasting,
                             ),
                           ),
                         ],

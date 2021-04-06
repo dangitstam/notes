@@ -2,22 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class CriteriaBarChartData {
+class WineCriteriaBarChartData {
   String criteriaLabel;
   double intensity;
 
-  CriteriaBarChartData({
+  WineCriteriaBarChartData({
     this.criteriaLabel,
     this.intensity,
   });
 }
 
-class CriteriaBarChart extends StatelessWidget {
-  CriteriaBarChart({this.children});
+class WineCriteriaBarChart extends StatelessWidget {
+  WineCriteriaBarChart({this.children});
 
-  final List<CriteriaBarChartData> children;
+  final List<WineCriteriaBarChartData> children;
 
-  final double size = 20;
+  final double size = 17;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class CriteriaBarChart extends StatelessWidget {
               )
               .toList(),
         ),
-        SizedBox(width: 20),
+        SizedBox(width: 17),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: children.map(
@@ -52,7 +52,7 @@ class CriteriaBarChart extends StatelessWidget {
                 direction: Axis.horizontal,
                 ignoreGestures: true,
                 itemCount: 6,
-                itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                 itemSize: size,
                 ratingWidget: RatingWidget(
                   full: ImageIcon(
@@ -73,21 +73,20 @@ class CriteriaBarChart extends StatelessWidget {
             },
           ).toList(),
         ),
-        SizedBox(width: 20),
-        Column(
-          children: children
-              .map(
-                (e) => Container(
-                  alignment: Alignment.center,
-                  height: size,
-                  child: Text(
-                    '${e.intensity} / 6.0',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ),
-              )
-              .toList(),
-        ),
+        // Column(
+        //   children: children
+        //       .map(
+        //         (e) => Container(
+        //           alignment: Alignment.center,
+        //           height: size,
+        //           child: Text(
+        //             '${e.intensity.toInt()} / 6',
+        //             style: Theme.of(context).textTheme.caption,
+        //           ),
+        //         ),
+        //       )
+        //       .toList(),
+        // ),
       ],
     );
   }

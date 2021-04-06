@@ -41,6 +41,44 @@ class WineTastingListItem extends StatelessWidget {
 
     String wineFactsText = wineFacts.join(' · ');
 
+    Icon wineTypeIcon;
+    switch (tasting.wineType) {
+      case 'Red':
+        wineTypeIcon = Icon(
+          CupertinoIcons.circle_filled,
+          color: Color(0xff850024),
+          size: 20,
+        );
+        break;
+      case 'White':
+        wineTypeIcon = Icon(
+          CupertinoIcons.circle,
+          color: Theme.of(context).colorScheme.primary,
+          size: 20,
+        );
+        break;
+      case 'Skin Contact':
+        wineTypeIcon = Icon(
+          CupertinoIcons.circle_lefthalf_fill,
+          color: Color(0xffffa500),
+          size: 20,
+        );
+        break;
+      case 'Rosé':
+        wineTypeIcon = Icon(
+          CupertinoIcons.circle_lefthalf_fill,
+          color: Color(0xff850024),
+          size: 20,
+        );
+        break;
+      default:
+        wineTypeIcon = Icon(
+          CupertinoIcons.circle,
+          color: Theme.of(context).colorScheme.primary,
+          size: 20,
+        );
+    }
+
     String formattedVinification = '';
     List<String> vinificationFacts = formatVinification(tasting);
     if (vinificationFacts.isNotEmpty) {
@@ -51,7 +89,7 @@ class WineTastingListItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(17),
+            padding: const EdgeInsets.only(left: 17, right: 17, top: 17, bottom: 10),
             child: Column(
               children: [
                 Row(
@@ -63,7 +101,6 @@ class WineTastingListItem extends StatelessWidget {
                        */
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             '${tasting.winemaker}'.toUpperCase(),
@@ -80,19 +117,19 @@ class WineTastingListItem extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        // Text('  Wine', style: Theme.of(context).textTheme.subtitle2),
-                        // const SizedBox(height: 5),
-                        Text(
-                          '#${formattedId}',
-                          style: Theme.of(context).textTheme.headline6,
-                          textAlign: TextAlign.end,
-                        ),
-                      ],
-                    ),
+                    // Column(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   crossAxisAlignment: CrossAxisAlignment.end,
+                    //   children: [
+                    //     // Text('  Wine', style: Theme.of(context).textTheme.subtitle2),
+                    //     // const SizedBox(height: 5),
+                    //     Text(
+                    //       '#${formattedId}',
+                    //       style: Theme.of(context).textTheme.headline6,
+                    //       textAlign: TextAlign.end,
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -102,19 +139,19 @@ class WineTastingListItem extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            height: 20,
+                            height: 24,
                             child: AspectRatio(
                               // Icons are rendered in a square container.
                               // Since this icon is taller than it is wide, reflect this as an
                               // aspect ratio to remove the extra horizontal space.
                               aspectRatio: 9.0 / 16.0,
-                              child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
+                              child: Icon(CupertinoIcons.location_solid, size: 24, color: Colors.black),
                             ),
                           ),
-                          const SizedBox(width: 5),
+                          const SizedBox(width: 10),
                           Text(
                             '${tasting.origin}',
                             style: Theme.of(context).textTheme.caption,
@@ -140,8 +177,25 @@ class WineTastingListItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 17.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                /**
+                 * Type, Vintage, Alcohol by volume.
+                 */
+                wineFactsText.isNotEmpty ? const SizedBox(height: 5) : Container(),
+                wineFactsText.isNotEmpty
+                    ? Row(
+                        children: [
+                          // wineTypeIcon,
+                          // const SizedBox(width: 5),
+                          Text(
+                            '$wineFactsText',
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ],
+                      )
+                    : Container(),
+                const SizedBox(height: 5),
                 /**
                  *  Description.
                  */
@@ -157,33 +211,54 @@ class WineTastingListItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 /**
-                 * Criteria
+                 * Tasting Notes
                  */
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
                   children: [
-                    CharacteristicsChart(tasting: tasting),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '[Notes]    ', // Extra spaces is a hack to line up Notes and Character's content.
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        const SizedBox(width: 17),
+                        Expanded(
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            spacing: 5,
+                            runSpacing: 5,
+                            children: tasting.notes.map((e) => TastingNote(e)).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
                 /**
-                 * Tasting Notes
+                 * Criteria
                  */
-                Wrap(
-                  spacing: 5,
-                  children: tasting.notes.map((e) => TastingNote(e)).toList(),
-                ),
-                /**
-                 * Type, Vintage, Alcohol by volume.
-                 */
-                wineFactsText.isNotEmpty ? const SizedBox(height: 10) : Container(),
-                wineFactsText.isNotEmpty
-                    ? Text(
-                        '$wineFactsText',
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 24,
+                      // child: Image.asset(
+                      //   'assets/images/np_vinification.png',
+                      // ),
+                      child: Text(
+                        '[Character]',
                         style: Theme.of(context).textTheme.caption,
-                        textAlign: TextAlign.end,
-                      )
-                    : Container(),
+                      ),
+                    ),
+                    const SizedBox(width: 17),
+                    Expanded(
+                      child: CharacteristicsChart(tasting: tasting),
+                    ),
+                  ],
+                ),
                 /**
                  * Vinification.
                  */

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/features/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/features/tasting_list_view/roast_level_linear_indicator.dart';
 
 import 'tasting_hero_image_start.dart';

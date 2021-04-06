@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:notes/src/common/widgets/criteria_bar_chart.dart';
+import 'package:notes/src/common/widgets/wine/wine_criteria_bar_chart.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 
 class CharacteristicsChart extends StatelessWidget {
@@ -11,21 +11,21 @@ class CharacteristicsChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CriteriaBarChart(
+    return WineCriteriaBarChart(
       children: [
-        CriteriaBarChartData(
+        WineCriteriaBarChartData(
           criteriaLabel: 'Acidity',
           intensity: tasting.acidity,
         ),
-        CriteriaBarChartData(
+        WineCriteriaBarChartData(
           criteriaLabel: 'Sweetness',
           intensity: tasting.sweetness,
         ),
-        CriteriaBarChartData(
+        WineCriteriaBarChartData(
           criteriaLabel: 'Tannin',
           intensity: tasting.tannin,
         ),
-        CriteriaBarChartData(
+        WineCriteriaBarChartData(
           criteriaLabel: 'Body',
           intensity: tasting.body,
         ),

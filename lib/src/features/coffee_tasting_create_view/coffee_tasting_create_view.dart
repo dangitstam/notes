@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
-import 'package:notes/src/coffee_tasting_create_view/components/section_title.dart';
 import 'package:notes/src/common/util.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/widgets/themed_padded_slider.dart';
+import 'package:notes/src/features/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
+import 'package:notes/src/features/coffee_tasting_create_view/components/characteristics/characteristics_chart.dart';
+import 'package:notes/src/features/coffee_tasting_create_view/components/section_title.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
 
