@@ -210,14 +210,14 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 ),
                 // Caveat: This section won't re-render if [isInfoEdited] is changed.
                 // A listener is required if the re-render is necessary when staying on the current screen.
-                isInfoEdited
-                    ? Container()
-                    : Column(
-                        children: [
-                          Text('Tap \'edit\' to add info.'),
-                          const SizedBox(height: 10),
-                        ],
-                      ),
+                // isInfoEdited
+                //     ? Container()
+                //     : Column(
+                //         children: [
+                //           Text('Tap \'edit\' to add info.'),
+                //           const SizedBox(height: 10),
+                //         ],
+                //       ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 17.0),
                   child: Row(
@@ -316,7 +316,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         spacing: 5,
                         children: selectedTastingNotes.map((e) => TastingNote(e)).toList(),
                       )
-                    : Text('Tap \'edit\' to select tasting notes.'),
+                    // : Text('Tap \'edit\' to select tasting notes.'),
+                    : Text('No tasting notes selected.'),
                 const SizedBox(height: 10),
                 Divider(),
                 Row(
@@ -345,13 +346,18 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                       )
                     : Column(
                         children: [
-                          Text('Tap \'edit\' to assess characteristics.'),
-                          const SizedBox(height: 20),
+                          // Text('Tap \'edit\' to assess characteristics.'),
+                          // const SizedBox(height: 20),
                           ColorFiltered(
                             colorFilter:
                                 ColorFilter.mode(Theme.of(context).colorScheme.background, BlendMode.saturation),
-                            child: CharacteristicsChart(
-                              tasting: context.watch<WineTastingCreateBloc>().state.tasting,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CharacteristicsChart(
+                                  tasting: context.watch<WineTastingCreateBloc>().state.tasting,
+                                ),
+                              ],
                             ),
                           ),
                         ],

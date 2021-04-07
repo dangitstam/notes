@@ -73,20 +73,21 @@ class WineCriteriaBarChart extends StatelessWidget {
             },
           ).toList(),
         ),
-        // Column(
-        //   children: children
-        //       .map(
-        //         (e) => Container(
-        //           alignment: Alignment.center,
-        //           height: size,
-        //           child: Text(
-        //             '${e.intensity.toInt()} / 6',
-        //             style: Theme.of(context).textTheme.caption,
-        //           ),
-        //         ),
-        //       )
-        //       .toList(),
-        // ),
+        SizedBox(width: 17),
+        Column(
+          children: children
+              .map(
+                (e) => Container(
+                  alignment: Alignment.center,
+                  height: size,
+                  child: Text(
+                    '${e.intensity} / 6.0',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ),
+              )
+              .toList(),
+        ),
       ],
     );
   }

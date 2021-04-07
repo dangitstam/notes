@@ -89,7 +89,7 @@ class WineTastingListItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 17, right: 17, top: 17, bottom: 10),
+            padding: const EdgeInsets.all(17),
             child: Column(
               children: [
                 Row(
@@ -103,20 +103,21 @@ class WineTastingListItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${tasting.winemaker}'.toUpperCase(),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          Text(
                             '${tasting.name}'.toUpperCase(),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
+                          ),
+                          Text(
+                            '${tasting.winemaker} · ${wineFactsText}',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.caption,
                           ),
                         ],
                       ),
                     ),
+                    // TODO: Edit button here.
                     // Column(
                     //   mainAxisAlignment: MainAxisAlignment.start,
                     //   crossAxisAlignment: CrossAxisAlignment.end,
@@ -180,23 +181,6 @@ class WineTastingListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /**
-                 * Type, Vintage, Alcohol by volume.
-                 */
-                wineFactsText.isNotEmpty ? const SizedBox(height: 5) : Container(),
-                wineFactsText.isNotEmpty
-                    ? Row(
-                        children: [
-                          // wineTypeIcon,
-                          // const SizedBox(width: 5),
-                          Text(
-                            '$wineFactsText',
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        ],
-                      )
-                    : Container(),
-                const SizedBox(height: 5),
-                /**
                  *  Description.
                  */
                 ReadMoreText(
@@ -209,60 +193,41 @@ class WineTastingListItem extends StatelessWidget {
                   delimiter: ' ... ',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-                const SizedBox(height: 10),
                 /**
-                 * Tasting Notes
+                 * Characteristics.
                  */
-                Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '[Notes]    ', // Extra spaces is a hack to line up Notes and Character's content.
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                        const SizedBox(width: 17),
-                        Expanded(
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.start,
-                            spacing: 5,
-                            runSpacing: 5,
-                            children: tasting.notes.map((e) => TastingNote(e)).toList(),
-                          ),
-                        ),
-                      ],
+                Theme(
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    title: Text(
+                      'Show Characteristics',
+                      style: Theme.of(context).textTheme.caption,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                /**
-                 * Criteria
-                 */
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 24,
-                      // child: Image.asset(
-                      //   'assets/images/np_vinification.png',
-                      // ),
-                      child: Text(
-                        '[Character]',
-                        style: Theme.of(context).textTheme.caption,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CharacteristicsChart(tasting: tasting),
+                        ],
                       ),
-                    ),
-                    const SizedBox(width: 17),
-                    Expanded(
-                      child: CharacteristicsChart(tasting: tasting),
-                    ),
-                  ],
+                      const SizedBox(height: 17),
+                    ],
+                  ),
+                ),
+                /**
+                 * Tasting Notes.
+                 */
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  spacing: 5,
+                  runSpacing: 5,
+                  children: tasting.notes.map((e) => TastingNote(e)).toList(),
                 ),
                 /**
                  * Vinification.
                  */
-                formattedVinification.isNotEmpty ? const SizedBox(height: 10) : Container(),
+                formattedVinification.isNotEmpty ? const SizedBox(height: 17) : Container(),
                 formattedVinification.isNotEmpty
                     ? Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,18 +272,16 @@ class WineTastingListItem extends StatelessWidget {
                         ],
                       )
                     : Container(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 17),
                 /**
                  * Date & time that this tasting took place.
                  */
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    '10:35 AM · Dec 23 2020',
-                    style: Theme.of(context).textTheme.caption,
-                    textAlign: TextAlign.right,
-                  ),
-                )
+                Text(
+                  '10:35 AM · Dec 23 2020',
+                  style: Theme.of(context).textTheme.caption,
+                  textAlign: TextAlign.right,
+                ),
+                const SizedBox(height: 17),
               ],
             ),
           ),
