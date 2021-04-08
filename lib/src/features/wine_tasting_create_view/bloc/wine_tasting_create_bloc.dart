@@ -50,6 +50,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
                   body: 0,
                   notes: <Note>[],
                   imagePath: null,
+                  story: '',
                 ),
           ),
         ) {

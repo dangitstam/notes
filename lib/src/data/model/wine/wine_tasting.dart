@@ -32,34 +32,39 @@ class WineTasting extends Equatable implements Tasting {
 
   final String imagePath;
 
-  WineTasting(
-      {this.wineTastingId,
-      this.name,
-      this.description,
-      this.origin,
-      this.winemaker,
-      this.varietalNames,
-      this.varietalPercentages,
-      this.alcoholByVolume,
-      this.wineType,
-      this.bubbles,
-      this.isBiodynamic,
-      this.isOrganicFarming,
-      this.isUnfinedUnfiltered,
-      this.isWildYeast,
-      this.isNoAddedSulfites,
-      this.isEthicallyMade,
-      this.vintage,
-      this.notes = const <Note>[],
+  // Optional story behind the wine, provided by the discovery path to tasting.
+  final String story;
 
-      // Characteristics.
-      this.acidity,
-      this.sweetness,
-      this.tannin,
-      this.body,
+  WineTasting({
+    this.wineTastingId,
+    this.name,
+    this.description,
+    this.origin,
+    this.winemaker,
+    this.varietalNames,
+    this.varietalPercentages,
+    this.alcoholByVolume,
+    this.wineType,
+    this.bubbles,
+    this.isBiodynamic,
+    this.isOrganicFarming,
+    this.isUnfinedUnfiltered,
+    this.isWildYeast,
+    this.isNoAddedSulfites,
+    this.isEthicallyMade,
+    this.vintage,
+    this.notes = const <Note>[],
 
-      // Image path.
-      this.imagePath});
+    // Characteristics.
+    this.acidity,
+    this.sweetness,
+    this.tannin,
+    this.body,
+
+    // Image path.
+    this.imagePath,
+    this.story,
+  });
 
   /// Given a Map<String, dynamic> resulting from querying a wine tasting
   /// from the `wine_tastings` table, maps the result to a CoffeeTasting.
@@ -92,6 +97,8 @@ class WineTasting extends Equatable implements Tasting {
 
       // Image path
       imagePath: tastingMap['image_path'],
+
+      story: tastingMap['story'],
     );
   }
 
@@ -121,6 +128,7 @@ class WineTasting extends Equatable implements Tasting {
       'sweetness': sweetness,
       'tannin': tannin,
       'image_path': imagePath,
+      'story': story,
     };
   }
 
@@ -148,6 +156,7 @@ class WineTasting extends Equatable implements Tasting {
     double body,
     List<Note> notes,
     String imagePath,
+    String story,
   }) {
     return WineTasting(
       wineTastingId: wineTastingId ?? this.wineTastingId,
@@ -173,6 +182,7 @@ class WineTasting extends Equatable implements Tasting {
       body: body ?? this.body,
       notes: notes ?? this.notes,
       imagePath: imagePath ?? this.imagePath,
+      story: story ?? this.story,
     );
   }
 
@@ -201,5 +211,6 @@ class WineTasting extends Equatable implements Tasting {
         body,
         notes,
         imagePath,
+        story,
       ];
 }

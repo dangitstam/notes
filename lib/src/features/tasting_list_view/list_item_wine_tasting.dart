@@ -273,8 +273,8 @@ class WineTastingListItem extends StatelessWidget {
                         ],
                       )
                     : Container(),
-                formattedVarietals.isNotEmpty ? const SizedBox(height: 10) : Container(),
-                formattedVarietals.isNotEmpty
+                tasting.story.isNotEmpty ? const SizedBox(height: 10) : Container(),
+                tasting.story.isNotEmpty
                     ? Row(
                         children: [
                           Container(
@@ -286,11 +286,16 @@ class WineTastingListItem extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Expanded(
-                            child: Text(
-                              'Read more about this wine',
-                              style: Theme.of(context).textTheme.caption.copyWith(
-                                    color: Theme.of(context).colorScheme.primary,
-                                  ),
+                            child: GestureDetector(
+                              child: Text(
+                                'Read more about this wine',
+                                style: Theme.of(context).textTheme.caption.copyWith(
+                                      color: Theme.of(context).colorScheme.primary,
+                                    ),
+                              ),
+                              onTap: () {
+                                wineStoryModal(context, tasting);
+                              },
                             ),
                           ),
                         ],
@@ -313,4 +318,43 @@ class WineTastingListItem extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> wineStoryModal(
+  BuildContext context,
+  WineTasting tasting,
+) {
+  return showModalBottomSheet<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return Padding(
+        padding: const EdgeInsets.all(17.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${tasting.name}'.toUpperCase(),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 2.0),
+              child: Text(
+                '${tasting.winemaker}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ),
+            const SizedBox(height: 17),
+            Text(
+              '${tasting.story}',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

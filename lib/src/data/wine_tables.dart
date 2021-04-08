@@ -28,7 +28,8 @@ Future<void> createWineTastingsTable(Database db) {
       sweetness REAL,
       tannin REAL,
       body REAL,
-      image_path TEXT)
+      image_path TEXT,
+      story TEXT)
     """,
   );
 }
