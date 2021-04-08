@@ -89,7 +89,7 @@ class WineTastingListItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top: 17, left: 17, right: 17, bottom: 10),
+            padding: const EdgeInsets.all(17),
             child: Column(
               children: [
                 Row(
@@ -143,7 +143,7 @@ class WineTastingListItem extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
                             height: 20,
@@ -151,11 +151,10 @@ class WineTastingListItem extends StatelessWidget {
                               // Icons are rendered in a square container.
                               // Since this icon is taller than it is wide, reflect this as an
                               // aspect ratio to remove the extra horizontal space.
-                              aspectRatio: 9.0 / 16.0,
+                              aspectRatio: 1,
                               child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
                             ),
                           ),
-                          const SizedBox(width: 10),
                           Text(
                             '${tasting.origin}',
                             style: Theme.of(context).textTheme.caption,
