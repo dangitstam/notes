@@ -72,6 +72,7 @@ flutter:
     - assets/coffee_tastings.json
     - assets/coffee_tastings_notes.json
     - assets/images/coffee.jpg
+    - assets/images/np_book.png
     - assets/images/np_grapes_small.png
     - assets/images/np_vinification.png
     - assets/images/np_library.png

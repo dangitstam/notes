@@ -89,7 +89,7 @@ class WineTastingListItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(17),
+            padding: const EdgeInsets.only(top: 17, left: 17, right: 17, bottom: 10),
             child: Column(
               children: [
                 Row(
@@ -106,13 +106,16 @@ class WineTastingListItem extends StatelessWidget {
                             '${tasting.name}'.toUpperCase(),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
+                            style: Theme.of(context).textTheme.headline5,
                           ),
-                          Text(
-                            '${tasting.winemaker} · ${wineFactsText}',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.caption,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 2.0),
+                            child: Text(
+                              '${tasting.winemaker} · ${wineFactsText}',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.caption,
+                            ),
                           ),
                         ],
                       ),
@@ -143,13 +146,13 @@ class WineTastingListItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            height: 24,
+                            height: 20,
                             child: AspectRatio(
                               // Icons are rendered in a square container.
                               // Since this icon is taller than it is wide, reflect this as an
                               // aspect ratio to remove the extra horizontal space.
                               aspectRatio: 9.0 / 16.0,
-                              child: Icon(CupertinoIcons.location_solid, size: 24, color: Colors.black),
+                              child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -165,16 +168,6 @@ class WineTastingListItem extends StatelessWidget {
               ],
             ),
           ),
-          /**
-           *  Optional image of tasting.
-           */
-          tasting.imagePath != null
-              ? TastingHeroImageStart(
-                  tag: 'list view hero image for tasting ${tasting.wineTastingId}',
-                  imagePath: tasting.imagePath,
-                )
-              : Container(),
-          tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 17.0),
             child: Column(
@@ -193,6 +186,16 @@ class WineTastingListItem extends StatelessWidget {
                   delimiter: ' ... ',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
+                tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
+                /**
+                 *  Optional image of tasting.
+                 */
+                tasting.imagePath != null
+                    ? TastingHeroImageStart(
+                        tag: 'list view hero image for tasting ${tasting.wineTastingId}',
+                        imagePath: tasting.imagePath,
+                      )
+                    : Container(),
                 /**
                  * Characteristics.
                  */
@@ -230,7 +233,6 @@ class WineTastingListItem extends StatelessWidget {
                 formattedVinification.isNotEmpty ? const SizedBox(height: 17) : Container(),
                 formattedVinification.isNotEmpty
                     ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             height: 24,
@@ -254,12 +256,12 @@ class WineTastingListItem extends StatelessWidget {
                 formattedVarietals.isNotEmpty ? const SizedBox(height: 10) : Container(),
                 formattedVarietals.isNotEmpty
                     ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             height: 24,
                             child: Image.asset(
                               'assets/images/np_grapes_small.png',
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const SizedBox(width: 5),
@@ -267,6 +269,29 @@ class WineTastingListItem extends StatelessWidget {
                             child: Text(
                               '$formattedVarietals',
                               style: Theme.of(context).textTheme.caption,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
+                formattedVarietals.isNotEmpty ? const SizedBox(height: 10) : Container(),
+                formattedVarietals.isNotEmpty
+                    ? Row(
+                        children: [
+                          Container(
+                            height: 24,
+                            child: Image.asset(
+                              'assets/images/np_book.png',
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Text(
+                              'Read more about this wine',
+                              style: Theme.of(context).textTheme.caption.copyWith(
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
                             ),
                           ),
                         ],

@@ -35,24 +35,27 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
           }
 
           return ListView.separated(
-              itemCount: tastings == null ? 0 : tastings.length,
-              itemBuilder: (BuildContext _context, int index) {
-                if (tastings != null && index < tastings.length) {
-                  final tasting = tastings[index];
-                  switch (tasting.runtimeType) {
-                    case CoffeeTasting:
-                      return CoffeeTastingListItem(tasting: tasting);
-                    case WineTasting:
-                      return WineTastingListItem(tasting: tasting);
-                    default:
-                      return Container();
-                  }
-                } else {
-                  return Text('loading');
+            itemCount: tastings == null ? 0 : tastings.length,
+            itemBuilder: (BuildContext _context, int index) {
+              if (tastings != null && index < tastings.length) {
+                final tasting = tastings[index];
+                switch (tasting.runtimeType) {
+                  case CoffeeTasting:
+                    return CoffeeTastingListItem(tasting: tasting);
+                  case WineTasting:
+                    return WineTastingListItem(tasting: tasting);
+                  default:
+                    return Container();
                 }
-              },
-              padding: const EdgeInsets.all(0.0),
-              separatorBuilder: (context, index) => Divider());
+              } else {
+                return Text('loading');
+              }
+            },
+            padding: const EdgeInsets.all(0.0),
+            separatorBuilder: (context, index) => Divider(
+              height: 0.0,
+            ),
+          );
         } else {
           return Text('loading');
         }
