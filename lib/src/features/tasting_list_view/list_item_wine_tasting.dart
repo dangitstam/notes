@@ -19,7 +19,6 @@ class WineTastingListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String formattedId = tasting.wineTastingId.toString().padLeft(1, '0');
     final String formattedVarietals = formatVarietals(tasting);
 
     /**
@@ -40,44 +39,6 @@ class WineTastingListItem extends StatelessWidget {
     }
 
     String wineFactsText = wineFacts.join(' · ');
-
-    Icon wineTypeIcon;
-    switch (tasting.wineType) {
-      case 'Red':
-        wineTypeIcon = Icon(
-          CupertinoIcons.circle_filled,
-          color: Color(0xff850024),
-          size: 20,
-        );
-        break;
-      case 'White':
-        wineTypeIcon = Icon(
-          CupertinoIcons.circle,
-          color: Theme.of(context).colorScheme.primary,
-          size: 20,
-        );
-        break;
-      case 'Skin Contact':
-        wineTypeIcon = Icon(
-          CupertinoIcons.circle_lefthalf_fill,
-          color: Color(0xffffa500),
-          size: 20,
-        );
-        break;
-      case 'Rosé':
-        wineTypeIcon = Icon(
-          CupertinoIcons.circle_lefthalf_fill,
-          color: Color(0xff850024),
-          size: 20,
-        );
-        break;
-      default:
-        wineTypeIcon = Icon(
-          CupertinoIcons.circle,
-          color: Theme.of(context).colorScheme.primary,
-          size: 20,
-        );
-    }
 
     String formattedVinification = '';
     List<String> vinificationFacts = formatVinification(tasting);
@@ -121,19 +82,6 @@ class WineTastingListItem extends StatelessWidget {
                       ),
                     ),
                     // TODO: Edit button here.
-                    // Column(
-                    //   mainAxisAlignment: MainAxisAlignment.start,
-                    //   crossAxisAlignment: CrossAxisAlignment.end,
-                    //   children: [
-                    //     // Text('  Wine', style: Theme.of(context).textTheme.subtitle2),
-                    //     // const SizedBox(height: 5),
-                    //     Text(
-                    //       '#${formattedId}',
-                    //       style: Theme.of(context).textTheme.headline6,
-                    //       textAlign: TextAlign.end,
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
                 const SizedBox(height: 5),
