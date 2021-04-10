@@ -93,16 +93,7 @@ class WineTastingListItem extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
-                            height: 20,
-                            child: AspectRatio(
-                              // Icons are rendered in a square container.
-                              // Since this icon is taller than it is wide, reflect this as an
-                              // aspect ratio to remove the extra horizontal space.
-                              aspectRatio: 1,
-                              child: Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
-                            ),
-                          ),
+                          Icon(CupertinoIcons.location_solid, size: 20, color: Colors.black),
                           Text(
                             '${tasting.origin}',
                             style: Theme.of(context).textTheme.caption,
