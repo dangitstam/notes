@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class CriteriaLinearIndicator extends StatelessWidget {
-  CriteriaLinearIndicator(this.value, this.label, this.color);
+class CoffeeCriteriaLinearIndicator extends StatelessWidget {
+  CoffeeCriteriaLinearIndicator(this.value, this.label, this.color);
 
   final double value;
   final String label;

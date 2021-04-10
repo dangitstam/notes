@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notes/src/common/widgets/coffee/coffee_criteria_linear_indicator.dart';
 
-import 'criteria_caption.dart';
-import 'criteria_linear_indicator.dart';
-
-class CriteriaBarChartData {
-  CriteriaBarChartData({
+class CoffeeCriteriaBarChartData {
+  CoffeeCriteriaBarChartData({
     this.criteriaLabel,
     this.score,
     this.scoreLabel,
@@ -25,24 +23,24 @@ class CriteriaBarChartData {
   Color intensityColor;
 }
 
-class CriteriaBarChart extends StatelessWidget {
-  CriteriaBarChart({this.children});
+class CoffeeCriteriaBarChart extends StatelessWidget {
+  CoffeeCriteriaBarChart({this.children});
 
-  final List<CriteriaBarChartData> children;
+  final List<CoffeeCriteriaBarChartData> children;
 
   @override
   Widget build(BuildContext context) {
-    var linearIndicators = <CriteriaLinearIndicator>[];
+    var linearIndicators = <CoffeeCriteriaLinearIndicator>[];
     for (var datum in children) {
       linearIndicators.add(
-        CriteriaLinearIndicator(
+        CoffeeCriteriaLinearIndicator(
           datum.score,
           datum.scoreLabel,
           datum.scoreColor,
         ),
       );
       linearIndicators.add(
-        CriteriaLinearIndicator(
+        CoffeeCriteriaLinearIndicator(
           datum.intensity,
           datum.intensityLabel,
           datum.intensityColor,
@@ -56,7 +54,7 @@ class CriteriaBarChart extends StatelessWidget {
           flex: 0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: children.map((e) => CriteriaCaption(e.criteriaLabel)).toList(),
+            children: children.map((e) => CoffeeCriteriaCaption(e.criteriaLabel)).toList(),
           ),
         ),
         const SizedBox(width: 5),
@@ -68,6 +66,26 @@ class CriteriaBarChart extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+class CoffeeCriteriaCaption extends StatelessWidget {
+  CoffeeCriteriaCaption(this.criteria);
+
+  final String criteria;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      child: Center(
+        child: Text(
+          '$criteria',
+          textAlign: TextAlign.right,
+          style: Theme.of(context).textTheme.caption,
+        ),
+      ),
     );
   }
 }

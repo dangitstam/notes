@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:notes/src/common/util.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
-import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
-import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/swiper_tabs.dart';
 
 import '../section_title.dart';
-import 'characteristics_sliders.dart';
 
 class WineCharacteristicsScreen extends StatefulWidget {
   @override
@@ -50,157 +46,172 @@ class CharacteristicsSection extends StatefulWidget {
 }
 
 class _CharacteristicsSectionState extends State<CharacteristicsSection> {
-  var swiperController = SwiperController();
-  var swiperToggleButtonsSelections = [true, false, false, false, false];
-  var swiperTabsTitles = [
-    'Aroma',
-    'Acidity',
-    'Body',
-    'Sweetness',
-    'Finish',
-  ];
-
-  void onSwiperToggleButtonClick(int index) {
-    setState(() {
-      for (var i = 0; i < swiperToggleButtonsSelections.length; i++) {
-        swiperToggleButtonsSelections[i] = i == index;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var wineTastingState = context.watch<WineTastingCreateBloc>().state.tasting;
 
-    /**
-     * Pair of sliders for each characteristic.
-     */
-    var swiperWidgets = [
-      CharacteristicsSliders(
-        characteristic: 'Aroma',
-        score: wineTastingState.aromaScore,
-        intensity: wineTastingState.aromaIntensity,
-        updateScore: (value) {
-          context.read<WineTastingCreateBloc>().add(AromaScoreEvent(aromaScore: round(value)));
+    var characteristics = [
+      {
+        'name': 'Acidity',
+        'value': wineTastingState.acidity,
+        'on_changed': (value) {
+          context.read<WineTastingCreateBloc>().add(AddAcidityIntensityEvent(acidityIntensity: value));
         },
-        updateIntensity: (value) {
-          context.read<WineTastingCreateBloc>().add(AromaIntensityEvent(aromaIntensity: round(value)));
+      },
+      {
+        'name': 'Sweetness',
+        'value': wineTastingState.sweetness,
+        'on_changed': (value) {
+          context.read<WineTastingCreateBloc>().add(AddSweetnessIntensityEvent(sweetnessIntensity: value));
         },
-      ),
-      CharacteristicsSliders(
-        characteristic: 'Acidity',
-        score: wineTastingState.acidityScore,
-        intensity: wineTastingState.acidityIntensity,
-        updateScore: (value) {
-          context.read<WineTastingCreateBloc>().add(AcidityScoreEvent(acidityScore: round(value)));
+      },
+      {
+        'name': 'Tannin',
+        'value': wineTastingState.tannin,
+        'on_changed': (value) {
+          context.read<WineTastingCreateBloc>().add(AddTanninIntensityEvent(tanninIntensity: value));
         },
-        updateIntensity: (value) {
-          context.read<WineTastingCreateBloc>().add(AcidityIntensityEvent(acidityIntensity: round(value)));
+      },
+      {
+        'name': 'Body',
+        'value': wineTastingState.body,
+        'on_changed': (value) {
+          context.read<WineTastingCreateBloc>().add(AddBodyIntensity(bodyIntensity: value));
         },
-      ),
-      CharacteristicsSliders(
-        characteristic: 'Body',
-        score: wineTastingState.bodyScore,
-        intensity: wineTastingState.bodyLevel,
-        intensitySliderLabel: 'Level',
-        intensityPositiveEndLabel: Text(
-          'Heavy',
-          style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold),
-        ),
-        intensityNegativeEndLabel: Text(
-          'Thin',
-          style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold),
-        ),
-        updateScore: (value) {
-          context.read<WineTastingCreateBloc>().add(BodyScoreEvent(bodyScore: round(value)));
-        },
-        updateIntensity: (value) {
-          context.read<WineTastingCreateBloc>().add(BodyLevelEvent(bodyLevel: round(value)));
-        },
-      ),
-      CharacteristicsSliders(
-        characteristic: 'Sweetness',
-        score: wineTastingState.sweetnessScore,
-        intensity: wineTastingState.sweetnessIntensity,
-        updateScore: (value) {
-          context.read<WineTastingCreateBloc>().add(SweetnessScoreEvent(sweetnessScore: round(value)));
-        },
-        updateIntensity: (value) {
-          context.read<WineTastingCreateBloc>().add(SweetnessIntensityEvent(sweetnessIntensity: round(value)));
-        },
-      ),
-      CharacteristicsSliders(
-        characteristic: 'Finish',
-        score: wineTastingState.finishScore,
-        intensity: wineTastingState.finishDuration,
-        intensitySliderLabel: 'Duration',
-        intensityPositiveEndLabel: Text(
-          'Long',
-          style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold),
-        ),
-        intensityNegativeEndLabel: Text(
-          'Short',
-          style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.bold),
-        ),
-        updateScore: (value) {
-          context.read<WineTastingCreateBloc>().add(FinishScoreEvent(finishScore: round(value)));
-        },
-        updateIntensity: (value) {
-          context.read<WineTastingCreateBloc>().add(FinishDurationEvent(finishDuration: round(value)));
-        },
-      ),
+      }
     ];
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SectionTitle(sectionNumber: 2, title: 'Characteristics'),
           SizedBox(height: 20),
           Text(
-            'Identify & assess characteristics.',
+            'Tap or drag to mark the intensity of a characteristic on a scale of zero to six.',
             style: Theme.of(context).textTheme.caption,
+            textAlign: TextAlign.center,
           ),
-          SizedBox(height: 20),
-          /**
-           * Chart displaying characteristic scores and intensities.
-           */
-          CharacteristicsChart(
-            tasting: context.watch<WineTastingCreateBloc>().state.tasting,
-          ),
-          SizedBox(height: 20),
-          /**
-           * Swipeable slider section for editing characteristics.
-           */
+          SizedBox(height: 30),
           Expanded(
-            child: Swiper(
-              itemCount: swiperWidgets.length,
-              itemBuilder: (BuildContext context, int index) {
-                return swiperWidgets[index];
+            child: ListView.separated(
+              // Disable vertical scrolling so that it doesn't interfere with dragging horizontally.
+              physics: const NeverScrollableScrollPhysics(),
+
+              itemBuilder: (context, index) {
+                String name = characteristics[index]['name'];
+                double value = characteristics[index]['value'];
+                var onChanged = characteristics[index]['on_changed'];
+
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          name.toUpperCase(),
+                          textAlign: TextAlign.start,
+                          style: Theme.of(context).textTheme.overline,
+                        ),
+                        Text('${value} / 6.0', style: Theme.of(context).textTheme.subtitle2),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    CharacteristicStrengthWidget(
+                      initialValue: value,
+                      onChanged: onChanged,
+                    ),
+                  ],
+                );
               },
-              control: SwiperControl(
-                color: Theme.of(context).colorScheme.onSurface,
-                iconNext: CupertinoIcons.chevron_right,
-                iconPrevious: CupertinoIcons.chevron_left,
-                padding: const EdgeInsets.all(0.0),
-                size: 25,
-              ),
-              controller: swiperController,
-              onIndexChanged: (index) => {onSwiperToggleButtonClick(index)},
+              separatorBuilder: (context, index) => Divider(height: 50),
+              itemCount: characteristics.length,
             ),
           ),
-          SizedBox(height: 20),
-          SwiperTabs(
-            swiperTitles: swiperTabsTitles,
-            isSelected: swiperToggleButtonsSelections,
-            onTap: (int index) {
-              swiperController.move(index);
-            },
-          ),
-          SizedBox(height: 40),
         ],
       ),
+    );
+  }
+}
+
+class CharacteristicStrengthWidget extends StatefulWidget {
+  final double initialValue;
+  final Function(double) onChanged;
+  final String weakLabel;
+  final String strongLabel;
+  CharacteristicStrengthWidget({
+    this.initialValue,
+    this.onChanged,
+    this.weakLabel = 'Weak',
+    this.strongLabel = 'Strong',
+  });
+
+  @override
+  _CharacteristicStrengthWidgetState createState() => _CharacteristicStrengthWidgetState();
+}
+
+class _CharacteristicStrengthWidgetState extends State<CharacteristicStrengthWidget> {
+  var _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.initialValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var intensityMark = ImageIcon(
+      AssetImage('assets/images/np_x.png'),
+      color: Theme.of(context).colorScheme.primary,
+    );
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RatingBar(
+              initialRating: _value,
+              direction: Axis.horizontal,
+              allowHalfRating: false,
+              updateOnDrag: true,
+              itemCount: 6,
+              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              glow: false,
+              ratingWidget: RatingWidget(
+                full: intensityMark,
+                half: intensityMark,
+                empty: Icon(
+                  CupertinoIcons.minus,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              wrapAlignment: WrapAlignment.spaceBetween,
+              onRatingUpdate: (rating) {
+                setState(() {
+                  _value = rating;
+                  widget.onChanged(_value);
+                });
+              },
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.weakLabel,
+              style: Theme.of(context).textTheme.caption,
+            ),
+            Text(
+              widget.strongLabel,
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ],
+        )
+      ],
     );
   }
 }
