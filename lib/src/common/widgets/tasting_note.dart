@@ -12,6 +12,8 @@ class TastingNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
+      // This chip is not meant to be tapped, but `shrinkWrap`
+      // will tighten the chip's surrounding padding.
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       label: Text(
         '${note.name}',
