@@ -75,66 +75,64 @@ class _NotesSectionState extends State<NotesSection> {
           ),
           SizedBox(height: 20),
           Expanded(
-            child: ListView(
-              children: [
-                StreamBuilder(
-                  stream: BlocProvider.of<WineTastingCreateBloc>(context).notesCategorized,
-                  builder: (context, AsyncSnapshot<Map<NoteCategory, List<Note>>> snapshot) {
-                    var notesCategorized = snapshot.data;
-                    if (notesCategorized != null) {
-                      return Column(
-                        // Listify the entries and make a map of the result to get
-                        // an integer position index for each entry.
-                        children: notesCategorized.entries.toList().asMap().entries.map((entry) {
-                          final index = entry.key;
+            child: SingleChildScrollView(
+              child: StreamBuilder(
+                stream: BlocProvider.of<WineTastingCreateBloc>(context).notesCategorized,
+                builder: (context, AsyncSnapshot<Map<NoteCategory, List<Note>>> snapshot) {
+                  var notesCategorized = snapshot.data;
+                  if (notesCategorized != null) {
+                    return Column(
+                      // Listify the entries and make a map of the result to get
+                      // an integer position index for each entry.
+                      children: notesCategorized.entries.toList().asMap().entries.map((entry) {
+                        final index = entry.key;
 
-                          // ignore: omit_local_variable_types
-                          MapEntry<NoteCategory, List<Note>> notesCategorizedEntry = entry.value;
-                          final category = notesCategorizedEntry.key;
-                          final notes = notesCategorizedEntry.value;
+                        // ignore: omit_local_variable_types
+                        MapEntry<NoteCategory, List<Note>> notesCategorizedEntry = entry.value;
+                        final category = notesCategorizedEntry.key;
+                        final notes = notesCategorizedEntry.value;
 
-                          // List of mixed widget types is possible, but breaks when attempting to
-                          // add a new widget type to a list of a single type constructed with a comprehension.
-                          // Use loops as a workaround.
-                          // ignore: omit_local_variable_types
-                          List<Widget> children = [];
-                          for (var note in notes) {
-                            children.add(AddTastingNote(note));
-                          }
-                          children.add(
-                            CreateTastingNote(category),
-                          );
-                          return Column(
-                            children: [
-                              Theme(
-                                // Remove borders drawn by the expansion tile.
-                                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                                child: ExpansionTile(
-                                  initiallyExpanded: index == 0,
-                                  title: Text(
-                                    category.name.toUpperCase(),
-                                    style: Theme.of(context).textTheme.overline,
-                                  ),
-                                  children: [
-                                    Wrap(
-                                      spacing: 5,
-                                      alignment: WrapAlignment.center,
-                                      children: children,
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
+                        // List of mixed widget types is possible, but breaks when attempting to
+                        // add a new widget type to a list of a single type constructed with a comprehension.
+                        // Use loops as a workaround.
+                        // ignore: omit_local_variable_types
+                        List<Widget> children = [];
+                        for (var note in notes) {
+                          children.add(AddTastingNote(note));
+                        }
+                        children.add(
+                          CreateTastingNote(category),
+                        );
+                        return Column(
+                          children: [
+                            Theme(
+                              // Remove borders drawn by the expansion tile.
+                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                              child: ExpansionTile(
+                                initiallyExpanded: index == 0,
+                                title: Text(
+                                  category.name.toUpperCase(),
+                                  style: Theme.of(context).textTheme.overline,
                                 ),
+                                children: [
+                                  Wrap(
+                                    spacing: 5,
+                                    alignment: WrapAlignment.center,
+                                    children: children,
+                                  ),
+                                  SizedBox(height: 10),
+                                ],
                               ),
-                            ],
-                          );
-                        }).toList(),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-              ],
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ),
           ),
           const SizedBox(height: 17),
