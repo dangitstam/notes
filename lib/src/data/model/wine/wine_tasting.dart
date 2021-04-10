@@ -63,6 +63,8 @@ class WineTasting extends Equatable implements Tasting {
 
     // Image path.
     this.imagePath,
+
+    // Story behind the making of the wine.
     this.story,
   });
 

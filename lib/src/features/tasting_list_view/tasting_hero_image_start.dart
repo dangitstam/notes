@@ -42,9 +42,7 @@ class TastingHeroImageStart extends StatelessWidget {
                   aspectRatio: 16 / 9,
                   child: ClipRRect(
                     child: image,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.0),
-                    ),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
               ),
