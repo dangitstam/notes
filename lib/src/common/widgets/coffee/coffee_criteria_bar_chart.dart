@@ -77,16 +77,13 @@ class CoffeeCriteriaCaption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 0.0),
-      child: Container(
-        height: 40,
-        child: Center(
-          child: Text(
-            '$criteria',
-            textAlign: TextAlign.right,
-            style: Theme.of(context).textTheme.caption,
-          ),
+    return Container(
+      height: 40,
+      child: Center(
+        child: Text(
+          '$criteria',
+          textAlign: TextAlign.right,
+          style: Theme.of(context).textTheme.caption,
         ),
       ),
     );
