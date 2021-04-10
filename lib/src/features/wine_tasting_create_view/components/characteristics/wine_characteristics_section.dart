@@ -161,6 +161,11 @@ class _CharacteristicStrengthWidgetState extends State<CharacteristicStrengthWid
 
   @override
   Widget build(BuildContext context) {
+    var intensityMark = ImageIcon(
+      AssetImage('assets/images/np_x.png'),
+      color: Theme.of(context).colorScheme.primary,
+    );
+
     return Column(
       children: [
         Row(
@@ -175,14 +180,8 @@ class _CharacteristicStrengthWidgetState extends State<CharacteristicStrengthWid
               itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
               glow: false,
               ratingWidget: RatingWidget(
-                full: ImageIcon(
-                  AssetImage('assets/images/np_x.png'),
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                half: Icon(
-                  CupertinoIcons.xmark,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                full: intensityMark,
+                half: intensityMark,
                 empty: Icon(
                   CupertinoIcons.minus,
                   color: Theme.of(context).colorScheme.primary,
