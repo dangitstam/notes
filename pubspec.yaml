@@ -23,6 +23,7 @@ environment:
 dependencies:
 
   # Firebase.
+  firebase_core:
   cloud_firestore:
   firebase_auth: ^1.0.3
   readmore:
