@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,8 +29,41 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final _router = AppRouter();
 
+  // Firebase app initialization.
+  bool _initialized = false;
+  bool _error = false;
+
+  // Define an async function to initialize FlutterFire
+  void initializeFlutterFire() async {
+    try {
+      // Wait for Firebase to initialize and set `_initialized` state to true
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (e) {
+      // Set `_error` state to true if Firebase initialization fails
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_initialized) {
+      // TODO: Implement a loading screen.
+      return Center(
+        child: Text('loading', textDirection: TextDirection.ltr),
+      );
+    }
+
     return MaterialApp(
       title: 'Notes',
       theme: lightTheme,

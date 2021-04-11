@@ -22,7 +22,10 @@ environment:
 
 dependencies:
 
+  # Firebase.
+  firebase_core:
   cloud_firestore:
+  firebase_auth: ^1.0.3
   readmore:
     git: 
       url: git://github.com/epynic/readmore
@@ -45,7 +48,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_swiper: ^1.1.6
-  google_fonts: ^1.1.1
+  google_fonts:
   image_picker:
   mockito:
   path_provider:
