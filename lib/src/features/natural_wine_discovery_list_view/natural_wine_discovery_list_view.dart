@@ -110,7 +110,7 @@ WineTasting fromDocumentSnapshot(DocumentSnapshot wineDoc) {
   // Collect varietals.
   var varietalNames = [];
   var varietalPercentages = [];
-  if (wineDoc.data.containsKey('varietals') && wineDoc['varietals'] is List) {
+  if (wineDoc.data().containsKey('varietals') && wineDoc['varietals'] is List) {
     for (var varietal in wineDoc['varietals']) {
       var name = varietal['name'];
       varietalNames.add(name);
@@ -163,7 +163,7 @@ class _NaturalWineDiscoveryListViewWidgetState extends State<NaturalWineDiscover
      */
     List<String> wineFacts = [];
     String formattedType = document['type'];
-    if (document.data.containsKey('bubbles')) {
+    if (document.data().containsKey('bubbles')) {
       formattedType += ' ' + document['bubbles'];
     }
     if (formattedType.isNotEmpty) {
@@ -206,7 +206,7 @@ class _NaturalWineDiscoveryListViewWidgetState extends State<NaturalWineDiscover
      * Varietals.
      */
     var varietals = [];
-    if (document.data.containsKey('varietals') && document['varietals'] is List) {
+    if (document.data().containsKey('varietals') && document['varietals'] is List) {
       for (var varietal in document['varietals']) {
         var name = varietal['name'];
         int percentage = varietal['percentage'];
@@ -376,7 +376,7 @@ class _NaturalWineDiscoveryListViewWidgetState extends State<NaturalWineDiscover
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin.
     return StreamBuilder(
-      stream: Firestore.instance.collection('naturalwinediscover').snapshots(),
+      stream: FirebaseFirestore.instance.collection('naturalwinediscover').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const Text('Loading...');
 
