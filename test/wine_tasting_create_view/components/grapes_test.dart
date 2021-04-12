@@ -9,6 +9,7 @@ import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_cr
 import 'package:notes/src/features/wine_tasting_create_view/components/info/grapes.dart';
 import 'package:notes/src/keys.dart';
 
+// TODO: This unit test is now broken due to dependency updates.
 class MockWineTastingCreateBloc extends MockBloc implements WineTastingCreateBloc {}
 
 void main() {

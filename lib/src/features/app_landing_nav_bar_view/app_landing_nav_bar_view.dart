@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/features/natural_wine_discovery_list_view/natural_wine_discovery_list_view.dart';
 import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
 import 'package:notes/src/features/tasting_list_view/tasting_list_view.dart';
+import 'package:notes/src/services/auth_service.dart';
 
 class AppLandingScreen extends StatefulWidget {
   @override
@@ -11,6 +12,10 @@ class AppLandingScreen extends StatefulWidget {
 }
 
 class _AppLandingScreenState extends State<AppLandingScreen> {
+  // Firebase.
+  final AuthService _auth = AuthService();
+
+  // Navigation bar.
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     NaturalWineDiscoveryListViewWidget(),
@@ -73,7 +78,16 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
         backgroundColor: Theme.of(context).backgroundColor,
         actions: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            padding: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: () {
+                _auth.signOut();
+              },
+              child: Icon(CupertinoIcons.gear, color: Colors.black, size: 35),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 20),
             child: GestureDetector(
               onTap: () {
                 showModalBottomSheet<void>(
