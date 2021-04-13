@@ -78,7 +78,7 @@ class HomeWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    // return either the Home or Authenticate widget
+    // Return either the App landing screen widget or Authenticate widget.
     if (user == null) {
       return MaterialApp(
         title: 'Notes',
@@ -86,7 +86,6 @@ class HomeWrapper extends StatelessWidget {
         home: Authenticate(),
       );
     } else {
-      print('user is not null at least');
       final _router = AppRouter();
       return MaterialApp(
         title: 'Notes',

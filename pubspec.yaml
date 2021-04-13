@@ -31,7 +31,6 @@ dependencies:
       url: git://github.com/epynic/readmore
   flutter:
     sdk: flutter
-  flutter_login: ^1.1.0
   flutter_rating_bar: ^4.0.0
   sqflite:
   path:

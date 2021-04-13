@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:notes/src/features/authenticate/register.dart';
 import 'package:notes/src/features/authenticate/sign_in.dart';
 
+// Authenication and login flow adopted from this awesome tutorial:
+// https://github.com/iamshaunjp/flutter-firebase/tree/master
 class Authenticate extends StatefulWidget {
   @override
   _AuthenticateState createState() => _AuthenticateState();
@@ -10,7 +12,6 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   bool showSignIn = false;
   void toggleView() {
-    //print(showSignIn.toString());
     setState(() => showSignIn = !showSignIn);
   }
 

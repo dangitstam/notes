@@ -104,7 +104,6 @@ class _RegisterState extends State<Register> {
                           children: [
                             TextSpan(
                               text: 'Already have an account? ',
-                              style: TextStyle(color: Colors.black),
                             ),
                             TextSpan(
                               text: 'Sign in',
@@ -120,7 +119,7 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 17.0),
                       Text(
                         error,
-                        style: TextStyle(color: Colors.red, fontSize: 14.0),
+                        style: Theme.of(context).textTheme.caption.copyWith(color: Theme.of(context).colorScheme.error),
                       )
                     ],
                   ),

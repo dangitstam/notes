@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.41.2"
-  another_flushbar:
-    dependency: transitive
-    description:
-      name: another_flushbar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.10.17"
   args:
     dependency: transitive
     description:
@@ -272,13 +265,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.5"
-  flutter_login:
-    dependency: "direct main"
-    description:
-      name: flutter_login
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   flutter_page_indicator:
     dependency: transitive
     description:
@@ -317,13 +303,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  font_awesome_flutter:
-    dependency: transitive
-    description:
-      name: font_awesome_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "9.0.0"
   glob:
     dependency: transitive
     description:
@@ -569,13 +548,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.4"
-  quiver:
-    dependency: transitive
-    description:
-      name: quiver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
   readmore:
     dependency: "direct main"
     description:

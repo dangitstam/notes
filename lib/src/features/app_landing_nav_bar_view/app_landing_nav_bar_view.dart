@@ -12,7 +12,7 @@ class AppLandingScreen extends StatefulWidget {
 }
 
 class _AppLandingScreenState extends State<AppLandingScreen> {
-  // Firebase.
+  // Authentication.
   final AuthService _auth = AuthService();
 
   // Navigation bar.
