@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/app_landing_nav_bar_view/app_landing_nav_bar_view.dart';
+import 'package:notes/src/features/authenticate/authenticate.dart';
 import 'package:notes/src/features/coffee_tasting_create_view/bloc/coffee_tasting_create_bloc.dart';
 import 'package:notes/src/features/coffee_tasting_create_view/coffee_tasting_create_view.dart';
 import 'package:notes/src/features/coffee_tasting_create_view/components/characteristics/characteristics_section.dart';
@@ -14,7 +16,9 @@ import 'package:notes/src/features/wine_tasting_create_view/components/character
 import 'package:notes/src/features/wine_tasting_create_view/components/info/wine_info_section.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/notes/wine_notes_section.dart';
 import 'package:notes/src/features/wine_tasting_create_view/wine_tasting_create_view.dart';
+import 'package:notes/src/services/auth_service.dart';
 import 'package:notes/src/styles/light_theme.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(App());
@@ -27,8 +31,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final _router = AppRouter();
-
   // Firebase app initialization.
   bool _initialized = false;
   bool _error = false;
@@ -64,11 +66,34 @@ class _AppState extends State<App> {
       );
     }
 
-    return MaterialApp(
-      title: 'Notes',
-      theme: lightTheme,
-      onGenerateRoute: _router.onGenerateRoute,
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: HomeWrapper(),
     );
+  }
+}
+
+class HomeWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
+    // Return either the app landing screen widget or authenticate widget.
+    if (user == null) {
+      return MaterialApp(
+        title: 'Notes',
+        theme: lightTheme,
+        home: Authenticate(),
+      );
+    } else {
+      final _router = AppRouter();
+      return MaterialApp(
+        title: 'Notes',
+        theme: lightTheme,
+        onGenerateRoute: _router.onGenerateRoute,
+        home: AppLandingScreen(),
+      );
+    }
   }
 }
 
