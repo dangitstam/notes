@@ -78,7 +78,7 @@ class HomeWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    // Return either the App landing screen widget or Authenticate widget.
+    // Return either the app landing screen widget or authenticate widget.
     if (user == null) {
       return MaterialApp(
         title: 'Notes',
