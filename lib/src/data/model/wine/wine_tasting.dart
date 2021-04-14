@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
+import 'package:notes/src/data/model/wine/varietal.dart';
 
 class WineTasting extends Equatable implements Tasting {
   final int wineTastingId;
@@ -8,8 +9,7 @@ class WineTasting extends Equatable implements Tasting {
   final String description;
   final String origin;
   final String winemaker;
-  final String varietalNames;
-  final String varietalPercentages;
+  final List<Varietal> varietals;
   final double alcoholByVolume;
   final String wineType;
   final String bubbles;
@@ -41,8 +41,7 @@ class WineTasting extends Equatable implements Tasting {
     this.description,
     this.origin,
     this.winemaker,
-    this.varietalNames,
-    this.varietalPercentages,
+    this.varietals,
     this.alcoholByVolume,
     this.wineType,
     this.bubbles,
@@ -77,8 +76,6 @@ class WineTasting extends Equatable implements Tasting {
       description: tastingMap['description'],
       origin: tastingMap['origin'],
       winemaker: tastingMap['winemaker'],
-      varietalNames: tastingMap['varietal_names'],
-      varietalPercentages: tastingMap['varietal_percentages'],
       alcoholByVolume: tastingMap['alcohol_by_volume'],
       wineType: tastingMap['wine_type'],
       bubbles: tastingMap['bubbles'],
@@ -100,6 +97,8 @@ class WineTasting extends Equatable implements Tasting {
       // Image path
       imagePath: tastingMap['image_path'],
 
+      // TODO: Notes and varietals will have to come through here.
+
       story: tastingMap['story'],
     );
   }
@@ -113,8 +112,10 @@ class WineTasting extends Equatable implements Tasting {
       'description': description,
       'origin': origin,
       'winemaker': winemaker,
-      'varietal_names': varietalNames,
-      'varietal_percentages': varietalPercentages,
+
+      // TODO: Notes and varietals will have to come through here.
+      'varietals': varietals.map((varietal) => varietal.toMap()).toList(),
+
       'alcohol_by_volume': alcoholByVolume,
       'wine_type': wineType,
       'bubbles': bubbles,
@@ -140,8 +141,7 @@ class WineTasting extends Equatable implements Tasting {
     String description,
     String origin,
     String winemaker,
-    String varietalNames,
-    String varietalPercentages,
+    List<Varietal> varietals,
     double alcoholByVolume,
     String wineType,
     String bubbles,
@@ -166,8 +166,7 @@ class WineTasting extends Equatable implements Tasting {
       description: description ?? this.description,
       origin: origin ?? this.origin,
       winemaker: winemaker ?? this.winemaker,
-      varietalNames: varietalNames ?? this.varietalNames,
-      varietalPercentages: varietalPercentages ?? this.varietalPercentages,
+      varietals: varietals ?? this.varietals,
       alcoholByVolume: alcoholByVolume ?? this.alcoholByVolume,
       wineType: wineType ?? this.wineType,
       bubbles: bubbles ?? this.bubbles,
@@ -195,8 +194,7 @@ class WineTasting extends Equatable implements Tasting {
         description,
         origin,
         winemaker,
-        varietalNames,
-        varietalPercentages,
+        varietals,
         alcoholByVolume,
         wineType,
         bubbles,

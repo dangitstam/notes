@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:notes/src/features/wine_tasting_create_view/components/character
 import 'package:notes/src/features/wine_tasting_create_view/components/section_title.dart';
 // Heads up: Path's conflict can conflict with BuildContext's context.
 import 'package:path/path.dart' show basename;
+import 'package:provider/provider.dart';
 
 import 'components/info/image_capture.dart';
 
@@ -97,9 +99,10 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
               child: TextButton(
                 style: Theme.of(context).textButtonTheme.style,
                 child: Text('Create'.toUpperCase()),
-                onPressed: () {
+                onPressed: () async {
+                  final String uid = Provider.of<User>(context, listen: false).uid;
                   // Updaate app database with new tasting.
-                  context.read<WineTastingCreateBloc>().add(InsertWineTastingEvent());
+                  context.read<WineTastingCreateBloc>().add(InsertWineTastingEvent(uid: uid));
                 },
               ),
             )

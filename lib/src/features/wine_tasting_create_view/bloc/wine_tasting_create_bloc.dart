@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
+import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/note_repository.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
@@ -32,8 +35,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
                   description: '',
                   origin: '',
                   winemaker: '',
-                  varietalNames: '',
-                  varietalPercentages: '',
+                  varietals: <Varietal>[],
                   alcoholByVolume: -1.0, // Use a negative value to signal as unspecified.
                   wineType: '',
                   bubbles: '',
@@ -92,17 +94,27 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     _inNotesCategorized.add(notesCategorized);
   }
 
-  Future<int> insertWineTasting() async {
-    final wineTastingId = await wineTastingRepository.insert(state.tasting);
+  Future<int> insertWineTasting(String uid) async {
+    // final wineTastingId = await wineTastingRepository.insert(state.tasting);
 
-    for (var note in state.tasting.notes) {
-      var wineTastingNoteId = await noteRepository.insertNoteForWineTasting(note.id, wineTastingId);
-      if (wineTastingNoteId < 0) {
-        // TODO: Logging
-      }
-    }
+    // for (var note in state.tasting.notes) {
+    //   var wineTastingNoteId = await noteRepository.insertNoteForWineTasting(note.id, wineTastingId);
+    //   if (wineTastingNoteId < 0) {
+    //     // TODO: Logging
+    //   }
+    // }
 
-    return wineTastingId;
+    // print(state.tasting.toString());
+
+    // return wineTastingId;
+
+    // Upload image to cloud storage.
+    DocumentReference sightingRef = FirebaseFirestore.instance.collection("sightings").doc();
+
+    print(uid);
+    print(json.encode(state.tasting.toMap()));
+
+    return 0;
   }
 
   Future<void> insertCategorizedNote(Note note, NoteCategory noteCategory) async {
@@ -129,7 +141,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   ) async* {
     if (event is InsertWineTastingEvent) {
       // Reflect in state whether the tasting was successfully inserted.
-      var wineTastingId = await insertWineTasting();
+      var wineTastingId = await insertWineTasting(event.uid);
       yield state.copyWith(isWineTastingInserted: wineTastingId > 0);
     } else if (event is AddWineTastingNoteEvent) {
       // List<Note>.from makes a mutable copy of an immutable list.
@@ -164,13 +176,9 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       yield state.copyWith(
         tasting: state.tasting.copyWith(winemaker: event.winemaker),
       );
-    } else if (event is AddWineVarietalNamesEvent) {
+    } else if (event is AddWineVarietalsEvent) {
       yield state.copyWith(
-        tasting: state.tasting.copyWith(varietalNames: event.varietalNames),
-      );
-    } else if (event is AddWineVarietalPercentagesEvent) {
-      yield state.copyWith(
-        tasting: state.tasting.copyWith(varietalPercentages: event.varietalPercentages),
+        tasting: state.tasting.copyWith(varietals: event.varietals),
       );
     } else if (event is AddAlcoholByVolumeEvent) {
       yield state.copyWith(

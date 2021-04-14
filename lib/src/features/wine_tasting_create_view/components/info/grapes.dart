@@ -1,12 +1,12 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
-import 'package:notes/src/keys.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/keys.dart';
 import 'package:provider/provider.dart';
 
 /// Grapes section allowing users to specify the varietals in their wine.
@@ -62,13 +62,10 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
     super.didChangeDependencies();
 
     WineTasting currentTasting = context.read<WineTastingCreateBloc>().state.tasting;
-    String varietalNamesFromBloc = currentTasting.varietalNames;
-    String varietalPercentagesFromBloc = currentTasting.varietalPercentages;
+    List<Varietal> varietalsFromBloc = currentTasting.varietals;
 
-    if (varietalNamesFromBloc.isNotEmpty && varietalPercentagesFromBloc.isNotEmpty) {
-      varietalNames = json.decode(varietalNamesFromBloc).cast<String>();
-      varietalPercentages = json.decode(varietalPercentagesFromBloc).cast<int>();
-      for (var _ in varietalNames) {
+    if (varietalsFromBloc.isNotEmpty) {
+      for (var _ in varietalsFromBloc) {
         _addGrapeFields(addDefaults: false);
       }
     } else {
@@ -79,12 +76,14 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
   /// Given the currently specified varietals and their proportions, updates the BLoC.
   void submitVarietals() {
     // TODO: Would be more efficient to call this function only once (at time of closing info screen).
-    String varietalNamesJson = json.encode(varietalNames);
-    String varietalPercentagesJson = json.encode(varietalPercentages);
-    context.read<WineTastingCreateBloc>().add(AddWineVarietalNamesEvent(varietalNames: varietalNamesJson));
-    context
-        .read<WineTastingCreateBloc>()
-        .add(AddWineVarietalPercentagesEvent(varietalPercentages: varietalPercentagesJson));
+
+    List<Varietal> varietals = [];
+    for (int i = 0; i < _numVarietals; i++) {
+      varietals.add(
+        Varietal(name: varietalNames[i], percentage: varietalPercentages[i]),
+      );
+    }
+    context.read<WineTastingCreateBloc>().add(AddWineVarietalsEvent(varietals: varietals));
   }
 
   int _getVarietalPercentageSum() {

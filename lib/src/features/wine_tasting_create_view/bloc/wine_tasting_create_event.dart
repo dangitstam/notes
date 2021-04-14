@@ -3,7 +3,11 @@ part of 'wine_tasting_create_bloc.dart';
 @immutable
 abstract class WineTastingCreateEvent {}
 
-class InsertWineTastingEvent extends WineTastingCreateEvent {}
+class InsertWineTastingEvent extends WineTastingCreateEvent {
+  @required
+  final String uid;
+  InsertWineTastingEvent({this.uid});
+}
 
 class AddWineTastingNoteEvent extends WineTastingCreateEvent {
   @required
@@ -55,16 +59,16 @@ class AddWinemakerEvent extends WineTastingCreateEvent {
   AddWinemakerEvent({this.winemaker});
 }
 
-class AddWineVarietalNamesEvent extends WineTastingCreateEvent {
+class AddWineVarietalsEvent extends WineTastingCreateEvent {
   @required
-  final String varietalNames;
-  AddWineVarietalNamesEvent({this.varietalNames});
+  final List<Varietal> varietals;
+  AddWineVarietalsEvent({this.varietals});
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is AddWineVarietalNamesEvent && other.varietalNames == varietalNames;
+    return other is AddWineVarietalsEvent && other.varietals == varietals;
   }
 }
 
