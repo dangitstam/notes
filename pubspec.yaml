@@ -25,6 +25,7 @@ dependencies:
   # Firebase.
   firebase_core:
   cloud_firestore:
+  firebase_storage: ^8.0.3
   firebase_auth: ^1.0.3
   readmore:
     git: 
