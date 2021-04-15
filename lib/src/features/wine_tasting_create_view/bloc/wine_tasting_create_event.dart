@@ -63,26 +63,6 @@ class AddWineVarietalsEvent extends WineTastingCreateEvent {
   @required
   final List<Varietal> varietals;
   AddWineVarietalsEvent({this.varietals});
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
-    return other is AddWineVarietalsEvent && other.varietals == varietals;
-  }
-}
-
-class AddWineVarietalPercentagesEvent extends WineTastingCreateEvent {
-  @required
-  final String varietalPercentages;
-  AddWineVarietalPercentagesEvent({this.varietalPercentages});
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
-    return other is AddWineVarietalPercentagesEvent && other.varietalPercentages == varietalPercentages;
-  }
 }
 
 class AddAlcoholByVolumeEvent extends WineTastingCreateEvent {
@@ -174,6 +154,6 @@ class AddTanninIntensityEvent extends WineTastingCreateEvent {
 
 class AddImageEvent extends WineTastingCreateEvent {
   @required
-  final String imagePath;
-  AddImageEvent({this.imagePath});
+  final PickedFile image;
+  AddImageEvent({this.image});
 }
