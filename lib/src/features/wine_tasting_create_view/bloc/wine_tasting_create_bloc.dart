@@ -146,11 +146,15 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     print(state.pickedImage);
     firebase_storage.UploadTask uploadTask = await uploadFile(uid, state.pickedImage);
 
-    await uploadTask.whenComplete(() async {
-      print('trying to get snapshot');
-      String cloudImageUrl = await uploadTask.snapshot.ref.getDownloadURL();
-      print(cloudImageUrl);
-    });
+    if (uploadTask != null) {
+      await uploadTask.whenComplete(() async {
+        print('trying to get snapshot');
+        String cloudImageUrl = await uploadTask.snapshot.ref.getDownloadURL();
+        print(cloudImageUrl);
+      });
+    } else {
+      // Upload without an image.
+    }
 
     // print(cloudImageUrl);
     print(uid);
