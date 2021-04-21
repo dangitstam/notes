@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
@@ -96,10 +97,66 @@ class WineTasting extends Equatable implements Tasting {
 
       // Image path
       imagePath: tastingMap['image_path'],
-
-      // TODO: Notes and varietals will have to come through here.
-
       story: tastingMap['story'],
+    );
+  }
+
+  /// Given a [DocumentSnapshot] of a wine from Firebase, translate into a [WineTasting].
+  factory WineTasting.fromDocumentSnapshot(DocumentSnapshot wineDoc) {
+    // Collect varietals.
+    List<Varietal> varietals = [];
+    if (wineDoc.data().containsKey('varietals') && wineDoc['varietals'] is List) {
+      for (var varietal in wineDoc['varietals']) {
+        var name = varietal['name'];
+        var percentage = varietal['percentage'];
+        varietals.add(Varietal(name: name, percentage: percentage));
+      }
+    }
+
+    List<Note> notes = [];
+    if (wineDoc.data().containsKey('notes') && wineDoc['notes'] is List) {
+      for (var note in wineDoc['notes']) {
+        var name = note['name'];
+        var color = note['color'];
+        var noteId = note['note_id'];
+        notes.add(Note(name: name, color: color, id: noteId));
+      }
+    }
+
+    return WineTasting(
+      // Metadata.
+      name: wineDoc['name'],
+      description: wineDoc['description'],
+      origin: wineDoc['origin'],
+      winemaker: wineDoc['winemaker'],
+      alcoholByVolume: wineDoc['alcohol_by_volume'].toDouble(),
+      vintage: wineDoc['vintage'],
+      wineType: wineDoc['wine_type'],
+      bubbles: wineDoc['bubbles'],
+
+      // TODO: Use uid of story document.
+      story: wineDoc['story'],
+
+      // Tasting notes
+      notes: notes,
+
+      // Vinification
+      isBiodynamic: wineDoc['is_biodynamic'],
+      isOrganicFarming: wineDoc['is_organic_farming'],
+      isUnfinedUnfiltered: wineDoc['is_unfined_unfiltered'],
+      isWildYeast: wineDoc['is_wild_yeast'],
+      isNoAddedSulfites: wineDoc['is_no_added_sulfites'],
+      isEthicallyMade: wineDoc['is_ethically_made'],
+
+      // Grape varietals.
+      varietals: varietals,
+
+      // Characteristics.
+      acidity: wineDoc['acidity'],
+      sweetness: wineDoc['sweetness'],
+      tannin: wineDoc['tannin'],
+      body: wineDoc['body'],
+      imagePath: wineDoc['image_path'],
     );
   }
 
@@ -113,18 +170,21 @@ class WineTasting extends Equatable implements Tasting {
       'origin': origin,
       'winemaker': winemaker,
 
-      // TODO: Notes and varietals will have to come through here.
+      // Grape varietals
       'varietals': varietals.map((varietal) => varietal.toMap()).toList(),
+
+      // Tasting notes
+      'notes': notes.map((note) => note.toMap()).toList(),
 
       'alcohol_by_volume': alcoholByVolume,
       'wine_type': wineType,
       'bubbles': bubbles,
-      'is_biodynamic': isBiodynamic ? 1 : 0,
-      'is_organic_farming': isOrganicFarming ? 1 : 0,
-      'is_unfined_unfiltered': isUnfinedUnfiltered ? 1 : 0,
-      'is_wild_yeast': isWildYeast ? 1 : 0,
-      'is_no_added_sulfites': isNoAddedSulfites ? 1 : 0,
-      'is_ethically_made': isEthicallyMade ? 1 : 0,
+      'is_biodynamic': isBiodynamic,
+      'is_organic_farming': isOrganicFarming,
+      'is_unfined_unfiltered': isUnfinedUnfiltered,
+      'is_wild_yeast': isWildYeast,
+      'is_no_added_sulfites': isNoAddedSulfites,
+      'is_ethically_made': isEthicallyMade,
       'vintage': vintage,
       'acidity': acidity,
       'body': body,

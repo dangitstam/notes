@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io' as io;
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as cloud_firestore;
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
@@ -125,42 +125,36 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     return Future.value(uploadTask);
   }
 
-  Future<int> insertWineTasting(String uid) async {
-    // final wineTastingId = await wineTastingRepository.insert(state.tasting);
-
-    // for (var note in state.tasting.notes) {
-    //   var wineTastingNoteId = await noteRepository.insertNoteForWineTasting(note.id, wineTastingId);
-    //   if (wineTastingNoteId < 0) {
-    //     // TODO: Logging
-    //   }
-    // }
-
-    // print(state.tasting.toString());
-
-    // return wineTastingId;
-
+  /// Submits the current tasting for the given user.
+  ///
+  /// Return true on success.
+  Future<bool> insertWineTasting(String uid) async {
     // Upload image to cloud storage.
-    // final FirebaseStorage storage = FirebaseStorage.instance(storage: );
-    // String cloudImageFilePath = 'user/$uid/${DateTime.now()}_${basename(state.pickedImagePath)}';
-    print('uploading');
-    print(state.pickedImage);
     firebase_storage.UploadTask uploadTask = await uploadFile(uid, state.pickedImage);
 
     if (uploadTask != null) {
+      // Upload a tasting with an image.
       await uploadTask.whenComplete(() async {
-        print('trying to get snapshot');
         String cloudImageUrl = await uploadTask.snapshot.ref.getDownloadURL();
-        print(cloudImageUrl);
+
+        cloud_firestore.CollectionReference userTastings =
+            cloud_firestore.FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings');
+
+        await userTastings.add(
+          state.tasting.copyWith(imagePath: cloudImageUrl).toMap(),
+        );
       });
     } else {
       // Upload without an image.
+      cloud_firestore.CollectionReference userTastings =
+          cloud_firestore.FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings');
+
+      await userTastings.add(
+        state.tasting.toMap(),
+      );
     }
 
-    // print(cloudImageUrl);
-    print(uid);
-    print(json.encode(state.tasting.toMap()));
-
-    return 0;
+    return true;
   }
 
   Future<void> insertCategorizedNote(Note note, NoteCategory noteCategory) async {
@@ -187,8 +181,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   ) async* {
     if (event is InsertWineTastingEvent) {
       // Reflect in state whether the tasting was successfully inserted.
-      var wineTastingId = await insertWineTasting(event.uid);
-      yield state.copyWith(isWineTastingInserted: wineTastingId > 0);
+      yield state.copyWith(isWineTastingInserted: await insertWineTasting(event.uid));
     } else if (event is AddWineTastingNoteEvent) {
       // List<Note>.from makes a mutable shallow copy of an immutable list.
       var newNotes = List<Note>.from(state.tasting.notes);
