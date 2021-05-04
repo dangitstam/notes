@@ -314,6 +314,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         alignment: WrapAlignment.center,
                         direction: Axis.horizontal,
                         spacing: 5,
+                        runSpacing: 5,
                         children: selectedTastingNotes.map((e) => TastingNote(e)).toList(),
                       )
                     // : Text('Tap \'edit\' to select tasting notes.'),
