@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:path/path.dart' show basename;
-import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
 /// Creates a widget that on tap, allows a user to select an image.
 ///
@@ -13,7 +10,7 @@ import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDi
 /// When an image is selected, [onImageSelected] is called with the path for the image file.
 class ImageCapture extends StatefulWidget {
   @required
-  final Function(String) onImageSelected;
+  final Function(PickedFile) onImageSelected;
 
   ImageCapture({this.onImageSelected});
 
@@ -54,14 +51,14 @@ class _ImageCaptureState extends State<ImageCapture> {
         ],
       ),
       onTap: () {
-        imageCaptureSelectMethodModal(context, (savedImageFilePath) {
-          // Update this widget's image.
+        imageCaptureSelectMethodModal(context, (image) {
+          // Update this widget's displayed image.
           setState(() {
-            _image = File(savedImageFilePath);
+            _image = File(image.path);
           });
 
           // Pass selected image's file path to onImageSelected.
-          widget.onImageSelected(savedImageFilePath);
+          widget.onImageSelected(image);
         });
       },
     );
@@ -74,7 +71,7 @@ class _ImageCaptureState extends State<ImageCapture> {
 /// When an image is selected, [onImageSelected] is called with the path for the image file.
 Future<void> imageCaptureSelectMethodModal(
   BuildContext context,
-  Function(String) onImageSelected,
+  Function(PickedFile) onImageSelected,
 ) {
   return showModalBottomSheet<void>(
     context: context,
@@ -107,7 +104,7 @@ Future<void> imageCaptureSelectMethodModal(
 
 Future _getImage(
   ImageSource source,
-  Function(String) onImageSelected,
+  Function(PickedFile) onImageSelected,
 ) async {
   ImagePicker picker = ImagePicker();
 
@@ -116,14 +113,14 @@ Future _getImage(
   if (pickedFile == null) return;
 
   // Save the captured image to the app locally.
-  final appDocDir = await getApplicationDocumentsDirectory();
-  final appDocDirPath = appDocDir.path;
+  // final appDocDir = await getApplicationDocumentsDirectory();
+  // final appDocDirPath = appDocDir.path;
 
-  var tmpFile = File(pickedFile.path);
+  // var tmpFile = File(pickedFile.path);
 
-  var pickedFileBasename = basename(pickedFile.path);
-  var savePath = '$appDocDirPath/$pickedFileBasename';
-  var savedFile = await tmpFile.copy(savePath);
+  // var pickedFileBasename = basename(pickedFile.path);
+  // var savePath = '$appDocDirPath/$pickedFileBasename';
+  // var savedFile = await tmpFile.copy(savePath);
 
-  onImageSelected(savedFile.path);
+  onImageSelected(pickedFile);
 }

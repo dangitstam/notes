@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:readmore/readmore.dart';
 
@@ -108,27 +107,21 @@ class NaturalWineDiscoveryListViewScreen extends StatelessWidget {
 /// Given a [DocumentSnapshot] of a wine from Firebase, translate into a [WineTasting].
 WineTasting fromDocumentSnapshot(DocumentSnapshot wineDoc) {
   // Collect varietals.
-  var varietalNames = [];
-  var varietalPercentages = [];
+  List<Varietal> varietals = [];
   if (wineDoc.data().containsKey('varietals') && wineDoc['varietals'] is List) {
     for (var varietal in wineDoc['varietals']) {
       var name = varietal['name'];
-      varietalNames.add(name);
-
       var percentage = varietal['percentage'];
-      varietalPercentages.add(percentage);
+      varietals.add(Varietal(name: name, percentage: percentage));
     }
   }
-  var varietalNamesJsonStr = json.encode(varietalNames);
-  var varietalPercentagesJsonStr = json.encode(varietalPercentages);
 
   return WineTasting(
     name: wineDoc['name'],
     description: '',
     origin: wineDoc['origin'],
     winemaker: wineDoc['winemaker'],
-    varietalNames: varietalNamesJsonStr,
-    varietalPercentages: varietalPercentagesJsonStr,
+    varietals: varietals,
     alcoholByVolume: wineDoc['alcohol_by_volume'].toDouble(),
     wineType: wineDoc['type'],
     bubbles: '',

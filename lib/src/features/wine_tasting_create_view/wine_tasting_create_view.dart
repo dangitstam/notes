@@ -1,16 +1,17 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/wine_utils.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/section_title.dart';
-// Heads up: Path's conflict can conflict with BuildContext's context.
-import 'package:path/path.dart' show basename;
+import 'package:provider/provider.dart';
 
 import 'components/info/image_capture.dart';
 
@@ -25,11 +26,12 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
   var isInfoEdited = false;
 
   /// Given [savedImageFilePath], a file path to the image taken/selected for the tasting, updates the tasting's image.
-  void onImageSelected(String savedImageFilePath) {
+  void onImageSelected(PickedFile image) {
+    // TODO: Update these comments, ignore them for now.
     // Record file path as image for tasting.
     // Application directory changes between invocations of `flutter run`, so save the basename
     // and retrieve the application directory path at runtime to grab the image.
-    context.read<WineTastingCreateBloc>().add(AddImageEvent(imagePath: basename(savedImageFilePath)));
+    context.read<WineTastingCreateBloc>().add(AddImageEvent(image: image));
   }
 
   @override
@@ -97,9 +99,10 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
               child: TextButton(
                 style: Theme.of(context).textButtonTheme.style,
                 child: Text('Create'.toUpperCase()),
-                onPressed: () {
+                onPressed: () async {
+                  final String uid = Provider.of<User>(context, listen: false).uid;
                   // Updaate app database with new tasting.
-                  context.read<WineTastingCreateBloc>().add(InsertWineTastingEvent());
+                  context.read<WineTastingCreateBloc>().add(InsertWineTastingEvent(uid: uid));
                 },
               ),
             )

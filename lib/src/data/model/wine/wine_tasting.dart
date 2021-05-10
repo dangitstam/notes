@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
+import 'package:notes/src/data/model/wine/varietal.dart';
 
 class WineTasting extends Equatable implements Tasting {
   final int wineTastingId;
@@ -8,8 +10,7 @@ class WineTasting extends Equatable implements Tasting {
   final String description;
   final String origin;
   final String winemaker;
-  final String varietalNames;
-  final String varietalPercentages;
+  final List<Varietal> varietals;
   final double alcoholByVolume;
   final String wineType;
   final String bubbles;
@@ -41,8 +42,7 @@ class WineTasting extends Equatable implements Tasting {
     this.description,
     this.origin,
     this.winemaker,
-    this.varietalNames,
-    this.varietalPercentages,
+    this.varietals,
     this.alcoholByVolume,
     this.wineType,
     this.bubbles,
@@ -77,8 +77,6 @@ class WineTasting extends Equatable implements Tasting {
       description: tastingMap['description'],
       origin: tastingMap['origin'],
       winemaker: tastingMap['winemaker'],
-      varietalNames: tastingMap['varietal_names'],
-      varietalPercentages: tastingMap['varietal_percentages'],
       alcoholByVolume: tastingMap['alcohol_by_volume'],
       wineType: tastingMap['wine_type'],
       bubbles: tastingMap['bubbles'],
@@ -99,8 +97,66 @@ class WineTasting extends Equatable implements Tasting {
 
       // Image path
       imagePath: tastingMap['image_path'],
-
       story: tastingMap['story'],
+    );
+  }
+
+  /// Given a [DocumentSnapshot] of a wine from Firebase, translate into a [WineTasting].
+  factory WineTasting.fromDocumentSnapshot(DocumentSnapshot wineDoc) {
+    // Collect varietals.
+    List<Varietal> varietals = [];
+    if (wineDoc.data().containsKey('varietals') && wineDoc['varietals'] is List) {
+      for (var varietal in wineDoc['varietals']) {
+        var name = varietal['name'];
+        var percentage = varietal['percentage'];
+        varietals.add(Varietal(name: name, percentage: percentage));
+      }
+    }
+
+    List<Note> notes = [];
+    if (wineDoc.data().containsKey('notes') && wineDoc['notes'] is List) {
+      for (var note in wineDoc['notes']) {
+        var name = note['name'];
+        var color = note['color'];
+        var noteId = note['note_id'];
+        notes.add(Note(name: name, color: color, id: noteId));
+      }
+    }
+
+    return WineTasting(
+      // Metadata.
+      name: wineDoc['name'],
+      description: wineDoc['description'],
+      origin: wineDoc['origin'],
+      winemaker: wineDoc['winemaker'],
+      alcoholByVolume: wineDoc['alcohol_by_volume'].toDouble(),
+      vintage: wineDoc['vintage'],
+      wineType: wineDoc['wine_type'],
+      bubbles: wineDoc['bubbles'],
+
+      // TODO: Use uid of story document.
+      story: wineDoc['story'],
+
+      // Tasting notes
+      notes: notes,
+
+      // Vinification
+      isBiodynamic: wineDoc['is_biodynamic'],
+      isOrganicFarming: wineDoc['is_organic_farming'],
+      isUnfinedUnfiltered: wineDoc['is_unfined_unfiltered'],
+      isWildYeast: wineDoc['is_wild_yeast'],
+      isNoAddedSulfites: wineDoc['is_no_added_sulfites'],
+      isEthicallyMade: wineDoc['is_ethically_made'],
+
+      // Grape varietals.
+      varietals: varietals,
+
+      // Characteristics.
+      acidity: wineDoc['acidity'],
+      sweetness: wineDoc['sweetness'],
+      tannin: wineDoc['tannin'],
+      body: wineDoc['body'],
+      imagePath: wineDoc['image_path'],
     );
   }
 
@@ -113,17 +169,22 @@ class WineTasting extends Equatable implements Tasting {
       'description': description,
       'origin': origin,
       'winemaker': winemaker,
-      'varietal_names': varietalNames,
-      'varietal_percentages': varietalPercentages,
+
+      // Grape varietals
+      'varietals': varietals.map((varietal) => varietal.toMap()).toList(),
+
+      // Tasting notes
+      'notes': notes.map((note) => note.toMap()).toList(),
+
       'alcohol_by_volume': alcoholByVolume,
       'wine_type': wineType,
       'bubbles': bubbles,
-      'is_biodynamic': isBiodynamic ? 1 : 0,
-      'is_organic_farming': isOrganicFarming ? 1 : 0,
-      'is_unfined_unfiltered': isUnfinedUnfiltered ? 1 : 0,
-      'is_wild_yeast': isWildYeast ? 1 : 0,
-      'is_no_added_sulfites': isNoAddedSulfites ? 1 : 0,
-      'is_ethically_made': isEthicallyMade ? 1 : 0,
+      'is_biodynamic': isBiodynamic,
+      'is_organic_farming': isOrganicFarming,
+      'is_unfined_unfiltered': isUnfinedUnfiltered,
+      'is_wild_yeast': isWildYeast,
+      'is_no_added_sulfites': isNoAddedSulfites,
+      'is_ethically_made': isEthicallyMade,
       'vintage': vintage,
       'acidity': acidity,
       'body': body,
@@ -140,8 +201,7 @@ class WineTasting extends Equatable implements Tasting {
     String description,
     String origin,
     String winemaker,
-    String varietalNames,
-    String varietalPercentages,
+    List<Varietal> varietals,
     double alcoholByVolume,
     String wineType,
     String bubbles,
@@ -166,8 +226,7 @@ class WineTasting extends Equatable implements Tasting {
       description: description ?? this.description,
       origin: origin ?? this.origin,
       winemaker: winemaker ?? this.winemaker,
-      varietalNames: varietalNames ?? this.varietalNames,
-      varietalPercentages: varietalPercentages ?? this.varietalPercentages,
+      varietals: varietals ?? this.varietals,
       alcoholByVolume: alcoholByVolume ?? this.alcoholByVolume,
       wineType: wineType ?? this.wineType,
       bubbles: bubbles ?? this.bubbles,
@@ -195,8 +254,7 @@ class WineTasting extends Equatable implements Tasting {
         description,
         origin,
         winemaker,
-        varietalNames,
-        varietalPercentages,
+        varietals,
         alcoholByVolume,
         wineType,
         bubbles,

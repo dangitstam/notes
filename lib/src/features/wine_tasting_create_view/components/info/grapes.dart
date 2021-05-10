@@ -1,12 +1,12 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
-import 'package:notes/src/keys.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
+import 'package:notes/src/keys.dart';
 import 'package:provider/provider.dart';
 
 /// Grapes section allowing users to specify the varietals in their wine.
@@ -41,10 +41,7 @@ class GrapeTextFields extends StatefulWidget {
 }
 
 class GrapeTextFieldsState extends State<GrapeTextFields> {
-  // Invariant: Elements of `varietalNames` and `varietalPercentages` correspond with each other,
-  // such that at index i, the wine is varietalPercentages[i] of grape varietalNames[i].
-  List<String> varietalNames = <String>[];
-  List<int> varietalPercentages = <int>[];
+  List<Varietal> varietals = [];
 
   // Each widget represents a pair of form fields: grape name and percentage.
   List<Widget> grapeFields = <Widget>[];
@@ -62,13 +59,20 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
     super.didChangeDependencies();
 
     WineTasting currentTasting = context.read<WineTastingCreateBloc>().state.tasting;
-    String varietalNamesFromBloc = currentTasting.varietalNames;
-    String varietalPercentagesFromBloc = currentTasting.varietalPercentages;
 
-    if (varietalNamesFromBloc.isNotEmpty && varietalPercentagesFromBloc.isNotEmpty) {
-      varietalNames = json.decode(varietalNamesFromBloc).cast<String>();
-      varietalPercentages = json.decode(varietalPercentagesFromBloc).cast<int>();
-      for (var _ in varietalNames) {
+    // Create a deep copy to prevent updating state before the BLoC realizes.
+    //
+    // Should a reference of a `Varietal` instance in the BLoC state be shared with this widget and
+    // updated by this widget, the old state will have been altered to be identical to the new
+    // state by the time `yield` is called, thereby resulting in no new state being yielded
+    // (identical states are never emitted consecutively).
+    List<Varietal> varietalsFromBloc = currentTasting.varietals;
+
+    if (varietalsFromBloc.isNotEmpty) {
+      varietals = varietalsFromBloc.map((e) => e.copyWith()).toList();
+
+      // Add a grape field for each set added.
+      for (var _ in varietals) {
         _addGrapeFields(addDefaults: false);
       }
     } else {
@@ -79,16 +83,16 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
   /// Given the currently specified varietals and their proportions, updates the BLoC.
   void submitVarietals() {
     // TODO: Would be more efficient to call this function only once (at time of closing info screen).
-    String varietalNamesJson = json.encode(varietalNames);
-    String varietalPercentagesJson = json.encode(varietalPercentages);
-    context.read<WineTastingCreateBloc>().add(AddWineVarietalNamesEvent(varietalNames: varietalNamesJson));
+    // For the same reasons that a deep copy from the bloc is needed when beginning from an initial
+    // set of varietals, a deep copy should also be submitted to the bloc so that subsequent
+    // updates don't create doppelganger states.
     context
         .read<WineTastingCreateBloc>()
-        .add(AddWineVarietalPercentagesEvent(varietalPercentages: varietalPercentagesJson));
+        .add(AddWineVarietalsEvent(varietals: varietals.map((e) => e.copyWith()).toList()));
   }
 
   int _getVarietalPercentageSum() {
-    return varietalPercentages.fold(0, (acc, v) => acc + v);
+    return varietals.fold(0, (acc, v) => acc + v.percentage);
   }
 
   void _updateTotalPercentage() {
@@ -96,18 +100,22 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
   }
 
   void _updateVarietalPercentage(int value, int index) {
-    varietalPercentages[index] = value;
+    varietals[index] = varietals[index].copyWith(percentage: value);
     _updateTotalPercentage();
   }
 
   void _addGrapeFields({bool addDefaults = false}) {
     setState(() {
       if (addDefaults) {
-        varietalNames.add('');
-
         // Each subsequent grape will compute and autofill the remaining percentage.
         int remainingPercent = max(100 - _getVarietalPercentageSum(), 0);
-        varietalPercentages.add(remainingPercent);
+
+        varietals.add(
+          Varietal(
+            name: '',
+            percentage: remainingPercent,
+          ),
+        );
       }
 
       // Add fields for the new grape.
@@ -121,11 +129,11 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
 
   Widget _createNewGrapeFields(BuildContext context, int index) {
     final TextEditingController varietalController = TextEditingController(
-      text: varietalNames[index].toString(),
+      text: varietals[index].name,
     );
 
     final TextEditingController percentageController = TextEditingController(
-      text: varietalPercentages[index].toString(),
+      text: varietals[index].percentage.toString(),
     );
 
     return Padding(
@@ -148,7 +156,7 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
                     counterText: '',
                   ),
                   onChanged: (value) {
-                    varietalNames[index] = value;
+                    varietals[index] = varietals[index].copyWith(name: value);
 
                     // Update BLoC representation.
                     submitVarietals();
@@ -201,7 +209,7 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
                   },
                   validator: (String value) {
                     // Percentage is required only when the varietal name is provided.
-                    if (varietalNames[index].isNotEmpty && value.isEmpty) {
+                    if (varietals[index].name.isNotEmpty && value.isEmpty) {
                       return 'Required';
                     }
                     return null;
@@ -223,7 +231,7 @@ class GrapeTextFieldsState extends State<GrapeTextFields> {
 
     // Signal success with a checkmark when all fields are non-empty and percentages add to 100.
     final bool grapeTextFieldsComplete =
-        _totalPercentage == 100 && varietalNames.fold(true, (acc, v) => (acc && v.isNotEmpty));
+        _totalPercentage == 100 && varietals.fold(true, (acc, v) => (acc && v.name.isNotEmpty));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

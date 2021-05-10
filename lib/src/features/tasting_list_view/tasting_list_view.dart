@@ -1,13 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/data/model/coffee_tasting.dart';
-import 'package:notes/src/data/model/tasting.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
 import 'package:notes/src/features/tasting_list_view/list_item_wine_tasting.dart';
-
-import 'list_item_coffee_tasting.dart';
+import 'package:provider/provider.dart';
 
 class TastingListViewWidget extends StatefulWidget {
   TastingListViewWidget({Key key}) : super(key: key);
@@ -25,35 +24,24 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
     super.build(context); // Required for AutomaticKeepAliveClientMixin.
 
     BlocProvider.of<TastingListBloc>(context).add(InitTastings());
+
+    final String uid = Provider.of<User>(context, listen: false).uid;
+
     return StreamBuilder(
-      stream: BlocProvider.of<TastingListBloc>(context).tastings,
-      builder: (context, AsyncSnapshot<List<Tasting>> snapshot) {
+      stream: FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings').snapshots(),
+      builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           var tastings = snapshot.data;
-          if (tastings.isEmpty) {
+          if (tastings == null) {
             return NoTastingsYetWidget();
           }
 
           return ListView.separated(
-            itemCount: tastings == null ? 0 : tastings.length,
-            itemBuilder: (BuildContext _context, int index) {
-              if (tastings != null && index < tastings.length) {
-                final tasting = tastings[index];
-                switch (tasting.runtimeType) {
-                  case CoffeeTasting:
-                    return CoffeeTastingListItem(tasting: tasting);
-                  case WineTasting:
-                    return WineTastingListItem(tasting: tasting);
-                  default:
-                    return Container();
-                }
-              } else {
-                return Text('loading');
-              }
-            },
             padding: const EdgeInsets.all(0.0),
-            separatorBuilder: (context, index) => Divider(
-              height: 0.0,
+            separatorBuilder: (context, index) => Divider(),
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (context, index) => WineTastingListItem(
+              tasting: WineTasting.fromDocumentSnapshot(snapshot.data.docs[index]),
             ),
           );
         } else {

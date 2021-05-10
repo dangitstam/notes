@@ -67,6 +67,7 @@ class _AppState extends State<App> {
     }
 
     return StreamProvider<User>.value(
+      initialData: null,
       value: AuthService().user,
       child: HomeWrapper(),
     );
