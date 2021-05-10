@@ -11,8 +11,6 @@ Future<void> createWineTastingsTable(Database db) {
       description TEXT,
       origin TEXT,
       winemaker TEXT,
-      varietal_names TEXT,
-      varietal_percentages TEXT,
       alcohol_by_volume REAL,
       wine_type TEXT,
       bubbles TEXT,
@@ -23,12 +21,11 @@ Future<void> createWineTastingsTable(Database db) {
       is_wild_yeast INTEGER,
       is_ethically_made INTEGER,
       vintage INTEGER,
-      notes TEXT,
       acidity REAL,
       sweetness REAL,
       tannin REAL,
       body REAL,
-      image_path TEXT,
+      image_file_name TEXT,
       story TEXT)
     """,
   );
@@ -42,6 +39,31 @@ Future<void> createWineTastingNotesTable(Database db) {
     CREATE TABLE wine_tasting_notes(
       wine_tasting_id INTEGER,
       note_id INTEGER)
+    """,
+  );
+}
+
+Future<void> createVarietalsTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE varietals(
+      varietal_id INTEGER PRIMARY KEY,
+      name TEXT UNIQUE ON CONFLICT IGNORE)
+    """,
+  );
+}
+
+Future<void> createWineTastingVarietalsTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE wine_tasting_varietals(
+      wine_tasting_id INTEGER,
+      varietal_id INTEGER,
+      percentage int)
     """,
   );
 }

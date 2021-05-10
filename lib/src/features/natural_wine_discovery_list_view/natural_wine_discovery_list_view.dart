@@ -136,7 +136,7 @@ WineTasting fromDocumentSnapshot(DocumentSnapshot wineDoc) {
     sweetness: 0,
     tannin: 0,
     body: 0,
-    imagePath: null,
+    imageFileName: null,
     story: wineDoc['story'],
   );
 }

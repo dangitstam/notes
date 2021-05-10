@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -22,7 +21,8 @@ class TastingHeroImageStart extends StatelessWidget {
 
             // TODO: Error handling for when image is not found.
             // TODO: New stub photo.
-            var image = CachedNetworkImage(imageUrl: '$imagePath', fit: BoxFit.cover);
+            var image = Image.asset('$appDocDirPath/$imagePath', fit: BoxFit.cover);
+            print(imagePath);
             return GestureDetector(
               onTap: () {
                 Navigator.push(

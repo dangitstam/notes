@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io' as io;
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as cloud_firestore;
@@ -8,14 +9,15 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
 import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/note_repository.dart';
+import 'package:notes/src/data/varietal_repository.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
+import 'package:path/path.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -24,8 +26,8 @@ part 'wine_tasting_create_state.dart';
 
 class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCreateState> {
   final wineTastingRepository = WineTastingRepository();
-
   final noteRepository = NoteRepository();
+  final varietalRepository = VarietalRepository();
 
   WineTastingCreateBloc({
     WineTasting initTasting,
@@ -54,7 +56,8 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
                   tannin: 0,
                   body: 0,
                   notes: <Note>[],
-                  imagePath: null,
+                  imageFileName: null,
+                  imageUrl: null,
                   story: '',
                 ),
             pickedImage: null,
@@ -99,7 +102,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   }
 
   /// The user selects a file, and the task is added to the list.
-  Future<firebase_storage.UploadTask> uploadFile(String uid, PickedFile file) async {
+  Future<firebase_storage.UploadTask> uploadFile(String uid, io.File file) async {
     if (file == null) {
       return null;
     }
@@ -113,8 +116,10 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
         .child(uid)
         .child('tasting-image_${DateTime.now()}.jpg');
 
-    final metadata =
-        firebase_storage.SettableMetadata(contentType: 'image/jpeg', customMetadata: {'picked-file-path': file.path});
+    final metadata = firebase_storage.SettableMetadata(
+      contentType: 'image/jpeg',
+      customMetadata: {'picked-file-path': file.path},
+    );
 
     if (kIsWeb) {
       uploadTask = ref.putData(await file.readAsBytes(), metadata);
@@ -129,7 +134,43 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   ///
   /// Return true on success.
   Future<bool> insertWineTasting(String uid) async {
+    // SQLite upload.
+    // --------------
+
+    final wineTastingId = await wineTastingRepository.insert(state.tasting);
+
+    for (var note in state.tasting.notes) {
+      var wineTastingNoteId = await noteRepository.insertNoteForWineTasting(note.id, wineTastingId);
+      if (wineTastingNoteId < 0) {
+        // TODO: Logging
+      }
+    }
+
+    for (var varietal in state.tasting.varietals) {
+      var wineTastingVarietalId = await varietalRepository.insertVarietalForWine(wineTastingId, varietal);
+      if (wineTastingVarietalId < 0) {
+        // TODO: Logging
+      }
+    }
+
+    // Firebase upload.
+    // ----------------
+
     // Upload image to cloud storage.
+    // TODO: Upload will fail without an internet connection.
+    // Possible solution is to
+    // 1. Create a new Firestore collection (mobile-uploads?) containing pending mobile uploads
+    //     * Documents should have an is_file_uploaded (bool) and is_mobile_document_uploaded (bool)
+    //     * is_mobile_document_uploaded signals that the pending write to Cloud Firestore has completed
+    //     * is_file_uploaded signals that the image has been stored in Cloud Storage
+    //     * Also store a file name so that the image can be accessed locally
+    // 2. Use a cloud function to listen to mobile-uploads
+    //     * On change, set is_mobile_document_uploaded to true
+    // 3. Create a long-running process in the app that listens to mobile-uploads
+    //     * Collect only entries such that is_mobile_document_uploaded is true and is_file_uploaded is false
+    //     * Once entries are collected, upload the image using the stored local file path
+    //     * When the file is uploaded, the tasting document should be updated with the remote image URL by
+    //       another cloud function.
     firebase_storage.UploadTask uploadTask = await uploadFile(uid, state.pickedImage);
 
     if (uploadTask != null) {
@@ -141,7 +182,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
             cloud_firestore.FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings');
 
         await userTastings.add(
-          state.tasting.copyWith(imagePath: cloudImageUrl).toMap(),
+          state.tasting.copyWith(imageUrl: cloudImageUrl).toMap(),
         );
       });
     } else {
@@ -277,8 +318,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       );
     } else if (event is AddImageEvent) {
       yield state.copyWith(
-        pickedImage: event.image,
-      );
+          pickedImage: event.image, tasting: state.tasting.copyWith(imageFileName: basename(event.image.path)));
     }
   }
 

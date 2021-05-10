@@ -124,14 +124,14 @@ class WineTastingListItem extends StatelessWidget {
                   delimiter: ' ... ',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-                tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
+                tasting.imageFileName != null ? const SizedBox(height: 10) : Container(),
                 /**
                  *  Optional image of tasting.
                  */
-                tasting.imagePath != null
+                tasting.imageFileName != null
                     ? TastingHeroImageStart(
                         tag: 'list view hero image for tasting ${tasting.wineTastingId}',
-                        imagePath: tasting.imagePath,
+                        imagePath: tasting.imageFileName,
                       )
                     : Container(),
                 /**

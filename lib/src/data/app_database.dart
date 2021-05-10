@@ -38,6 +38,8 @@ class AppDatabase {
         // Wine
         createWineTastingsTable(db);
         createWineTastingNotesTable(db);
+        createVarietalsTable(db);
+        createWineTastingVarietalsTable(db);
       },
       onUpgrade: (db, v1, v2) {
         _createNotesTable(db);
@@ -51,6 +53,8 @@ class AppDatabase {
         // Wine
         createWineTastingsTable(db);
         createWineTastingNotesTable(db);
+        createVarietalsTable(db);
+        createWineTastingVarietalsTable(db);
       },
       version: 2,
     );

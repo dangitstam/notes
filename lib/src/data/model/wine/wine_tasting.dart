@@ -31,7 +31,8 @@ class WineTasting extends Equatable implements Tasting {
   final double tannin;
   final double body;
 
-  final String imagePath;
+  final String imageFileName;
+  final String imageUrl;
 
   // Optional story behind the wine, provided by the discovery path to tasting.
   final String story;
@@ -62,7 +63,8 @@ class WineTasting extends Equatable implements Tasting {
     this.body,
 
     // Image path.
-    this.imagePath,
+    this.imageFileName,
+    this.imageUrl,
 
     // Story behind the making of the wine.
     this.story,
@@ -96,7 +98,7 @@ class WineTasting extends Equatable implements Tasting {
       body: tastingMap['body'],
 
       // Image path
-      imagePath: tastingMap['image_path'],
+      imageFileName: tastingMap['image_file_name'],
       story: tastingMap['story'],
     );
   }
@@ -156,7 +158,7 @@ class WineTasting extends Equatable implements Tasting {
       sweetness: wineDoc['sweetness'],
       tannin: wineDoc['tannin'],
       body: wineDoc['body'],
-      imagePath: wineDoc['image_path'],
+      imageFileName: wineDoc['image_file_name'],
     );
   }
 
@@ -190,7 +192,40 @@ class WineTasting extends Equatable implements Tasting {
       'body': body,
       'sweetness': sweetness,
       'tannin': tannin,
-      'image_path': imagePath,
+      'image_file_name': imageFileName,
+      'image_url': imageUrl,
+      'story': story,
+    };
+  }
+
+  /// Converts this [WineTasting] into a map suitable for insertion into SQLite.
+  Map<String, dynamic> toSql() {
+    // In the SQLite implementation, `notes` and `varietals` are normalized.
+    // Should the tasting be converted to a nested map, this would result in each becoming a List<Map<String, Dynamic>>.
+    // SQLite will raise an exception when it detects List<Map<String, Dynamic>> as a value of any field in the map.
+    // Remove them from the map to prevent the exception.
+    //
+    // `image_url` is also omitted and will be stored remotely instead.
+    return {
+      'name': name,
+      'description': description,
+      'origin': origin,
+      'winemaker': winemaker,
+      'alcohol_by_volume': alcoholByVolume,
+      'wine_type': wineType,
+      'bubbles': bubbles,
+      'is_biodynamic': isBiodynamic ? 1 : 0,
+      'is_organic_farming': isOrganicFarming ? 1 : 0,
+      'is_unfined_unfiltered': isUnfinedUnfiltered ? 1 : 0,
+      'is_wild_yeast': isWildYeast ? 1 : 0,
+      'is_no_added_sulfites': isNoAddedSulfites ? 1 : 0,
+      'is_ethically_made': isEthicallyMade ? 1 : 0,
+      'vintage': vintage,
+      'acidity': acidity,
+      'body': body,
+      'sweetness': sweetness,
+      'tannin': tannin,
+      'image_file_name': imageFileName,
       'story': story,
     };
   }
@@ -217,7 +252,8 @@ class WineTasting extends Equatable implements Tasting {
     double tannin,
     double body,
     List<Note> notes,
-    String imagePath,
+    String imageFileName,
+    String imageUrl,
     String story,
   }) {
     return WineTasting(
@@ -242,7 +278,8 @@ class WineTasting extends Equatable implements Tasting {
       tannin: tannin ?? this.tannin,
       body: body ?? this.body,
       notes: notes ?? this.notes,
-      imagePath: imagePath ?? this.imagePath,
+      imageFileName: imageFileName ?? this.imageFileName,
+      imageUrl: imageUrl ?? this.imageUrl,
       story: story ?? this.story,
     );
   }
@@ -270,7 +307,8 @@ class WineTasting extends Equatable implements Tasting {
         tannin,
         body,
         notes,
-        imagePath,
+        imageFileName,
+        imageUrl,
         story,
       ];
 }

@@ -1,10 +1,10 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/wine_utils.dart';
@@ -26,7 +26,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
   var isInfoEdited = false;
 
   /// Given [savedImageFilePath], a file path to the image taken/selected for the tasting, updates the tasting's image.
-  void onImageSelected(PickedFile image) {
+  void onImageSelected(File image) {
     // TODO: Update these comments, ignore them for now.
     // Record file path as image for tasting.
     // Application directory changes between invocations of `flutter run`, so save the basename

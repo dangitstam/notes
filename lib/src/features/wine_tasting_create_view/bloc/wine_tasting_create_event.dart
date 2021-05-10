@@ -154,6 +154,6 @@ class AddTanninIntensityEvent extends WineTastingCreateEvent {
 
 class AddImageEvent extends WineTastingCreateEvent {
   @required
-  final PickedFile image;
+  final File image;
   AddImageEvent({this.image});
 }

@@ -1,12 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
 import 'package:notes/src/features/tasting_list_view/list_item_wine_tasting.dart';
-import 'package:provider/provider.dart';
 
 class TastingListViewWidget extends StatefulWidget {
   TastingListViewWidget({Key key}) : super(key: key);
@@ -25,24 +21,29 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
 
     BlocProvider.of<TastingListBloc>(context).add(InitTastings());
 
-    final String uid = Provider.of<User>(context, listen: false).uid;
+    // To access the tastings stored in Firebase:
+    // final String uid = Provider.of<User>(context, listen: false).uid;
+    // stream: FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings').snapshots(),
 
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings').snapshots(),
+      stream: BlocProvider.of<TastingListBloc>(context).wineTastings,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           var tastings = snapshot.data;
-          if (tastings == null) {
+          if (tastings.isEmpty) {
             return NoTastingsYetWidget();
           }
 
           return ListView.separated(
             padding: const EdgeInsets.all(0.0),
             separatorBuilder: (context, index) => Divider(),
-            itemCount: snapshot.data.docs.length,
-            itemBuilder: (context, index) => WineTastingListItem(
-              tasting: WineTasting.fromDocumentSnapshot(snapshot.data.docs[index]),
-            ),
+            itemCount: tastings == null ? 0 : tastings.length,
+            itemBuilder: (BuildContext _context, int index) {
+              if (tastings != null && index < tastings.length) {
+                return WineTastingListItem(tasting: tastings[index]);
+              }
+              return Container();
+            },
           );
         } else {
           return Text('loading');
