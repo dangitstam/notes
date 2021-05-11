@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' show basename;
+import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
 /// Creates a widget that on tap, allows a user to select an image.
 ///
@@ -26,6 +26,17 @@ class _ImageCaptureState extends State<ImageCapture> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        imageCaptureSelectMethodModal(context, (image) {
+          // Update this widget's displayed image.
+          setState(() {
+            _image = File(image.path);
+          });
+
+          // Pass selected image's file path to onImageSelected.
+          widget.onImageSelected(image);
+        });
+      },
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -52,17 +63,6 @@ class _ImageCaptureState extends State<ImageCapture> {
           ),
         ],
       ),
-      onTap: () {
-        imageCaptureSelectMethodModal(context, (image) {
-          // Update this widget's displayed image.
-          setState(() {
-            _image = File(image.path);
-          });
-
-          // Pass selected image's file path to onImageSelected.
-          widget.onImageSelected(image);
-        });
-      },
     );
   }
 }
