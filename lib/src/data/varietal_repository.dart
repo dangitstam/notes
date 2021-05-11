@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:notes/src/data/app_database.dart';
 import 'package:notes/src/data/model/wine/varietal.dart';
 
@@ -28,17 +29,25 @@ class VarietalRepository {
   }
 
   /// Relate a varietal to a wine.
-  Future<int> insertWineTastingVarietal(int varietalId, int wineTastingId, int percentage) {
+  Future<int> insertWineTastingVarietal({
+    @required int varietalId,
+    @required int wineTastingId,
+    @required int percentage,
+  }) {
     return _wineTastingVarietalDao.insert(
       {'varietal_id': varietalId, 'wine_tasting_id': wineTastingId, 'percentage': percentage},
     );
   }
 
   /// Insert a new varietal for a wine.
-  /// If the varietal itself has not ben seen before, the varietal will also be inserted.
+  /// If the varietal itself has not been seen before, the varietal will also be inserted.
   Future<int> insertVarietalForWine(int wineTastingId, Varietal varietal) async {
     int varietalId = await insert(varietal);
-    return insertWineTastingVarietal(varietalId, wineTastingId, varietal.percentage);
+    return insertWineTastingVarietal(
+      varietalId: varietalId,
+      wineTastingId: wineTastingId,
+      percentage: varietal.percentage,
+    );
   }
 
   /// Collect all varietals for a given wine and return as a list of [Varietal].
