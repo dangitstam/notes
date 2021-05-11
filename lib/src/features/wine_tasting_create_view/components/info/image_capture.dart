@@ -9,7 +9,8 @@ import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDi
 /// Creates a widget that on tap, allows a user to select an image.
 ///
 /// The image can be set via selection from the photo gallery or taken with the device's camera.
-/// When an image is selected, [onImageSelected] is called with the path for the image file.
+/// This widget accepts an [onImageSelected] that is called when an image is selected, and is passed the image as an
+/// instance of [File].
 class ImageCapture extends StatefulWidget {
   @required
   final Function(File) onImageSelected;
