@@ -4,6 +4,10 @@ import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
 import 'package:notes/src/data/model/wine/varietal.dart';
 
+/// A wine tasting containing metadata and personal notes on a wine's qualities.
+///
+/// This data model is shared by both the remote and local storage solutions for this app.
+/// [imageFileName] is only used when dealing with local storage, while [imageUrl] is only used for remote storage.
 class WineTasting extends Equatable implements Tasting {
   final int wineTastingId;
   final String name;
@@ -104,6 +108,7 @@ class WineTasting extends Equatable implements Tasting {
   }
 
   /// Given a [DocumentSnapshot] of a wine from Firebase, translate into a [WineTasting].
+  /// If an image exists for the tasting, the resulting [WineTasting] will only have `"image_url"` populated.
   factory WineTasting.fromDocumentSnapshot(DocumentSnapshot wineDoc) {
     // Collect varietals.
     List<Varietal> varietals = [];
@@ -158,7 +163,7 @@ class WineTasting extends Equatable implements Tasting {
       sweetness: wineDoc['sweetness'],
       tannin: wineDoc['tannin'],
       body: wineDoc['body'],
-      imageFileName: wineDoc['image_file_name'],
+      imageUrl: wineDoc['image_url'],
     );
   }
 
