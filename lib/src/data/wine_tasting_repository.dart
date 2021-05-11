@@ -9,7 +9,7 @@ import 'model/wine/wine_tasting.dart';
 
 class WineTastingRepository {
   final WineTastingDao _wineTastingDao = WineTastingDao(database: AppDatabase.db.database);
-  final WineTastingNoteDao _wineTastingNotesDao = WineTastingNoteDao(database: AppDatabase.db.database);
+  final WineTastingNoteDao _wineTastingNoteDao = WineTastingNoteDao(database: AppDatabase.db.database);
   final WineTastingVarietalDao _wineTastingVarietalDao = WineTastingVarietalDao(database: AppDatabase.db.database);
 
   Future<int> insert(WineTasting wineTasting) {
@@ -22,7 +22,7 @@ class WineTastingRepository {
 
     // Collect tasting notes and varietals for each wine tasting.
     for (var i = 0; i < wineTastings.length; i++) {
-      final notes = await _wineTastingNotesDao.getWineTastingNotes(wineTastings[i].wineTastingId);
+      final notes = await _wineTastingNoteDao.getWineTastingNotes(wineTastings[i].wineTastingId);
       final varietals = await _wineTastingVarietalDao.getVarietalsForWine(wineTastings[i].wineTastingId);
       wineTastings[i] = wineTastings[i].copyWith(notes: notes, varietals: varietals);
     }
