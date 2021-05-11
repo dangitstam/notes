@@ -22,7 +22,7 @@ class TastingHeroImageStart extends StatelessWidget {
             // TODO: Error handling for when image is not found.
             // TODO: New stub photo.
             var image = Image.asset('$appDocDirPath/$imagePath', fit: BoxFit.cover);
-            print(imagePath);
+
             return GestureDetector(
               onTap: () {
                 Navigator.push(
