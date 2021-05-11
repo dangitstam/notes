@@ -22,8 +22,6 @@ class VarietalRepository {
 
   /// Relate a varietal to a wine.
   Future<int> insertWineTastingVarietal(int varietalId, int wineTastingId, int percentage) {
-    print('entered VarietalRepository.insertVarietalForWine');
-
     return _wineTastingVarietalDao.insert(
       {'varietal_id': varietalId, 'wine_tasting_id': wineTastingId, 'percentage': percentage},
     );
@@ -32,7 +30,6 @@ class VarietalRepository {
   /// Insert a new varietal for a wine.
   /// If the varietal itself has not ben seen before, the varietal will also be inserted.
   Future<int> insertVarietalForWine(int wineTastingId, Varietal varietal) async {
-    print('entered VarietalRepository.insertVarietalForWine');
     int varietalId = await insert(varietal);
     return insertWineTastingVarietal(varietalId, wineTastingId, varietal.percentage);
   }
