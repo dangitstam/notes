@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' as io;
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -17,7 +16,7 @@ import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/note_repository.dart';
 import 'package:notes/src/data/varietal_repository.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' show basename;
 import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -102,7 +101,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   }
 
   /// The user selects a file, and the task is added to the list.
-  Future<firebase_storage.UploadTask> uploadFile(String uid, io.File file) async {
+  Future<firebase_storage.UploadTask> uploadFile(String uid, File file) async {
     if (file == null) {
       return null;
     }
@@ -124,7 +123,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     if (kIsWeb) {
       uploadTask = ref.putData(await file.readAsBytes(), metadata);
     } else {
-      uploadTask = ref.putFile(io.File(file.path), metadata);
+      uploadTask = ref.putFile(File(file.path), metadata);
     }
 
     return Future.value(uploadTask);
@@ -318,7 +317,11 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       );
     } else if (event is AddImageEvent) {
       yield state.copyWith(
-          pickedImage: event.image, tasting: state.tasting.copyWith(imageFileName: basename(event.image.path)));
+        pickedImage: event.image,
+        tasting: state.tasting.copyWith(
+          imageFileName: basename(event.image.path),
+        ),
+      );
     }
   }
 
