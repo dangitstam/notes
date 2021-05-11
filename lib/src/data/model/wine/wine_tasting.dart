@@ -4,6 +4,10 @@ import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
 import 'package:notes/src/data/model/wine/varietal.dart';
 
+/// A wine tasting containing metadata and personal notes on a wine's qualities.
+///
+/// This data model is shared by both the remote and local storage solutions for this app.
+/// [imageFileName] is only used when dealing with local storage, while [imageUrl] is only used for remote storage.
 class WineTasting extends Equatable implements Tasting {
   final int wineTastingId;
   final String name;
@@ -31,7 +35,8 @@ class WineTasting extends Equatable implements Tasting {
   final double tannin;
   final double body;
 
-  final String imagePath;
+  final String imageFileName;
+  final String imageUrl;
 
   // Optional story behind the wine, provided by the discovery path to tasting.
   final String story;
@@ -61,8 +66,9 @@ class WineTasting extends Equatable implements Tasting {
     this.tannin,
     this.body,
 
-    // Image path.
-    this.imagePath,
+    // Image chosen for the tasting.
+    this.imageFileName,
+    this.imageUrl,
 
     // Story behind the making of the wine.
     this.story,
@@ -95,13 +101,14 @@ class WineTasting extends Equatable implements Tasting {
       tannin: tastingMap['tannin'],
       body: tastingMap['body'],
 
-      // Image path
-      imagePath: tastingMap['image_path'],
+      // Image chosen for the tasting.
+      imageFileName: tastingMap['image_file_name'],
       story: tastingMap['story'],
     );
   }
 
   /// Given a [DocumentSnapshot] of a wine from Firebase, translate into a [WineTasting].
+  /// If an image exists for the tasting, the resulting [WineTasting] will only have `"image_url"` populated.
   factory WineTasting.fromDocumentSnapshot(DocumentSnapshot wineDoc) {
     // Collect varietals.
     List<Varietal> varietals = [];
@@ -156,7 +163,7 @@ class WineTasting extends Equatable implements Tasting {
       sweetness: wineDoc['sweetness'],
       tannin: wineDoc['tannin'],
       body: wineDoc['body'],
-      imagePath: wineDoc['image_path'],
+      imageUrl: wineDoc['image_url'],
     );
   }
 
@@ -190,7 +197,40 @@ class WineTasting extends Equatable implements Tasting {
       'body': body,
       'sweetness': sweetness,
       'tannin': tannin,
-      'image_path': imagePath,
+      'image_file_name': imageFileName,
+      'image_url': imageUrl,
+      'story': story,
+    };
+  }
+
+  /// Converts this [WineTasting] into a map suitable for insertion into SQLite.
+  Map<String, dynamic> toSql() {
+    // In the SQLite implementation, `notes` and `varietals` are normalized.
+    // Should the tasting be converted to a nested map, this would result in each becoming a List<Map<String, Dynamic>>.
+    // SQLite will raise an exception when it detects List<Map<String, Dynamic>> as a value of any field in the map.
+    // Remove them from the map to prevent the exception.
+    //
+    // `image_url` is also omitted and will be stored remotely instead.
+    return {
+      'name': name,
+      'description': description,
+      'origin': origin,
+      'winemaker': winemaker,
+      'alcohol_by_volume': alcoholByVolume,
+      'wine_type': wineType,
+      'bubbles': bubbles,
+      'is_biodynamic': isBiodynamic ? 1 : 0,
+      'is_organic_farming': isOrganicFarming ? 1 : 0,
+      'is_unfined_unfiltered': isUnfinedUnfiltered ? 1 : 0,
+      'is_wild_yeast': isWildYeast ? 1 : 0,
+      'is_no_added_sulfites': isNoAddedSulfites ? 1 : 0,
+      'is_ethically_made': isEthicallyMade ? 1 : 0,
+      'vintage': vintage,
+      'acidity': acidity,
+      'body': body,
+      'sweetness': sweetness,
+      'tannin': tannin,
+      'image_file_name': imageFileName,
       'story': story,
     };
   }
@@ -217,7 +257,8 @@ class WineTasting extends Equatable implements Tasting {
     double tannin,
     double body,
     List<Note> notes,
-    String imagePath,
+    String imageFileName,
+    String imageUrl,
     String story,
   }) {
     return WineTasting(
@@ -242,7 +283,8 @@ class WineTasting extends Equatable implements Tasting {
       tannin: tannin ?? this.tannin,
       body: body ?? this.body,
       notes: notes ?? this.notes,
-      imagePath: imagePath ?? this.imagePath,
+      imageFileName: imageFileName ?? this.imageFileName,
+      imageUrl: imageUrl ?? this.imageUrl,
       story: story ?? this.story,
     );
   }
@@ -270,7 +312,8 @@ class WineTasting extends Equatable implements Tasting {
         tannin,
         body,
         notes,
-        imagePath,
+        imageFileName,
+        imageUrl,
         story,
       ];
 }

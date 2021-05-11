@@ -32,7 +32,8 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
     //
     // State should reflect which filters, sorts, and searches are being placed.
     if (event is InitTastings) {
-      refreshTastingsStream();
+      // TODO: Deprecate coffee, it deserves its own app.
+      refreshWineTastingsStream();
       yield TastingListInitialized();
     }
   }

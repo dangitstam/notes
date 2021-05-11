@@ -4,7 +4,7 @@ part of 'wine_tasting_create_bloc.dart';
 class WineTastingCreateState extends Equatable {
   final bool isWineTastingInserted;
   final WineTasting tasting;
-  final PickedFile pickedImage;
+  final File pickedImage;
 
   WineTastingCreateState({
     this.isWineTastingInserted,
@@ -13,11 +13,9 @@ class WineTastingCreateState extends Equatable {
   });
 
   WineTastingCreateState copyWith({
-    bool isWineTastingInserted,
+    bool isWineTastingInserted, // An observable signal to widgets whether a tasting has been submitted and saved.
     WineTasting tasting,
-
-    // Local image path stored separately; the tasting will contain the cloud storage URL.
-    PickedFile pickedImage,
+    File pickedImage, // File containing the image for the wine tasting.
   }) {
     return WineTastingCreateState(
       isWineTastingInserted: isWineTastingInserted ?? this.isWineTastingInserted,

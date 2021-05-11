@@ -136,7 +136,8 @@ WineTasting fromDocumentSnapshot(DocumentSnapshot wineDoc) {
     sweetness: 0,
     tannin: 0,
     body: 0,
-    imagePath: null,
+    imageFileName: null,
+    imageUrl: wineDoc['image_url'],
     story: wineDoc['story'],
   );
 }
@@ -225,7 +226,7 @@ class _NaturalWineDiscoveryListViewWidgetState extends State<NaturalWineDiscover
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4.0),
                 child: Image.network(
-                  document['image'],
+                  document['image_url'],
                   fit: BoxFit.cover,
                 ),
               ),

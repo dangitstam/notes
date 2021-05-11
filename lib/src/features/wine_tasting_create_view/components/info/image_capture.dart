@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' show basename;
+import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
 /// Creates a widget that on tap, allows a user to select an image.
 ///
 /// The image can be set via selection from the photo gallery or taken with the device's camera.
-/// When an image is selected, [onImageSelected] is called with the path for the image file.
+/// This widget accepts an [onImageSelected] that is called when an image is selected, and is passed the image as an
+/// instance of [File].
 class ImageCapture extends StatefulWidget {
   @required
-  final Function(PickedFile) onImageSelected;
+  final Function(File) onImageSelected;
 
   ImageCapture({this.onImageSelected});
 
@@ -24,6 +27,17 @@ class _ImageCaptureState extends State<ImageCapture> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        imageCaptureSelectMethodModal(context, (image) {
+          // Update this widget's displayed image.
+          setState(() {
+            _image = File(image.path);
+          });
+
+          // Pass selected image's file path to onImageSelected.
+          widget.onImageSelected(image);
+        });
+      },
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -50,17 +64,6 @@ class _ImageCaptureState extends State<ImageCapture> {
           ),
         ],
       ),
-      onTap: () {
-        imageCaptureSelectMethodModal(context, (image) {
-          // Update this widget's displayed image.
-          setState(() {
-            _image = File(image.path);
-          });
-
-          // Pass selected image's file path to onImageSelected.
-          widget.onImageSelected(image);
-        });
-      },
     );
   }
 }
@@ -71,7 +74,7 @@ class _ImageCaptureState extends State<ImageCapture> {
 /// When an image is selected, [onImageSelected] is called with the path for the image file.
 Future<void> imageCaptureSelectMethodModal(
   BuildContext context,
-  Function(PickedFile) onImageSelected,
+  Function(File) onImageSelected,
 ) {
   return showModalBottomSheet<void>(
     context: context,
@@ -104,7 +107,7 @@ Future<void> imageCaptureSelectMethodModal(
 
 Future _getImage(
   ImageSource source,
-  Function(PickedFile) onImageSelected,
+  Function(File) onImageSelected,
 ) async {
   ImagePicker picker = ImagePicker();
 
@@ -113,14 +116,14 @@ Future _getImage(
   if (pickedFile == null) return;
 
   // Save the captured image to the app locally.
-  // final appDocDir = await getApplicationDocumentsDirectory();
-  // final appDocDirPath = appDocDir.path;
+  final appDocDir = await getApplicationDocumentsDirectory();
+  final appDocDirPath = appDocDir.path;
 
-  // var tmpFile = File(pickedFile.path);
+  var tmpFile = File(pickedFile.path);
 
-  // var pickedFileBasename = basename(pickedFile.path);
-  // var savePath = '$appDocDirPath/$pickedFileBasename';
-  // var savedFile = await tmpFile.copy(savePath);
+  var pickedFileBasename = basename(pickedFile.path);
+  var savePath = '$appDocDirPath/$pickedFileBasename';
+  var savedFile = await tmpFile.copy(savePath);
 
-  onImageSelected(pickedFile);
+  onImageSelected(savedFile);
 }
