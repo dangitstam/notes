@@ -5,7 +5,7 @@ import 'tasting_hero_image_end.dart';
 
 class TastingHeroImageStart extends StatelessWidget {
   final String tag;
-  final String imagePath;
+  final String imagePath; // TODO: Rename this to imageFileName.
 
   TastingHeroImageStart({this.tag, this.imagePath});
 
