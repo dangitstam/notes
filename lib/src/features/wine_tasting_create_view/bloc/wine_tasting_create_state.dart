@@ -13,11 +13,9 @@ class WineTastingCreateState extends Equatable {
   });
 
   WineTastingCreateState copyWith({
-    bool isWineTastingInserted,
+    bool isWineTastingInserted, // An observable signal to widgets whether a tasting has been submitted and saved.
     WineTasting tasting,
-
-    // Local image path stored separately; the tasting will contain the cloud storage URL.
-    File pickedImage,
+    File pickedImage, // File containing the image for the wine tasting.
   }) {
     return WineTastingCreateState(
       isWineTastingInserted: isWineTastingInserted ?? this.isWineTastingInserted,
