@@ -62,7 +62,7 @@ class WineTasting extends Equatable implements Tasting {
     this.tannin,
     this.body,
 
-    // Image path.
+    // Image chosen for the tasting.
     this.imageFileName,
     this.imageUrl,
 
@@ -97,7 +97,7 @@ class WineTasting extends Equatable implements Tasting {
       tannin: tastingMap['tannin'],
       body: tastingMap['body'],
 
-      // Image path
+      // Image chosen for the tasting.
       imageFileName: tastingMap['image_file_name'],
       story: tastingMap['story'],
     );
