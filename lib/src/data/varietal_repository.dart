@@ -10,14 +10,21 @@ class VarietalRepository {
   final VarietalDao _varietalDao = VarietalDao(database: AppDatabase.db.database);
   final WineTastingVarietalDao _wineTastingVarietalDao = WineTastingVarietalDao(database: AppDatabase.db.database);
 
-  /// Insert a new varietal.
-  Future<int> insert(Varietal varietal) {
+  /// Inserts a new varietal and returns its id. Returns null if unsuccessful.
+  Future<int> insert(Varietal varietal) async {
     // Percentage used only when associating varietals with a wine.
-    return _varietalDao.insert(
+    var varietal_id = await _varietalDao.insert(
       {
         'name': varietal.name,
       },
     );
+
+    // Case in which the varietal already existed, look up and return the id.
+    if (varietal_id == null) {
+      return _varietalDao.getIdByName(varietal.name);
+    }
+
+    return varietal_id;
   }
 
   /// Relate a varietal to a wine.

@@ -39,6 +39,27 @@ class VarietalDao {
     return null;
   }
 
+  /// Look up a varietal by name. If found, returns its id.
+  Future<int> getIdByName(String name) async {
+    final db = await database;
+
+    var res = await db.rawQuery(
+      // ignore: prefer_single_quotes
+      """
+        SELECT varietal_id
+        FROM varietals
+        WHERE name == \"$name\"
+        LIMIT 1
+        """,
+    );
+
+    if (res.isNotEmpty) {
+      return res.first['varietal_id'];
+    }
+
+    return null;
+  }
+
   /// Get all stored varietals as a list of [Varietal].
   Future<List<Varietal>> getAllVarietals() async {
     final db = await database;
