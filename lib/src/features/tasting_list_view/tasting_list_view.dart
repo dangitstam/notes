@@ -29,6 +29,11 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
       stream: BlocProvider.of<TastingListBloc>(context).wineTastings,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
+          if (snapshot.hasError || !snapshot.hasData) {
+            // TODO: "Something went wrong" screen.
+            return Container();
+          }
+
           var tastings = snapshot.data;
           if (tastings.isEmpty) {
             return NoTastingsYetWidget();
