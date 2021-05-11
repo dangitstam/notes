@@ -123,7 +123,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     if (kIsWeb) {
       uploadTask = ref.putData(await file.readAsBytes(), metadata);
     } else {
-      uploadTask = ref.putFile(File(file.path), metadata);
+      uploadTask = ref.putFile(file, metadata);
     }
 
     return Future.value(uploadTask);
