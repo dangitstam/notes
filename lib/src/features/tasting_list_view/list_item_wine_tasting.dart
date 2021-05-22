@@ -50,7 +50,7 @@ class WineTastingListItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(17),
+            padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               children: [
                 Row(
@@ -106,6 +106,7 @@ class WineTastingListItem extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 17),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 17.0),
             child: Column(
@@ -249,7 +250,6 @@ class WineTastingListItem extends StatelessWidget {
                   style: Theme.of(context).textTheme.caption,
                   textAlign: TextAlign.right,
                 ),
-                const SizedBox(height: 17),
               ],
             ),
           ),
