@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:notes/src/data/coffee_tasting_repository.dart';
 import 'package:notes/src/data/model/coffee_tasting.dart';
+import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
+import 'package:notes/src/data/note_repository.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -13,19 +17,27 @@ part 'tasting_list_event.dart';
 part 'tasting_list_state.dart';
 
 class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
-  TastingListBloc() : super(TastingListInitialized()) {
+  TastingListBloc() : super(TastingListState()) {
     // Initialize the stream of past coffee tastings.
     refreshTastingsStream();
   }
 
   final coffeeTastingRepository = CoffeeTastingRepository();
   final wineTastingRepository = WineTastingRepository();
+  final notesRepository = NoteRepository();
+
+  Future<List<WineTasting>> _filteredWineTastings(TastingListState state) async {
+    var wineTastings = await wineTastingRepository.getWineTastings();
+
+    return wineTastings.where((e) {
+      return e.toMap().toString().contains(state.keywordSearchTerm);
+    }).toList();
+  }
 
   @override
   Stream<TastingListState> mapEventToState(
     TastingListEvent event,
   ) async* {
-    // TODO: implement mapEventToState
     // Always yield default state.
     // If a filter event comes in, filter the state. (or sort, or whatever)
     // Otherwise get and yield everything.
@@ -34,7 +46,21 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
     if (event is InitTastings) {
       // TODO: Deprecate coffee, it deserves its own app.
       refreshWineTastingsStream();
-      yield TastingListInitialized();
+      yield TastingListState();
+    } else if (event is FilterBySearchTermEvent) {
+      // Filter tastings by whether they contain the note.
+      // 1. Retrieve all the wine tastings that are currently being streamed.
+      var newState = state.copyWith(keywordSearchTerm: event.keywordSearchTerm);
+
+      // 2. Apply the newly-added filter.
+      var filteredWineTastings = await _filteredWineTastings(newState);
+
+      // Update the wine tastings output stream so subscribing pages can update.
+      if (!listEquals(_getWineTastingsController.value, filteredWineTastings)) {
+        _inWineTastings.add(filteredWineTastings);
+      }
+
+      yield newState;
     }
   }
 

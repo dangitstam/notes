@@ -37,41 +37,26 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
 
           var tastings = snapshot.data;
           if (tastings.isEmpty) {
-            return NoTastingsYetWidget();
+            return CustomScrollView(
+              slivers: <Widget>[
+                // Add the app bar to the CustomScrollView.
+                SliverPadding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  sliver: TastingListViewAppBar(),
+                ),
+                SliverFillRemaining(
+                  child: NoTastingsYetWidget(),
+                )
+              ],
+            );
           }
 
           return CustomScrollView(
             slivers: <Widget>[
               // Add the app bar to the CustomScrollView.
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                centerTitle: false,
-                elevation: 2,
-                forceElevated: true,
-                backgroundColor: Theme.of(context).colorScheme.background,
-                pinned: true,
-                title: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Tastings'.toUpperCase(),
-                        style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(CupertinoIcons.search, color: Colors.black, size: 30),
-                    ),
-                    const SizedBox(width: 17),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/new-wine-tasting');
-                      },
-                      child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 30),
-                    ),
-                  ],
-                ),
+              SliverPadding(
+                padding: EdgeInsets.only(top: 10.0),
+                sliver: TastingListViewAppBar(),
               ),
               SliverAppBar(
                 title: Row(
@@ -118,7 +103,6 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
                           TextSpan(
                             text: 'Add Filters',
                             style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            recognizer: TapGestureRecognizer()..onTap = () {},
                           ),
                         ],
                       ),
@@ -167,6 +151,116 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
           return Text('loading');
         }
       },
+    );
+  }
+}
+
+class TastingListViewAppBar extends StatefulWidget {
+  @override
+  _TastingListViewAppBarState createState() => _TastingListViewAppBarState();
+}
+
+class _TastingListViewAppBarState extends State<TastingListViewAppBar> with TickerProviderStateMixin {
+  bool _searching = false;
+
+  // Define the focus node. To manage the lifecycle, create the FocusNode in
+  // the initState method, and clean it up in the dispose method.
+  FocusNode searchTextFieldFocusNode;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    searchTextFieldFocusNode = FocusNode();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double searchTextFieldOpacity = _searching ? 1.0 : 0;
+
+    return SliverAppBar(
+      automaticallyImplyLeading: false,
+      centerTitle: false,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      pinned: true,
+      title: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Tastings'.toUpperCase(),
+                style: _searching
+                    ? Theme.of(context).textTheme.overline.copyWith(
+                          color: Colors.transparent,
+                          fontSize: 24,
+                        )
+                    : Theme.of(context).textTheme.overline.copyWith(
+                          fontSize: 24,
+                        ),
+                textAlign: TextAlign.start,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: AnimatedOpacity(
+                  opacity: searchTextFieldOpacity,
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.easeOut,
+                  child: TextFormField(
+                    focusNode: searchTextFieldFocusNode,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(
+                        CupertinoIcons.search,
+                        size: 20,
+                      ),
+                      isDense: true,
+                      hintText: 'Search past tastings...',
+                      counterText: '',
+                    ),
+                    onChanged: (value) {
+                      context.read<TastingListBloc>().add(FilterBySearchTermEvent(keywordSearchTerm: value));
+                    },
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    searchTextFieldFocusNode.requestFocus();
+                    _searching = true;
+                  });
+                },
+                child: Icon(CupertinoIcons.search, color: Colors.black, size: _searching ? 0 : 30),
+              ),
+              const SizedBox(width: 17),
+              _searching
+                  ? TextButton(
+                      style: Theme.of(context).outlinedButtonTheme.style,
+                      onPressed: () {
+                        setState(() {
+                          _searching = false;
+                          searchTextFieldFocusNode.unfocus();
+                        });
+                      },
+                      child: Text('Cancel'.toUpperCase()),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/new-wine-tasting');
+                      },
+                      child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 30),
+                    ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
