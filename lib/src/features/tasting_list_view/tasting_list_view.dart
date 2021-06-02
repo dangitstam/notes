@@ -37,115 +37,121 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
 
           var tastings = snapshot.data;
           if (tastings.isEmpty) {
-            return CustomScrollView(
+            return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  // Add the app bar to the CustomScrollView.
+                  SliverPadding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    sliver: TastingListViewAppBar(),
+                  ),
+                  SliverFillRemaining(
+                    child: NoTastingsYetWidget(),
+                  )
+                ],
+              ),
+            );
+          }
+
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: CustomScrollView(
               slivers: <Widget>[
                 // Add the app bar to the CustomScrollView.
                 SliverPadding(
                   padding: EdgeInsets.only(top: 10.0),
                   sliver: TastingListViewAppBar(),
                 ),
-                SliverFillRemaining(
-                  child: NoTastingsYetWidget(),
-                )
+                SliverAppBar(
+                  title: Row(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.caption,
+                          children: [
+                            WidgetSpan(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: Icon(
+                                  CupertinoIcons.arrow_up_arrow_down,
+                                  size: 16,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'By Recent',
+                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                              recognizer: TapGestureRecognizer()..onTap = () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.caption,
+                          children: [
+                            WidgetSpan(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: Icon(
+                                  CupertinoIcons.plus,
+                                  size: 16,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Add Filters',
+                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 17),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).colorScheme.primary),
+                      ),
+                    ],
+                  ),
+                  automaticallyImplyLeading: false,
+                  centerTitle: false,
+                  elevation: 0,
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                ),
+                // Next, create a SliverList
+                SliverList(
+                  // Use a delegate to build items as they're scrolled on screen.
+                  delegate: SliverChildBuilderDelegate(
+                    // The builder function returns a ListTile with a title that
+                    // displays the index of the current item.
+                    (BuildContext _context, int index) {
+                      if (tastings != null && index < tastings.length) {
+                        return Column(
+                          children: [
+                            Padding(
+                              // Fencepost the padding to keep the first element close to the sorting/filtering buttons.
+                              padding: index == 0 ? EdgeInsets.only(bottom: 17) : EdgeInsets.symmetric(vertical: 17),
+                              child: WineTastingListItem(tasting: tastings[index]),
+                            ),
+                            // Only render a divider between elements.
+                            index >= 0 && index < tastings.length - 1 ? Divider() : Container(),
+                          ],
+                        );
+                      }
+                      return Container();
+                    },
+                    // Builds 1000 ListTiles
+                    childCount: tastings == null ? 0 : tastings.length,
+                  ),
+                ),
               ],
-            );
-          }
-
-          return CustomScrollView(
-            slivers: <Widget>[
-              // Add the app bar to the CustomScrollView.
-              SliverPadding(
-                padding: EdgeInsets.only(top: 10.0),
-                sliver: TastingListViewAppBar(),
-              ),
-              SliverAppBar(
-                title: Row(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.caption,
-                        children: [
-                          WidgetSpan(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
-                              child: Icon(
-                                CupertinoIcons.arrow_up_arrow_down,
-                                size: 16,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'By Recent',
-                            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            recognizer: TapGestureRecognizer()..onTap = () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.caption,
-                        children: [
-                          WidgetSpan(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
-                              child: Icon(
-                                CupertinoIcons.plus,
-                                size: 16,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Add Filters',
-                            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 17),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).colorScheme.primary),
-                    ),
-                  ],
-                ),
-                automaticallyImplyLeading: false,
-                centerTitle: false,
-                elevation: 0,
-                backgroundColor: Theme.of(context).colorScheme.background,
-              ),
-              // Next, create a SliverList
-              SliverList(
-                // Use a delegate to build items as they're scrolled on screen.
-                delegate: SliverChildBuilderDelegate(
-                  // The builder function returns a ListTile with a title that
-                  // displays the index of the current item.
-                  (BuildContext _context, int index) {
-                    if (tastings != null && index < tastings.length) {
-                      return Column(
-                        children: [
-                          Padding(
-                            // Fencepost the padding to keep the first element close to the sorting/filtering buttons.
-                            padding: index == 0 ? EdgeInsets.only(bottom: 17) : EdgeInsets.symmetric(vertical: 17),
-                            child: WineTastingListItem(tasting: tastings[index]),
-                          ),
-                          // Only render a divider between elements.
-                          index >= 0 && index < tastings.length - 1 ? Divider() : Container(),
-                        ],
-                      );
-                    }
-                    return Container();
-                  },
-                  // Builds 1000 ListTiles
-                  childCount: tastings == null ? 0 : tastings.length,
-                ),
-              ),
-            ],
+            ),
           );
         } else {
           return Text('loading');
@@ -245,8 +251,10 @@ class _TastingListViewAppBarState extends State<TastingListViewAppBar> with Tick
                       style: Theme.of(context).outlinedButtonTheme.style,
                       onPressed: () {
                         setState(() {
-                          _searching = false;
+                          // Undo search term.
+                          context.read<TastingListBloc>().add(FilterBySearchTermEvent(keywordSearchTerm: ''));
                           searchTextFieldFocusNode.unfocus();
+                          _searching = false;
                         });
                       },
                       child: Text('Cancel'.toUpperCase()),

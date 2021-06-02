@@ -29,9 +29,14 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
   Future<List<WineTasting>> _filteredWineTastings(TastingListState state) async {
     var wineTastings = await wineTastingRepository.getWineTastings();
 
-    return wineTastings.where((e) {
-      return e.toMap().toString().contains(state.keywordSearchTerm);
-    }).toList();
+    // Filter by keyword.
+    if (state.keywordSearchTerm != null && state.keywordSearchTerm.isNotEmpty) {
+      wineTastings = wineTastings.where((e) {
+        return e.toMap().toString().contains(state.keywordSearchTerm);
+      }).toList();
+    }
+
+    return wineTastings;
   }
 
   @override
