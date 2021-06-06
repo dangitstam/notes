@@ -128,8 +128,6 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
                 SliverList(
                   // Use a delegate to build items as they're scrolled on screen.
                   delegate: SliverChildBuilderDelegate(
-                    // The builder function returns a ListTile with a title that
-                    // displays the index of the current item.
                     (BuildContext _context, int index) {
                       if (tastings != null && index < tastings.length) {
                         return Column(
@@ -146,7 +144,6 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
                       }
                       return Container();
                     },
-                    // Builds 1000 ListTiles
                     childCount: tastings == null ? 0 : tastings.length,
                   ),
                 ),
@@ -169,17 +166,15 @@ class TastingListViewAppBar extends StatefulWidget {
 class _TastingListViewAppBarState extends State<TastingListViewAppBar> with TickerProviderStateMixin {
   bool _searching = false;
 
-  // Define the focus node. To manage the lifecycle, create the FocusNode in
-  // the initState method, and clean it up in the dispose method.
+  // Define the focus node for the search text field, enabling the app bar to focus and unfocus the field.
+  // To manage the lifecycle, create the FocusNode in the initState method, and clean it up in the dispose method.
   FocusNode searchTextFieldFocusNode;
 
   final TextEditingController _searchTermController = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     searchTextFieldFocusNode = FocusNode();
   }
 
