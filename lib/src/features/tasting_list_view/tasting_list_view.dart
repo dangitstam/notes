@@ -173,6 +173,8 @@ class _TastingListViewAppBarState extends State<TastingListViewAppBar> with Tick
   // the initState method, and clean it up in the dispose method.
   FocusNode searchTextFieldFocusNode;
 
+  final TextEditingController _searchTermController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -218,6 +220,7 @@ class _TastingListViewAppBarState extends State<TastingListViewAppBar> with Tick
                   duration: Duration(milliseconds: 200),
                   curve: Curves.easeOut,
                   child: TextFormField(
+                    controller: _searchTermController,
                     focusNode: searchTextFieldFocusNode,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -254,6 +257,7 @@ class _TastingListViewAppBarState extends State<TastingListViewAppBar> with Tick
                           // Undo search term.
                           context.read<TastingListBloc>().add(FilterBySearchTermEvent(keywordSearchTerm: ''));
                           searchTextFieldFocusNode.unfocus();
+                          _searchTermController.clear();
                           _searching = false;
                         });
                       },
@@ -307,32 +311,3 @@ class NoTastingsYetWidget extends StatelessWidget {
     );
   }
 }
-
-// Expanded(
-//   child: TextFormField(
-//     decoration: InputDecoration(
-//       fillColor: Colors.grey.withAlpha(40),
-//       filled: true,
-//       isDense: true,
-//       contentPadding: EdgeInsets.zero,
-//       prefixIcon: Icon(
-//         CupertinoIcons.search,
-//         size: 20,
-//       ),
-//       border: OutlineInputBorder(
-//         borderSide: BorderSide(
-//           color: Colors.grey.withAlpha(40),
-//         ),
-//       ),
-//       enabledBorder: OutlineInputBorder(
-//         borderSide: BorderSide(
-//           color: Colors.grey.withAlpha(40),
-//         ),
-//       ),
-//       hintText: 'Search in past tastings',
-//       counterText: '',
-//     ),
-//     onChanged: (value) {},
-//     style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500),
-//   ),
-// ),
