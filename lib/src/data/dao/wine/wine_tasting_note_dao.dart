@@ -25,7 +25,7 @@ class WineTastingNoteDao {
           FROM wine_tasting_notes
           WHERE wine_tasting_id == $wineTastingId
         )
-        SELECT name, color
+        SELECT note_id, name, color
         FROM notes
         WHERE note_id in note_ids
         """);
