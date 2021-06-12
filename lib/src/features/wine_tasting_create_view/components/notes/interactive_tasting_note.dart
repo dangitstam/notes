@@ -23,15 +23,21 @@ class _AddTastingNoteState extends State<AddTastingNote> {
   Widget build(BuildContext context) {
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (BuildContext context, WineTastingCreateState state) {
-        if (!state.tasting.notes.contains(widget.note)) {
-          _enabled = true;
+        // Defer triggering the change to the note widget's state until it is known
+        // that the note has been added or removed.
+        if (_enabled != !state.tasting.notes.contains(widget.note)) {
+          setState(() {
+            _enabled = !state.tasting.notes.contains(widget.note);
+          });
         }
       },
       child: ActionChip(
         onPressed: _enabled
             ? () {
                 context.read<WineTastingCreateBloc>().add(AddWineTastingNoteEvent(note: widget.note));
-                _enabled = false;
+                setState(() {
+                  _enabled = false;
+                });
               }
             : () {},
         label: Text(

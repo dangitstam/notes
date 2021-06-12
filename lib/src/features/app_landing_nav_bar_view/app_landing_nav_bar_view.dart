@@ -60,75 +60,6 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        bottom: PreferredSize(
-          child: Container(
-            color: Colors.black38,
-            height: 0.20,
-          ),
-          preferredSize: Size.fromHeight(0.5),
-        ),
-        centerTitle: false,
-        elevation: 0,
-        title: Text(
-          'Notes'.toUpperCase(),
-          style: Theme.of(context).textTheme.overline.copyWith(fontSize: 24),
-        ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () {
-                _auth.signOut();
-              },
-              child: Icon(CupertinoIcons.gear, color: Colors.black, size: 35),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () {
-                showModalBottomSheet<void>(
-                  context: context,
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 40.0),
-                      child: Column(
-                        children: <Widget>[
-                          Text('What are we tasting?'.toUpperCase(), style: Theme.of(context).textTheme.headline6),
-                          const SizedBox(height: 40),
-                          TextButton(
-                            style: Theme.of(context).outlinedButtonTheme.style,
-                            child: Text('Coffee'.toUpperCase()),
-                            onPressed: () {
-                              // Dismiss the modal before navigating.
-                              Navigator.pop(context);
-                              Navigator.pushNamed(context, '/new-coffee-tasting');
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          TextButton(
-                            style: Theme.of(context).outlinedButtonTheme.style,
-                            child: Text('Wine'.toUpperCase()),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pushNamed(context, '/new-wine-tasting');
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 35),
-            ),
-          ),
-        ],
-      ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 30,
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -151,13 +82,15 @@ class _AppLandingScreenState extends State<AppLandingScreen> {
         unselectedItemColor: Theme.of(context).colorScheme.onSurface.withAlpha(150),
         onTap: _onItemTapped,
       ),
-      body: SizedBox.expand(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
-            setState(() => _selectedIndex = index);
-          },
-          children: _widgetOptions,
+      body: SafeArea(
+        child: SizedBox.expand(
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() => _selectedIndex = index);
+            },
+            children: _widgetOptions,
+          ),
         ),
       ),
     );
