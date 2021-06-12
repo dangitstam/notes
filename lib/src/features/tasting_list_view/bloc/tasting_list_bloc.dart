@@ -18,7 +18,7 @@ part 'tasting_list_state.dart';
 
 class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
   TastingListBloc() : super(TastingListState()) {
-    // Initialize the stream of past coffee tastings.
+    // Initialize the stream of past tastings.
     refreshTastingsStream();
   }
 
@@ -53,11 +53,8 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
       refreshWineTastingsStream();
       yield TastingListState();
     } else if (event is FilterBySearchTermEvent) {
-      // Filter tastings by whether they contain the note.
-      // 1. Retrieve all the wine tastings that are currently being streamed.
+      // Filter tastings by whether they contain the search term.
       var newState = state.copyWith(keywordSearchTerm: event.keywordSearchTerm);
-
-      // 2. Apply the newly-added filter.
       var filteredWineTastings = await _filteredWineTastings(newState);
 
       // Update the wine tastings output stream so subscribing pages can update.

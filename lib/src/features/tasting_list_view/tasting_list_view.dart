@@ -63,67 +63,7 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
                   padding: EdgeInsets.only(top: 10.0),
                   sliver: TastingListViewAppBar(),
                 ),
-                SliverAppBar(
-                  title: Row(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.caption,
-                          children: [
-                            WidgetSpan(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: Icon(
-                                  CupertinoIcons.arrow_up_arrow_down,
-                                  size: 16,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'By Recent',
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                              recognizer: TapGestureRecognizer()..onTap = () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.caption,
-                          children: [
-                            WidgetSpan(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5.0),
-                                child: Icon(
-                                  CupertinoIcons.plus,
-                                  size: 16,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Add Filters',
-                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 17),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).colorScheme.primary),
-                      ),
-                    ],
-                  ),
-                  automaticallyImplyLeading: false,
-                  centerTitle: false,
-                  elevation: 0,
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                ),
+                TastingListFilterSortViewBar(),
                 // Next, create a SliverList
                 SliverList(
                   // Use a delegate to build items as they're scrolled on screen.
@@ -158,6 +98,7 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
   }
 }
 
+/// The main app bar that displays the current page title, while enabling free text search and starting new tastings.
 class TastingListViewAppBar extends StatefulWidget {
   @override
   _TastingListViewAppBarState createState() => _TastingListViewAppBarState();
@@ -268,6 +209,75 @@ class _TastingListViewAppBarState extends State<TastingListViewAppBar> with Tick
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Enables users to sort and filter their past tastings, while also toggling the current viewing mode.
+/// Users can view their tastings in a compressed view, a card view, or as an image gallery.
+class TastingListFilterSortViewBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      title: Row(
+        children: [
+          RichText(
+            text: TextSpan(
+              style: Theme.of(context).textTheme.caption,
+              children: [
+                WidgetSpan(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      CupertinoIcons.arrow_up_arrow_down,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+                TextSpan(
+                  text: 'By Recent',
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                  recognizer: TapGestureRecognizer()..onTap = () {},
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          RichText(
+            text: TextSpan(
+              style: Theme.of(context).textTheme.caption,
+              children: [
+                WidgetSpan(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: Icon(
+                      CupertinoIcons.plus,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+                TextSpan(
+                  text: 'Add Filters',
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 17),
+          GestureDetector(
+            onTap: () {},
+            child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).colorScheme.primary),
+          ),
+        ],
+      ),
+      automaticallyImplyLeading: false,
+      centerTitle: false,
+      elevation: 0,
+      backgroundColor: Theme.of(context).colorScheme.background,
     );
   }
 }
