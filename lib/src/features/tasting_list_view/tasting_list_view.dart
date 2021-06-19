@@ -268,16 +268,70 @@ class TastingListFilterSortViewBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 17),
-          GestureDetector(
-            onTap: () {},
-            child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).colorScheme.primary),
-          ),
+          ToggleTastingListView(),
         ],
       ),
       automaticallyImplyLeading: false,
       centerTitle: false,
       elevation: 0,
       backgroundColor: Theme.of(context).colorScheme.background,
+    );
+  }
+}
+
+enum view { card, compressed }
+
+/// Allows the user to toggle between a compressed and relaxed view of the list of tastings.
+class ToggleTastingListView extends StatefulWidget {
+  const ToggleTastingListView({Key key}) : super(key: key);
+
+  @override
+  _ToggleTastingListViewState createState() => _ToggleTastingListViewState();
+}
+
+class _ToggleTastingListViewState extends State<ToggleTastingListView> {
+  view currentView = view.card;
+
+  @override
+  Widget build(BuildContext context) {
+    var viewIcon;
+    switch (currentView) {
+      case view.card:
+        viewIcon = Icon(CupertinoIcons.rectangle_grid_1x2_fill, color: Theme.of(context).colorScheme.primary);
+        break;
+      default:
+        viewIcon = RotatedBox(
+          quarterTurns: 1,
+          child: Icon(CupertinoIcons.rectangle_split_3x1, color: Theme.of(context).colorScheme.primary),
+        );
+        break;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          isScrollControlled: true,
+          context: context,
+          builder: (context) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 30.0),
+              child: Wrap(
+                children: [
+                  ListTile(
+                    leading: Icon(CupertinoIcons.rectangle_grid_1x2_fill, color: Theme.of(context).colorScheme.primary),
+                    title: Text('Card View', style: Theme.of(context).textTheme.bodyText2),
+                  ),
+                  ListTile(
+                    leading: Icon(CupertinoIcons.line_horizontal_3, color: Theme.of(context).colorScheme.primary),
+                    title: Text('Compressed View', style: Theme.of(context).textTheme.bodyText2),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: viewIcon,
     );
   }
 }
