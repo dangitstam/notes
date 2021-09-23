@@ -14,6 +14,7 @@ import 'package:notes/src/data/model/note_category.dart';
 import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/note_repository.dart';
+import 'package:notes/src/data/slider_repository.dart';
 import 'package:notes/src/data/varietal_repository.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
 import 'package:path/path.dart' show basename;
@@ -27,6 +28,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   final wineTastingRepository = WineTastingRepository();
   final noteRepository = NoteRepository();
   final varietalRepository = VarietalRepository();
+  final sliderRepository = SliderRepository();
 
   WineTastingCreateBloc({
     WineTasting initTasting,
