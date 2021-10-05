@@ -150,6 +150,26 @@ class AddTanninIntensityEvent extends WineTastingCreateEvent {
   AddTanninIntensityEvent({this.tanninIntensity});
 }
 
+class AddNewCharacteristic extends WineTastingCreateEvent {
+  @required
+  final String name;
+
+  final String minLabel;
+  final String maxLabel;
+  final double minValue;
+  final double maxValue;
+
+  AddNewCharacteristic({this.name, this.minLabel, this.maxLabel, this.minValue, this.maxValue});
+}
+
+class EditCharacteristic extends WineTastingCreateEvent {
+  @required
+  final String name;
+  final double value;
+
+  EditCharacteristic({this.name, this.value});
+}
+
 /// Exit: Characteristics.
 
 class AddImageEvent extends WineTastingCreateEvent {

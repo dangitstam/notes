@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/tasting.dart';
+import 'package:notes/src/data/model/wine/characteristic.dart';
 import 'package:notes/src/data/model/wine/varietal.dart';
 
 /// A wine tasting containing metadata and personal notes on a wine's qualities.
@@ -9,6 +10,7 @@ import 'package:notes/src/data/model/wine/varietal.dart';
 /// This data model is shared by both the remote and local storage solutions for this app.
 /// [imageFileName] is only used when dealing with local storage, while [imageUrl] is only used for remote storage.
 class WineTasting extends Equatable implements Tasting {
+  // Don't forget to update props everytime a new field is added!
   final int wineTastingId;
   final String name;
   final String description;
@@ -35,6 +37,7 @@ class WineTasting extends Equatable implements Tasting {
   final double tannin;
   final double body;
 
+  final List<Characteristic> characteristics;
   final String imageFileName;
   final String imageUrl;
 
@@ -65,6 +68,7 @@ class WineTasting extends Equatable implements Tasting {
     this.sweetness,
     this.tannin,
     this.body,
+    this.characteristics,
 
     // Image chosen for the tasting.
     this.imageFileName,
@@ -101,6 +105,8 @@ class WineTasting extends Equatable implements Tasting {
       tannin: tastingMap['tannin'],
       body: tastingMap['body'],
 
+      characteristics: tastingMap['characteristics'].map((c) => Characteristic.fromAppDatabase(c)).toList(),
+
       // Image chosen for the tasting.
       imageFileName: tastingMap['image_file_name'],
       story: tastingMap['story'],
@@ -128,6 +134,15 @@ class WineTasting extends Equatable implements Tasting {
         var noteId = note['note_id'];
         notes.add(Note(name: name, color: color, id: noteId));
       }
+    }
+
+    List<Characteristic> characteristics;
+    if (wineDoc.data().containsKey('characteristics') && wineDoc['characteristics'] is List) {
+      characteristics = wineDoc['characteristics']
+          .map<Characteristic>(
+            (c) => Characteristic.fromAppDatabase(c),
+          )
+          .toList();
     }
 
     return WineTasting(
@@ -164,6 +179,8 @@ class WineTasting extends Equatable implements Tasting {
       tannin: wineDoc['tannin'],
       body: wineDoc['body'],
       imageUrl: wineDoc['image_url'],
+
+      characteristics: characteristics,
     );
   }
 
@@ -171,6 +188,7 @@ class WineTasting extends Equatable implements Tasting {
   /// Invariant: `notes` is stored as a serialized list of strings.
   Map<String, dynamic> toMap() {
     // TODO: Allow the id to be generated for now.
+
     return {
       'name': name,
       'description': description,
@@ -197,6 +215,7 @@ class WineTasting extends Equatable implements Tasting {
       'body': body,
       'sweetness': sweetness,
       'tannin': tannin,
+      'characteristics': characteristics.map((c) => c.toMap()).toList(),
       'image_file_name': imageFileName,
       'image_url': imageUrl,
       'story': story,
@@ -256,6 +275,7 @@ class WineTasting extends Equatable implements Tasting {
     double sweetness,
     double tannin,
     double body,
+    List<Characteristic> characteristics,
     List<Note> notes,
     String imageFileName,
     String imageUrl,
@@ -282,6 +302,7 @@ class WineTasting extends Equatable implements Tasting {
       sweetness: sweetness ?? this.sweetness,
       tannin: tannin ?? this.tannin,
       body: body ?? this.body,
+      characteristics: characteristics ?? this.characteristics,
       notes: notes ?? this.notes,
       imageFileName: imageFileName ?? this.imageFileName,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -310,6 +331,7 @@ class WineTasting extends Equatable implements Tasting {
         acidity,
         sweetness,
         tannin,
+        characteristics,
         body,
         notes,
         imageFileName,

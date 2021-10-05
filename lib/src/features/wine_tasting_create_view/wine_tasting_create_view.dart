@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
 import 'package:notes/src/common/widgets/tasting_note.dart';
+import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/common/wine_utils.dart';
+import 'package:notes/src/data/model/slider/slider.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/section_title.dart';
@@ -347,7 +349,240 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
+                StreamBuilder(
+                  stream: BlocProvider.of<WineTastingCreateBloc>(context).sliders,
+                  builder: (BuildContext context, AsyncSnapshot<List<CustomSlider>> snapshot) {
+                    var customSliders = snapshot.data;
+                    return Text(customSliders.toString());
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                      style: Theme.of(context).outlinedButtonTheme.style,
+                      child: Text('Add New Characteristic'.toUpperCase()),
+                      onPressed: () {
+                        var wineTastingBloc = context.read<WineTastingCreateBloc>();
+
+                        showModalBottomSheet<void>(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (BuildContext context) {
+                            var name = 'Acidity';
+                            var minLabel = 'Low';
+                            var maxLabel = 'High';
+                            var minValue = 0.0;
+                            var maxValue = 10.0;
+                            var sliderValue = 0.0;
+
+                            return StatefulBuilder(builder: (BuildContext context, StateSetter modalState) {
+                              return GestureDetector(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Wrap(
+                                    runSpacing: 20,
+                                    children: <Widget>[
+                                      ListTile(
+                                        title: Text(
+                                          'New Characteristic',
+                                          style: Theme.of(context).textTheme.bodyText2,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      EditableTextWithCaptionWidget(
+                                        hint: 'Acidity, Sweetness, Body...',
+                                        label: 'Name',
+                                        onChanged: (value) {
+                                          modalState(() {
+                                            name = value;
+                                          });
+                                        },
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                EditableTextWithCaptionWidget(
+                                                  hint: 'Low, Weak, Less Intense...',
+                                                  label: 'Minimum Label',
+                                                  onChanged: (value) {
+                                                    modalState(() {
+                                                      minLabel = value;
+                                                    });
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                EditableTextWithCaptionWidget(
+                                                  hint: 'High, Strong, More Intense...',
+                                                  label: 'Maximum Label',
+                                                  onChanged: (value) {
+                                                    modalState(() {
+                                                      maxLabel = value;
+                                                    });
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Minimum Value'.toUpperCase(),
+                                                      style:
+                                                          Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10),
+                                                TextFormField(
+                                                  autovalidateMode: AutovalidateMode.always,
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    hintText: '0',
+                                                    labelText: 'Min value',
+                                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                    counterText: '',
+                                                  ),
+
+                                                  // Restrict input to numeric, room for 4 digits.
+                                                  keyboardType: TextInputType.number,
+                                                  maxLength: 4,
+                                                  style: Theme.of(context).textTheme.bodyText2,
+                                                  onChanged: (value) {},
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'Maximum Value'.toUpperCase(),
+                                                      style:
+                                                          Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10),
+                                                TextFormField(
+                                                  autovalidateMode: AutovalidateMode.always,
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    hintText: '10',
+                                                    labelText: 'Max value',
+                                                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                                                    counterText: '',
+                                                  ),
+
+                                                  // Restrict input to numeric, room for 4 digits.
+                                                  keyboardType: TextInputType.number,
+                                                  maxLength: 4,
+                                                  style: Theme.of(context).textTheme.bodyText2,
+                                                  onChanged: (value) {},
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 20, bottom: 10),
+                                            child: Text(
+                                              '(Preview)',
+                                              style: Theme.of(context).textTheme.bodyText2,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(name.toUpperCase(), style: Theme.of(context).textTheme.overline),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '$minLabel',
+                                            style: Theme.of(context).textTheme.bodyText2,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                            child: ThemedPaddedSlider(
+                                              child: Slider(
+                                                value: sliderValue,
+                                                min: 0,
+                                                max: 10,
+                                                onChanged: (value) {
+                                                  modalState(() {
+                                                    sliderValue = value;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            '$maxLabel',
+                                            style: Theme.of(context).textTheme.bodyText2,
+                                          ),
+                                        ],
+                                      ),
+                                      Center(
+                                        child: TextButton(
+                                          style: Theme.of(context).textButtonTheme.style,
+                                          onPressed: () {
+                                            wineTastingBloc.add(
+                                              AddNewCharacteristic(
+                                                name: name,
+                                                minLabel: minLabel,
+                                                maxLabel: maxLabel,
+                                                minValue: minValue,
+                                                maxValue: maxValue,
+                                              ),
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Create Characteristic'.toUpperCase()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
