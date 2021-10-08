@@ -54,7 +54,7 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
     var wineTastingBloc = context.read<WineTastingCreateBloc>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: StreamBuilder(
         stream: wineTastingBloc.sliders,
         builder: (BuildContext context, AsyncSnapshot<List<CustomSlider>> snapshot) {
@@ -65,54 +65,61 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
               children: [
                 SectionTitle(sectionNumber: 2, title: 'Characteristics'),
                 SizedBox(height: 20),
-                Text(
-                  'Tap or drag to mark the intensity of a characteristic on a scale of zero to six.',
-                  style: Theme.of(context).textTheme.caption,
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: Text(
+                    'Tap or drag to mark the intensity of a characteristic on a scale of zero to six.',
+                    style: Theme.of(context).textTheme.caption,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 SizedBox(height: 30),
                 Expanded(
-                  child: ListView.separated(
-                    // Disable vertical scrolling so that it doesn't interfere with dragging horizontally.
-                    physics: const NeverScrollableScrollPhysics(),
+                  child: Scrollbar(
+                    isAlwaysShown: true,
+                    child: ListView.separated(
+                      // Disable vertical scrolling so that it doesn't interfere with dragging horizontally.
+                      // physics: const NeverScrollableScrollPhysics(),
 
-                    itemBuilder: (context, index) {
-                      // var onChanged = characteristics[index]['on_changed'];
+                      itemBuilder: (context, index) {
+                        // var onChanged = characteristics[index]['on_changed'];
 
-                      var characteristicName = sliders[index].name;
+                        var characteristicName = sliders[index].name;
 
-                      var initialValue;
-                      if (wineTastingBloc.characteristics != null &&
-                          wineTastingBloc.characteristics.containsKey(characteristicName) &&
-                          wineTastingBloc.characteristics[characteristicName] != null) {
-                        initialValue = wineTastingBloc.characteristics[characteristicName].value;
-                      }
+                        var initialValue;
+                        if (wineTastingBloc.characteristics != null &&
+                            wineTastingBloc.characteristics.containsKey(characteristicName) &&
+                            wineTastingBloc.characteristics[characteristicName] != null) {
+                          initialValue = wineTastingBloc.characteristics[characteristicName].value;
+                        }
 
-                      initialValue ??= sliders[index].min_value;
+                        initialValue ??= 0.0;
 
-                      print(initialValue);
-
-                      return Column(
-                        children: [
-                          CharacteristicStrengthWidget(
-                            name: characteristicName,
-                            initialValue: initialValue,
-                            onChanged: (value) {
-                              context.read<WineTastingCreateBloc>().add(
-                                    EditCharacteristic(
-                                      name: characteristicName,
-                                      value: value,
-                                    ),
-                                  );
-                            },
-                            weakLabel: sliders[index].minLabel,
-                            strongLabel: sliders[index].maxLabel,
-                          ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (context, index) => Divider(height: 50),
-                    itemCount: sliders.length,
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                              child: CharacteristicStrengthWidget(
+                                name: characteristicName,
+                                initialValue: initialValue,
+                                onChanged: (value) {
+                                  context.read<WineTastingCreateBloc>().add(
+                                        EditCharacteristic(
+                                          name: characteristicName,
+                                          value: value,
+                                        ),
+                                      );
+                                },
+                                weakLabel: sliders[index].minLabel,
+                                strongLabel: sliders[index].maxLabel,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (context, index) => Divider(height: 50),
+                      itemCount: sliders.length,
+                    ),
                   ),
                 ),
                 Row(
@@ -128,6 +135,7 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 50),
               ],
             );
           }
@@ -146,8 +154,6 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
         var name = 'Acidity';
         var minLabel = 'Low';
         var maxLabel = 'High';
-        var minValue = 0.0;
-        var maxValue = 10.0;
         var sliderValue = 0.0;
 
         return StatefulBuilder(builder: (BuildContext context, StateSetter modalState) {
@@ -334,8 +340,6 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
                             name: name,
                             minLabel: minLabel,
                             maxLabel: maxLabel,
-                            minValue: minValue,
-                            maxValue: maxValue,
                           ),
                         );
                         Navigator.pop(context);

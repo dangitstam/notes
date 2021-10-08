@@ -156,10 +156,8 @@ class AddNewCharacteristic extends WineTastingCreateEvent {
 
   final String minLabel;
   final String maxLabel;
-  final double minValue;
-  final double maxValue;
 
-  AddNewCharacteristic({this.name, this.minLabel, this.maxLabel, this.minValue, this.maxValue});
+  AddNewCharacteristic({this.name, this.minLabel, this.maxLabel});
 }
 
 class EditCharacteristic extends WineTastingCreateEvent {

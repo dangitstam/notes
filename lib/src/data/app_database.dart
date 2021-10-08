@@ -208,9 +208,7 @@ Future<void> _createSliderMetadataTable(Database db) {
       slider_id INTEGER PRIMARY KEY,
       name TEXT,
       left_label TEXT,
-      right_label TEXT,
-      min_value REAL,
-      max_value REAL)
+      right_label TEXT)
     """,
   );
 }

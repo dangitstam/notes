@@ -5,14 +5,12 @@ class CustomSlider extends Equatable {
   final String name;
   final String minLabel;
   final String maxLabel;
-  final double min_value;
-  final double max_value;
 
-  CustomSlider({this.id, this.name, this.minLabel, this.maxLabel, this.min_value, this.max_value});
+  CustomSlider({this.id, this.name, this.minLabel, this.maxLabel});
 
   @override
   String toString() {
-    return '$name $minLabel $maxLabel $min_value $max_value';
+    return '$name $minLabel $maxLabel';
   }
 
   /// Given a Map<String, dynamic> resulting from querying a note
@@ -23,8 +21,6 @@ class CustomSlider extends Equatable {
       name: sliderMap['name'],
       minLabel: sliderMap['left_label'],
       maxLabel: sliderMap['right_label'],
-      min_value: sliderMap['min_value'],
-      max_value: sliderMap['max_value'],
     );
   }
 
@@ -34,11 +30,9 @@ class CustomSlider extends Equatable {
       'name': name,
       'left_label': minLabel,
       'right_label': maxLabel,
-      'min_value': min_value,
-      'max_value': max_value,
     };
   }
 
   @override
-  List<Object> get props => [id, name, minLabel, maxLabel, min_value, max_value];
+  List<Object> get props => [id, name, minLabel, maxLabel];
 }

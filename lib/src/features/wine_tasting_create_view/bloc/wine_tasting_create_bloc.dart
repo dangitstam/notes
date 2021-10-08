@@ -123,8 +123,6 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   Stream<List<CustomSlider>> get sliders => _getSlidersController.stream.asBroadcastStream();
 
   void refreshSlidersStreamAndCharacteristics() async {
-    print('REFRESHING SLIDERS');
-
     // Retrieve all the notes from the database.
     var sliders = await sliderRepository.getAllSliders();
 
@@ -363,8 +361,6 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
             name: event.name,
             minLabel: event.minLabel,
             maxLabel: event.maxLabel,
-            min_value: event.minValue,
-            max_value: event.maxValue,
           ),
         ),
       );
@@ -376,8 +372,6 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       characteristics[event.name] = characteristics[event.name].copyWith(
         value: event.value,
       );
-
-      print(state.tasting.characteristics);
 
       yield state.copyWith(
         tasting: state.tasting.copyWith(
