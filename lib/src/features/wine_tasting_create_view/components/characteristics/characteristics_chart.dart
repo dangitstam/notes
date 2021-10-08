@@ -12,7 +12,7 @@ class CharacteristicsChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (tasting.characteristics == null || tasting.characteristics.isEmpty) {
-      return Text('No tasting notes selected.');
+      return Text('No characteristics have been set.');
     }
 
     return WineCriteriaBarChart(
