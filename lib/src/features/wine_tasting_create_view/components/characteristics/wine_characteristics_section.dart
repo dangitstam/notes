@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
-import 'package:notes/src/common/widgets/themed_padded_slider.dart';
 import 'package:notes/src/data/model/slider/slider.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 
@@ -164,14 +163,22 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Wrap(
-                runSpacing: 20,
+                runSpacing: 30,
                 children: <Widget>[
                   ListTile(
-                    title: Text(
-                      'New Characteristic',
-                      style: Theme.of(context).textTheme.bodyText2,
-                      textAlign: TextAlign.center,
-                    ),
+                    title: Column(children: [
+                      Text(
+                        'New Characteristic',
+                        style: Theme.of(context).textTheme.bodyText2,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Create a new characteristic by giving it a name and labels for its extremes.',
+                        style: Theme.of(context).textTheme.caption,
+                        textAlign: TextAlign.center,
+                      ),
+                    ]),
                   ),
                   EditableTextWithCaptionWidget(
                     hint: 'Acidity, Sweetness, Body...',
@@ -219,46 +226,17 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 10),
-                        child: Text(
-                          '(Preview)',
-                          style: Theme.of(context).textTheme.bodyText2,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(height: 10),
-                  Text(name.toUpperCase(), style: Theme.of(context).textTheme.overline),
                   Row(
                     children: [
-                      Text(
-                        '$minLabel',
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
-                      const SizedBox(width: 10),
                       Expanded(
-                        child: ThemedPaddedSlider(
-                          child: Slider(
-                            value: sliderValue,
-                            min: 0,
-                            max: 10,
-                            onChanged: (value) {
-                              modalState(() {
-                                sliderValue = value;
-                              });
-                            },
-                          ),
+                        child: CharacteristicStrengthWidget(
+                          name: name,
+                          initialValue: 0,
+                          onChanged: (value) {},
+                          weakLabel: minLabel,
+                          strongLabel: maxLabel,
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        '$maxLabel',
-                        style: Theme.of(context).textTheme.bodyText2,
                       ),
                     ],
                   ),
