@@ -347,6 +347,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                     ),
                   ],
                 ),
+                const SizedBox(height: 30),
               ],
             ),
           ),
