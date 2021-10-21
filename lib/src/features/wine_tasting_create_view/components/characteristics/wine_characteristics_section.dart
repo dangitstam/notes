@@ -53,7 +53,7 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
     var wineTastingBloc = context.read<WineTastingCreateBloc>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.only(top: 10.0, bottom: 50.0),
       child: StreamBuilder(
         stream: wineTastingBloc.sliders,
         builder: (BuildContext context, AsyncSnapshot<List<CustomSlider>> snapshot) {
@@ -134,7 +134,6 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 50),
               ],
             );
           }
