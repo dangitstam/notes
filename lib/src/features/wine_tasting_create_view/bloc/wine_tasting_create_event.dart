@@ -126,6 +126,7 @@ class AddVintageEvent extends WineTastingCreateEvent {
 }
 
 /// Enter: Characteristics.
+/// TODO: Remove events related to legacy characteristics.
 class AddAcidityIntensityEvent extends WineTastingCreateEvent {
   @required
   final double acidityIntensity;
