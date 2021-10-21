@@ -14,7 +14,7 @@ class CustomSlider extends Equatable {
   }
 
   /// Given a Map<String, dynamic> resulting from querying a slider
-  /// from the `sliders` table, maps the result to a Note.
+  /// from the `sliders` table, maps the result to a `CustomSlider`.
   factory CustomSlider.fromAppDatabase(Map<String, dynamic> sliderMap) {
     return CustomSlider(
       id: sliderMap['slider_id'],
