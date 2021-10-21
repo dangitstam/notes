@@ -81,18 +81,15 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
                       // physics: const NeverScrollableScrollPhysics(),
 
                       itemBuilder: (context, index) {
-                        // var onChanged = characteristics[index]['on_changed'];
-
                         var characteristicName = sliders[index].name;
 
-                        var initialValue;
+                        // Collect the value for this characteristic if the user has already set it.
+                        var initialValue = 0.0;
                         if (wineTastingBloc.characteristics != null &&
                             wineTastingBloc.characteristics.containsKey(characteristicName) &&
-                            wineTastingBloc.characteristics[characteristicName] != null) {
+                            wineTastingBloc.characteristics[characteristicName].value != null) {
                           initialValue = wineTastingBloc.characteristics[characteristicName].value;
                         }
-
-                        initialValue ??= 0.0;
 
                         return Column(
                           children: [
