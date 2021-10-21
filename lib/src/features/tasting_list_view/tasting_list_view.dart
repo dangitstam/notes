@@ -29,7 +29,6 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
 
     // To access the tastings stored in Firebase:
     final String uid = Provider.of<User>(context, listen: false).uid;
-    // stream: FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings').snapshots(),
 
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings').snapshots(),
