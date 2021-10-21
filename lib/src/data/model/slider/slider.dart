@@ -13,8 +13,8 @@ class CustomSlider extends Equatable {
     return '$name $minLabel $maxLabel';
   }
 
-  /// Given a Map<String, dynamic> resulting from querying a note
-  /// from the `notes` table, maps the result to a Note.
+  /// Given a Map<String, dynamic> resulting from querying a slider
+  /// from the `sliders` table, maps the result to a Note.
   factory CustomSlider.fromAppDatabase(Map<String, dynamic> sliderMap) {
     return CustomSlider(
       id: sliderMap['slider_id'],
@@ -24,6 +24,7 @@ class CustomSlider extends Equatable {
     );
   }
 
+  /// Creates a map representation of this slider fit for insertion into the `sliders` table.
   Map<String, dynamic> toMap() {
     return {
       'slider_id': id,
