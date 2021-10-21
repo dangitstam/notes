@@ -136,7 +136,7 @@ class WineTasting extends Equatable implements Tasting {
       }
     }
 
-    List<Characteristic> characteristics;
+    List<Characteristic> characteristics = [];
     if (wineDoc.data().containsKey('characteristics') && wineDoc['characteristics'] is List) {
       characteristics = wineDoc['characteristics']
           .map<Characteristic>(
