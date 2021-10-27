@@ -123,7 +123,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   Stream<List<CustomSlider>> get sliders => _getSlidersController.stream.asBroadcastStream();
 
   void refreshSlidersStreamAndCharacteristics() async {
-    // Retrieve all the notes from the database.
+    // Retrieve all the custom sliders from the database.
     var sliders = await sliderRepository.getAllSliders();
 
     // TODO: To enable deletes, should probably re-init. characteristics to an empty map.
