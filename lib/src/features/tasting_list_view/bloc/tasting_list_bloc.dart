@@ -11,6 +11,7 @@ import 'package:notes/src/data/model/tasting.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/note_repository.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
+import 'package:notes/src/features/tasting_list_view/tastings_list_toggle_view.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'tasting_list_event.dart';
@@ -63,6 +64,8 @@ class TastingListBloc extends Bloc<TastingListEvent, TastingListState> {
       }
 
       yield newState;
+    } else if (event is ToggleTastingListViewMode) {
+      yield state.copyWith(viewMode: event.viewMode);
     }
   }
 

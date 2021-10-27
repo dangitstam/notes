@@ -10,3 +10,9 @@ class FilterBySearchTermEvent extends TastingListEvent {
   final String keywordSearchTerm;
   FilterBySearchTermEvent({this.keywordSearchTerm});
 }
+
+class ToggleTastingListViewMode extends TastingListEvent {
+  @required
+  final TastingListViewMode viewMode;
+  ToggleTastingListViewMode({this.viewMode});
+}

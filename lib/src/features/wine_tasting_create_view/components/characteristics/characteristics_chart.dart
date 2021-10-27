@@ -11,25 +11,15 @@ class CharacteristicsChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (tasting.characteristics == null || tasting.characteristics.isEmpty) {
+      return Text('No characteristics have been set.');
+    }
+
     return WineCriteriaBarChart(
-      children: [
-        WineCriteriaBarChartData(
-          criteriaLabel: 'Acidity',
-          intensity: tasting.acidity,
-        ),
-        WineCriteriaBarChartData(
-          criteriaLabel: 'Sweetness',
-          intensity: tasting.sweetness,
-        ),
-        WineCriteriaBarChartData(
-          criteriaLabel: 'Tannin',
-          intensity: tasting.tannin,
-        ),
-        WineCriteriaBarChartData(
-          criteriaLabel: 'Body',
-          intensity: tasting.body,
-        ),
-      ],
+      children: tasting.characteristics
+          .where((c) => c.value != null)
+          .map((c) => WineCriteriaBarChartData(criteriaLabel: c.name, intensity: c.value))
+          .toList(),
     );
   }
 }

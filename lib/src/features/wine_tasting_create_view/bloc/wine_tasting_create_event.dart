@@ -126,6 +126,7 @@ class AddVintageEvent extends WineTastingCreateEvent {
 }
 
 /// Enter: Characteristics.
+/// TODO: Remove events related to legacy characteristics.
 class AddAcidityIntensityEvent extends WineTastingCreateEvent {
   @required
   final double acidityIntensity;
@@ -148,6 +149,27 @@ class AddTanninIntensityEvent extends WineTastingCreateEvent {
   @required
   final double tanninIntensity;
   AddTanninIntensityEvent({this.tanninIntensity});
+}
+
+class AddNewCharacteristic extends WineTastingCreateEvent {
+  @required
+  final String name;
+
+  @required
+  final String minLabel;
+
+  @required
+  final String maxLabel;
+
+  AddNewCharacteristic({this.name, this.minLabel, this.maxLabel});
+}
+
+class EditCharacteristic extends WineTastingCreateEvent {
+  @required
+  final String name;
+  final double value;
+
+  EditCharacteristic({this.name, this.value});
 }
 
 /// Exit: Characteristics.

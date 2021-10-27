@@ -11,9 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:notes/src/data/model/note.dart';
 import 'package:notes/src/data/model/note_category.dart';
+import 'package:notes/src/data/model/slider/slider.dart';
+import 'package:notes/src/data/model/wine/characteristic.dart';
 import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/data/note_repository.dart';
+import 'package:notes/src/data/slider_repository.dart';
 import 'package:notes/src/data/varietal_repository.dart';
 import 'package:notes/src/data/wine_tasting_repository.dart';
 import 'package:path/path.dart' show basename;
@@ -27,6 +30,9 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   final wineTastingRepository = WineTastingRepository();
   final noteRepository = NoteRepository();
   final varietalRepository = VarietalRepository();
+  final sliderRepository = SliderRepository();
+
+  Map<String, Characteristic> _characteristics = {};
 
   WineTastingCreateBloc({
     WineTasting initTasting,
@@ -53,6 +59,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
                   acidity: 0,
                   sweetness: 0,
                   tannin: 0,
+                  characteristics: [],
                   body: 0,
                   notes: <Note>[],
                   imageFileName: null,
@@ -65,6 +72,14 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     // Initialize the stream of notes.
     refreshNotesStream();
     refreshCategorizedNotesStream();
+
+    // Initialize the stream of sliders.
+    refreshSlidersStreamAndCharacteristics();
+  }
+
+  // Getter functions
+  Map<String, Characteristic> getCharacteristics() {
+    return Map.from(_characteristics);
   }
 
   // Controller: Page <- App Database.
@@ -100,6 +115,36 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     _inNotesCategorized.add(notesCategorized);
   }
 
+  /// Custom Sliders Stream
+  // Controller: Page <- App Database.
+  final _getSlidersController = BehaviorSubject<List<CustomSlider>>();
+
+  // Stream: In
+  // Purpose: Update stream that pages subscribe to.
+  StreamSink<List<CustomSlider>> get _inSliders => _getSlidersController.sink;
+
+  // Stream: out.
+  // Purpose: Stream that other pages subscribe to for notes.
+  Stream<List<CustomSlider>> get sliders => _getSlidersController.stream.asBroadcastStream();
+
+  void refreshSlidersStreamAndCharacteristics() async {
+    // Retrieve all the custom sliders from the database.
+    var sliders = await sliderRepository.getAllSliders();
+
+    // TODO: To enable deletes, should probably re-init. characteristics to an empty map.
+    // Otherwise, old characteristics that have been deleted will persist.
+    sliders.asMap().forEach((index, slider) {
+      _characteristics[slider.name] = Characteristic(
+        name: slider.name,
+        minLabel: slider.minLabel,
+        maxLabel: slider.maxLabel,
+      );
+    });
+
+    // Update the notes output stream so subscribing pages can update.
+    _inSliders.add(sliders);
+  }
+
   /// The user selects a file, and the task is added to the list.
   Future<firebase_storage.UploadTask> uploadFile(String uid, File file) async {
     if (file == null) {
@@ -133,24 +178,25 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   ///
   /// Return true on success.
   Future<bool> insertWineTasting(String uid) async {
+    // TODO: Deprecate SQLite storage of all tastings.
     // SQLite upload.
     // --------------
 
-    final wineTastingId = await wineTastingRepository.insert(state.tasting);
+    // final wineTastingId = await wineTastingRepository.insert(state.tasting);
 
-    for (var note in state.tasting.notes) {
-      var wineTastingNoteId = await noteRepository.insertNoteForWineTasting(note.id, wineTastingId);
-      if (wineTastingNoteId < 0) {
-        // TODO: Logging
-      }
-    }
+    // for (var note in state.tasting.notes) {
+    //   var wineTastingNoteId = await noteRepository.insertNoteForWineTasting(note.id, wineTastingId);
+    //   if (wineTastingNoteId < 0) {
+    //     // TODO: Logging
+    //   }
+    // }
 
-    for (var varietal in state.tasting.varietals) {
-      var wineTastingVarietalId = await varietalRepository.insertVarietalForWine(wineTastingId, varietal);
-      if (wineTastingVarietalId < 0) {
-        // TODO: Logging
-      }
-    }
+    // for (var varietal in state.tasting.varietals) {
+    //   var wineTastingVarietalId = await varietalRepository.insertVarietalForWine(wineTastingId, varietal);
+    //   if (wineTastingVarietalId < 0) {
+    //     // TODO: Logging
+    //   }
+    // }
 
     // Firebase upload.
     // ----------------
@@ -314,6 +360,29 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     } else if (event is AddTanninIntensityEvent) {
       yield state.copyWith(
         tasting: state.tasting.copyWith(tannin: event.tanninIntensity),
+      );
+    } else if (event is AddNewCharacteristic) {
+      // Insert the new custom slider.
+      await sliderRepository.insert(
+        CustomSlider(
+          name: event.name,
+          minLabel: event.minLabel,
+          maxLabel: event.maxLabel,
+        ),
+      );
+
+      // Refresh
+      refreshSlidersStreamAndCharacteristics();
+      yield state;
+    } else if (event is EditCharacteristic) {
+      _characteristics[event.name] = _characteristics[event.name].copyWith(
+        value: event.value,
+      );
+
+      yield state.copyWith(
+        tasting: state.tasting.copyWith(
+          characteristics: _characteristics.values.toList(),
+        ),
       );
     } else if (event is AddImageEvent) {
       yield state.copyWith(

@@ -40,6 +40,9 @@ class AppDatabase {
         createWineTastingNotesTable(db);
         createVarietalsTable(db);
         createWineTastingVarietalsTable(db);
+
+        // Custom Sliders
+        _createSliderMetadataTable(db);
       },
       onUpgrade: (db, v1, v2) {
         _createNotesTable(db);
@@ -55,6 +58,9 @@ class AppDatabase {
         createWineTastingNotesTable(db);
         createVarietalsTable(db);
         createWineTastingVarietalsTable(db);
+
+        // Custom Sliders
+        _createSliderMetadataTable(db);
       },
       version: 2,
     );
@@ -191,4 +197,18 @@ Future<void> _createNoteToNoteCategoriesTable(Database db) {
       noteToNoteCategoryDao.insert(noteToNoteCategory);
     });
   });
+}
+
+Future<void> _createSliderMetadataTable(Database db) {
+  // Run the CREATE TABLE statement on the database.
+  return db.execute(
+    // ignore: prefer_single_quotes
+    """
+    CREATE TABLE sliders(
+      slider_id INTEGER PRIMARY KEY,
+      name TEXT,
+      left_label TEXT,
+      right_label TEXT)
+    """,
+  );
 }

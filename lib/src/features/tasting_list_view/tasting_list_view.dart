@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
 import 'package:notes/src/features/tasting_list_view/list_item_wine_tasting.dart';
+import 'package:notes/src/features/tasting_list_view/tastings_list_toggle_view.dart';
+import 'package:provider/provider.dart';
 
 class TastingListViewWidget extends StatefulWidget {
   TastingListViewWidget({Key key}) : super(key: key);
@@ -23,11 +28,10 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
     BlocProvider.of<TastingListBloc>(context).add(InitTastings());
 
     // To access the tastings stored in Firebase:
-    // final String uid = Provider.of<User>(context, listen: false).uid;
-    // stream: FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings').snapshots(),
+    final String uid = Provider.of<User>(context, listen: false).uid;
 
     return StreamBuilder(
-      stream: BlocProvider.of<TastingListBloc>(context).wineTastings,
+      stream: FirebaseFirestore.instance.collection('user').doc(uid).collection('tastings').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasError || !snapshot.hasData) {
@@ -35,7 +39,7 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
             return Container();
           }
 
-          var tastings = snapshot.data;
+          var tastings = snapshot.data.docs;
           if (tastings.isEmpty) {
             return GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
@@ -75,7 +79,10 @@ class _TastingListViewWidgetState extends State<TastingListViewWidget> with Auto
                             Padding(
                               // Fencepost the padding to keep the first element close to the sorting/filtering buttons.
                               padding: index == 0 ? EdgeInsets.only(bottom: 17) : EdgeInsets.symmetric(vertical: 17),
-                              child: WineTastingListItem(tasting: tastings[index]),
+
+                              // TODO: Toggle based on BLoC variable or widget state?
+                              // BLoC allows the modal to set
+                              child: WineTastingListItem(tasting: WineTasting.fromDocumentSnapshot(tastings[index])),
                             ),
                             // Only render a divider between elements.
                             index >= 0 && index < tastings.length - 1 ? Divider() : Container(),
@@ -268,10 +275,7 @@ class TastingListFilterSortViewBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 17),
-          GestureDetector(
-            onTap: () {},
-            child: Icon(CupertinoIcons.square_grid_2x2, color: Theme.of(context).colorScheme.primary),
-          ),
+          ToggleTastingListView(),
         ],
       ),
       automaticallyImplyLeading: false,
