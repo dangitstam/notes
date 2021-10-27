@@ -126,6 +126,8 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     // Retrieve all the notes from the database.
     var sliders = await sliderRepository.getAllSliders();
 
+    // TODO: To enable deletes, should probably re-init. characteristics to an empty map.
+    // Otherwise, old characteristics that have been deleted will persist.
     sliders.asMap().forEach((index, slider) {
       characteristics[slider.name] = Characteristic(
         name: slider.name,
