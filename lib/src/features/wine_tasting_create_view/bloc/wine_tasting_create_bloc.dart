@@ -171,6 +171,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   ///
   /// Return true on success.
   Future<bool> insertWineTasting(String uid) async {
+    // TODO: Deprecate SQLite storage of all tastings.
     // SQLite upload.
     // --------------
 
