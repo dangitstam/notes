@@ -52,6 +52,19 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
   Widget build(BuildContext context) {
     var wineTastingBloc = context.read<WineTastingCreateBloc>();
 
+    var addNewCharacteristicWidget = AddNewCharacteristicWidget(
+      // When we submit the characteristic, insert it via the AddNewCharacteristic BLoC event.
+      onSubmit: (name, minLabel, maxLabel) {
+        wineTastingBloc.add(
+          AddNewCharacteristic(
+            name: name,
+            minLabel: minLabel,
+            maxLabel: maxLabel,
+          ),
+        );
+      },
+    );
+
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, bottom: 50.0),
       child: StreamBuilder(
@@ -125,8 +138,7 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
                       style: Theme.of(context).outlinedButtonTheme.style,
                       child: Text('Add New Characteristic'.toUpperCase()),
                       onPressed: () {
-                        var wineTastingBloc = context.read<WineTastingCreateBloc>();
-                        AddNewCharacteristicModal(context, wineTastingBloc);
+                        AddNewCharacteristicModal(context, addNewCharacteristicWidget);
                       },
                     ),
                   ],
@@ -141,123 +153,143 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
     );
   }
 
-  void AddNewCharacteristicModal(BuildContext context, WineTastingCreateBloc wineTastingBloc) {
+  /// Provides a bottom sheet that displays the widget for constructing a new characteristic.
+  /// We implement the modal to wrap a stateful widget so that it can be rebuilt while maintaining the state of
+  /// the characteristic being built (e.g. a rebuild occurs when the keyboard is brought up and dismissed).
+  void AddNewCharacteristicModal(BuildContext context, AddNewCharacteristicWidget widget) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        var name = 'Acidity';
-        var minLabel = 'Low';
-        var maxLabel = 'High';
-        var sliderValue = 0.0;
+        return widget;
+      },
+    );
+  }
+}
 
-        return StatefulBuilder(builder: (BuildContext context, StateSetter modalState) {
-          return GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Wrap(
-                runSpacing: 30,
-                children: <Widget>[
-                  ListTile(
-                    title: Column(children: [
-                      Text(
-                        'New Characteristic',
-                        style: Theme.of(context).textTheme.bodyText2,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Create a new characteristic by giving it a name and labels for its extremes.',
-                        style: Theme.of(context).textTheme.caption,
-                        textAlign: TextAlign.center,
-                      ),
-                    ]),
-                  ),
-                  EditableTextWithCaptionWidget(
-                    hint: 'Acidity, Sweetness, Body...',
-                    label: 'Name',
-                    onChanged: (value) {
-                      modalState(() {
-                        name = value;
-                      });
-                    },
-                  ),
-                  Row(
+/// AddNewCharacteristicWidget allows input for a new characteristic.
+/// Accepts a name, minLabel, and maxLabel. When the submit button is pressed,
+/// the passed `onSubmit` executes, being passed the name, minLabel, and maxLabel.
+class AddNewCharacteristicWidget extends StatefulWidget {
+  final Function(String name, String minLabel, String maxLabel) onSubmit;
+  AddNewCharacteristicWidget({
+    this.onSubmit,
+  });
+
+  @override
+  _AddNewCharacteristicWidgetState createState() => _AddNewCharacteristicWidgetState();
+}
+
+class _AddNewCharacteristicWidgetState extends State<AddNewCharacteristicWidget> {
+  // Init. state with reasonable defaults.
+  String name = 'Acidity';
+  String minLabel = 'Weak';
+  String maxLabel = 'Strong';
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Padding(
+        // Pad bottom via MediaQuery to ensure the keyboard doesn't hide the textfields.
+        padding: EdgeInsets.only(left: 20, top: 20, right: 20, bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+        child: Wrap(
+          runSpacing: 30,
+          children: <Widget>[
+            ListTile(
+              title: Column(children: [
+                Text(
+                  'New Characteristic',
+                  style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Create a new characteristic by giving it a name and labels for its extremes.',
+                  style: Theme.of(context).textTheme.caption,
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+            ),
+            EditableTextWithCaptionWidget(
+              hint: 'Acidity, Sweetness, Body...',
+              label: 'Name',
+              onChanged: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            EditableTextWithCaptionWidget(
-                              hint: 'Low, Weak, Less Intense...',
-                              label: 'Minimum Label',
-                              onChanged: (value) {
-                                modalState(() {
-                                  minLabel = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            EditableTextWithCaptionWidget(
-                              hint: 'High, Strong, More Intense...',
-                              label: 'Maximum Label',
-                              onChanged: (value) {
-                                modalState(() {
-                                  maxLabel = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+                      EditableTextWithCaptionWidget(
+                        hint: 'Low, Weak, Less Intense...',
+                        label: 'Minimum Label',
+                        onChanged: (value) {
+                          setState(() {
+                            minLabel = value;
+                          });
+                        },
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  Row(
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: CharacteristicStrengthWidget(
-                          name: name,
-                          initialValue: 0,
-                          onChanged: (value) {},
-                          weakLabel: minLabel,
-                          strongLabel: maxLabel,
-                        ),
+                      EditableTextWithCaptionWidget(
+                        hint: 'High, Strong, More Intense...',
+                        label: 'Maximum Label',
+                        onChanged: (value) {
+                          setState(() {
+                            maxLabel = value;
+                          });
+                        },
                       ),
                     ],
                   ),
-                  Center(
-                    child: TextButton(
-                      style: Theme.of(context).textButtonTheme.style,
-                      onPressed: () {
-                        wineTastingBloc.add(
-                          AddNewCharacteristic(
-                            name: name,
-                            minLabel: minLabel,
-                            maxLabel: maxLabel,
-                          ),
-                        );
-                        Navigator.pop(context);
-                      },
-                      child: Text('Create Characteristic'.toUpperCase()),
-                    ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: CharacteristicStrengthWidget(
+                    name: name,
+                    initialValue: 0,
+                    onChanged: (value) {},
+                    weakLabel: minLabel,
+                    strongLabel: maxLabel,
                   ),
-                ],
+                ),
+              ],
+            ),
+            Center(
+              child: TextButton(
+                style: Theme.of(context).textButtonTheme.style,
+                onPressed: () {
+                  widget.onSubmit(
+                    name,
+                    minLabel,
+                    maxLabel,
+                  );
+                  Navigator.pop(context);
+                },
+                child: Text('Create Characteristic'.toUpperCase()),
               ),
             ),
-          );
-        });
-      },
+          ],
+        ),
+      ),
     );
   }
 }
