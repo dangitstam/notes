@@ -355,13 +355,11 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       );
     } else if (event is AddNewCharacteristic) {
       // Insert the new custom slider.
-      unawaited(
-        sliderRepository.insert(
-          CustomSlider(
-            name: event.name,
-            minLabel: event.minLabel,
-            maxLabel: event.maxLabel,
-          ),
+      await sliderRepository.insert(
+        CustomSlider(
+          name: event.name,
+          minLabel: event.minLabel,
+          maxLabel: event.maxLabel,
         ),
       );
 

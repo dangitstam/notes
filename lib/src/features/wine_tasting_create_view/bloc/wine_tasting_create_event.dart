@@ -155,7 +155,10 @@ class AddNewCharacteristic extends WineTastingCreateEvent {
   @required
   final String name;
 
+  @required
   final String minLabel;
+
+  @required
   final String maxLabel;
 
   AddNewCharacteristic({this.name, this.minLabel, this.maxLabel});
