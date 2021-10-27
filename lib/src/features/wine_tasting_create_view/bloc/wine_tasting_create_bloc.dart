@@ -32,7 +32,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
   final varietalRepository = VarietalRepository();
   final sliderRepository = SliderRepository();
 
-  Map<String, Characteristic> characteristics = {};
+  Map<String, Characteristic> _characteristics = {};
 
   WineTastingCreateBloc({
     WineTasting initTasting,
@@ -75,6 +75,11 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
 
     // Initialize the stream of sliders.
     refreshSlidersStreamAndCharacteristics();
+  }
+
+  // Getter functions
+  Map<String, Characteristic> getCharacteristics() {
+    return Map.from(_characteristics);
   }
 
   // Controller: Page <- App Database.
@@ -129,7 +134,7 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
     // TODO: To enable deletes, should probably re-init. characteristics to an empty map.
     // Otherwise, old characteristics that have been deleted will persist.
     sliders.asMap().forEach((index, slider) {
-      characteristics[slider.name] = Characteristic(
+      _characteristics[slider.name] = Characteristic(
         name: slider.name,
         minLabel: slider.minLabel,
         maxLabel: slider.maxLabel,
@@ -370,13 +375,13 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
       refreshSlidersStreamAndCharacteristics();
       yield state;
     } else if (event is EditCharacteristic) {
-      characteristics[event.name] = characteristics[event.name].copyWith(
+      _characteristics[event.name] = _characteristics[event.name].copyWith(
         value: event.value,
       );
 
       yield state.copyWith(
         tasting: state.tasting.copyWith(
-          characteristics: characteristics.values.toList(),
+          characteristics: _characteristics.values.toList(),
         ),
       );
     } else if (event is AddImageEvent) {

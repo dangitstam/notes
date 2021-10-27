@@ -98,10 +98,11 @@ class _CharacteristicsSectionState extends State<CharacteristicsSection> {
 
                         // Collect the value for this characteristic if the user has already set it.
                         var initialValue = 0.0;
-                        if (wineTastingBloc.characteristics != null &&
-                            wineTastingBloc.characteristics.containsKey(characteristicName) &&
-                            wineTastingBloc.characteristics[characteristicName].value != null) {
-                          initialValue = wineTastingBloc.characteristics[characteristicName].value;
+                        var characteristics = wineTastingBloc.getCharacteristics();
+                        if (characteristics != null &&
+                            characteristics.containsKey(characteristicName) &&
+                            characteristics[characteristicName].value != null) {
+                          initialValue = characteristics[characteristicName].value;
                         }
 
                         return Column(
