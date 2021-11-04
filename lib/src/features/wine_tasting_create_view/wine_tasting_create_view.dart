@@ -10,7 +10,6 @@ import 'package:notes/src/common/widgets/tasting_note.dart';
 import 'package:notes/src/common/wine_utils.dart';
 import 'package:notes/src/features/wine_tasting_create_view/bloc/wine_tasting_create_bloc.dart';
 import 'package:notes/src/features/wine_tasting_create_view/components/characteristics/characteristics_chart.dart';
-import 'package:notes/src/features/wine_tasting_create_view/components/section_title.dart';
 import 'package:provider/provider.dart';
 
 import 'components/info/image_capture.dart';
@@ -198,7 +197,10 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SectionTitle(sectionNumber: 1, title: 'Info'),
+                    Text(
+                      'Info'.toUpperCase(),
+                      style: Theme.of(context).textTheme.overline.copyWith(fontSize: 20),
+                    ),
                     TextButton(
                       style: Theme.of(context).outlinedButtonTheme.style,
                       child: Text('Edit'.toUpperCase()),
@@ -222,7 +224,7 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 //         ],
                 //       ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 17.0),
+                  padding: const EdgeInsets.symmetric(vertical: 17.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,7 +303,10 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SectionTitle(sectionNumber: 2, title: 'Notes'),
+                    Text(
+                      'Notes'.toUpperCase(),
+                      style: Theme.of(context).textTheme.overline.copyWith(fontSize: 20),
+                    ),
                     TextButton(
                       style: Theme.of(context).outlinedButtonTheme.style,
                       child: Text('Edit'.toUpperCase()),
@@ -327,7 +332,10 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SectionTitle(sectionNumber: 3, title: 'Characteristics'),
+                    Text(
+                      'Characteristics'.toUpperCase(),
+                      style: Theme.of(context).textTheme.overline.copyWith(fontSize: 20),
+                    ),
                     TextButton(
                       style: Theme.of(context).outlinedButtonTheme.style,
                       child: Text('Edit'.toUpperCase()),
