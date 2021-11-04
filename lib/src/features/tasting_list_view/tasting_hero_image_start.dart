@@ -1,60 +1,59 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'tasting_hero_image_end.dart';
 
 class TastingHeroImageStart extends StatelessWidget {
   final String tag;
-  final String imagePath; // TODO: Rename this to imageFileName.
+  final String imageUrl; // TODO: Rename this to imageFileName.
 
-  TastingHeroImageStart({this.tag, this.imagePath});
+  TastingHeroImageStart({this.tag, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: getApplicationDocumentsDirectory(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            var appDocDir = snapshot.data;
-            var appDocDirPath = appDocDir.path;
+    var image = CachedNetworkImage(
+      imageUrl: imageUrl,
 
-            // TODO: Error handling for when image is not found.
-            // TODO: New stub photo.
-            var image = Image.asset('$appDocDirPath/$imagePath', fit: BoxFit.cover);
+      // Wrapping in Center + SizedBox constrains the circle progress indicator.
+      placeholder: (context, url) => Center(
+        child: SizedBox(
+          height: 50.0,
+          width: 50.0,
+          child: CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          ),
+        ),
+      ),
 
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      return TastingHeroImageEnd(
-                        tag: tag,
-                        thumbnail: image,
-                      );
-                    },
-                  ),
-                );
-              },
-              child: Hero(
+      fadeInDuration: const Duration(),
+      fadeOutDuration: const Duration(),
+      fit: BoxFit.cover,
+    );
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) {
+              return TastingHeroImageEnd(
                 tag: tag,
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: image,
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover);
-          }
-        } else {
-          return CircularProgressIndicator();
-        }
+                thumbnail: image,
+              );
+            },
+          ),
+        );
       },
+      child: Hero(
+        tag: tag,
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: image,
+          ),
+        ),
+      ),
     );
   }
 }
