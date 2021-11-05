@@ -132,7 +132,7 @@ class WineTastingListItem extends StatelessWidget {
                     ? Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: TastingHeroImageStart(
-                          tag: 'list view hero image for tasting ${tasting.wineTastingId}',
+                          tag: 'list view hero image for tasting ${tasting.name}',
                           imageUrl: tasting.imageUrl,
                         ),
                       )
