@@ -99,10 +99,11 @@ class CoffeeTastingListItem extends StatelessWidget {
                     /**
                      *  Optional image of tasting.
                      */
+                    // TODO: This is broken since `TastingHeroImageStart` now expects a url.
                     tasting.imagePath != null
                         ? TastingHeroImageStart(
                             tag: 'list view hero image for tasting ${tasting.coffeeTastingId}',
-                            imagePath: tasting.imagePath,
+                            imageUrl: tasting.imagePath,
                           )
                         : Container(),
                     tasting.imagePath != null ? const SizedBox(height: 10) : Container(),
