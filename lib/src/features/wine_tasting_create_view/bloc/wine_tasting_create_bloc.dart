@@ -133,13 +133,18 @@ class WineTastingCreateBloc extends Bloc<WineTastingCreateEvent, WineTastingCrea
 
     // TODO: To enable deletes, should probably re-init. characteristics to an empty map.
     // Otherwise, old characteristics that have been deleted will persist.
-    sliders.asMap().forEach((index, slider) {
-      _characteristics[slider.name] = Characteristic(
-        name: slider.name,
-        minLabel: slider.minLabel,
-        maxLabel: slider.maxLabel,
-      );
-    });
+    sliders.asMap().forEach(
+      (index, slider) {
+        // Check for existence first to avoid wiping out user input on existing characteristics.
+        if (!_characteristics.containsKey(slider.name)) {
+          _characteristics[slider.name] = Characteristic(
+            name: slider.name,
+            minLabel: slider.minLabel,
+            maxLabel: slider.maxLabel,
+          );
+        }
+      },
+    );
 
     // Update the notes output stream so subscribing pages can update.
     _inSliders.add(sliders);
