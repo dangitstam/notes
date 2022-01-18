@@ -11,19 +11,18 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hintColor = Theme.of(context).hintColor;
-    final hintStyle = Theme.of(context).textTheme.bodyText2.copyWith(color: hintColor);
     return TextFormField(
         decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.black, width: 0.1),
             ),
+            // border: OutlineInputBorder(),
             contentPadding: EdgeInsets.all(0),
             hintText: hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: label.toUpperCase(),
             labelStyle: Theme.of(context).textTheme.overline),
-        style: hintStyle,
+        style: Theme.of(context).textTheme.bodyText2,
         initialValue: initialValue,
         onChanged: (value) => onChanged(value));
   }
