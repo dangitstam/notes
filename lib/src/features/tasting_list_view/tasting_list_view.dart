@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes/src/common/widgets/editable_text_with_caption.dart';
+import 'package:notes/src/data/model/note.dart';
+import 'package:notes/src/data/model/wine/varietal.dart';
 import 'package:notes/src/data/model/wine/wine_tasting.dart';
 import 'package:notes/src/features/tasting_list_view/bloc/tasting_list_bloc.dart';
 import 'package:notes/src/features/tasting_list_view/list_item_wine_tasting.dart';
@@ -208,7 +211,7 @@ class _TastingListViewAppBarState extends State<TastingListViewAppBar> with Tick
                     )
                   : GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/new-wine-tasting');
+                        newTastingDialog(context);
                       },
                       child: Icon(CupertinoIcons.plus_app, color: Colors.black, size: 30),
                     ),
@@ -218,6 +221,86 @@ class _TastingListViewAppBarState extends State<TastingListViewAppBar> with Tick
       ),
     );
   }
+}
+
+void newTastingDialog(context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      var winemaker = '';
+      var wineName = '';
+      return Dialog(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
+          child: Wrap(
+            runSpacing: 34,
+            children: [
+              Text('New Tasting', style: Theme.of(context).textTheme.bodyText2),
+              Column(
+                children: [
+                  EditableTextWithCaptionWidget(
+                    label: 'Name',
+                    hint: 'What is this wine called?',
+                    onChanged: (value) {
+                      wineName = value;
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  EditableTextWithCaptionWidget(
+                    label: 'Winemaker',
+                    hint: 'Who made this wine?',
+                    onChanged: (value) {
+                      winemaker = value;
+                    },
+                  ),
+                ],
+              ),
+              TextButton(
+                style: Theme.of(context).textButtonTheme.style,
+                onPressed: () {
+                  winemaker.isNotEmpty && wineName.isNotEmpty
+                      ? Navigator.pushNamed(
+                          context,
+                          '/new-wine-tasting',
+                          // TODO: WineTasting should set defaults.
+                          arguments: WineTasting(
+                            name: wineName,
+                            description: '',
+                            origin: '',
+                            winemaker: winemaker,
+                            varietals: <Varietal>[],
+                            // Use a negative value to signal as unspecified.
+                            alcoholByVolume: -1.0,
+                            wineType: '',
+                            bubbles: '',
+                            isBiodynamic: false,
+                            isOrganicFarming: false,
+                            isUnfinedUnfiltered: false,
+                            isWildYeast: false,
+                            isNoAddedSulfites: false,
+                            isEthicallyMade: false,
+                            vintage: -1, // Use a negative value to signal as unspecified.
+                            acidity: 0,
+                            sweetness: 0,
+                            tannin: 0,
+                            characteristics: [],
+                            body: 0,
+                            notes: <Note>[],
+                            imageFileName: null,
+                            imageUrl: null,
+                            story: '',
+                          ),
+                        )
+                      : null;
+                },
+                child: Text('Begin'.toUpperCase()),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
 
 /// Enables users to sort and filter their past tastings, while also toggling the current viewing mode.
