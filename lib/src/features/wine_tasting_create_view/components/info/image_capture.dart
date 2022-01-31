@@ -13,8 +13,7 @@ import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDi
 /// instance of [File].
 class ImageCapture extends StatefulWidget {
   @required
-  final Function(File) onImageSelected;
-
+  final Function(File) onImageSelected; // TODO: This should take a list of files.
   ImageCapture({this.onImageSelected});
 
   @override
@@ -24,6 +23,8 @@ class ImageCapture extends StatefulWidget {
 class _ImageCaptureState extends State<ImageCapture> {
   File _image;
 
+  List<File> _images = [];
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,35 +33,50 @@ class _ImageCaptureState extends State<ImageCapture> {
           // Update this widget's displayed image.
           setState(() {
             _image = File(image.path);
+            _images.add(File(image.path));
           });
 
           // Pass selected image's file path to onImageSelected.
           widget.onImageSelected(image);
         });
       },
-      child: Stack(
-        alignment: Alignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AspectRatio(
-            aspectRatio: 1.0,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(3.0),
-              child: ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.4),
-                  BlendMode.darken,
-                ),
-                child: _image != null
-                    ? Image.file(_image, fit: BoxFit.cover)
-                    // TODO: Take a new stub photo.
-                    : Image.asset('assets/images/coffee.jpg', fit: BoxFit.cover),
-              ),
-            ),
+          Wrap(
+            spacing: 5,
+            runSpacing: 5,
+            children: _images.map(
+              (element) {
+                return Container(
+                  height: 50,
+                  width: 50,
+                  child: AspectRatio(
+                    aspectRatio: 1.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(3.0),
+                      child: Image.file(element, fit: BoxFit.cover),
+                    ),
+                  ),
+                );
+              },
+            ).toList(),
           ),
-          Icon(
-            CupertinoIcons.photo_camera,
-            color: Colors.white.withOpacity(0.7),
-            size: 40,
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Icon(
+                Icons.photo_camera_back_outlined,
+                color: Colors.black,
+                size: 40,
+              ),
+              const SizedBox(width: 10),
+              Text('Tap to add images',
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5))),
+            ],
           ),
         ],
       ),
