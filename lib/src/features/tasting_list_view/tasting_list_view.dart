@@ -229,6 +229,7 @@ void newTastingDialog(context) {
     builder: (BuildContext context) {
       var winemaker = '';
       var wineName = '';
+      // TODO: Need standards for modal styling.
       return Dialog(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
