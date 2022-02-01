@@ -153,8 +153,6 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'What did you think of this wine ?',
-                            hintStyle:
-                                Theme.of(context).textTheme.bodyText2.copyWith(color: Theme.of(context).hintColor),
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             isDense: true),
                         onChanged: (value) {
