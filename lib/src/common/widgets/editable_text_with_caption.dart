@@ -13,11 +13,7 @@ class EditableTextWithCaptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
         decoration: InputDecoration(
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 0.1),
-            ),
-            // border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.all(0),
+            border: OutlineInputBorder(),
             hintText: hint,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             labelText: label.toUpperCase(),
