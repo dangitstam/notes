@@ -22,7 +22,7 @@ class WineCriteriaBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +40,6 @@ class WineCriteriaBarChart extends StatelessWidget {
               )
               .toList(),
         ),
-        SizedBox(width: 17),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: children.map(
@@ -73,7 +72,6 @@ class WineCriteriaBarChart extends StatelessWidget {
             },
           ).toList(),
         ),
-        SizedBox(width: 17),
         Column(
           children: children
               .map(

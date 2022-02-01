@@ -149,12 +149,7 @@ class WineTastingListItem extends StatelessWidget {
                       style: Theme.of(context).textTheme.caption,
                     ),
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CharacteristicsChart(tasting: tasting),
-                        ],
-                      ),
+                      CharacteristicsChart(tasting: tasting),
                       const SizedBox(height: 17),
                     ],
                   ),

@@ -116,56 +116,6 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: <Widget>[
-                //     /**
-                //      * Image capture: Select an image for the tasting.
-                //      */
-                //     // Expanded(
-                //     //   flex: 2,
-                //     //   child: ImageCapture(onImageSelected: onImageSelected),
-                //     // ),
-                //     // const SizedBox(width: 10),
-                //     Expanded(
-                //       child: EditableTextWithCaptionWidget(
-                //         label: 'Vigneron(ne)',
-                //         hint: 'Who made this wine?',
-                //         initialValue: wineTastingState.winemaker.isNotEmpty ? wineTastingState.winemaker : null,
-                //         onChanged: (value) {
-                //           context.read<WineTastingCreateBloc>().add(NameEvent(name: value));
-                //         },
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // const SizedBox(height: 10),
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: <Widget>[
-                //     /**
-                //      * Image capture: Select an image for the tasting.
-                //      */
-                //     // Expanded(
-                //     //   flex: 2,
-                //     //   child: ImageCapture(onImageSelected: onImageSelected),
-                //     // ),
-                //     // const SizedBox(width: 10),
-                //     Expanded(
-                //       flex: 5,
-                //       child: EditableTextWithCaptionWidget(
-                //         label: 'Wine Name',
-                //         hint: 'What is this wine called?',
-                //         initialValue: wineTastingState.name.isNotEmpty ? wineTastingState.name : null,
-                //         onChanged: (value) {
-                //           context.read<WineTastingCreateBloc>().add(NameEvent(name: value));
-                //         },
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -179,16 +129,6 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                             style: Theme.of(context).textTheme.headline5,
                           ),
                         ),
-                        // TextButton(
-                        //   style: Theme.of(context).outlinedButtonTheme.style,
-                        //   child: Text('Edit'.toUpperCase()),
-                        //   onPressed: () {
-                        //     // This won't re-render unless there's been a change
-                        //     // in `/wine-info` since exiting is simply a pop.
-                        //     isInfoEdited = true;
-                        //     Navigator.pushNamed(context, '/wine-info');
-                        //   },
-                        // ),
                       ],
                     ),
                     Padding(
@@ -206,8 +146,6 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Icon(CupertinoIcons.pencil_circle_fill, color: Theme.of(context).colorScheme.onSurface),
-                    // const SizedBox(width: 5),
                     Expanded(
                       child: TextField(
                         minLines: 2,
@@ -462,13 +400,8 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
                   ],
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CharacteristicsChart(
-                      tasting: context.watch<WineTastingCreateBloc>().state.tasting,
-                    ),
-                  ],
+                CharacteristicsChart(
+                  tasting: context.watch<WineTastingCreateBloc>().state.tasting,
                 ),
                 const SizedBox(height: 30),
               ],
