@@ -65,8 +65,6 @@ class _WineTastingCreateViewScreenState extends State<WineTastingCreateViewScree
 
     String formattedOrigin = wineTastingState.origin != '' ? wineTastingState.origin : '(unspecified)';
 
-    String wineFacts = [formattedType, formattedVintage, formattedABV].join(' · ');
-
     return BlocListener<WineTastingCreateBloc, WineTastingCreateState>(
       listener: (context, state) {
         // Navigate on state change after awaited db insertion to avoid race condition.
