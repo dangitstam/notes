@@ -107,8 +107,8 @@ TextStyle headline6 = const TextStyle(
 
 TextStyle bodyText2 = const TextStyle(
   fontFamily: 'Jost',
-  fontSize: 14.0,
-  fontWeight: FontWeight.w300,
+  fontSize: 16.0,
+  fontWeight: FontWeight.normal,
 );
 
 TextStyle subtitle1 = const TextStyle(

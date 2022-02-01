@@ -63,6 +63,33 @@ class _WineInfoSectionState extends State<WineInfoSection> {
           const SizedBox(height: 10),
           WineTypeToggleButtons(),
           const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 17.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Origin'.toUpperCase(),
+                      style: Theme.of(context).textTheme.overline.copyWith(fontSize: 10),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(CupertinoIcons.location),
+                    border: OutlineInputBorder(),
+                    hintText: 'Where did this wine come from?',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                  style: Theme.of(context).textTheme.bodyText2,
+                  initialValue: wineTastingState.origin.isNotEmpty ? wineTastingState.origin : null,
+                  onChanged: (value) => context.read<WineTastingCreateBloc>().add(OriginEvent(origin: value)),
+                ),
+              ],
+            ),
+          ),
           Divider(),
           const SizedBox(height: 10),
           VintageAndAlcoholByVolume(),
